@@ -1,5 +1,13 @@
 package io.vertigo.orchestra.services.execution.plugin;
 
+import io.vertigo.lang.Activeable;
+import io.vertigo.lang.Assertion;
+import io.vertigo.lang.Plugin;
+import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.services.execution.ExecutionServices;
+import io.vertigo.orchestra.services.execution.manager.OLocalCoordinator;
+import io.vertigo.orchestra.services.execution.manager.OWorker;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -8,14 +16,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
-
-import io.vertigo.lang.Activeable;
-import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Plugin;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.services.execution.ExecutionServices;
-import io.vertigo.orchestra.services.execution.manager.OLocalCoordinator;
-import io.vertigo.orchestra.services.execution.manager.OWorker;
 
 /**
  * TODO : Description de la classe.
@@ -69,7 +69,6 @@ public class DbSequentialCoordinatorPlugin implements Plugin, Activeable {
 	 *
 	 * @param tkeId
 	 * @param result
-	 * @param object.
 	 */
 	public void putResult(final Long tkeId, final Map<String, String> result, final Throwable error) {
 		Assertion.checkNotNull(result);

@@ -1,11 +1,5 @@
 package io.vertigo.orchestra.services.planification.plugin;
 
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.inject.Inject;
-
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Option;
 import io.vertigo.lang.Plugin;
@@ -13,6 +7,12 @@ import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.services.definition.ProcessServices;
 import io.vertigo.orchestra.services.planification.ProcessPlanificationServices;
+
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.inject.Inject;
 
 /**
  * TODO : Description de la classe.
@@ -54,7 +54,6 @@ public class RecurrentProcessPlannerPlugin implements Plugin, Activeable {
 
 	}
 
-	/** {@inheritDoc} */
 	private void plannRecurrentProcesses() {
 		for (final OProcess process : processServices.getActiveProcesses()) {
 			if ("RECURRENT".equals(process.getTrtCd())) {
@@ -65,8 +64,8 @@ public class RecurrentProcessPlannerPlugin implements Plugin, Activeable {
 							new Date(System.currentTimeMillis() + timerDelay));
 				} else {
 					final OProcessPlanification lastPlanification = lastPlanificationOption.get();
-					if ((lastPlanification.getExpectedTime().getTime()
-							+ process.getDelay()) < (System.currentTimeMillis() + forecastDuration)) {
+					if (lastPlanification.getExpectedTime().getTime()
+							+ process.getDelay() < System.currentTimeMillis() + forecastDuration) {
 						processPlanificationServices.plannProcessAt(process.getProId(),
 								new Date(lastPlanification.getExpectedTime().getTime() + process.getDelay()));
 					}

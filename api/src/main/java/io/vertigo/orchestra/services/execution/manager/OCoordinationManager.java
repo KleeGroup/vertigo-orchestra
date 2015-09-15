@@ -9,5 +9,5 @@ import io.vertigo.orchestra.services.OrchestraServices;
  * @version $Id$
  */
 public interface OCoordinationManager extends OrchestraServices {
-
+	//
 }

@@ -1,14 +1,13 @@
 package io.vertigo.orchestra.dao.execution;
 
-import javax.inject.Inject;
-
 import io.vertigo.core.Home;
-import io.vertigo.lang.Assertion;
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.dynamo.task.model.TaskResult;
+import io.vertigo.lang.Assertion;
+
+import javax.inject.Inject;
 
 /**
  * PAO : Accès aux objects du package. 
@@ -53,8 +52,7 @@ public final class ExecutionPAO {
 		getTaskManager().execute(task);
 	}
 
-    
-    private TaskManager getTaskManager(){
-    	return taskManager;
-    } 
+	private TaskManager getTaskManager() {
+		return taskManager;
+	}
 }

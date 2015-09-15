@@ -1,9 +1,8 @@
 package io.vertigo.orchestra.services.execution.manager;
 
-import javax.inject.Inject;
-
-import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.services.execution.plugin.DbSequentialCoordinatorPlugin;
+
+import javax.inject.Inject;
 
 /**
  * TODO : Description de la classe.
@@ -13,7 +12,7 @@ import io.vertigo.orchestra.services.execution.plugin.DbSequentialCoordinatorPlu
  */
 public class OCoordinationManagerImpl implements OCoordinationManager {
 
-	private final DbSequentialCoordinatorPlugin dbSequentialCoordinatorPlugin;
+	//	private final DbSequentialCoordinatorPlugin dbSequentialCoordinatorPlugin;
 
 	/**
 	 * Constructeur.
@@ -22,9 +21,9 @@ public class OCoordinationManagerImpl implements OCoordinationManager {
 	 */
 	@Inject
 	public OCoordinationManagerImpl(final DbSequentialCoordinatorPlugin dbSequentialCoordinatorPlugin) {
-		Assertion.checkNotNull(dbSequentialCoordinatorPlugin);
-		// ---
-		this.dbSequentialCoordinatorPlugin = dbSequentialCoordinatorPlugin;
+		//		Assertion.checkNotNull(dbSequentialCoordinatorPlugin);
+		//		// ---
+		//		this.dbSequentialCoordinatorPlugin = dbSequentialCoordinatorPlugin;
 
 	}
 

@@ -1,6 +1,5 @@
 package io.vertigo.orchestra.services;
 
-
 /** 
  * TODO : Description de la classe.
  *
@@ -8,5 +7,5 @@ package io.vertigo.orchestra.services;
  * @version $Id$
  */
 public interface OrchestraServices {
-
+	//
 }

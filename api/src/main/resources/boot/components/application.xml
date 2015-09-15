@@ -21,13 +21,13 @@
 		</component>
 		<component api="AnalyticsManager" class="io.vertigo.commons.impl.analytics.AnalyticsManagerImpl"/> 
 
-		<component api="KVStore" class="io.vertigo.dynamo.impl.store.kvstore.KVStoreImpl">
+<!-- 		<component api="KVStore" class="io.vertigo.dynamo.impl.store.kvstore.KVStoreImpl">
 			<plugin class="io.vertigo.dynamo.plugins.kvdatastore.delayedmemory.DelayedMemoryKVDataStorePlugin">
 				<param name="dataStoreName" value="Knock-tokens" />
 				<param name="timeToLiveSeconds" value="120" />
 			</plugin>
 		</component>
-		<component api="CollectionsManager" class="io.vertigo.dynamo.impl.collections.CollectionsManagerImpl" />
+ -->		<component api="CollectionsManager" class="io.vertigo.dynamo.impl.collections.CollectionsManagerImpl" />
 		<component api="VTransactionManager" class="io.vertigo.dynamo.impl.transaction.VTransactionManagerImpl" />
 		<component api="TaskManager" class="io.vertigo.dynamo.impl.task.TaskManagerImpl" />
 		<component api="CodecManager" class="io.vertigo.commons.impl.codec.CodecManagerImpl" />

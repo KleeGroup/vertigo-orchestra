@@ -1,5 +1,11 @@
 package io.vertigo.orchestra.services.execution.manager;
 
+import io.vertigo.core.Home;
+import io.vertigo.core.component.di.injector.Injector;
+import io.vertigo.dynamo.work.WorkManager;
+import io.vertigo.lang.Assertion;
+import io.vertigo.orchestra.domain.execution.OTaskExecution;
+
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -7,12 +13,6 @@ import java.util.concurrent.Callable;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
-
-import io.vertigo.core.Home;
-import io.vertigo.core.component.di.injector.Injector;
-import io.vertigo.dynamo.work.WorkManager;
-import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
 
 final class OLocalWorker implements Callable<Map<String, String>> {
 
@@ -54,21 +54,11 @@ final class OLocalWorker implements Callable<Map<String, String>> {
 		this.params = params;
 	}
 
-	private Map<String, String> executeNow(final OTaskExecution taskExecution, final Map<String, String> params) {
-		Assertion.checkNotNull(taskExecution);
-		// -----
-		return taskManager.execute(taskExecution, params);
-	}
-
 	/** {@inheritDoc} */
 	@Override
 	public Map<String, String> call() {
-		Map<String, String> result;
 		try {
-			// ---
-			result = executeNow(taskExecution, params);
-			// ---
-			return result;
+			return taskManager.execute(taskExecution, params);
 		} catch (final Exception e) {
 			logError(e);
 			throw asRuntimeException(e);

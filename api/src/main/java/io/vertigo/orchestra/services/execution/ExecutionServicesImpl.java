@@ -1,14 +1,9 @@
 package io.vertigo.orchestra.services.execution;
 
-import java.util.Date;
-
-import javax.inject.Inject;
-
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
-import io.vertigo.orchestra.dao.definition.OTaskDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OTaskExecutionDAO;
@@ -19,6 +14,10 @@ import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.services.definition.ProcessServices;
 import io.vertigo.orchestra.services.planification.ProcessPlanificationServices;
+
+import java.util.Date;
+
+import javax.inject.Inject;
 
 /**
  * TODO : Description de la classe.
@@ -39,8 +38,9 @@ public class ExecutionServicesImpl implements ExecutionServices {
 	private OTaskExecutionDAO taskExecutionDAO;
 	@Inject
 	private ExecutionPAO executionPAO;
-	@Inject
-	private OTaskDAO taskDAO;
+
+	//	@Inject
+	//	private OTaskDAO taskDAO;
 
 	/** {@inheritDoc} */
 	@Override

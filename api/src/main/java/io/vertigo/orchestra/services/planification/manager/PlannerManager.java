@@ -8,5 +8,5 @@ import io.vertigo.orchestra.services.OrchestraServices;
  * @author mlaroche
  */
 public interface PlannerManager extends OrchestraServices {
-
+	//
 }
