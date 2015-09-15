@@ -1,0 +1,30 @@
+package io.vertigo.orchestra.domain.definition
+
+create DtDefinition DT_O_TASK{
+	persistent: "true",
+	key TSK_ID	{domain : DO_IDENTIFIANT, label :"Id Tache", notNull:"true",},
+	field NAME   	{domain : DO_LIBELLE, label :"Nom de la tâche", notNull:"false",},
+	field MILESTONE   	{domain : DO_BOOLEEN, label :"Jalon", notNull:"false",},
+	field ENGINE   	{domain : DO_CLASSE, label :"Implémentation de la tâche", notNull:"false",},
+	
+  
+},
+
+create Association A_TSK_PRO {
+  fkFieldName : "PRO_ID"
+    
+ 	dtDefinitionA : DT_O_TASK
+	dtDefinitionB : DT_O_PROCESS
+			
+	navigabilityA : "false"
+	navigabilityB : "true"
+	
+	multiplicityA:"0..*"
+	multiplicityB:"0..1"
+	
+	labelA : "Tache"
+	labelB : "Processus"
+	roleA : "Taches"
+	roleB : "Process"
+			
+}

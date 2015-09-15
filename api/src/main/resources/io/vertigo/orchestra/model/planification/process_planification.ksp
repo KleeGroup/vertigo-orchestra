@@ -1,0 +1,49 @@
+package io.vertigo.orchestra.domain.planification
+
+create DtDefinition DT_O_PROCESS_PLANIFICATION {
+	persistent: "true",
+	key PRP_ID	{domain : DO_IDENTIFIANT, label :"Id Planification", notNull:"true",},
+	field EXPECTED_TIME   	{domain : DO_TIMESTAMP, label :"Date d'execution prévue", notNull:"false",},
+	field STATE   	{domain : DO_CODE_IDENTIFIANT, label :"Etat de la planification", notNull:"false",},
+	
+  
+},
+
+create Association A_PRP_PRO {
+  fkFieldName : "PRO_ID"
+    
+ 	dtDefinitionA : DT_O_PROCESS_PLANIFICATION
+	dtDefinitionB : DT_O_PROCESS
+			
+	navigabilityA : "false"
+	navigabilityB : "true"
+	
+	multiplicityA:"0..*"
+	multiplicityB:"0..1"
+	
+	labelA : "PlanificationProcessus"
+	labelB : "Processus"
+	roleA : "ProcessPlanification"
+	roleB : "Processus"
+			
+},
+
+
+create Association A_PRP_PST {
+  fkFieldName : "PST_CD"
+    
+ 	dtDefinitionA : DT_O_PROCESS_PLANIFICATION
+	dtDefinitionB : DT_PLANIFICATION_STATE
+			
+	navigabilityA : "false"
+	navigabilityB : "true"
+	
+	multiplicityA:"0..*"
+	multiplicityB:"0..1"
+	
+	labelA : "ProcessPlanification"
+	labelB : "PlanificationState"
+	roleA : "ProcessPlanification"
+	roleB : "PlanificationState"
+			
+}

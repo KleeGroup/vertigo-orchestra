@@ -1,0 +1,28 @@
+index :
+       analysis :
+             analyzer :
+                    code :
+                           tokenizer : keyword
+                           filter : [standard]
+                    text_fr :
+                           tokenizer : standard
+                           filter : [standard, lowercase, asciifolding]
+                    sep_virgule :
+                           tokenizer : sep_virgule
+                           filter : [standard]
+                    sep_pipe :
+                           tokenizer : sep_pipe
+                           filter : [standard]
+                    sort_only :
+                           tokenizer : keyword
+                           filter : [standard, lowercase]
+             tokenizer :
+                    keyword :
+                           type : keyword
+                    sep_virgule :
+                           type : pattern
+                           pattern : '([,]+)'
+                    sep_pipe :
+                           type : pattern
+                           pattern : '([\|]+)'
+                           

@@ -1,0 +1,8 @@
+<?xml version =	'1.0' encoding = 'ISO-8859-1'?>
+<config>
+	<module name="orchestra-ws" inheritance="io.vertigo.vega.rest.RestfulService" api="false">
+		<component class="io.vertigo.vega.impl.rest.catalog.CatalogRestServices" />
+		<component class="io.vertigo.vega.impl.rest.catalog.SwaggerRestServices" />
+		<component class="io.vertigo.orchestra.webservices.authentication.WsAuthentication" />
+	</module>
+</config>

@@ -1,0 +1,97 @@
+package io.vertigo.orchestra.services
+/**************************************************************************************************/
+/* 											Gestion des domaines 								  */
+/**************************************************************************************************/
+
+create Domain DO_IDENTIFIANT {
+	dataType : Long
+	formatter : FMT_DEFAULT
+	storeType : "NUMERIC"
+},
+
+create Domain DO_CODE_IDENTIFIANT {
+	dataType : String
+	formatter : FMT_DEFAULT
+	constraint : [CK_CODE,CK_MAX_LENGTH_20]
+	storeType : "VARCHAR(20)"
+},
+
+create Domain DO_LIBELLE {
+	dataType : String
+	formatter : FMT_DEFAULT
+	constraint : [CK_MAX_LENGTH_100]
+	storeType : "VARCHAR(100)"
+},
+
+create Domain DO_CLASSE {
+	dataType : String
+	formatter : FMT_DEFAULT
+	constraint : [CK_MAX_LENGTH_200]
+	storeType : "VARCHAR(200)"
+},
+
+
+create Domain DO_BOOLEEN {
+	dataType : Boolean
+	formatter : FMT_OUI_NON
+	storeType : "BOOL"
+},
+
+
+create Domain DO_TIMESTAMP {
+	dataType : Date
+	formatter : FMT_DATE_HEURE
+	storeType : "TIMESTAMP"
+},
+
+
+create Domain DO_NOMBRE {
+	dataType : Long
+	formatter : FMT_DEFAULT
+	storeType : "NUMERIC"
+},
+
+
+
+/**************************************************************************************************/
+/* 											Gestion des formatters 								  */
+/**************************************************************************************************/
+
+create Formatter FMT_OUI_NON {
+      className :"io.vertigo.dynamox.domain.formatter.FormatterBoolean"
+      args : "Oui;Non"
+},
+
+create Formatter FMT_DEFAULT {
+	className : "io.vertigo.dynamox.domain.formatter.FormatterDefault"
+},
+
+create Formatter FMT_DATE_HEURE {
+     className :"io.vertigo.dynamox.domain.formatter.FormatterDate"
+     args : "dd/MM/yyyy HH:mm"
+},
+
+/**************************************************************************************************/
+/* 											Gestion des contraintes 							  */
+/**************************************************************************************************/
+
+create Constraint CK_MAX_LENGTH_20 {
+	className: "io.vertigo.dynamox.domain.constraint.ConstraintStringLength",
+	args :"20",
+},
+
+create Constraint CK_MAX_LENGTH_100 {
+	className: "io.vertigo.dynamox.domain.constraint.ConstraintStringLength",
+	args :"100",
+},
+
+create Constraint CK_MAX_LENGTH_200 {
+	className: "io.vertigo.dynamox.domain.constraint.ConstraintStringLength",
+	args :"200",
+},
+
+create Constraint CK_CODE {
+	className: "io.vertigo.dynamox.domain.constraint.ConstraintRegex",
+	args : "([0-9A-Z_-]+)*$",
+	msg : "La liste des identifiants n'est pas valide",
+},

@@ -1,0 +1,15 @@
+execution.kpr
+
+./model/definition/process.ksp
+./model/definition/task.ksp
+
+
+./model/execution/process_execution.ksp
+./model/execution/task_execution.ksp
+
+
+./model/planification/process_planification.ksp
+
+
+./model/referential/states.ksp
+./model/referential/types.ksp

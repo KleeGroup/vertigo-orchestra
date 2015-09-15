@@ -1,0 +1,25 @@
+package io.vertigo.orchestra.dao.execution
+
+create Task TK_GET_TASKS_TO_LAUNCH {
+    className : "io.vertigo.dynamox.task.TaskEngineSelect"
+        request : "
+        	select 
+        		tke.*
+        	from o_task_execution tke
+        	where tke.EST_CD = 'RESERVED'
+        	
+			"
+	attribute DTC_TASK_EXECUTION	 	{domain : DO_DT_O_TASK_EXECUTION_DTC 		notNull:"true" 	inOut :"out"}
+},
+
+create Task TK_RESERVE_TASKS_TO_LAUNCH {
+    className : "io.vertigo.dynamox.task.TaskEngineProc"
+        request : "
+        	update  o_task_execution 
+        	set EST_CD = 'RESERVED' 
+        	where EST_CD = 'WAITING'
+        	
+			"
+}
+
+

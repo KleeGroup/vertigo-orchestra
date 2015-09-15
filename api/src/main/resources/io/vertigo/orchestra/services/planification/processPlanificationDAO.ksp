@@ -1,0 +1,39 @@
+package io.vertigo.orchestra.dao.planification
+
+
+create Task TK_GET_PROCESS_TO_EXECUTE {
+    className : "io.vertigo.dynamox.task.TaskEngineSelect"
+        request : "
+        	select prp.*
+        	from o_process_planification prp
+        	where prp.PST_CD = 'RESERVED'
+        	
+			"
+	attribute DTC_O_PROCESS_PLANIFICATION	 	{domain : DO_DT_O_PROCESS_PLANIFICATION_DTC		notNull:"true" 	inOut :"out"}
+}
+
+
+create Task TK_RESERVE_PROCESS_TO_EXECUTE {
+    className : "io.vertigo.dynamox.task.TaskEngineProc"
+        request : "
+        	update o_process_planification
+        	set PST_CD = 'RESERVED'
+        	where PST_CD = 'WAITING'
+			"
+}
+
+create Task TK_GET_LAST_PLANIFICATION_BY_PRO_ID {
+    className : "io.vertigo.dynamox.task.TaskEngineSelect"
+        request : "
+        	select prp.* from  o_process_planification prp
+        	
+        	inner join (
+				    select pro_id, max(expected_time) as MaxDate
+				    from o_process_planification
+				    group by pro_id
+				) pp on pp.pro_id = prp.pro_id and pp.MaxDate = prp.expected_time
+        	where prp.PRO_ID = #PRO_ID#
+			"
+		attribute PRO_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+		attribute DT_O_PROCESS_PLANIFICATION	 	{domain : DO_DT_O_PROCESS_PLANIFICATION_DTO		notNull:"false" 	inOut :"out"}
+}

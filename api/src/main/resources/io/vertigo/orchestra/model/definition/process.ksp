@@ -1,0 +1,49 @@
+package io.vertigo.orchestra.domain.definition
+
+create DtDefinition DT_O_PROCESS{
+	persistent: "true",
+	key PRO_ID	{domain : DO_IDENTIFIANT, label :"Id de la definition du processus", notNull:"true",},
+	field NAME   	{domain : DO_LIBELLE, label :"Nom du processus", notNull:"false",},
+	field DELAY	{domain : DO_NOMBRE, label :"Temps de récurrence du processus", notNull:"false",},
+  
+},
+
+
+
+create Association A_PRO_TRT {
+  fkFieldName : "TRT_CD"
+    
+ 	dtDefinitionA : DT_O_PROCESS
+	dtDefinitionB : DT_TRIGGER_TYPE
+			
+	navigabilityA : "false"
+	navigabilityB : "true"
+	
+	multiplicityA:"0..*"
+	multiplicityB:"0..1"
+	
+	labelA : "Process"
+	labelB : "TriggerType"
+	roleA : "Process"
+	roleB : "TriggerType"
+			
+},
+
+create Association A_PRO_PRT {
+  fkFieldName : "PRT_CD"
+    
+ 	dtDefinitionA : DT_O_PROCESS
+	dtDefinitionB : DT_O_PROCESS_TYPE
+			
+	navigabilityA : "false"
+	navigabilityB : "true"
+	
+	multiplicityA:"0..*"
+	multiplicityB:"0..1"
+	
+	labelA : "Process"
+	labelB : "ProcessType"
+	roleA : "Process"
+	roleB : "ProcessType"
+			
+},
