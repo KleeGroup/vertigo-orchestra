@@ -1,8 +1,4 @@
-package io.vertigo.orchestra.services.planification;
-
-import java.util.Date;
-
-import javax.inject.Inject;
+package io.vertigo.orchestra.impl.planner;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
@@ -11,6 +7,11 @@ import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.planner.ProcessPlannerManager;
+
+import java.util.Date;
+
+import javax.inject.Inject;
 
 /**
  * TODO : Description de la classe.
@@ -19,7 +20,7 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
  * @version $Id$
  */
 @Transactional
-public class ProcessPlanificationServicesImpl implements ProcessPlanificationServices {
+public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;

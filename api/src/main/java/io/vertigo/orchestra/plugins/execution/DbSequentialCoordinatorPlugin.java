@@ -1,12 +1,12 @@
-package io.vertigo.orchestra.services.execution.plugin;
+package io.vertigo.orchestra.plugins.execution;
 
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Plugin;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.services.execution.ExecutionServices;
-import io.vertigo.orchestra.services.execution.manager.OLocalCoordinator;
-import io.vertigo.orchestra.services.execution.manager.OWorker;
+import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.process.execution.manager.OLocalCoordinator;
+import io.vertigo.orchestra.process.execution.manager.OWorker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class DbSequentialCoordinatorPlugin implements Plugin, Activeable {
 	private final ExecutorService pool = Executors.newCachedThreadPool();
 
 	@Inject
-	private ExecutionServices executionServices;
+	private ProcessExecutionManager executionServices;
 
 	private final OLocalCoordinator localCoordinator = new OLocalCoordinator(/* workersCount */3);
 

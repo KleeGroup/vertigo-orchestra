@@ -1,12 +1,12 @@
-package io.vertigo.orchestra.services.planification.plugin;
+package io.vertigo.orchestra.plugins.planner;
 
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Option;
 import io.vertigo.lang.Plugin;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
-import io.vertigo.orchestra.services.definition.ProcessServices;
-import io.vertigo.orchestra.services.planification.ProcessPlanificationServices;
+import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
 import java.util.Date;
 import java.util.Timer;
@@ -27,10 +27,10 @@ public class RecurrentProcessPlannerPlugin implements Plugin, Activeable {
 	private final long forecastDuration = 10 * 1000 * 30;
 
 	@Inject
-	private ProcessPlanificationServices processPlanificationServices;
+	private ProcessPlannerManager processPlanificationServices;
 
 	@Inject
-	private ProcessServices processServices;
+	private ProcessDefinitionManager processServices;
 
 	/** {@inheritDoc} */
 	@Override

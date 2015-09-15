@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.services.execution;
+package io.vertigo.orchestra.impl.execution;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
@@ -7,13 +7,14 @@ import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OTaskExecutionDAO;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
-import io.vertigo.orchestra.services.definition.ProcessServices;
-import io.vertigo.orchestra.services.planification.ProcessPlanificationServices;
+import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
 import java.util.Date;
 
@@ -26,12 +27,12 @@ import javax.inject.Inject;
  * @version $Id$
  */
 @Transactional
-public class ExecutionServicesImpl implements ExecutionServices {
+public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 	@Inject
-	private ProcessPlanificationServices processPlanificationServices;
+	private ProcessPlannerManager processPlanificationServices;
 	@Inject
-	private ProcessServices processServices;
+	private ProcessDefinitionManager processServices;
 	@Inject
 	private OProcessExecutionDAO processExecutionDAO;
 	@Inject
@@ -164,7 +165,6 @@ public class ExecutionServicesImpl implements ExecutionServices {
 	}
 
 	private void endTask(final OTaskExecution taskExecution) {
-
 		taskExecution.setEndTime(new Date());
 		taskExecution.setEstCd("DONE"); // TODO modifier
 		taskExecutionDAO.save(taskExecution);

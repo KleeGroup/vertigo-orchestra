@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.services.definition;
+package io.vertigo.orchestra.definition;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.orchestra.domain.definition.OProcess;
@@ -11,12 +11,14 @@ import io.vertigo.orchestra.services.OrchestraServices;
  * @author mlaroche.
  * @version $Id$
  */
-public interface ProcessServices extends OrchestraServices {
+public interface ProcessDefinitionManager extends OrchestraServices {
 
-	public DtList<OProcess> getActiveProcesses();
+	DtList<OProcess> getActiveProcesses();
 
-	public void saveProcess(OProcess process);
+	void saveProcess(OProcess process);
 
-	public OTask getFirtTaskByProcess(Long proId);
+	OTask getFirtTaskByProcess(Long proId);
 
+	//-----
+	void saveTask(OTask task);
 }

@@ -1,6 +1,6 @@
-package io.vertigo.orchestra.services.execution.manager;
+package io.vertigo.orchestra.process.execution.manager;
 
-import io.vertigo.orchestra.services.execution.plugin.DbSequentialCoordinatorPlugin;
+import io.vertigo.orchestra.plugins.execution.DbSequentialCoordinatorPlugin;
 
 import javax.inject.Inject;
 

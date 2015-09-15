@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.services.execution.manager;
+package io.vertigo.orchestra.process.execution.manager;
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -6,7 +6,7 @@ import java.util.concurrent.Future;
 
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.services.execution.plugin.DbSequentialCoordinatorPlugin;
+import io.vertigo.orchestra.plugins.execution.DbSequentialCoordinatorPlugin;
 
 /**
  * TODO : Description de la classe.

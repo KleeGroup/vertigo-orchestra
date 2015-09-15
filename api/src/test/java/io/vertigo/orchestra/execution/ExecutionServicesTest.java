@@ -7,12 +7,12 @@ import javax.inject.Inject;
 import org.junit.Test;
 
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.definition.TaskServices;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
+import io.vertigo.orchestra.process.planner.ProcessPlannerManager;
 import io.vertigo.orchestra.services.ApplicationServices;
-import io.vertigo.orchestra.services.definition.ProcessServices;
-import io.vertigo.orchestra.services.definition.TaskServices;
-import io.vertigo.orchestra.services.planification.ProcessPlanificationServices;
 
 /**
  * TODO : Description de la classe.
@@ -23,9 +23,9 @@ import io.vertigo.orchestra.services.planification.ProcessPlanificationServices;
 public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 
 	@Inject
-	private ProcessPlanificationServices processPlanificationServices;
+	private ProcessPlannerManager processPlanificationServices;
 	@Inject
-	private ProcessServices processServices;
+	private ProcessDefinitionManager processServices;
 	@Inject
 	private TaskServices taskServices;
 
