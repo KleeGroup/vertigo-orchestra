@@ -2,10 +2,12 @@ package io.vertigo.orchestra.impl.planner;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
+import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
@@ -20,12 +22,20 @@ import javax.inject.Inject;
  * @version $Id$
  */
 @Transactional
-public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
+public final class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activeable {
+	private final ProcessScheduler processScheduler;
 
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;
 	@Inject
 	private PlanificationPAO planificationPAO;
+
+	@Inject
+	public ProcessPlannerManagerImpl(final ProcessDefinitionManager processDefinitionManager) {
+		Assertion.checkNotNull(processDefinitionManager);
+		//-----
+		processScheduler = new ProcessScheduler(this, processDefinitionManager);
+	}
 
 	/** {@inheritDoc} */
 	@Override
@@ -74,4 +84,13 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 
 	}
 
+	@Override
+	public void start() {
+		processScheduler.start();
+	}
+
+	@Override
+	public void stop() {
+		processScheduler.stop();
+	}
 }

@@ -1,8 +1,8 @@
-package io.vertigo.orchestra.plugins.planner;
+package io.vertigo.orchestra.impl.planner;
 
 import io.vertigo.lang.Activeable;
+import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
-import io.vertigo.lang.Plugin;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
@@ -12,27 +12,29 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.inject.Inject;
-
 /**
  * TODO : Description de la classe.
  *
  * @author mlaroche.
  * @version $Id$
  */
-public class RecurrentProcessPlannerPlugin implements Plugin, Activeable {
-
+final class ProcessScheduler implements Activeable {
 	private Timer planTimer;
 	private final long timerDelay = 10 * 1000;
 	private final long forecastDuration = 10 * 1000 * 30;
 
-	@Inject
-	private ProcessPlannerManager processPlanificationServices;
+	private final ProcessPlannerManager processPlannerManager;
 
-	@Inject
-	private ProcessDefinitionManager processServices;
+	private final ProcessDefinitionManager processDefinitionManager;
 
-	/** {@inheritDoc} */
+	ProcessScheduler(final ProcessPlannerManager processPlannerManager, final ProcessDefinitionManager processDefinitionManager) {
+		Assertion.checkNotNull(processPlannerManager);
+		Assertion.checkNotNull(processDefinitionManager);
+		//-----
+		this.processDefinitionManager = processDefinitionManager;
+		this.processPlannerManager = processPlannerManager;
+	}
+
 	@Override
 	public void start() {
 		planTimer = new Timer("PlannNewProcesses", true);
@@ -44,34 +46,31 @@ public class RecurrentProcessPlannerPlugin implements Plugin, Activeable {
 
 			}
 		}, timerDelay, timerDelay);
-
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void stop() {
-		// TODO
-
 	}
 
 	private void plannRecurrentProcesses() {
-		for (final OProcess process : processServices.getActiveProcesses()) {
+		for (final OProcess process : processDefinitionManager.getActiveProcesses()) {
 			if ("RECURRENT".equals(process.getTrtCd())) {
-				final Option<OProcessPlanification> lastPlanificationOption = processPlanificationServices
+				final Option<OProcessPlanification> lastPlanificationOption = processPlannerManager
 						.getLastPlanificationsByProcess(process.getProId());
 				if (!lastPlanificationOption.isDefined()) {
-					processPlanificationServices.plannProcessAt(process.getProId(),
+					processPlannerManager.plannProcessAt(process.getProId(),
 							new Date(System.currentTimeMillis() + timerDelay));
 				} else {
 					final OProcessPlanification lastPlanification = lastPlanificationOption.get();
 					if (lastPlanification.getExpectedTime().getTime()
 							+ process.getDelay() < System.currentTimeMillis() + forecastDuration) {
-						processPlanificationServices.plannProcessAt(process.getProId(),
+						processPlannerManager.plannProcessAt(process.getProId(),
 								new Date(lastPlanification.getExpectedTime().getTime() + process.getDelay()));
 					}
 				}
 			}
 		}
+	}
+
+	@Override
+	public void stop() {
+		// shutdown >>>>
 	}
 
 }

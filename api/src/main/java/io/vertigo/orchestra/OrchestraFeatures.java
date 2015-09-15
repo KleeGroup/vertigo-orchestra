@@ -17,7 +17,6 @@ import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
 import io.vertigo.orchestra.impl.planner.ProcessPlannerManagerImpl;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.orchestra.plugins.execution.DbSequentialCoordinatorPlugin;
-import io.vertigo.orchestra.plugins.planner.RecurrentProcessPlannerPlugin;
 import io.vertigo.orchestra.process.execution.manager.OCoordinationManager;
 import io.vertigo.orchestra.process.execution.manager.OCoordinationManagerImpl;
 import io.vertigo.orchestra.process.execution.manager.OTaskManager;
@@ -44,7 +43,6 @@ public final class OrchestraFeatures extends Features {
 				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
 				.addComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
 				.addComponent(ProcessPlannerManager.class, ProcessPlannerManagerImpl.class)
-				.addPlugin(RecurrentProcessPlannerPlugin.class)
 				.addComponent(OTaskManager.class, OTaskManagerImpl.class)
 				.addComponent(OCoordinationManager.class, OCoordinationManagerImpl.class)
 				.addPlugin(DbSequentialCoordinatorPlugin.class)
