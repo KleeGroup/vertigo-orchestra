@@ -14,12 +14,6 @@ import javax.inject.Inject;
  * ExecutionPAO
  */
 public final class ExecutionPAO {
-	/** Liste des taches. */
-	private enum Tasks {
-		/** Tache TK_RESERVE_TASKS_TO_LAUNCH */
-		TK_RESERVE_TASKS_TO_LAUNCH,
-	}
-
 	private final TaskManager taskManager;
 
 	/**
@@ -38,8 +32,8 @@ public final class ExecutionPAO {
 	 * @param task Type de la tache
 	 * @return Builder de la tache
 	 */
-	private TaskBuilder createTaskBuilder(final Tasks task) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(task.toString(), TaskDefinition.class);
+	private static TaskBuilder createTaskBuilder(final String taskDefinitionName) {
+		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(taskDefinitionName, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -47,12 +41,8 @@ public final class ExecutionPAO {
 	 * Execute la tache TK_RESERVE_TASKS_TO_LAUNCH.
 	*/
 	public void reserveTasksToLaunch() {
-		final Task task = createTaskBuilder(Tasks.TK_RESERVE_TASKS_TO_LAUNCH)
+		final Task task = createTaskBuilder("TK_RESERVE_TASKS_TO_LAUNCH")
 				.build();
-		getTaskManager().execute(task);
-	}
-
-	private TaskManager getTaskManager() {
-		return taskManager;
+		taskManager.execute(task);
 	}
 }

@@ -16,11 +16,6 @@ import javax.inject.Inject;
  * OTaskExecutionDAO
  */
 public final class OTaskExecutionDAO extends DAOBroker<OTaskExecution, java.lang.Long> {
-	/** Liste des taches. */
-	private enum Tasks {
-		/** Tache TK_GET_TASKS_TO_LAUNCH */
-		TK_GET_TASKS_TO_LAUNCH,
-	}
 
 	/**
 	 * Contructeur.
@@ -37,8 +32,8 @@ public final class OTaskExecutionDAO extends DAOBroker<OTaskExecution, java.lang
 	 * @param task Type de la tache
 	 * @return Builder de la tache
 	 */
-	private TaskBuilder createTaskBuilder(final Tasks task) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(task.toString(), TaskDefinition.class);
+	private static TaskBuilder createTaskBuilder(final String taskDefinitionName) {
+		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(taskDefinitionName, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -47,7 +42,7 @@ public final class OTaskExecutionDAO extends DAOBroker<OTaskExecution, java.lang
 	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OTaskExecution> dtcTaskExecution
 	*/
 	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OTaskExecution> getTasksToLaunch() {
-		final Task task = createTaskBuilder(Tasks.TK_GET_TASKS_TO_LAUNCH)
+		final Task task = createTaskBuilder("TK_GET_TASKS_TO_LAUNCH")
 				.build();
 		return getTaskManager()
 				.execute(task)

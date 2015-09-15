@@ -14,12 +14,6 @@ import javax.inject.Inject;
  * PlanificationPAO
  */
 public final class PlanificationPAO {
-	/** Liste des taches. */
-	private enum Tasks {
-		/** Tache TK_RESERVE_PROCESS_TO_EXECUTE */
-		TK_RESERVE_PROCESS_TO_EXECUTE,
-	}
-
 	private final TaskManager taskManager;
 
 	/**
@@ -38,8 +32,8 @@ public final class PlanificationPAO {
 	 * @param task Type de la tache
 	 * @return Builder de la tache
 	 */
-	private TaskBuilder createTaskBuilder(final Tasks task) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(task.toString(), TaskDefinition.class);
+	private static TaskBuilder createTaskBuilder(final String TaskDefinitionName) {
+		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(TaskDefinitionName, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -47,12 +41,8 @@ public final class PlanificationPAO {
 	 * Execute la tache TK_RESERVE_PROCESS_TO_EXECUTE.
 	*/
 	public void reserveProcessToExecute() {
-		final Task task = createTaskBuilder(Tasks.TK_RESERVE_PROCESS_TO_EXECUTE)
+		final Task task = createTaskBuilder("TK_RESERVE_PROCESS_TO_EXECUTE")
 				.build();
-		getTaskManager().execute(task);
-	}
-
-	private TaskManager getTaskManager() {
-		return taskManager;
+		taskManager.execute(task);
 	}
 }

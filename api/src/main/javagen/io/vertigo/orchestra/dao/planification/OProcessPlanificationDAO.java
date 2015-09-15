@@ -17,17 +17,6 @@ import javax.inject.Inject;
  * OProcessPlanificationDAO
  */
 public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanification, java.lang.Long> {
-	/** Liste des taches. */
-	private enum Tasks {
-		/** Tache TK_GET_PROCESS_TO_EXECUTE */
-		TK_GET_PROCESS_TO_EXECUTE,
-		/** Tache TK_GET_LAST_PLANIFICATION_BY_PRO_ID */
-		TK_GET_LAST_PLANIFICATION_BY_PRO_ID,
-	}
-
-	/** Constante de paramètre de la tache PRO_ID. */
-	private static final String ATTR_IN_TK_GET_LAST_PLANIFICATION_BY_PRO_ID_PRO_ID = "PRO_ID";
-
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -43,8 +32,8 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 	 * @param task Type de la tache
 	 * @return Builder de la tache
 	 */
-	private TaskBuilder createTaskBuilder(final Tasks task) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(task.toString(), TaskDefinition.class);
+	private static TaskBuilder createTaskBuilder(final String taskDefinitionName) {
+		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(taskDefinitionName, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -53,7 +42,7 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> dtcOProcessPlanification
 	*/
 	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> getProcessToExecute() {
-		final Task task = createTaskBuilder(Tasks.TK_GET_PROCESS_TO_EXECUTE)
+		final Task task = createTaskBuilder("TK_GET_PROCESS_TO_EXECUTE")
 				.build();
 		return getTaskManager()
 				.execute(task)
@@ -66,8 +55,8 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 	 * @return Option de io.vertigo.orchestra.domain.planification.OProcessPlanification dtOProcessPlanification
 	*/
 	public Option<io.vertigo.orchestra.domain.planification.OProcessPlanification> getLastPlanificationByProId(final Long proId) {
-		final Task task = createTaskBuilder(Tasks.TK_GET_LAST_PLANIFICATION_BY_PRO_ID)
-				.addValue(ATTR_IN_TK_GET_LAST_PLANIFICATION_BY_PRO_ID_PRO_ID, proId)
+		final Task task = createTaskBuilder("TK_GET_LAST_PLANIFICATION_BY_PRO_ID")
+				.addValue("PRO_ID", proId)
 				.build();
 		return getTaskManager()
 				.execute(task)

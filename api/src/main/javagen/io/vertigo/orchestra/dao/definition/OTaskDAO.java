@@ -16,15 +16,6 @@ import javax.inject.Inject;
  * OTaskDAO
  */
 public final class OTaskDAO extends DAOBroker<OTask, java.lang.Long> {
-	/** Liste des taches. */
-	private enum Tasks {
-		/** Tache TK_GET_FIRST_TASK_BY_PROCESS */
-		TK_GET_FIRST_TASK_BY_PROCESS,
-	}
-
-	/** Constante de paramètre de la tache PRO_ID. */
-	private static final String ATTR_IN_TK_GET_FIRST_TASK_BY_PROCESS_PRO_ID = "PRO_ID";
-
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -40,8 +31,8 @@ public final class OTaskDAO extends DAOBroker<OTask, java.lang.Long> {
 	 * @param task Type de la tache
 	 * @return Builder de la tache
 	 */
-	private TaskBuilder createTaskBuilder(final Tasks task) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(task.toString(), TaskDefinition.class);
+	private static TaskBuilder createTaskBuilder(final String taskDefinitionName) {
+		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(taskDefinitionName, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -51,8 +42,8 @@ public final class OTaskDAO extends DAOBroker<OTask, java.lang.Long> {
 	 * @return io.vertigo.orchestra.domain.definition.OTask dtOTask
 	*/
 	public io.vertigo.orchestra.domain.definition.OTask getFirstTaskByProcess(final Long proId) {
-		final Task task = createTaskBuilder(Tasks.TK_GET_FIRST_TASK_BY_PROCESS)
-				.addValue(ATTR_IN_TK_GET_FIRST_TASK_BY_PROCESS_PRO_ID, proId)
+		final Task task = createTaskBuilder("TK_GET_FIRST_TASK_BY_PROCESS")
+				.addValue("PRO_ID", proId)
 				.build();
 		return getTaskManager()
 				.execute(task)
