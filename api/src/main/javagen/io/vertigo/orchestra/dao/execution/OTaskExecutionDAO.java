@@ -1,22 +1,21 @@
 package io.vertigo.orchestra.dao.execution;
 
+import javax.inject.Inject;
 import io.vertigo.core.Home;
-import io.vertigo.dynamo.impl.store.util.DAOBroker;
-import io.vertigo.dynamo.store.StoreManager;
-import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
+import io.vertigo.dynamo.impl.store.util.DAOBroker;
+import io.vertigo.dynamo.store.StoreManager;
+import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
-
-import javax.inject.Inject;
 
 /**
  * DAO : Accès à un object (DTO, DTC). 
  * OTaskExecutionDAO
  */
 public final class OTaskExecutionDAO extends DAOBroker<OTaskExecution, java.lang.Long> {
-
+	 
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -26,14 +25,15 @@ public final class OTaskExecutionDAO extends DAOBroker<OTaskExecution, java.lang
 	public OTaskExecutionDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OTaskExecution.class, storeManager, taskManager);
 	}
+	
 
 	/**
 	 * Création d'une tache.
 	 * @param task Type de la tache
 	 * @return Builder de la tache
 	 */
-	private static TaskBuilder createTaskBuilder(final String taskDefinitionName) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(taskDefinitionName, TaskDefinition.class);
+	private static TaskBuilder createTaskBuilder(final String name) {
+		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(name, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -48,5 +48,6 @@ public final class OTaskExecutionDAO extends DAOBroker<OTaskExecution, java.lang
 				.execute(task)
 				.getResult();
 	}
+
 
 }

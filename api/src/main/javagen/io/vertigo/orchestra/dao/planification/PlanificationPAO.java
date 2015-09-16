@@ -1,13 +1,13 @@
 package io.vertigo.orchestra.dao.planification;
 
+import javax.inject.Inject;
+
 import io.vertigo.core.Home;
+import io.vertigo.lang.Assertion;
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.lang.Assertion;
-
-import javax.inject.Inject;
 
 /**
  * PAO : Accès aux objects du package. 
@@ -32,8 +32,8 @@ public final class PlanificationPAO {
 	 * @param task Type de la tache
 	 * @return Builder de la tache
 	 */
-	private static TaskBuilder createTaskBuilder(final String TaskDefinitionName) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(TaskDefinitionName, TaskDefinition.class);
+	private static TaskBuilder createTaskBuilder(final String name) {
+		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(name, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -43,6 +43,11 @@ public final class PlanificationPAO {
 	public void reserveProcessToExecute() {
 		final Task task = createTaskBuilder("TK_RESERVE_PROCESS_TO_EXECUTE")
 				.build();
-		taskManager.execute(task);
+		getTaskManager().execute(task);
 	}
+
+    
+    private TaskManager getTaskManager(){
+    	return taskManager;
+    } 
 }

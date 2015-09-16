@@ -1,12 +1,11 @@
 package io.vertigo.orchestra;
 
+import org.junit.After;
+import org.junit.Before;
+
 import io.vertigo.core.App;
 import io.vertigo.core.Home;
 import io.vertigo.core.component.di.injector.Injector;
-
-import org.junit.After;
-import org.junit.Before;
-reClass;
 
 /**
  * Test Junit de Vertigo Orchestra.

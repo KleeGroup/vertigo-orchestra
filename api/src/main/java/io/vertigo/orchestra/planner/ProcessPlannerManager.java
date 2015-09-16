@@ -1,18 +1,18 @@
 package io.vertigo.orchestra.planner;
 
+import java.util.Date;
+
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.lang.Option;
+import io.vertigo.orchestra.PostActiveable;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
-import io.vertigo.orchestra.services.OrchestraServices;
-
-import java.util.Date;
 
 /**
  * API des services liés à la planification des processus.
  *
  * @author mlaroche
  */
-public interface ProcessPlannerManager extends OrchestraServices {
+public interface ProcessPlannerManager extends PostActiveable<ProcessPlannerManager> {
 
 	DtList<OProcessPlanification> getProcessToExecute();
 
@@ -25,4 +25,5 @@ public interface ProcessPlannerManager extends OrchestraServices {
 	Option<OProcessPlanification> getLastPlanificationsByProcess(final Long proId);
 
 	void triggerPlanification(final OProcessPlanification processPlanification);
+
 }

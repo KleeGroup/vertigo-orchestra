@@ -1,11 +1,10 @@
-package io.vertigo.orchestra.process.execution.manager;
+package io.vertigo.orchestra.execution;
 
 import java.util.Map;
 
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.services.OrchestraServices;
 
-public interface OTaskManager extends OrchestraServices {
+public interface OTaskManager {
 
 	/**
 	 * Réalise l'exécution d'une tache.

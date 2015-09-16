@@ -1,16 +1,17 @@
-package io.vertigo.orchestra.process.execution.manager;
+package io.vertigo.orchestra.impl.execution;
+
+import java.util.Map;
+
+import javax.inject.Inject;
 
 import io.vertigo.core.Home;
 import io.vertigo.core.component.di.injector.Injector;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.execution.OTaskEngine;
+import io.vertigo.orchestra.execution.OTaskManager;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
-import io.vertigo.orchestra.process.execution.engine.OTaskEngine;
 import io.vertigo.util.ClassUtil;
-
-import java.util.Map;
-
-import javax.inject.Inject;
 
 /**
  * @author pchretien
@@ -18,7 +19,7 @@ import javax.inject.Inject;
 public final class OTaskManagerImpl implements OTaskManager {
 
 	@Inject
-	private ProcessExecutionManager executionServices;
+	private ProcessExecutionManager processExecutionManager;
 
 	/** {@inheritDoc} */
 	@Override
@@ -27,7 +28,7 @@ public final class OTaskManagerImpl implements OTaskManager {
 			Assertion.checkNotNull(taskExecution);
 			// ---
 			taskExecution.setEstCd("RUNNING");
-			executionServices.saveTaskExecution(taskExecution);
+			processExecutionManager.saveTaskExecution(taskExecution);
 			// ---
 			final OTaskEngine taskEngine = Injector.newInstance(
 					ClassUtil.classForName(taskExecution.getEngine(), OTaskEngine.class), Home.getComponentSpace());

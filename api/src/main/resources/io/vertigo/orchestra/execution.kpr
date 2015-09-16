@@ -6,9 +6,3 @@ services/definition/taskDAO.ksp
 services/execution/taskExecutionDAO.ksp
 
 services/planification/processPlanificationDAO.ksp
-
-
-services/application.ksp
-
-index.ksp
-mdl.ksp

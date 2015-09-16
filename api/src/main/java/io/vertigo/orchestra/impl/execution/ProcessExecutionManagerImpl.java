@@ -1,5 +1,9 @@
 package io.vertigo.orchestra.impl.execution;
 
+import java.util.Date;
+
+import javax.inject.Inject;
+
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
@@ -16,10 +20,6 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
-import java.util.Date;
-
-import javax.inject.Inject;
-
 /**
  * TODO : Description de la classe.
  *
@@ -29,19 +29,19 @@ import javax.inject.Inject;
 @Transactional
 public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
+	private SequentialExecutor sequentialExecutor;
+
 	@Inject
-	private ProcessPlannerManager processPlanificationServices;
+	private ProcessPlannerManager processPlannerManager;
 	@Inject
-	private ProcessDefinitionManager processServices;
+	private ProcessDefinitionManager processDefinitionManager;
+
 	@Inject
 	private OProcessExecutionDAO processExecutionDAO;
 	@Inject
 	private OTaskExecutionDAO taskExecutionDAO;
 	@Inject
 	private ExecutionPAO executionPAO;
-
-	//	@Inject
-	//	private OTaskDAO taskDAO;
 
 	/** {@inheritDoc} */
 	@Override
@@ -77,18 +77,6 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public OProcessExecution getLastProcessExecution(final Long proId) {
-		return null;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public DtList<OProcessExecution> getProcessExecutionInScope(final Long proId) {
-		return null;
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public DtList<OTaskExecution> getTasksToLaunch() {
 		executionPAO.reserveTasksToLaunch();
 		return taskExecutionDAO.getTasksToLaunch();
@@ -97,7 +85,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	/** {@inheritDoc} */
 	@Override
 	public void initNewProcessesToLaunch() {
-		final DtList<OProcessPlanification> processToExecute = processPlanificationServices.getProcessToExecute();
+		final DtList<OProcessPlanification> processToExecute = processPlannerManager.getProcessToExecute();
 
 		for (final OProcessPlanification processPlanification : processToExecute) {
 			final OProcessExecution newProcessExecution = new OProcessExecution();
@@ -109,7 +97,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 			saveProcessExecution(newProcessExecution);
 
-			processPlanificationServices.triggerPlanification(processPlanification);
+			processPlannerManager.triggerPlanification(processPlanification);
 
 			initFirstTaskExecution(process.getProId(), newProcessExecution.getPreId());
 
@@ -130,7 +118,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	/** {@inheritDoc} */
 	@Override
 	public void initFirstTaskExecution(final Long proId, final Long preId) {
-		final OTask firstTask = processServices.getFirtTaskByProcess(proId);
+		final OTask firstTask = processDefinitionManager.getFirtTaskByProcess(proId);
 		taskExecutionDAO.save(initTaskExecutionWithTask(firstTask, preId));
 
 	}
@@ -168,6 +156,14 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 		taskExecution.setEndTime(new Date());
 		taskExecution.setEstCd("DONE"); // TODO modifier
 		taskExecutionDAO.save(taskExecution);
+
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void postStart(final ProcessExecutionManager processExecutionManager) {
+		sequentialExecutor = new SequentialExecutor(processExecutionManager, 3, 10 * 1000);
+		sequentialExecutor.start();
 
 	}
 

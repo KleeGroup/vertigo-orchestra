@@ -1,28 +1,19 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  15 sept. 2015  15:41:43                     
+--   Date de création :  16 sept. 2015  11:03:52                     
 -- ============================================================
 
 -- ============================================================
 --   Drop                                       
 -- ============================================================
-
 drop table EXECUTION_STATE cascade;
-
 drop table O_PROCESS cascade;
-
 drop table O_PROCESS_EXECUTION cascade;
-
 drop table O_PROCESS_PLANIFICATION cascade;
-
 drop table O_PROCESS_TYPE cascade;
-
 drop table O_TASK cascade;
-
 drop table O_TASK_EXECUTION cascade;
-
 drop table PLANIFICATION_STATE cascade;
-
 drop table TRIGGER_TYPE cascade;
 
 

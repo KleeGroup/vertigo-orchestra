@@ -1,5 +1,7 @@
 package io.vertigo.orchestra.dao.planification;
 
+import javax.inject.Inject;
+
 import io.vertigo.core.Home;
 import io.vertigo.dynamo.impl.store.util.DAOBroker;
 import io.vertigo.dynamo.store.StoreManager;
@@ -10,13 +12,12 @@ import io.vertigo.dynamo.task.model.TaskBuilder;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 
-import javax.inject.Inject;
-
 /**
- * DAO : Accès à un object (DTO, DTC). 
+ * DAO : Accès à un object (DTO, DTC).
  * OProcessPlanificationDAO
  */
 public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanification, java.lang.Long> {
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -32,8 +33,8 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 	 * @param task Type de la tache
 	 * @return Builder de la tache
 	 */
-	private static TaskBuilder createTaskBuilder(final String taskDefinitionName) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(taskDefinitionName, TaskDefinition.class);
+	private static TaskBuilder createTaskBuilder(final String name) {
+		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(name, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -51,7 +52,7 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 
 	/**
 	 * Execute la tache TK_GET_LAST_PLANIFICATION_BY_PRO_ID.
-	 * @param proId Long 
+	 * @param proId Long
 	 * @return Option de io.vertigo.orchestra.domain.planification.OProcessPlanification dtOProcessPlanification
 	*/
 	public Option<io.vertigo.orchestra.domain.planification.OProcessPlanification> getLastPlanificationByProId(final Long proId) {

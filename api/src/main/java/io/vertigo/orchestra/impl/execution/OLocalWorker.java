@@ -1,10 +1,4 @@
-package io.vertigo.orchestra.process.execution.manager;
-
-import io.vertigo.core.Home;
-import io.vertigo.core.component.di.injector.Injector;
-import io.vertigo.dynamo.work.WorkManager;
-import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
+package io.vertigo.orchestra.impl.execution;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -13,6 +7,13 @@ import java.util.concurrent.Callable;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
+
+import io.vertigo.core.Home;
+import io.vertigo.core.component.di.injector.Injector;
+import io.vertigo.dynamo.work.WorkManager;
+import io.vertigo.lang.Assertion;
+import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.execution.OTaskManager;
 
 final class OLocalWorker implements Callable<Map<String, String>> {
 

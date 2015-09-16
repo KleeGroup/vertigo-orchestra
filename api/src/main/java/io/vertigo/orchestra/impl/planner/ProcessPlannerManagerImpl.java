@@ -1,8 +1,12 @@
 package io.vertigo.orchestra.impl.planner;
 
+import java.util.Date;
+
+import javax.inject.Inject;
+
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
-import io.vertigo.lang.Activeable;
+import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
@@ -11,10 +15,6 @@ import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
-import java.util.Date;
-
-import javax.inject.Inject;
-
 /**
  * TODO : Description de la classe.
  *
@@ -22,15 +22,19 @@ import javax.inject.Inject;
  * @version $Id$
  */
 @Transactional
-public class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activeable {
+public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 	private ProcessScheduler processScheduler;
+
+	@Inject
+	private ProcessDefinitionManager processDefinitionManager;
 
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;
 	@Inject
 	private PlanificationPAO planificationPAO;
+
 	@Inject
-	private ProcessDefinitionManager processDefinitionManager;
+	private VTransactionManager transactionManager;
 
 	/** {@inheritDoc} */
 	@Override
@@ -81,16 +85,11 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activea
 
 	}
 
+	/** {@inheritDoc} */
 	@Override
-	public void start() {
-		processScheduler = new ProcessScheduler(this, processDefinitionManager);
+	public void postStart(final ProcessPlannerManager processPlannerManager) {
+		processScheduler = new ProcessScheduler(processPlannerManager, processDefinitionManager);
 		processScheduler.start();
-	}
 
-	@Override
-	public void stop() {
-		if (processScheduler != null) {
-			processScheduler.stop();
-		}
 	}
 }

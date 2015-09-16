@@ -3,7 +3,6 @@ package io.vertigo.orchestra.definition;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
-import io.vertigo.orchestra.services.OrchestraServices;
 
 /**
  * TODO : Description de la classe.
@@ -11,7 +10,7 @@ import io.vertigo.orchestra.services.OrchestraServices;
  * @author mlaroche.
  * @version $Id$
  */
-public interface ProcessDefinitionManager extends OrchestraServices {
+public interface ProcessDefinitionManager {
 
 	DtList<OProcess> getActiveProcesses();
 
@@ -20,5 +19,5 @@ public interface ProcessDefinitionManager extends OrchestraServices {
 	OTask getFirtTaskByProcess(Long proId);
 
 	//-----
-	void saveTask(OTask task);
+			void saveTask(OTask task);
 }
