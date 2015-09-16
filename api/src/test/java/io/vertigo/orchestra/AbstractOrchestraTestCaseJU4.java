@@ -6,6 +6,7 @@ import io.vertigo.core.component.di.injector.Injector;
 
 import org.junit.After;
 import org.junit.Before;
+reClass;
 
 /**
  * Test Junit de Vertigo Orchestra.
@@ -25,8 +26,8 @@ public class AbstractOrchestraTestCaseJU4 {
 
 	@After
 	public void tearDown() throws Exception {
-		doTearDown();
 		if (app != null) {
+			doTearDown();
 			app.close();
 		}
 	}

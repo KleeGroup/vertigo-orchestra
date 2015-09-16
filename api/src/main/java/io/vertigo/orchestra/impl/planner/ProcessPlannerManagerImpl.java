@@ -22,20 +22,15 @@ import javax.inject.Inject;
  * @version $Id$
  */
 @Transactional
-public final class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activeable {
-	private final ProcessScheduler processScheduler;
+public class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activeable {
+	private ProcessScheduler processScheduler;
 
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;
 	@Inject
 	private PlanificationPAO planificationPAO;
-
 	@Inject
-	public ProcessPlannerManagerImpl(final ProcessDefinitionManager processDefinitionManager) {
-		Assertion.checkNotNull(processDefinitionManager);
-		//-----
-		processScheduler = new ProcessScheduler(this, processDefinitionManager);
-	}
+	private ProcessDefinitionManager processDefinitionManager;
 
 	/** {@inheritDoc} */
 	@Override
@@ -47,11 +42,13 @@ public final class ProcessPlannerManagerImpl implements ProcessPlannerManager, A
 	/** {@inheritDoc} */
 	@Override
 	public void plannProcessAt(final Long proId, final Date planifiedTime) {
+
 		final OProcessPlanification processPlanification = new OProcessPlanification();
 		processPlanification.setProId(proId);
 		processPlanification.setExpectedTime(planifiedTime);
 		processPlanification.setPstCd("WAITING"); // TODO : A refaire
 		processPlanificationDAO.save(processPlanification);
+
 	}
 
 	/** {@inheritDoc} */
@@ -86,11 +83,14 @@ public final class ProcessPlannerManagerImpl implements ProcessPlannerManager, A
 
 	@Override
 	public void start() {
+		processScheduler = new ProcessScheduler(this, processDefinitionManager);
 		processScheduler.start();
 	}
 
 	@Override
 	public void stop() {
-		processScheduler.stop();
+		if (processScheduler != null) {
+			processScheduler.stop();
+		}
 	}
 }
