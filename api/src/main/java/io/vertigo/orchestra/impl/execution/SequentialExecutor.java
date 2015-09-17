@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 
 /**
@@ -69,21 +70,22 @@ final class SequentialExecutor implements Activeable {
 
 	/**
 	 * TODO : Description de la méthode.
-	 *
-	 * @param tkeId
+	 * @param taskExecution
 	 * @param result
+	 * @param error.
 	 */
-	public void putResult(final Long tkeId, final Map<String, String> result, final Throwable error) {
+	public void putResult(final OTaskExecution taskExecution, final Map<String, String> result, final Throwable error) {
 		Assertion.checkNotNull(result);
 		Assertion.checkArgument(result.containsKey("status"), "Le status est obligatoire dans le résultat");
 		// ---
 		if (error != null) {
 			error.printStackTrace();
+			processExecutionManager.changeExecutionState(taskExecution, ExecutionState.ERROR);
 		} else {
 			if ("ok".equals(result.get("status"))) {
-				processExecutionManager.endTaskExecutionAndInitNext(tkeId);
+				processExecutionManager.endTaskExecutionAndInitNext(taskExecution);
 			} else {
-				// TODO
+				processExecutionManager.changeExecutionState(taskExecution, ExecutionState.ERROR);
 			}
 		}
 

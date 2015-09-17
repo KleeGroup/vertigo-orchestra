@@ -16,8 +16,8 @@ import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.dynamox.task.TaskEngineProc;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
-import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.util.ListBuilder;
@@ -61,11 +61,6 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 		final Long proId = processDefinitionWrapper.getProcess().getProId();
 
 		processPlannerManager.plannProcessAt(proId, new Date());
-		processPlannerManager.plannProcessAt(proId, new Date());
-		processPlannerManager.plannProcessAt(proId, new Date());
-		processPlannerManager.plannProcessAt(proId, new Date());
-		processPlannerManager.plannProcessAt(proId, new Date());
-		processPlannerManager.plannProcessAt(proId, new Date());
 		Thread.sleep(1000 * 60);
 
 	}
@@ -86,11 +81,72 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	}
 
 	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void executionError() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST ERROR")
+				.withManual()
+				.withTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+		Thread.sleep(1000 * 60);
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testTwoTasks() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+				.withManual()
+				.withTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.withTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+
+		Thread.sleep(1000 * 60);
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testTwoTasksWithError() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+				.withManual()
+				.withTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.withTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+
+		Thread.sleep(1000 * 60);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected void doSetUp() throws Exception {
-		//A chaque test on recrée la table famille
+		//A chaque test on supprime tout
 		try (VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			final List<String> requests = new ListBuilder<String>()
 					.add(" delete from o_process_planification;")

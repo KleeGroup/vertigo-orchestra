@@ -41,9 +41,9 @@ public class OWorker implements Runnable {
 		Map<String, String> result;
 		try {
 			result = futureResult.get();
-			sequentialExecutor.putResult(taskExecution.getTkeId(), result, null);
+			sequentialExecutor.putResult(taskExecution, result, null);
 		} catch (final ExecutionException | InterruptedException e) {
-			sequentialExecutor.putResult(taskExecution.getTkeId(), null, e.getCause());
+			sequentialExecutor.putResult(taskExecution, null, e.getCause());
 		}
 	}
 

@@ -17,6 +17,7 @@ import io.vertigo.orchestra.domain.definition.OTask;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
@@ -43,37 +44,21 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	@Inject
 	private ExecutionPAO executionPAO;
 
-	/** {@inheritDoc} */
-	@Override
-	public OTaskExecution getTaskExecutionById(final Long tkeId) {
-		return taskExecutionDAO.get(tkeId);
-	}
+	//--------------------------------------------------------------------------------------------------
+	//--- Initialisation
+	//--------------------------------------------------------------------------------------------------
 
 	/** {@inheritDoc} */
 	@Override
-	public Option<OTask> getNextTaskByProcessExecution(final Long preId) {
-		return Option.<OTask> none();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public OProcessExecution getProcessExecutionById(final Long preId) {
-		return processExecutionDAO.get(preId);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void saveProcessExecution(final OProcessExecution processExecution) {
-		processExecutionDAO.save(processExecution);
+	public void postStart(final ProcessExecutionManager processExecutionManager) {
+		sequentialExecutor = new SequentialExecutor(processExecutionManager, 3, 10 * 1000);
+		sequentialExecutor.start();
 
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public void saveTaskExecution(final OTaskExecution taskExecution) {
-		taskExecutionDAO.save(taskExecution);
-
-	}
+	//--------------------------------------------------------------------------------------------------
+	//--- Public
+	//--------------------------------------------------------------------------------------------------
 
 	/** {@inheritDoc} */
 	@Override
@@ -85,56 +70,64 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	/** {@inheritDoc} */
 	@Override
 	public void initNewProcessesToLaunch() {
-		final DtList<OProcessPlanification> processToExecute = processPlannerManager.getProcessToExecute();
-
-		for (final OProcessPlanification processPlanification : processToExecute) {
-			final OProcessExecution newProcessExecution = new OProcessExecution();
-			final OProcess process = processPlanification.getProcessus();
-
-			newProcessExecution.setProId(process.getProId());
-			newProcessExecution.setBeginTime(new Date());
-			newProcessExecution.setEstCd("RUNNING");
-
-			saveProcessExecution(newProcessExecution);
-
+		for (final OProcessPlanification processPlanification : processPlannerManager.getProcessToExecute()) {
+			final OProcessExecution processExecution = initProcessExecution(processPlanification);
 			processPlannerManager.triggerPlanification(processPlanification);
+			initFirstTaskExecution(processExecution);
+		}
+	}
 
-			initFirstTaskExecution(process.getProId(), newProcessExecution.getPreId());
+	/** {@inheritDoc} */
+	@Override
+	public void changeExecutionState(final OTaskExecution taskExecution, final ExecutionState executionState) {
+		Assertion.checkNotNull(taskExecution);
+		// ---
+		taskExecution.setEstCd(executionState.name());
+		taskExecutionDAO.save(taskExecution);
 
+		// If it's an error the entire process is in Error
+		if (ExecutionState.ERROR.equals(executionState)) {
+			endProcessExecution(taskExecution.getPreId(), ExecutionState.ERROR);
 		}
 
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void endProcessExecution(final Long preId) {
-		final OProcessExecution processExecution = getProcessExecutionById(preId);
-		processExecution.setEndTime(new Date());
-		processExecution.setEstCd("DONE");
-		saveProcessExecution(processExecution);
-
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void initFirstTaskExecution(final Long proId, final Long preId) {
-		final OTask firstTask = processDefinitionManager.getFirtTaskByProcess(proId);
-		taskExecutionDAO.save(initTaskExecutionWithTask(firstTask, preId));
-
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void endTaskExecutionAndInitNext(final Long tkeId) {
-		final OTaskExecution taskExecution = getTaskExecutionById(tkeId);
+	public void endTaskExecutionAndInitNext(final OTaskExecution taskExecution) {
 		endTask(taskExecution);
 
-		final Option<OTask> nextTask = getNextTaskByProcessExecution(taskExecution.getPreId());
+		final Option<OTask> nextTask = processDefinitionManager.getNextTaskByTskId(taskExecution.getTskId());
 		if (nextTask.isDefined()) {
 			taskExecutionDAO.save(initTaskExecutionWithTask(nextTask.get(), taskExecution.getPreId()));
 		} else {
-			endProcessExecution(taskExecution.getPreId());
+			endSuccessfulProcessExecution(taskExecution.getPreId());
 		}
+	}
+
+	//--------------------------------------------------------------------------------------------------
+	//--- Private
+	//--------------------------------------------------------------------------------------------------
+
+	private OProcessExecution initProcessExecution(final OProcessPlanification processPlanification) {
+		final OProcess process = processPlanification.getProcessus();
+		final OProcessExecution newProcessExecution = new OProcessExecution();
+		newProcessExecution.setProId(process.getProId());
+		newProcessExecution.setBeginTime(new Date());
+		newProcessExecution.setEstCd(ExecutionState.RUNNING.name());
+
+		saveProcessExecution(newProcessExecution);
+
+		return newProcessExecution;
+	}
+
+	private void initFirstTaskExecution(final OProcessExecution processExecution) {
+		Assertion.checkNotNull(processExecution.getProId());
+		Assertion.checkNotNull(processExecution.getPreId());
+		// ---
+		final OTask firstTask = processDefinitionManager.getFirtTaskByProcess(processExecution.getProId());
+		taskExecutionDAO.save(initTaskExecutionWithTask(firstTask, processExecution.getPreId()));
+
 	}
 
 	private OTaskExecution initTaskExecutionWithTask(final OTask task, final Long preId) {
@@ -146,7 +139,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 		newTaskExecution.setTskId(task.getTskId());
 		newTaskExecution.setBeginTime(new Date());
 		newTaskExecution.setEngine(task.getEngine());
-		newTaskExecution.setEstCd("WAITING"); // TODO modifier
+		newTaskExecution.setEstCd(ExecutionState.WAITING.name());
 
 		return newTaskExecution;
 
@@ -154,16 +147,30 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 	private void endTask(final OTaskExecution taskExecution) {
 		taskExecution.setEndTime(new Date());
-		taskExecution.setEstCd("DONE"); // TODO modifier
+		taskExecution.setEstCd(ExecutionState.DONE.name());
 		taskExecutionDAO.save(taskExecution);
 
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public void postStart(final ProcessExecutionManager processExecutionManager) {
-		sequentialExecutor = new SequentialExecutor(processExecutionManager, 3, 10 * 1000);
-		sequentialExecutor.start();
+	private OProcessExecution getProcessExecutionById(final Long preId) {
+		return processExecutionDAO.get(preId);
+	}
+
+	private void saveProcessExecution(final OProcessExecution processExecution) {
+		processExecutionDAO.save(processExecution);
+
+	}
+
+	private void endProcessExecution(final Long preId, final ExecutionState executionState) {
+		final OProcessExecution processExecution = getProcessExecutionById(preId);
+		processExecution.setEndTime(new Date());
+		processExecution.setEstCd(executionState.name());
+		saveProcessExecution(processExecution);
+
+	}
+
+	private void endSuccessfulProcessExecution(final Long preId) {
+		endProcessExecution(preId, ExecutionState.DONE);
 
 	}
 

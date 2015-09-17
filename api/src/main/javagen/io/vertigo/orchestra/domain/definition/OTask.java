@@ -16,6 +16,7 @@ public final class OTask implements DtObject {
 
 	private Long tskId;
 	private String name;
+	private Long number;
 	private Boolean milestone;
 	private String engine;
 	private Long proId;
@@ -57,6 +58,25 @@ public final class OTask implements DtObject {
 	 */
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Numéro de la tâche'. 
+	 * @return Long number 
+	 */
+	@Field(domain = "DO_NOMBRE", label = "Numéro de la tâche")
+	public Long getNumber() {
+		return number;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Numéro de la tâche'.
+	 * @param number Long 
+	 */
+	public void setNumber(final Long number) {
+		this.number = number;
 	}
 
 	/**

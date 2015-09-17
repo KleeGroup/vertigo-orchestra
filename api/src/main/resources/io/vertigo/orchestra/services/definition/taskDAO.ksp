@@ -15,17 +15,47 @@ create Task TK_GET_ACTIVES_PROCESSES {
 	attribute DTC_PROCESSES	 	{domain : DO_DT_O_PROCESS_DTC 		notNull:"true" 	inOut :"out"}
 }
 
+
+create Task TK_GET_FIRST_TASK_BY_PROCESS {
+    className : "io.vertigo.dynamox.task.TaskEngineSelect"
+        request : "
+        
+        	select tsk.* 
+                from O_TASK tsk 
+                inner join(
+                            select  task.PRO_ID as PRO_ID,
+                                   min(task.NUMBER) as NUMBER_MIN
+                            from O_TASK task
+                            
+                            where task.PRO_ID = #PRO_ID#
+                            group by task.PRO_ID
+                        ) tskMin on (tsk.PRO_ID = tskMin.PRO_ID and tsk.NUMBER = tskMin.NUMBER_MIN)
+                 where 1=1
+        	
+			"
+	attribute PRO_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+	attribute DT_O_TASK	 	{domain : DO_DT_O_TASK_DTO 		notNull:"true" 	inOut :"out"}
+}
+
+
 create Task TK_GET_NEXT_TASK_BY_TSK_ID {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select prp.* from  o_process_planification prp
+        	select tsk.* 
+                from O_TASK tsk 
+                inner join(
+                            select task.PRO_ID as PRO_ID,
+                                   min(task.NUMBER) as NUMBER_MIN
+                            from O_TASK task
+                            join O_TASK prevTask on prevTask.TSK_ID = #TSK_ID#
+                            where task.NUMBER > prevTask.NUMBER 
+                           
+                                and task.PRO_ID = prevTask.PRO_ID
+                            group by task.PRO_ID
+                        ) tskMin on (tsk.PRO_ID = tskMin.PRO_ID and tsk.NUMBER = tskMin.NUMBER_MIN)
+                 where 1=1
         	
-        	inner join (
-				    select pro_id, max(expected_time) as MaxDate
-				    from o_process_planification
-				    group by pro_id
-				) pp on pp.pro_id = prp.pro_id and pp.MaxDate = prp.expected_time
-        	where prp.PRO_ID = #PRO_ID#
+        	
 			"
 		attribute TSK_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 		attribute DT_O_TASK	 	{domain : DO_DT_O_TASK_DTO		notNull:"false" 	inOut :"out"}

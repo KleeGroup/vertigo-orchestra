@@ -4,13 +4,13 @@ import javax.inject.Inject;
 import io.vertigo.dynamo.impl.store.util.DAOBroker;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.task.TaskManager;
-import io.vertigo.orchestra.domain.referential.PlanificationState;
+import io.vertigo.orchestra.domain.referential.OPlanificationState;
 
 /**
  * DAO : Accès à un object (DTO, DTC). 
- * PlanificationStateDAO
+ * OPlanificationStateDAO
  */
-public final class PlanificationStateDAO extends DAOBroker<PlanificationState, java.lang.String> {
+public final class OPlanificationStateDAO extends DAOBroker<OPlanificationState, java.lang.String> {
 	 
 	/**
 	 * Contructeur.
@@ -18,8 +18,8 @@ public final class PlanificationStateDAO extends DAOBroker<PlanificationState, j
 	 * @param taskManager Manager de Task
 	 */
 	@Inject
-	public PlanificationStateDAO(final StoreManager storeManager, final TaskManager taskManager) {
-		super(PlanificationState.class, storeManager, taskManager);
+	public OPlanificationStateDAO(final StoreManager storeManager, final TaskManager taskManager) {
+		super(OPlanificationState.class, storeManager, taskManager);
 	}
 	
 

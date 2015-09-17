@@ -35,7 +35,7 @@ create Association A_PRE_EST {
   fkFieldName : "EST_CD"
     
  	dtDefinitionA : DT_O_PROCESS_EXECUTION
-	dtDefinitionB : DT_EXECUTION_STATE
+	dtDefinitionB : DT_O_EXECUTION_STATE
 			
 	navigabilityA : "false"
 	navigabilityB : "true"

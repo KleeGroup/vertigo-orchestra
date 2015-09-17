@@ -21,7 +21,7 @@ public final class OProcessExecution implements DtObject {
 	private Long proId;
 	private String estCd;
 	private io.vertigo.orchestra.domain.definition.OProcess process;
-	private io.vertigo.orchestra.domain.referential.ExecutionState executionState;
+	private io.vertigo.orchestra.domain.referential.OExecutionState executionState;
 
 	/**
 	 * Champ : PRIMARY_KEY.
@@ -200,12 +200,12 @@ public final class OProcessExecution implements DtObject {
 	// Association : ExecutionTache non navigable
 	/**
 	 * Association : ExecutionState.
-	 * @return io.vertigo.orchestra.domain.referential.ExecutionState
+	 * @return io.vertigo.orchestra.domain.referential.OExecutionState
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
     	name = "A_PRE_EST",
     	fkFieldName = "EST_CD",
-    	primaryDtDefinitionName = "DT_EXECUTION_STATE",
+    	primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
     	primaryIsNavigable = true,
     	primaryRole = "ExecutionState",
     	primaryLabel = "ExecutionState",
@@ -216,15 +216,15 @@ public final class OProcessExecution implements DtObject {
     	foreignLabel = "ExecutionProcessus",
     	foreignMultiplicity = "0..*"
     )
-	public io.vertigo.orchestra.domain.referential.ExecutionState getExecutionState() {
-		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.ExecutionState> fkURI = getExecutionStateURI();
+	public io.vertigo.orchestra.domain.referential.OExecutionState getExecutionState() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> fkURI = getExecutionStateURI();
 		if (fkURI == null) {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (executionState != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.ExecutionState> uri;
+			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> uri;
 			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(executionState), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(executionState));
 			if (!fkURI.toURN().equals(uri.toURN())) {
 				executionState = null;
@@ -243,7 +243,7 @@ public final class OProcessExecution implements DtObject {
     @io.vertigo.dynamo.domain.stereotype.Association (
     	name = "A_PRE_EST",
     	fkFieldName = "EST_CD",
-    	primaryDtDefinitionName = "DT_EXECUTION_STATE",
+    	primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
     	primaryIsNavigable = true,
     	primaryRole = "ExecutionState",
     	primaryLabel = "ExecutionState",
@@ -254,8 +254,8 @@ public final class OProcessExecution implements DtObject {
     	foreignLabel = "ExecutionProcessus",
     	foreignMultiplicity = "0..*"
     )
-	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.ExecutionState> getExecutionStateURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_EST", io.vertigo.orchestra.domain.referential.ExecutionState.class);
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> getExecutionStateURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_EST", io.vertigo.orchestra.domain.referential.OExecutionState.class);
 	}
 
 	/** {@inheritDoc} */

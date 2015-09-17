@@ -20,7 +20,7 @@ public final class OProcessPlanification implements DtObject {
 	private Long proId;
 	private String pstCd;
 	private io.vertigo.orchestra.domain.definition.OProcess processus;
-	private io.vertigo.orchestra.domain.referential.PlanificationState planificationState;
+	private io.vertigo.orchestra.domain.referential.OPlanificationState planificationState;
 
 	/**
 	 * Champ : PRIMARY_KEY.
@@ -178,12 +178,12 @@ public final class OProcessPlanification implements DtObject {
 	}
 	/**
 	 * Association : PlanificationState.
-	 * @return io.vertigo.orchestra.domain.referential.PlanificationState
+	 * @return io.vertigo.orchestra.domain.referential.OPlanificationState
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
     	name = "A_PRP_PST",
     	fkFieldName = "PST_CD",
-    	primaryDtDefinitionName = "DT_PLANIFICATION_STATE",
+    	primaryDtDefinitionName = "DT_O_PLANIFICATION_STATE",
     	primaryIsNavigable = true,
     	primaryRole = "PlanificationState",
     	primaryLabel = "PlanificationState",
@@ -194,15 +194,15 @@ public final class OProcessPlanification implements DtObject {
     	foreignLabel = "ProcessPlanification",
     	foreignMultiplicity = "0..*"
     )
-	public io.vertigo.orchestra.domain.referential.PlanificationState getPlanificationState() {
-		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.PlanificationState> fkURI = getPlanificationStateURI();
+	public io.vertigo.orchestra.domain.referential.OPlanificationState getPlanificationState() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> fkURI = getPlanificationStateURI();
 		if (fkURI == null) {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (planificationState != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.PlanificationState> uri;
+			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> uri;
 			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(planificationState), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(planificationState));
 			if (!fkURI.toURN().equals(uri.toURN())) {
 				planificationState = null;
@@ -221,7 +221,7 @@ public final class OProcessPlanification implements DtObject {
     @io.vertigo.dynamo.domain.stereotype.Association (
     	name = "A_PRP_PST",
     	fkFieldName = "PST_CD",
-    	primaryDtDefinitionName = "DT_PLANIFICATION_STATE",
+    	primaryDtDefinitionName = "DT_O_PLANIFICATION_STATE",
     	primaryIsNavigable = true,
     	primaryRole = "PlanificationState",
     	primaryLabel = "PlanificationState",
@@ -232,8 +232,8 @@ public final class OProcessPlanification implements DtObject {
     	foreignLabel = "ProcessPlanification",
     	foreignMultiplicity = "0..*"
     )
-	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.PlanificationState> getPlanificationStateURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PST", io.vertigo.orchestra.domain.referential.PlanificationState.class);
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> getPlanificationStateURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PST", io.vertigo.orchestra.domain.referential.OPlanificationState.class);
 	}
 
 	/** {@inheritDoc} */

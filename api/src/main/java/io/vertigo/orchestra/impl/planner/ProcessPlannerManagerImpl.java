@@ -11,7 +11,9 @@ import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.planner.PlanificationState;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
 /**
@@ -22,6 +24,8 @@ import io.vertigo.orchestra.planner.ProcessPlannerManager;
  */
 @Transactional
 public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
+	private final long timerDelay = 10 * 1000;
+	private final long forecastDuration = 10 * 1000 * 30;
 	private ProcessScheduler processScheduler;
 
 	@Inject
@@ -32,6 +36,56 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 	@Inject
 	private PlanificationPAO planificationPAO;
 
+	//--------------------------------------------------------------------------------------------------
+	//--- Initialisation
+	//--------------------------------------------------------------------------------------------------
+
+	/** {@inheritDoc} */
+	@Override
+	public void postStart(final ProcessPlannerManager processPlannerManager) {
+		processScheduler = new ProcessScheduler(processPlannerManager, timerDelay);
+		processScheduler.start();
+
+	}
+
+	//--------------------------------------------------------------------------------------------------
+	//--- Public
+	//--------------------------------------------------------------------------------------------------
+
+	/** {@inheritDoc} */
+	@Override
+	public void plannProcessAt(final Long proId, final Date planifiedTime) {
+
+		final OProcessPlanification processPlanification = new OProcessPlanification();
+		processPlanification.setProId(proId);
+		processPlanification.setExpectedTime(planifiedTime);
+		processPlanification.setPstCd(PlanificationState.WAITING.name());
+		processPlanificationDAO.save(processPlanification);
+
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void plannRecurrentProcesses() {
+		for (final OProcess process : processDefinitionManager.getActiveProcesses()) {
+			if ("RECURRENT".equals(process.getTrtCd())) {
+				final Option<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(process.getProId());
+				if (!lastPlanificationOption.isDefined()) {
+					plannProcessAt(process.getProId(),
+							new Date(System.currentTimeMillis() + timerDelay));
+				} else {
+					final OProcessPlanification lastPlanification = lastPlanificationOption.get();
+					if (lastPlanification.getExpectedTime().getTime()
+							+ process.getDelay() < System.currentTimeMillis() + forecastDuration) {
+						plannProcessAt(process.getProId(),
+								new Date(lastPlanification.getExpectedTime().getTime() + process.getDelay()));
+					}
+				}
+			}
+		}
+
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public DtList<OProcessPlanification> getProcessToExecute() {
@@ -41,51 +95,20 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void plannProcessAt(final Long proId, final Date planifiedTime) {
-
-		final OProcessPlanification processPlanification = new OProcessPlanification();
-		processPlanification.setProId(proId);
-		processPlanification.setExpectedTime(planifiedTime);
-		processPlanification.setPstCd("WAITING"); // TODO : A refaire
+	public void triggerPlanification(final OProcessPlanification processPlanification) {
+		processPlanification.setPstCd(PlanificationState.TRIGGERED.name());
 		processPlanificationDAO.save(processPlanification);
 
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public DtList<OProcessPlanification> getProcessesPlanned(final Date from, final Date to) {
-		// TODO
-		return null;
-	}
+	//--------------------------------------------------------------------------------------------------
+	//--- Private
+	//--------------------------------------------------------------------------------------------------
 
-	/** {@inheritDoc} */
-	@Override
-	public DtList<OProcessPlanification> getPlanificationsByProcess(final Long proId) {
-		// TODO
-		return null;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Option<OProcessPlanification> getLastPlanificationsByProcess(final Long proId) {
+	private Option<OProcessPlanification> getLastPlanificationsByProcess(final Long proId) {
 		Assertion.checkNotNull(proId);
 		// ---
 		return processPlanificationDAO.getLastPlanificationByProId(proId);
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public void triggerPlanification(final OProcessPlanification processPlanification) {
-		processPlanification.setPstCd("TRIGGERED");
-		processPlanificationDAO.save(processPlanification);
-
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void postStart(final ProcessPlannerManager processPlannerManager) {
-		processScheduler = new ProcessScheduler(processPlannerManager, processDefinitionManager);
-		processScheduler.start();
-
-	}
 }

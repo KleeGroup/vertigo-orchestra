@@ -13,8 +13,10 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	 * Enumération des DtDefinitions.
 	 */
 	public enum Definitions {
-			/** Objet de données ExecutionState. */
-			ExecutionState(io.vertigo.orchestra.domain.referential.ExecutionState.class),
+			/** Objet de données OExecutionState. */
+			OExecutionState(io.vertigo.orchestra.domain.referential.OExecutionState.class),
+			/** Objet de données OPlanificationState. */
+			OPlanificationState(io.vertigo.orchestra.domain.referential.OPlanificationState.class),
 			/** Objet de données OProcess. */
 			OProcess(io.vertigo.orchestra.domain.definition.OProcess.class),
 			/** Objet de données OProcessExecution. */
@@ -27,8 +29,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			OTask(io.vertigo.orchestra.domain.definition.OTask.class),
 			/** Objet de données OTaskExecution. */
 			OTaskExecution(io.vertigo.orchestra.domain.execution.OTaskExecution.class),
-			/** Objet de données PlanificationState. */
-			PlanificationState(io.vertigo.orchestra.domain.referential.PlanificationState.class),
 			/** Objet de données TriggerType. */
 			TriggerType(io.vertigo.orchestra.domain.referential.TriggerType.class),
 		;
@@ -48,11 +48,21 @@ public final class DtDefinitions implements Iterable<Class<?>> {
     }
 
 	/**
-	 * Enumération des champs de ExecutionState.
+	 * Enumération des champs de OExecutionState.
 	 */
-	public enum ExecutionStateFields implements DtFieldName {
+	public enum OExecutionStateFields implements DtFieldName {
 		/** Propriété 'Code'. */
 		EST_CD,
+		/** Propriété 'Libellé'. */
+		LABEL,
+	}
+
+	/**
+	 * Enumération des champs de OPlanificationState.
+	 */
+	public enum OPlanificationStateFields implements DtFieldName {
+		/** Propriété 'Code'. */
+		PST_CD,
 		/** Propriété 'Libellé'. */
 		LABEL,
 	}
@@ -125,6 +135,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		TSK_ID,
 		/** Propriété 'Nom de la tâche'. */
 		NAME,
+		/** Propriété 'Numéro de la tâche'. */
+		NUMBER,
 		/** Propriété 'Jalon'. */
 		MILESTONE,
 		/** Propriété 'Implémentation de la tâche'. */
@@ -151,16 +163,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		PRE_ID,
 		/** Propriété 'ExecutionState'. */
 		EST_CD,
-	}
-
-	/**
-	 * Enumération des champs de PlanificationState.
-	 */
-	public enum PlanificationStateFields implements DtFieldName {
-		/** Propriété 'Code'. */
-		PST_CD,
-		/** Propriété 'Libellé'. */
-		LABEL,
 	}
 
 	/**

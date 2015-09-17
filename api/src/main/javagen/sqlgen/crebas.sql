@@ -1,19 +1,19 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  17 sept. 2015  10:38:40                     
+--   Date de création :  17 sept. 2015  15:17:43                     
 -- ============================================================
 
 -- ============================================================
 --   Drop                                       
 -- ============================================================
-drop table EXECUTION_STATE cascade;
+drop table O_EXECUTION_STATE cascade;
+drop table O_PLANIFICATION_STATE cascade;
 drop table O_PROCESS cascade;
 drop table O_PROCESS_EXECUTION cascade;
 drop table O_PROCESS_PLANIFICATION cascade;
 drop table O_PROCESS_TYPE cascade;
 drop table O_TASK cascade;
 drop table O_TASK_EXECUTION cascade;
-drop table PLANIFICATION_STATE cascade;
 drop table TRIGGER_TYPE cascade;
 
 
@@ -21,7 +21,10 @@ drop table TRIGGER_TYPE cascade;
 -- ============================================================
 --   Sequences                                      
 -- ============================================================
-create sequence SEQ_EXECUTION_STATE
+create sequence SEQ_O_EXECUTION_STATE
+	start with 1000 cache 20; 
+
+create sequence SEQ_O_PLANIFICATION_STATE
 	start with 1000 cache 20; 
 
 create sequence SEQ_O_PROCESS
@@ -42,27 +45,40 @@ create sequence SEQ_O_TASK
 create sequence SEQ_O_TASK_EXECUTION
 	start with 1000 cache 20; 
 
-create sequence SEQ_PLANIFICATION_STATE
-	start with 1000 cache 20; 
-
 create sequence SEQ_TRIGGER_TYPE
 	start with 1000 cache 20; 
 
 
 -- ============================================================
---   Table : EXECUTION_STATE                                        
+--   Table : O_EXECUTION_STATE                                        
 -- ============================================================
-create table EXECUTION_STATE
+create table O_EXECUTION_STATE
 (
     EST_CD      	 VARCHAR(20) 	not null,
     LABEL       	 VARCHAR(100)	,
-    constraint PK_EXECUTION_STATE primary key (EST_CD)
+    constraint PK_O_EXECUTION_STATE primary key (EST_CD)
 );
 
-comment on column EXECUTION_STATE.EST_CD is
+comment on column O_EXECUTION_STATE.EST_CD is
 'Code';
 
-comment on column EXECUTION_STATE.LABEL is
+comment on column O_EXECUTION_STATE.LABEL is
+'Libellé';
+
+-- ============================================================
+--   Table : O_PLANIFICATION_STATE                                        
+-- ============================================================
+create table O_PLANIFICATION_STATE
+(
+    PST_CD      	 VARCHAR(20) 	not null,
+    LABEL       	 VARCHAR(100)	,
+    constraint PK_O_PLANIFICATION_STATE primary key (PST_CD)
+);
+
+comment on column O_PLANIFICATION_STATE.PST_CD is
+'Code';
+
+comment on column O_PLANIFICATION_STATE.LABEL is
 'Libellé';
 
 -- ============================================================
@@ -182,6 +198,7 @@ create table O_TASK
 (
     TSK_ID      	 NUMERIC     	not null,
     NAME        	 VARCHAR(100)	,
+    NUMBER      	 NUMERIC     	,
     MILESTONE   	 BOOL        	,
     ENGINE      	 VARCHAR(200)	,
     PRO_ID      	 NUMERIC     	,
@@ -193,6 +210,9 @@ comment on column O_TASK.TSK_ID is
 
 comment on column O_TASK.NAME is
 'Nom de la tâche';
+
+comment on column O_TASK.NUMBER is
+'Numéro de la tâche';
 
 comment on column O_TASK.MILESTONE is
 'Jalon';
@@ -244,22 +264,6 @@ comment on column O_TASK_EXECUTION.EST_CD is
 
 create index O_TASK_EXECUTION_EST_CD_FK on O_TASK_EXECUTION (EST_CD asc);
 -- ============================================================
---   Table : PLANIFICATION_STATE                                        
--- ============================================================
-create table PLANIFICATION_STATE
-(
-    PST_CD      	 VARCHAR(20) 	not null,
-    LABEL       	 VARCHAR(100)	,
-    constraint PK_PLANIFICATION_STATE primary key (PST_CD)
-);
-
-comment on column PLANIFICATION_STATE.PST_CD is
-'Code';
-
-comment on column PLANIFICATION_STATE.LABEL is
-'Libellé';
-
--- ============================================================
 --   Table : TRIGGER_TYPE                                        
 -- ============================================================
 create table TRIGGER_TYPE
@@ -279,7 +283,7 @@ comment on column TRIGGER_TYPE.LABEL is
 
 alter table O_PROCESS_EXECUTION
 	add constraint FK_PRE_EST foreign key (EST_CD)
-	references EXECUTION_STATE (EST_CD);
+	references O_EXECUTION_STATE (EST_CD);
 
 alter table O_PROCESS_EXECUTION
 	add constraint FK_PRE_PRO foreign key (PRO_ID)
@@ -299,11 +303,11 @@ alter table O_PROCESS_PLANIFICATION
 
 alter table O_PROCESS_PLANIFICATION
 	add constraint FK_PRP_PST foreign key (PST_CD)
-	references PLANIFICATION_STATE (PST_CD);
+	references O_PLANIFICATION_STATE (PST_CD);
 
 alter table O_TASK_EXECUTION
 	add constraint FK_TKE_EST foreign key (EST_CD)
-	references EXECUTION_STATE (EST_CD);
+	references O_EXECUTION_STATE (EST_CD);
 
 alter table O_TASK_EXECUTION
 	add constraint FK_TKE_PRE foreign key (PRE_ID)

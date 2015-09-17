@@ -36,7 +36,7 @@ create Association A_TKE_EST {
   fkFieldName : "EST_CD"
     
  	dtDefinitionA : DT_O_TASK_EXECUTION
-	dtDefinitionB : DT_EXECUTION_STATE
+	dtDefinitionB : DT_O_EXECUTION_STATE
 			
 	navigabilityA : "false"
 	navigabilityB : "true"

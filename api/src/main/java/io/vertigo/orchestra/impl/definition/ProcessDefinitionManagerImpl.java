@@ -8,8 +8,8 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.dao.definition.OTaskDAO;
-import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
 
@@ -59,6 +59,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 		for (final OTask task : tasks) {
 			task.setProId(process.getProId());
+			task.setNumber(tasks.indexOf(task) + 1L);
 			taskDAO.save(task);// We have 10 tasks max so we can iterate
 		}
 

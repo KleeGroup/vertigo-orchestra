@@ -6,10 +6,10 @@ import io.vertigo.dynamo.domain.model.DtObject;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
- * Objet de données PlanificationState
+ * Objet de données OPlanificationState
  */
 @DtDefinition
-public final class PlanificationState implements DtObject {
+public final class OPlanificationState implements DtObject {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
