@@ -17,6 +17,7 @@ import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.dynamox.task.TaskEngineProc;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.util.ListBuilder;
@@ -50,6 +51,7 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void dumbexecution() throws InterruptedException {
 
+		final ProcessDefinition processDefinitionWrapper = new ProcessDefinitionBuilder("TEST MANUEL")
 				.withManual()
 				.withTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
 				.build();
