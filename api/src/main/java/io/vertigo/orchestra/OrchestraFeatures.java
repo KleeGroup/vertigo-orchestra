@@ -1,7 +1,6 @@
 package io.vertigo.orchestra;
 
 import io.vertigo.core.config.Features;
-import io.vertigo.orchestra.dao.application.ApplicationPAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.dao.definition.OTaskDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
@@ -53,7 +52,6 @@ public final class OrchestraFeatures extends Features {
 				//----PAO
 				.addComponent(ExecutionPAO.class)
 				.addComponent(PlanificationPAO.class)
-				.addComponent(ApplicationPAO.class)
 				//----Definitions
 				.addDefinitionResource("kpr", "io/vertigo/orchestra/execution.kpr")
 				.addDefinitionResource("classes", DtDefinitions.class.getName());

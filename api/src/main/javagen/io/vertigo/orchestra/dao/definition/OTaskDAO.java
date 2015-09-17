@@ -61,9 +61,9 @@ public final class OTaskDAO extends DAOBroker<OTask, java.lang.Long> {
 		final Task task = createTaskBuilder("TK_GET_NEXT_TASK_BY_TSK_ID")
 				.addValue("TSK_ID", tskId)
 				.build();
-		return getTaskManager()
+		return Option.option((io.vertigo.orchestra.domain.definition.OTask) getTaskManager()
 				.execute(task)
-				.getResult();
+				.getResult());
 	}
 
 }

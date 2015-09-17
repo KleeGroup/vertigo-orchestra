@@ -59,9 +59,9 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 		final Task task = createTaskBuilder("TK_GET_LAST_PLANIFICATION_BY_PRO_ID")
 				.addValue("PRO_ID", proId)
 				.build();
-		return getTaskManager()
+		return Option.option((io.vertigo.orchestra.domain.planification.OProcessPlanification) getTaskManager()
 				.execute(task)
-				.getResult();
+				.getResult());
 	}
 
 }

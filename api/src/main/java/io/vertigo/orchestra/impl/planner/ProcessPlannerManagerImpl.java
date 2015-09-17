@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
-import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
@@ -32,9 +31,6 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 	private OProcessPlanificationDAO processPlanificationDAO;
 	@Inject
 	private PlanificationPAO planificationPAO;
-
-	@Inject
-	private VTransactionManager transactionManager;
 
 	/** {@inheritDoc} */
 	@Override

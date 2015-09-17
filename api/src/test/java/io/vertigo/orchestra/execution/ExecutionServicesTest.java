@@ -17,8 +17,7 @@ import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.dynamox.task.TaskEngineProc;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.domain.definition.OTask;
+import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.util.ListBuilder;
 
@@ -50,26 +49,21 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	 */
 	@Test
 	public void dumbexecution() throws InterruptedException {
-		final OProcess process = new OProcess();
-		process.setName("TEST RECURRENT");
-		process.setDelay(100L);
-		process.setPrtCd("DUMB");
-		process.setTrtCd("DUMB");
-		processDefinitionManager.saveProcess(process);
 
-		final OTask task = new OTask();
-		task.setName("DUMB TASK");
-		task.setMilestone(false);
-		task.setEngine("io.vertigo.orchestra.execution.engine.DumbOTaskEngine");
-		task.setProId(process.getProId());
-		processDefinitionManager.saveTask(task);
+				.withManual()
+				.withTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build();
 
-		processPlannerManager.plannProcessAt(process.getProId(), new Date());
-		processPlannerManager.plannProcessAt(process.getProId(), new Date());
-		processPlannerManager.plannProcessAt(process.getProId(), new Date());
-		processPlannerManager.plannProcessAt(process.getProId(), new Date());
-		processPlannerManager.plannProcessAt(process.getProId(), new Date());
-		processPlannerManager.plannProcessAt(process.getProId(), new Date());
+		processDefinitionManager.createDefinition(processDefinitionWrapper);
+
+		final Long proId = processDefinitionWrapper.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+		processPlannerManager.plannProcessAt(proId, new Date());
+		processPlannerManager.plannProcessAt(proId, new Date());
+		processPlannerManager.plannProcessAt(proId, new Date());
+		processPlannerManager.plannProcessAt(proId, new Date());
+		processPlannerManager.plannProcessAt(proId, new Date());
 		Thread.sleep(1000 * 60);
 
 	}
@@ -79,19 +73,12 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	 */
 	@Test
 	public void dumbRecurrentExecution() throws InterruptedException {
-		final OProcess process = new OProcess();
-		process.setName("TEST RECURRENT");
-		process.setDelay(100L);
-		process.setPrtCd("DUMB");
-		process.setTrtCd("RECURRENT");
-		processDefinitionManager.saveProcess(process);
 
-		final OTask task = new OTask();
-		task.setName("DUMB TASK");
-		task.setMilestone(false);
-		task.setEngine("io.vertigo.orchestra.execution.engine.DumbOTaskEngine");
-		task.setProId(process.getProId());
-		processDefinitionManager.saveTask(task);
+		processDefinitionManager.createDefinition(new ProcessDefinitionBuilder("TEST RECURRENT")
+				.withRecurrence()
+				.withDelay(100L)
+				.withTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build());
 
 		Thread.sleep(1000 * 60);
 	}

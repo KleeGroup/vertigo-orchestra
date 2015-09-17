@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.definition;
 
 import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
 
@@ -14,10 +15,11 @@ public interface ProcessDefinitionManager {
 
 	DtList<OProcess> getActiveProcesses();
 
-	void saveProcess(OProcess process);
-
 	OTask getFirtTaskByProcess(Long proId);
 
+	Option<OTask> getNextTaskByTskId(Long tskId);
+
 	//-----
-			void saveTask(OTask task);
+
+	void createDefinition(ProcessDefinition processDefinitionWrapper);
 }
