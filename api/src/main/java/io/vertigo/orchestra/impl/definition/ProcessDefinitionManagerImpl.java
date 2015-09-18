@@ -11,6 +11,8 @@ import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -51,18 +53,20 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void registerDefinition(final ProcessDefinition processDefinition) {
+	public void createDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		//-----
 		final OProcess process = processDefinition.getProcess();
-		final DtList<OTask> tasks = processDefinition.getTasks();
+		final List<OTask> tasks = processDefinition.getTasks();
 
 		processDao.save(process);
 
+		long taskId = 1L;
 		for (final OTask task : tasks) {
 			task.setProId(process.getProId());
-			task.setNumber(tasks.indexOf(task) + 1L);
+			task.setNumber(taskId);
 			taskDAO.save(task);// We have 10 tasks max so we can iterate
+			taskId++;
 		}
 
 	}

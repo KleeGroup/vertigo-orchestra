@@ -1,10 +1,10 @@
 package io.vertigo.orchestra.definition;
 
-import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Builder;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
+import io.vertigo.util.ListBuilder;
 
 /**
  * TODO : Description de la classe.
@@ -14,7 +14,7 @@ import io.vertigo.orchestra.domain.definition.OTask;
  */
 public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 	private final OProcess process;
-	private final DtList<OTask> tasks = new DtList<>(OTask.class);
+	private final ListBuilder<OTask> tasksBuilder = new ListBuilder<>();
 
 	/**
 	 * Constructeur.
@@ -76,14 +76,14 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 		task.setName(taskName);
 		task.setEngine(engine);
 		task.setMilestone(milestone);
-		tasks.add(task);
+		tasksBuilder.add(task);
 		return this;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessDefinition(process, tasks);
+		return new ProcessDefinition(process, tasksBuilder.unmodifiable().build());
 	}
 
 }

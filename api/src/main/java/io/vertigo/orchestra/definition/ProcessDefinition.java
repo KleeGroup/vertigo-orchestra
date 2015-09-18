@@ -1,8 +1,10 @@
 package io.vertigo.orchestra.definition;
 
-import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
+
+import java.util.List;
 
 /**
  * TODO : Description de la classe.
@@ -13,14 +15,17 @@ import io.vertigo.orchestra.domain.definition.OTask;
 public final class ProcessDefinition {
 
 	private final OProcess process;
-	private final DtList<OTask> tasks;
+	private final List<OTask> tasks;
 
 	/**
 	 * Constructor only used by its builder.
 	 * @param process
 	 * @param tasks
 	 */
-	ProcessDefinition(final OProcess process, final DtList<OTask> tasks) {
+	ProcessDefinition(final OProcess process, final List<OTask> tasks) {
+		Assertion.checkNotNull(process);
+		Assertion.checkNotNull(tasks);
+		//-----
 		this.process = process;
 		this.tasks = tasks;
 	}
@@ -37,7 +42,7 @@ public final class ProcessDefinition {
 	 * Récupère la valeur de <code>tasks</code>.
 	 * @return valeur de <code>tasks</code>.
 	 */
-	public DtList<OTask> getTasks() {
+	public List<OTask> getTasks() {
 		return tasks;
 	}
 
