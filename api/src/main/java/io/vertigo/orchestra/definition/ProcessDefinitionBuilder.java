@@ -1,9 +1,8 @@
-package io.vertigo.orchestra.impl.definition;
+package io.vertigo.orchestra.definition;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Builder;
-import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
 
@@ -13,8 +12,7 @@ import io.vertigo.orchestra.domain.definition.OTask;
  * @author mlaroche.
  * @version $Id$
  */
-public class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
-
+public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 	private final OProcess process;
 	private final DtList<OTask> tasks = new DtList<>(OTask.class);
 
@@ -22,6 +20,8 @@ public class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 	 * Constructeur.
 	 */
 	public ProcessDefinitionBuilder(final String processName) {
+		Assertion.checkArgNotEmpty(processName);
+		//-----
 		process = new OProcess();
 		process.setName(processName);
 
@@ -33,7 +33,6 @@ public class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withRecurrence() {
-		Assertion.checkNotNull(process);
 		Assertion.checkState(process.getTrtCd() == null, "Le type de déclanchement est déjà renseigné");
 		// ---
 		process.setTrtCd("RECURRENT");
@@ -46,7 +45,6 @@ public class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withManual() {
-		Assertion.checkNotNull(process);
 		Assertion.checkState(process.getTrtCd() == null, "Le type de déclanchement est déjà renseigné");
 		// ---
 		process.setTrtCd("MANUAL");
@@ -59,7 +57,6 @@ public class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withDelay(final long delay) {
-		Assertion.checkNotNull(process);
 		Assertion.checkState(process.getTrtCd() == "RECURRENT", "Le type de déclanchement doit être recurrent");
 		// ---
 		process.setDelay(delay);
@@ -72,7 +69,8 @@ public class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder addTask(final String taskName, final String engine, final boolean milestone) {
-		Assertion.checkNotNull(tasks);
+		Assertion.checkArgNotEmpty(taskName);
+		Assertion.checkArgNotEmpty(engine);
 		// ---
 		final OTask task = new OTask();
 		task.setName(taskName);

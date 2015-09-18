@@ -10,8 +10,8 @@ import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.dynamox.task.TaskEngineProc;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.util.ListBuilder;
 
@@ -56,7 +56,7 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinitionWrapper);
+		processDefinitionManager.registerDefinition(processDefinitionWrapper);
 
 		final Long proId = processDefinitionWrapper.getProcess().getProId();
 
@@ -71,7 +71,7 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void dumbRecurrentExecution() throws InterruptedException {
 
-		processDefinitionManager.createDefinition(new ProcessDefinitionBuilder("TEST RECURRENT")
+		processDefinitionManager.registerDefinition(new ProcessDefinitionBuilder("TEST RECURRENT")
 				.withRecurrence()
 				.withDelay(100L)
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
@@ -91,7 +91,7 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine", false)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.registerDefinition(processDefinition);
 
 		final Long proId = processDefinition.getProcess().getProId();
 
@@ -111,7 +111,7 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.registerDefinition(processDefinition);
 
 		final Long proId = processDefinition.getProcess().getProId();
 
@@ -132,7 +132,7 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine", false)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.registerDefinition(processDefinition);
 
 		final Long proId = processDefinition.getProcess().getProId();
 

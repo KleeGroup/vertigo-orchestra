@@ -21,5 +21,5 @@ public interface ProcessDefinitionManager {
 
 	//-----
 
-	void createDefinition(ProcessDefinition processDefinitionWrapper);
+	void registerDefinition(ProcessDefinition processDefinition);
 }

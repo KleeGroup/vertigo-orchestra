@@ -51,7 +51,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void createDefinition(final ProcessDefinition processDefinition) {
+	public void registerDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		//-----
 		final OProcess process = processDefinition.getProcess();

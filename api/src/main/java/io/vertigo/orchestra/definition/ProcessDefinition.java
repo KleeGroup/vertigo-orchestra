@@ -10,17 +10,17 @@ import io.vertigo.orchestra.domain.definition.OTask;
  * @author mlaroche.
  * @version $Id$
  */
-public class ProcessDefinition {
+public final class ProcessDefinition {
 
 	private final OProcess process;
 	private final DtList<OTask> tasks;
 
 	/**
-	 * Constructeur.
+	 * Constructor only used by its builder.
 	 * @param process
 	 * @param tasks
 	 */
-	public ProcessDefinition(final OProcess process, final DtList<OTask> tasks) {
+	ProcessDefinition(final OProcess process, final DtList<OTask> tasks) {
 		this.process = process;
 		this.tasks = tasks;
 	}
