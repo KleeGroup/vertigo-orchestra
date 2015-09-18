@@ -1,9 +1,9 @@
 package io.vertigo.orchestra.execution.engine;
 
+import io.vertigo.orchestra.execution.OTaskEngine;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import io.vertigo.orchestra.execution.OTaskEngine;
 
 /**
  * TODO : Description de la classe.
@@ -11,7 +11,7 @@ import io.vertigo.orchestra.execution.OTaskEngine;
  * @author mlaroche.
  * @version $Id$
  */
-public class DumbErrorOTaskEngine extends OTaskEngine {
+public class DumbErrorOTaskEngine implements OTaskEngine {
 
 	/** {@inheritDoc} */
 	@Override

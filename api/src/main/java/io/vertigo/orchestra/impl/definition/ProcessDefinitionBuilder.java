@@ -23,7 +23,6 @@ public class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 	 */
 	public ProcessDefinitionBuilder(final String processName) {
 		process = new OProcess();
-
 		process.setName(processName);
 
 	}
@@ -72,7 +71,7 @@ public class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 	 * @param delay delay en secondes
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withTask(final String taskName, final String engine, final boolean milestone) {
+	public ProcessDefinitionBuilder addTask(final String taskName, final String engine, final boolean milestone) {
 		Assertion.checkNotNull(tasks);
 		// ---
 		final OTask task = new OTask();

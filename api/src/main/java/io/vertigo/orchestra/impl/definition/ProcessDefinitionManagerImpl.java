@@ -1,7 +1,5 @@
 package io.vertigo.orchestra.impl.definition;
 
-import javax.inject.Inject;
-
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
@@ -12,6 +10,8 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
+
+import javax.inject.Inject;
 
 /**
  * TODO : Description de la classe.
@@ -51,9 +51,11 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void createDefinition(final ProcessDefinition processDefinitionWrapper) {
-		final OProcess process = processDefinitionWrapper.getProcess();
-		final DtList<OTask> tasks = processDefinitionWrapper.getTasks();
+	public void createDefinition(final ProcessDefinition processDefinition) {
+		Assertion.checkNotNull(processDefinition);
+		//-----
+		final OProcess process = processDefinition.getProcess();
+		final DtList<OTask> tasks = processDefinition.getTasks();
 
 		processDao.save(process);
 
