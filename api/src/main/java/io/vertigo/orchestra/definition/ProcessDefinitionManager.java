@@ -13,7 +13,7 @@ import io.vertigo.orchestra.domain.definition.OTask;
  */
 public interface ProcessDefinitionManager {
 
-	DtList<OProcess> getActiveProcesses(); //Pourquoi une DtListe ????
+	DtList<OProcess> getRecurrentProcesses();
 
 	OTask getFirtTaskByProcess(Long proId);
 

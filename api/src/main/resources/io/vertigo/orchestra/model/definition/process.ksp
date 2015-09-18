@@ -4,7 +4,7 @@ create DtDefinition DT_O_PROCESS{
 	persistent: "true",
 	key PRO_ID	{domain : DO_IDENTIFIANT, label :"Id de la definition du processus", notNull:"true",},
 	field NAME   	{domain : DO_LIBELLE, label :"Nom du processus", notNull:"false",},
-	field DELAY	{domain : DO_NOMBRE, label :"Temps de récurrence du processus", notNull:"false",},
+	field CRON_EXPRESSION	{domain : DO_LIBELLE, label :"Expression récurrence du processus", notNull:"false",},
   
 },
 

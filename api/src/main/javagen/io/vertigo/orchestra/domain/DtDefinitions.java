@@ -75,8 +75,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		PRO_ID,
 		/** Propriété 'Nom du processus'. */
 		NAME,
-		/** Propriété 'Temps de récurrence du processus'. */
-		DELAY,
+		/** Propriété 'Expression récurrence du processus'. */
+		CRON_EXPRESSION,
 		/** Propriété 'TriggerType'. */
 		TRT_CD,
 		/** Propriété 'ProcessType'. */

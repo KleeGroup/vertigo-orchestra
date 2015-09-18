@@ -17,7 +17,6 @@ public class DumbOTaskEngine implements OTaskEngine {
 	@Override
 	public Map<String, String> execute(final Map<String, String> params) {
 		final Map<String, String> result = new HashMap<>(params);
-		System.out.println("Je suis l'execution du dumb engine");
 		result.put("status", "ok");
 		try {
 			Thread.sleep(1000 * 10);

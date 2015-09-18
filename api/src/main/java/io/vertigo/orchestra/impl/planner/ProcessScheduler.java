@@ -24,7 +24,7 @@ final class ProcessScheduler implements Activeable {
 		Assertion.checkNotNull(timerDelay);
 		//-----
 		this.processPlannerManager = processPlannerManager;
-		this.timerDelay = timerDelay;
+		this.timerDelay = timerDelay * 1000;
 	}
 
 	@Override

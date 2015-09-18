@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  17 sept. 2015  15:17:43                     
+--   Date de création :  18 sept. 2015  15:55:32                     
 -- ============================================================
 
 -- ============================================================
@@ -88,7 +88,7 @@ create table O_PROCESS
 (
     PRO_ID      	 NUMERIC     	not null,
     NAME        	 VARCHAR(100)	,
-    DELAY       	 NUMERIC     	,
+    CRON_EXPRESSION	 VARCHAR(100)	,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
     constraint PK_O_PROCESS primary key (PRO_ID)
@@ -100,8 +100,8 @@ comment on column O_PROCESS.PRO_ID is
 comment on column O_PROCESS.NAME is
 'Nom du processus';
 
-comment on column O_PROCESS.DELAY is
-'Temps de récurrence du processus';
+comment on column O_PROCESS.CRON_EXPRESSION is
+'Expression récurrence du processus';
 
 comment on column O_PROCESS.TRT_CD is
 'TriggerType';

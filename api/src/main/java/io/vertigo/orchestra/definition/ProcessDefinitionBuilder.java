@@ -52,14 +52,14 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	}
 
 	/**
-	 * Ajoute un delai entre deux executions d'une tache récurrente.
+	 * Définit l'expression cron du process.
 	 * @param delay delay en secondes
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withDelay(final long delay) {
+	public ProcessDefinitionBuilder withCron(final String cronExpression) {
 		Assertion.checkState(process.getTrtCd() == "RECURRENT", "Le type de déclanchement doit être recurrent");
 		// ---
-		process.setDelay(delay);
+		process.setCronExpression(cronExpression);
 		return this;
 	}
 

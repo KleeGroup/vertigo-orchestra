@@ -1,6 +1,8 @@
 package io.vertigo.orchestra.impl.execution;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -51,7 +53,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	/** {@inheritDoc} */
 	@Override
 	public void postStart(final ProcessExecutionManager processExecutionManager) {
-		sequentialExecutor = new SequentialExecutor(processExecutionManager, 3, 10 * 1000);
+		sequentialExecutor = new SequentialExecutor(processExecutionManager, 3, 1 * 1000);
 		sequentialExecutor.start();
 
 	}
@@ -103,6 +105,12 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 		} else {
 			endSuccessfulProcessExecution(taskExecution.getPreId());
 		}
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Map<String, String> getParamsForTaskExecution(final OTaskExecution taskExecution) {
+		return new HashMap<String, String>();
 	}
 
 	//--------------------------------------------------------------------------------------------------

@@ -1,6 +1,10 @@
 package io.vertigo.orchestra.impl.planner;
 
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -24,8 +28,8 @@ import io.vertigo.orchestra.planner.ProcessPlannerManager;
  */
 @Transactional
 public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
-	private final long timerDelay = 10 * 1000;
-	private final long forecastDuration = 10 * 1000 * 30;
+	private final long timerDelay = 1; // in secondes
+	private final long forecastDuration = 60; // in seconds
 	private ProcessScheduler processScheduler;
 
 	@Inject
@@ -67,20 +71,10 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 	/** {@inheritDoc} */
 	@Override
 	public void plannRecurrentProcesses() {
-		for (final OProcess process : processDefinitionManager.getActiveProcesses()) {
-			if ("RECURRENT".equals(process.getTrtCd())) {
-				final Option<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(process.getProId());
-				if (!lastPlanificationOption.isDefined()) {
-					plannProcessAt(process.getProId(),
-							new Date(System.currentTimeMillis() + timerDelay));
-				} else {
-					final OProcessPlanification lastPlanification = lastPlanificationOption.get();
-					if (lastPlanification.getExpectedTime().getTime()
-							+ process.getDelay() < System.currentTimeMillis() + forecastDuration) {
-						plannProcessAt(process.getProId(),
-								new Date(lastPlanification.getExpectedTime().getTime() + process.getDelay()));
-					}
-				}
+		for (final OProcess process : processDefinitionManager.getRecurrentProcesses()) {
+			final Option<Date> nextPlanification = findNextPlanificationTime(process);
+			if (nextPlanification.isDefined()) {
+				plannProcessAt(process.getProId(), nextPlanification.get());
 			}
 		}
 
@@ -89,7 +83,13 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 	/** {@inheritDoc} */
 	@Override
 	public DtList<OProcessPlanification> getProcessToExecute() {
-		planificationPAO.reserveProcessToExecute();
+		final GregorianCalendar lowerLimit = new GregorianCalendar(Locale.FRANCE);
+		lowerLimit.add(Calendar.SECOND, -((int) timerDelay / 2 + 1));
+
+		final GregorianCalendar upperLimit = new GregorianCalendar(Locale.FRANCE);
+		upperLimit.add(Calendar.SECOND, ((int) timerDelay / 2));
+
+		planificationPAO.reserveProcessToExecute(lowerLimit.getTime(), upperLimit.getTime());
 		return processPlanificationDAO.getProcessToExecute();
 	}
 
@@ -109,6 +109,34 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 		Assertion.checkNotNull(proId);
 		// ---
 		return processPlanificationDAO.getLastPlanificationByProId(proId);
+	}
+
+	/**
+	 * TODO : Description de la méthode.
+	 * @param process.
+	 * @throws ParseException
+	 */
+	private Option<Date> findNextPlanificationTime(final OProcess process) {
+		final Option<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(process.getProId());
+
+		try {
+			final CronExpression cronExpression = new CronExpression(process.getCronExpression());
+
+			if (!lastPlanificationOption.isDefined()) {
+				return Option.<Date> some(new Date(cronExpression.getTimeAfter(new Date()).getTime() + timerDelay / 2 * 1000)); // Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
+			} else {
+				final OProcessPlanification lastPlanification = lastPlanificationOption.get();
+				final Date nextPotentialPlainification = cronExpression.getTimeAfter(lastPlanification.getExpectedTime());
+				if (nextPotentialPlainification.before(new Date(System.currentTimeMillis() + forecastDuration * 1000))) {
+					return Option.<Date> some(nextPotentialPlainification);
+				}
+			}
+		} catch (final ParseException e) {
+			throw new RuntimeException("Process' cron expression is not valid, process cannot be planned");
+		}
+
+		return Option.<Date> none();
+
 	}
 
 }

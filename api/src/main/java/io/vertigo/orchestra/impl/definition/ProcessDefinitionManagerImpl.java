@@ -31,8 +31,8 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OProcess> getActiveProcesses() {
-		return processDao.getActivesProcesses();
+	public DtList<OProcess> getRecurrentProcesses() {
+		return processDao.getRecurrentProcesses();
 	}
 
 	/** {@inheritDoc} */

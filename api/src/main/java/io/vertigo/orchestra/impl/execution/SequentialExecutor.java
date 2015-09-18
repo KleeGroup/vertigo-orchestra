@@ -1,17 +1,16 @@
 package io.vertigo.orchestra.impl.execution;
 
-import io.vertigo.lang.Activeable;
-import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.execution.ExecutionState;
-import io.vertigo.orchestra.execution.ProcessExecutionManager;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import io.vertigo.lang.Activeable;
+import io.vertigo.lang.Assertion;
+import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.execution.ExecutionState;
+import io.vertigo.orchestra.execution.ProcessExecutionManager;
 
 /**
  * TODO : Description de la classe.
@@ -63,7 +62,7 @@ final class SequentialExecutor implements Activeable {
 	private void executeToDo() {
 		processExecutionManager.initNewProcessesToLaunch();
 		for (final OTaskExecution taskExecution : processExecutionManager.getTasksToLaunch()) {
-			final Map<String, String> params = new HashMap<>();
+			final Map<String, String> params = processExecutionManager.getParamsForTaskExecution(taskExecution);
 			pool.execute(new OWorker(localCoordinator, taskExecution, params, this));
 		}
 	}

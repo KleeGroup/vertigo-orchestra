@@ -1,5 +1,12 @@
 package io.vertigo.orchestra.execution;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.junit.Test;
+
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.metamodel.TaskDefinitionBuilder;
@@ -14,13 +21,6 @@ import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.util.ListBuilder;
-
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import org.junit.Test;
 
 /**
  * TODO : Description de la classe.
@@ -73,7 +73,7 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 
 		processDefinitionManager.createDefinition(new ProcessDefinitionBuilder("TEST RECURRENT")
 				.withRecurrence()
-				.withDelay(100L)
+				.withCron("*/15 * * * * ?")
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
 				.build());
 

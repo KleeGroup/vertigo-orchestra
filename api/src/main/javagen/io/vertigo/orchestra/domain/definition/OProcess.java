@@ -16,7 +16,7 @@ public final class OProcess implements DtObject {
 
 	private Long proId;
 	private String name;
-	private Long delay;
+	private String cronExpression;
 	private String trtCd;
 	private String prtCd;
 	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
@@ -62,21 +62,21 @@ public final class OProcess implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Temps de récurrence du processus'. 
-	 * @return Long delay 
+	 * Récupère la valeur de la propriété 'Expression récurrence du processus'. 
+	 * @return String cronExpression 
 	 */
-	@Field(domain = "DO_NOMBRE", label = "Temps de récurrence du processus")
-	public Long getDelay() {
-		return delay;
+	@Field(domain = "DO_LIBELLE", label = "Expression récurrence du processus")
+	public String getCronExpression() {
+		return cronExpression;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Temps de récurrence du processus'.
-	 * @param delay Long 
+	 * Définit la valeur de la propriété 'Expression récurrence du processus'.
+	 * @param cronExpression String 
 	 */
-	public void setDelay(final Long delay) {
-		this.delay = delay;
+	public void setCronExpression(final String cronExpression) {
+		this.cronExpression = cronExpression;
 	}
 
 	/**

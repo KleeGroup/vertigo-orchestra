@@ -19,7 +19,11 @@ create Task TK_RESERVE_PROCESS_TO_EXECUTE {
         	update o_process_planification
         	set PST_CD = 'RESERVED'
         	where PST_CD = 'WAITING'
+        	 and expected_time > #LOWER_LIMIT#
+        	 and expected_time < #UPPER_LIMIT#
 			"
+	 attribute LOWER_LIMIT	 	{domain : DO_TIMESTAMP 		notNull:"true" 	inOut :"in"}
+	 attribute UPPER_LIMIT	 	{domain : DO_TIMESTAMP 		notNull:"true" 	inOut :"in"}
 }
 
 create Task TK_GET_LAST_PLANIFICATION_BY_PRO_ID {
