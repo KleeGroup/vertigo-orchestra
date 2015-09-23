@@ -1,7 +1,5 @@
 package io.vertigo.orchestra.execution;
 
-import java.util.Map;
-
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.orchestra.PostActiveable;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
@@ -22,6 +20,8 @@ public interface ProcessExecutionManager extends PostActiveable<ProcessExecution
 
 	void changeExecutionState(OTaskExecution taskExecution, ExecutionState executionState);
 
-	Map<String, String> getParamsForTaskExecution(OTaskExecution taskExecution);
+	TaskExecutionWorkspace getWorkspaceForTaskExecution(final Long tkeId, final Boolean in);
+
+	void saveTaskExecutionWorkspace(Long tkeId, TaskExecutionWorkspace workspace, Boolean in);
 
 }

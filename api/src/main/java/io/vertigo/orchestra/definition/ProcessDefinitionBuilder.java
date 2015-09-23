@@ -52,6 +52,17 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	}
 
 	/**
+	 * Définit le variable de début de process.
+	 * @param initialParams les paramètres initiaux sous format JSON
+	 * @return this
+	 */
+	public ProcessDefinitionBuilder withInitialParams(final String initialParams) {
+		// ---
+		process.setInitialParams(initialParams);
+		return this;
+	}
+
+	/**
 	 * Définit l'expression cron du process.
 	 * @param delay delay en secondes
 	 * @return this

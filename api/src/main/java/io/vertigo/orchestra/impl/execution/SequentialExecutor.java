@@ -1,6 +1,5 @@
 package io.vertigo.orchestra.impl.execution;
 
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -11,6 +10,7 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 
 /**
  * TODO : Description de la classe.
@@ -62,25 +62,28 @@ final class SequentialExecutor implements Activeable {
 	private void executeToDo() {
 		processExecutionManager.initNewProcessesToLaunch();
 		for (final OTaskExecution taskExecution : processExecutionManager.getTasksToLaunch()) {
-			final Map<String, String> params = processExecutionManager.getParamsForTaskExecution(taskExecution);
-			pool.execute(new OWorker(localCoordinator, taskExecution, params, this));
+			final TaskExecutionWorkspace workspace = processExecutionManager.getWorkspaceForTaskExecution(taskExecution.getTkeId(), true);
+			pool.execute(new OWorker(localCoordinator, taskExecution, workspace, this));
 		}
 	}
 
 	/**
 	 * TODO : Description de la méthode.
 	 * @param taskExecution
-	 * @param result
+	 * @param workspaceOut
 	 */
-	public void putResult(final OTaskExecution taskExecution, final Map<String, String> result, final Throwable error) {
-		Assertion.checkNotNull(result);
-		Assertion.checkArgument(result.containsKey("status"), "Le status est obligatoire dans le résultat");
+	public void putResult(final OTaskExecution taskExecution, final TaskExecutionWorkspace workspaceOut, final Throwable error) {
+		Assertion.checkNotNull(workspaceOut);
+		Assertion.checkNotNull(workspaceOut.getValue("status"), "Le status est obligatoire dans le résultat");
 		// ---
+		// 1. We save the workspace
+		processExecutionManager.saveTaskExecutionWorkspace(taskExecution.getTkeId(), workspaceOut, false);
+		// 2. We manage the execution workflow
 		if (error != null) {
 			error.printStackTrace();
 			processExecutionManager.changeExecutionState(taskExecution, ExecutionState.ERROR);
 		} else {
-			if ("ok".equals(result.get("status"))) {
+			if (workspaceOut.isSuccess()) {
 				processExecutionManager.endTaskExecutionAndInitNext(taskExecution);
 			} else {
 				processExecutionManager.changeExecutionState(taskExecution, ExecutionState.ERROR);

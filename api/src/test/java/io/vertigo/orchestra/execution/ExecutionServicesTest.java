@@ -142,6 +142,49 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	}
 
 	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testWithInitialParams() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+				.withManual()
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+
+		Thread.sleep(1000 * 60);
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testTwoTasksWithInitialParams() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+				.withManual()
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+
+		Thread.sleep(1000 * 60);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -149,6 +192,7 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 		//A chaque test on supprime tout
 		try (VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			final List<String> requests = new ListBuilder<String>()
+					.add(" delete from o_execution_workspace;")
 					.add(" delete from o_process_planification;")
 					.add(" delete from o_task_execution;")
 					.add(" delete from o_process_execution;")

@@ -17,6 +17,7 @@ public final class OProcess implements DtObject {
 	private Long proId;
 	private String name;
 	private String cronExpression;
+	private String initialParams;
 	private String trtCd;
 	private String prtCd;
 	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
@@ -77,6 +78,25 @@ public final class OProcess implements DtObject {
 	 */
 	public void setCronExpression(final String cronExpression) {
 		this.cronExpression = cronExpression;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'. 
+	 * @return String initialParams 
+	 */
+	@Field(domain = "DO_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
+	public String getInitialParams() {
+		return initialParams;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Paramètres initiaux sous forme de JSON'.
+	 * @param initialParams String 
+	 */
+	public void setInitialParams(final String initialParams) {
+		this.initialParams = initialParams;
 	}
 
 	/**

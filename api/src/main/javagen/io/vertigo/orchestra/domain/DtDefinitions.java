@@ -15,6 +15,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	public enum Definitions {
 			/** Objet de données OExecutionState. */
 			OExecutionState(io.vertigo.orchestra.domain.referential.OExecutionState.class),
+			/** Objet de données OExecutionWorkspace. */
+			OExecutionWorkspace(io.vertigo.orchestra.domain.execution.OExecutionWorkspace.class),
 			/** Objet de données OPlanificationState. */
 			OPlanificationState(io.vertigo.orchestra.domain.referential.OPlanificationState.class),
 			/** Objet de données OProcess. */
@@ -58,6 +60,20 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	}
 
 	/**
+	 * Enumération des champs de OExecutionWorkspace.
+	 */
+	public enum OExecutionWorkspaceFields implements DtFieldName {
+		/** Propriété 'Id de l'execution d'un processus'. */
+		EXW_ID,
+		/** Propriété 'Workspace in/out'. */
+		IS_IN,
+		/** Propriété 'Contenu du workspace'. */
+		WORKSPACE,
+		/** Propriété 'TaskExecution'. */
+		TKE_ID,
+	}
+
+	/**
 	 * Enumération des champs de OPlanificationState.
 	 */
 	public enum OPlanificationStateFields implements DtFieldName {
@@ -77,6 +93,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		NAME,
 		/** Propriété 'Expression récurrence du processus'. */
 		CRON_EXPRESSION,
+		/** Propriété 'Paramètres initiaux sous forme de JSON'. */
+		INITIAL_PARAMS,
 		/** Propriété 'TriggerType'. */
 		TRT_CD,
 		/** Propriété 'ProcessType'. */

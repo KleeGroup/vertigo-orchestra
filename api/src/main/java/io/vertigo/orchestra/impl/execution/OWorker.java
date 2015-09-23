@@ -1,11 +1,11 @@
 package io.vertigo.orchestra.impl.execution;
 
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 
 /**
  * TODO : Description de la classe.
@@ -17,11 +17,11 @@ public class OWorker implements Runnable {
 
 	private final OLocalCoordinator localCoordinator;
 	private final OTaskExecution taskExecution;
-	private final Map<String, String> params;
+	private final TaskExecutionWorkspace params;
 	private final SequentialExecutor sequentialExecutor;
 
 	public OWorker(final OLocalCoordinator localCoordinator, final OTaskExecution taskExecution,
-			final Map<String, String> params, final SequentialExecutor sequentialExecutor) {
+			final TaskExecutionWorkspace params, final SequentialExecutor sequentialExecutor) {
 		Assertion.checkNotNull(localCoordinator);
 		// -----
 		this.localCoordinator = localCoordinator;
@@ -37,8 +37,8 @@ public class OWorker implements Runnable {
 	}
 
 	private <WR, W> void doRun() {
-		final Future<Map<String, String>> futureResult = localCoordinator.submit(taskExecution, params);
-		Map<String, String> result;
+		final Future<TaskExecutionWorkspace> futureResult = localCoordinator.submit(taskExecution, params);
+		TaskExecutionWorkspace result;
 		try {
 			result = futureResult.get();
 			sequentialExecutor.putResult(taskExecution, result, null);

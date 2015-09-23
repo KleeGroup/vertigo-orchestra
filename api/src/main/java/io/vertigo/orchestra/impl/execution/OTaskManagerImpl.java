@@ -1,7 +1,5 @@
 package io.vertigo.orchestra.impl.execution;
 
-import java.util.Map;
-
 import javax.inject.Inject;
 
 import io.vertigo.core.Home;
@@ -11,6 +9,7 @@ import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.OTaskEngine;
 import io.vertigo.orchestra.execution.OTaskManager;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 import io.vertigo.util.ClassUtil;
 
 /**
@@ -23,7 +22,7 @@ public final class OTaskManagerImpl implements OTaskManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public Map<String, String> execute(final OTaskExecution taskExecution, final Map<String, String> params) {
+	public TaskExecutionWorkspace execute(final OTaskExecution taskExecution, final TaskExecutionWorkspace params) {
 		try {
 			processExecutionManager.changeExecutionState(taskExecution, ExecutionState.RUNNING);
 			// ---

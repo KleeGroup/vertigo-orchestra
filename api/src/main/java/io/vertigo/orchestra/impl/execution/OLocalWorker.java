@@ -1,7 +1,6 @@
 package io.vertigo.orchestra.impl.execution;
 
 import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -14,8 +13,9 @@ import io.vertigo.dynamo.work.WorkManager;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.execution.OTaskManager;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 
-final class OLocalWorker implements Callable<Map<String, String>> {
+final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
 
 	private static final Logger LOGGER = Logger.getLogger(WorkManager.class); // même logger que le WorkListenerImpl
 
@@ -39,14 +39,14 @@ final class OLocalWorker implements Callable<Map<String, String>> {
 	private OTaskManager taskManager;
 
 	private final OTaskExecution taskExecution;
-	private final Map<String, String> params;
+	private final TaskExecutionWorkspace params;
 
 	/**
 	 * Constructeur.
 	 *
 	 * @param workItem WorkItem à traiter
 	 */
-	OLocalWorker(final OTaskExecution taskExecution, final Map<String, String> params) {
+	OLocalWorker(final OTaskExecution taskExecution, final TaskExecutionWorkspace params) {
 		Injector.injectMembers(this, Home.getComponentSpace());
 		Assertion.checkNotNull(taskExecution);
 		Assertion.checkNotNull(params);
@@ -57,7 +57,7 @@ final class OLocalWorker implements Callable<Map<String, String>> {
 
 	/** {@inheritDoc} */
 	@Override
-	public Map<String, String> call() {
+	public TaskExecutionWorkspace call() {
 		try {
 			return taskManager.execute(taskExecution, params);
 		} catch (final Exception e) {

@@ -1,12 +1,16 @@
 package io.vertigo.orchestra.execution;
 
-import java.util.Map;
-
+/**
+ * Interface d'un engine de tâche.
+ *
+ * @author mlaroche.
+ * @version $Id$
+ */
 public interface OTaskEngine {
 
 	/**
 	 * Réalise l'exécution d'une tache.
 	 */
-	Map<String, String> execute(final Map<String, String> params);
+			TaskExecutionWorkspace execute(final TaskExecutionWorkspace workspace);
 
 }

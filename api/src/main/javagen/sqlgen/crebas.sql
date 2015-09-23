@@ -1,12 +1,13 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  18 sept. 2015  15:55:32                     
+--   Date de création :  23 sept. 2015  10:48:45                     
 -- ============================================================
 
 -- ============================================================
 --   Drop                                       
 -- ============================================================
 drop table O_EXECUTION_STATE cascade;
+drop table O_EXECUTION_WORKSPACE cascade;
 drop table O_PLANIFICATION_STATE cascade;
 drop table O_PROCESS cascade;
 drop table O_PROCESS_EXECUTION cascade;
@@ -22,6 +23,9 @@ drop table TRIGGER_TYPE cascade;
 --   Sequences                                      
 -- ============================================================
 create sequence SEQ_O_EXECUTION_STATE
+	start with 1000 cache 20; 
+
+create sequence SEQ_O_EXECUTION_WORKSPACE
 	start with 1000 cache 20; 
 
 create sequence SEQ_O_PLANIFICATION_STATE
@@ -66,6 +70,31 @@ comment on column O_EXECUTION_STATE.LABEL is
 'Libellé';
 
 -- ============================================================
+--   Table : O_EXECUTION_WORKSPACE                                        
+-- ============================================================
+create table O_EXECUTION_WORKSPACE
+(
+    EXW_ID      	 NUMERIC     	not null,
+    IS_IN       	 BOOL        	not null,
+    WORKSPACE   	 TEXT        	,
+    TKE_ID      	 NUMERIC     	,
+    constraint PK_O_EXECUTION_WORKSPACE primary key (EXW_ID)
+);
+
+comment on column O_EXECUTION_WORKSPACE.EXW_ID is
+'Id de l''execution d''un processus';
+
+comment on column O_EXECUTION_WORKSPACE.IS_IN is
+'Workspace in/out';
+
+comment on column O_EXECUTION_WORKSPACE.WORKSPACE is
+'Contenu du workspace';
+
+comment on column O_EXECUTION_WORKSPACE.TKE_ID is
+'TaskExecution';
+
+create index O_EXECUTION_WORKSPACE_TKE_ID_FK on O_EXECUTION_WORKSPACE (TKE_ID asc);
+-- ============================================================
 --   Table : O_PLANIFICATION_STATE                                        
 -- ============================================================
 create table O_PLANIFICATION_STATE
@@ -89,6 +118,7 @@ create table O_PROCESS
     PRO_ID      	 NUMERIC     	not null,
     NAME        	 VARCHAR(100)	,
     CRON_EXPRESSION	 VARCHAR(100)	,
+    INITIAL_PARAMS	 TEXT        	,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
     constraint PK_O_PROCESS primary key (PRO_ID)
@@ -102,6 +132,9 @@ comment on column O_PROCESS.NAME is
 
 comment on column O_PROCESS.CRON_EXPRESSION is
 'Expression récurrence du processus';
+
+comment on column O_PROCESS.INITIAL_PARAMS is
+'Paramètres initiaux sous forme de JSON';
 
 comment on column O_PROCESS.TRT_CD is
 'TriggerType';
@@ -280,6 +313,10 @@ comment on column TRIGGER_TYPE.LABEL is
 'Libellé';
 
 
+
+alter table O_EXECUTION_WORKSPACE
+	add constraint FK_EXW_TKE foreign key (TKE_ID)
+	references O_TASK_EXECUTION (TKE_ID);
 
 alter table O_PROCESS_EXECUTION
 	add constraint FK_PRE_EST foreign key (EST_CD)

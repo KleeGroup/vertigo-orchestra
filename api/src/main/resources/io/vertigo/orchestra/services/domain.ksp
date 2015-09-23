@@ -51,6 +51,11 @@ create Domain DO_NOMBRE {
 	storeType : "NUMERIC"
 },
 
+create Domain DO_JSON_TEXT {
+	dataType : String
+	formatter : FMT_DEFAULT
+	storeType : "TEXT"
+},
 
 
 /**************************************************************************************************/

@@ -1,6 +1,5 @@
 package io.vertigo.orchestra.impl.execution;
 
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -8,6 +7,7 @@ import java.util.concurrent.Future;
 import io.vertigo.dynamo.impl.work.worker.Coordinator;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 
 /**
  * Implémentation d'un pool local de {@link Coordinator}.
@@ -36,7 +36,7 @@ public final class OLocalCoordinator {
 	 *
 	 * @param workItem WorkItem
 	 */
-	public Future<Map<String, String>> submit(final OTaskExecution taskExecution, final Map<String, String> params) {
+	public Future<TaskExecutionWorkspace> submit(final OTaskExecution taskExecution, final TaskExecutionWorkspace params) {
 		Assertion.checkNotNull(taskExecution);
 		// -----
 		return workers.submit(new OLocalWorker(taskExecution, params));

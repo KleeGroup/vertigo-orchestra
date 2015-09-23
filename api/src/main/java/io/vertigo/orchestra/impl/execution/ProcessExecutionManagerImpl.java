@@ -1,8 +1,6 @@
 package io.vertigo.orchestra.impl.execution;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -11,16 +9,19 @@ import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
+import io.vertigo.orchestra.dao.execution.OExecutionWorkspaceDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OTaskExecutionDAO;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
+import io.vertigo.orchestra.domain.execution.OExecutionWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
 /**
@@ -43,6 +44,8 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	private OProcessExecutionDAO processExecutionDAO;
 	@Inject
 	private OTaskExecutionDAO taskExecutionDAO;
+	@Inject
+	private OExecutionWorkspaceDAO executionWorkspaceDAO;
 	@Inject
 	private ExecutionPAO executionPAO;
 
@@ -101,7 +104,14 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 		final Option<OTask> nextTask = processDefinitionManager.getNextTaskByTskId(taskExecution.getTskId());
 		if (nextTask.isDefined()) {
-			taskExecutionDAO.save(initTaskExecutionWithTask(nextTask.get(), taskExecution.getPreId()));
+			final OTaskExecution nextTaskExecution = initTaskExecutionWithTask(nextTask.get(), taskExecution.getPreId());
+			taskExecutionDAO.save(nextTaskExecution);
+			// We keep the old workspace for the nextTask
+			final TaskExecutionWorkspace previousWorkspace = getWorkspaceForTaskExecution(taskExecution.getTkeId(), false);
+			// We remove the status
+			previousWorkspace.resetStatus();
+			saveTaskExecutionWorkspace(nextTaskExecution.getTkeId(), previousWorkspace, true);
+
 		} else {
 			endSuccessfulProcessExecution(taskExecution.getPreId());
 		}
@@ -109,8 +119,28 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public Map<String, String> getParamsForTaskExecution(final OTaskExecution taskExecution) {
-		return new HashMap<String, String>();
+	public TaskExecutionWorkspace getWorkspaceForTaskExecution(final Long tkeId, final Boolean in) {
+		Assertion.checkNotNull(tkeId);
+		Assertion.checkNotNull(in);
+		// ---
+		final OExecutionWorkspace executionWorkspace = executionWorkspaceDAO.getExecutionWorkspace(tkeId, in);
+		return new TaskExecutionWorkspace(executionWorkspace.getWorkspace());
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void saveTaskExecutionWorkspace(final Long tkeId, final TaskExecutionWorkspace workspace, final Boolean in) {
+		Assertion.checkNotNull(tkeId);
+		Assertion.checkNotNull(in);
+		Assertion.checkNotNull(workspace);
+		// ---
+		final OExecutionWorkspace executionWorkspace = new OExecutionWorkspace();
+		executionWorkspace.setTkeId(tkeId);
+		executionWorkspace.setIsIn(in);
+		executionWorkspace.setWorkspace(workspace.getStringForStorage());
+
+		executionWorkspaceDAO.save(executionWorkspace);
+
 	}
 
 	//--------------------------------------------------------------------------------------------------
@@ -134,7 +164,12 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 		Assertion.checkNotNull(processExecution.getPreId());
 		// ---
 		final OTask firstTask = processDefinitionManager.getFirtTaskByProcess(processExecution.getProId());
-		taskExecutionDAO.save(initTaskExecutionWithTask(firstTask, processExecution.getPreId()));
+
+		final OTaskExecution firstTaskExecution = initTaskExecutionWithTask(firstTask, processExecution.getPreId());
+		taskExecutionDAO.save(firstTaskExecution);
+
+		// We take the process initial params for the firtWorkspace
+		saveTaskExecutionWorkspace(firstTaskExecution.getTkeId(), new TaskExecutionWorkspace(processExecution.getProcess().getInitialParams()), true);
 
 	}
 

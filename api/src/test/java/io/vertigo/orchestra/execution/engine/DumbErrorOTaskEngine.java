@@ -1,9 +1,7 @@
 package io.vertigo.orchestra.execution.engine;
 
 import io.vertigo.orchestra.execution.OTaskEngine;
-
-import java.util.HashMap;
-import java.util.Map;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 
 /**
  * TODO : Description de la classe.
@@ -15,15 +13,14 @@ public class DumbErrorOTaskEngine implements OTaskEngine {
 
 	/** {@inheritDoc} */
 	@Override
-	public Map<String, String> execute(final Map<String, String> params) {
-		final Map<String, String> result = new HashMap<>(params);
-		result.put("status", "ko");
+	public TaskExecutionWorkspace execute(final TaskExecutionWorkspace workspace) {
+		workspace.setFailure();
 		try {
 			Thread.sleep(1000 * 2);
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}
-		return result;
+		return workspace;
 	}
 
 }
