@@ -22,15 +22,19 @@ public final class OTaskManagerImpl implements OTaskManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public TaskExecutionWorkspace execute(final OTaskExecution taskExecution, final TaskExecutionWorkspace params) {
+	public TaskExecutionWorkspace execute(final OTaskExecution taskExecution, final TaskExecutionWorkspace workspace) {
 		try {
 			processExecutionManager.changeExecutionState(taskExecution, ExecutionState.RUNNING);
 			// ---
 			final OTaskEngine taskEngine = Injector.newInstance(
 					ClassUtil.classForName(taskExecution.getEngine(), OTaskEngine.class), Home.getComponentSpace());
-			return taskEngine.execute(params);
+			return taskEngine.execute(workspace);
+		} catch (final Exception e) {
+			workspace.setFailure();
+			return workspace;
 		} finally {
-			//todo
+			processExecutionManager.saveTaskExecutionWorkspace(taskExecution.getTkeId(), workspace, false);
 		}
+
 	}
 }

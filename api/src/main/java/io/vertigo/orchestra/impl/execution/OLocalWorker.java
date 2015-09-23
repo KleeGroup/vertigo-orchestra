@@ -39,27 +39,27 @@ final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
 	private OTaskManager taskManager;
 
 	private final OTaskExecution taskExecution;
-	private final TaskExecutionWorkspace params;
+	private final TaskExecutionWorkspace workspace;
 
 	/**
 	 * Constructeur.
 	 *
 	 * @param workItem WorkItem à traiter
 	 */
-	OLocalWorker(final OTaskExecution taskExecution, final TaskExecutionWorkspace params) {
+	OLocalWorker(final OTaskExecution taskExecution, final TaskExecutionWorkspace workspace) {
 		Injector.injectMembers(this, Home.getComponentSpace());
 		Assertion.checkNotNull(taskExecution);
-		Assertion.checkNotNull(params);
+		Assertion.checkNotNull(workspace);
 		// -----
 		this.taskExecution = taskExecution;
-		this.params = params;
+		this.workspace = workspace;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public TaskExecutionWorkspace call() {
 		try {
-			return taskManager.execute(taskExecution, params);
+			return taskManager.execute(taskExecution, workspace);
 		} catch (final Exception e) {
 			logError(e);
 			throw asRuntimeException(e);

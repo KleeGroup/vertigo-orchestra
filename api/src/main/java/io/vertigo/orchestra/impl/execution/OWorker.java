@@ -42,7 +42,7 @@ public class OWorker implements Runnable {
 		try {
 			result = futureResult.get();
 			sequentialExecutor.putResult(taskExecution, result, null);
-		} catch (final ExecutionException | InterruptedException e) {
+		} catch (final ExecutionException | RuntimeException | InterruptedException e) {
 			sequentialExecutor.putResult(taskExecution, null, e.getCause());
 		}
 	}

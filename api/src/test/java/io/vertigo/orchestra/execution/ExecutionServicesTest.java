@@ -168,11 +168,31 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testTwoTasksWithInitialParams() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS WITH PARAMS")
 				.withManual()
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+
+		Thread.sleep(1000 * 60);
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testException() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+				.withManual()
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbExceptionOTaskEngine", false)
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);

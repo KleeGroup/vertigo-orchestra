@@ -76,8 +76,6 @@ final class SequentialExecutor implements Activeable {
 		Assertion.checkNotNull(workspaceOut);
 		Assertion.checkNotNull(workspaceOut.getValue("status"), "Le status est obligatoire dans le résultat");
 		// ---
-		// 1. We save the workspace
-		processExecutionManager.saveTaskExecutionWorkspace(taskExecution.getTkeId(), workspaceOut, false);
 		// 2. We manage the execution workflow
 		if (error != null) {
 			error.printStackTrace();
