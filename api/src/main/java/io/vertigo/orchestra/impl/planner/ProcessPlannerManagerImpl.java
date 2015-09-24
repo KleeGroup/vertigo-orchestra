@@ -101,6 +101,14 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public void misfirePlanification(final OProcessPlanification processPlanification) {
+		processPlanification.setPstCd(PlanificationState.MISFIRED.name());
+		processPlanificationDAO.save(processPlanification);
+
+	}
+
 	//--------------------------------------------------------------------------------------------------
 	//--- Private
 	//--------------------------------------------------------------------------------------------------

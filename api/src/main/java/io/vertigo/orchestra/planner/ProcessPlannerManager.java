@@ -21,4 +21,6 @@ public interface ProcessPlannerManager extends PostActiveable<ProcessPlannerMana
 
 	void triggerPlanification(final OProcessPlanification processPlanification);
 
+	void misfirePlanification(final OProcessPlanification processPlanification);
+
 }

@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.execution;
+package io.vertigo.orchestra.impl.execution;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,13 +10,13 @@ import com.google.gson.JsonParser;
  * @author mlaroche.
  * @version $Id$
  */
-public class TaskExecutionWorkspace {
+public final class TaskExecutionWorkspace {
 
 	private static final String STATUS_KEY = "status";
 
 	private final JsonObject jsonValue;
 
-	public TaskExecutionWorkspace(final String stringStoredValue) {
+	TaskExecutionWorkspace(final String stringStoredValue) {
 		if (stringStoredValue != null) {
 			jsonValue = new JsonParser().parse(stringStoredValue).getAsJsonObject();
 		} else {

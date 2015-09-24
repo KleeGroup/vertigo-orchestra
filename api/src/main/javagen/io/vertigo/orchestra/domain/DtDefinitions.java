@@ -95,6 +95,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		CRON_EXPRESSION,
 		/** Propriété 'Paramètres initiaux sous forme de JSON'. */
 		INITIAL_PARAMS,
+		/** Propriété 'Accepte la multi-execution'. */
+		MULTIEXECUTION,
 		/** Propriété 'TriggerType'. */
 		TRT_CD,
 		/** Propriété 'ProcessType'. */

@@ -7,7 +7,6 @@ import java.util.concurrent.Future;
 import io.vertigo.dynamo.impl.work.worker.Coordinator;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 
 /**
  * Implémentation d'un pool local de {@link Coordinator}.

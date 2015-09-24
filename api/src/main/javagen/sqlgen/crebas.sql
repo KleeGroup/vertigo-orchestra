@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  23 sept. 2015  10:48:45                     
+--   Date de création :  24 sept. 2015  11:12:31                     
 -- ============================================================
 
 -- ============================================================
@@ -119,6 +119,7 @@ create table O_PROCESS
     NAME        	 VARCHAR(100)	,
     CRON_EXPRESSION	 VARCHAR(100)	,
     INITIAL_PARAMS	 TEXT        	,
+    MULTIEXECUTION	 BOOL        	,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
     constraint PK_O_PROCESS primary key (PRO_ID)
@@ -135,6 +136,9 @@ comment on column O_PROCESS.CRON_EXPRESSION is
 
 comment on column O_PROCESS.INITIAL_PARAMS is
 'Paramètres initiaux sous forme de JSON';
+
+comment on column O_PROCESS.MULTIEXECUTION is
+'Accepte la multi-execution';
 
 comment on column O_PROCESS.TRT_CD is
 'TriggerType';

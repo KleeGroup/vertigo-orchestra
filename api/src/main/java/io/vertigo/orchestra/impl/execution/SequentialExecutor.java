@@ -10,7 +10,6 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
-import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 
 /**
  * TODO : Description de la classe.

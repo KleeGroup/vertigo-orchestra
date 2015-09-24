@@ -3,6 +3,7 @@ package io.vertigo.orchestra.execution;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.orchestra.PostActiveable;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.impl.execution.TaskExecutionWorkspace;
 
 /**
  * TODO : Description de la classe.

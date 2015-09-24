@@ -4,5 +4,6 @@ services/definition/processDAO.ksp
 services/definition/taskDAO.ksp
 
 services/execution/taskExecutionDAO.ksp
+services/execution/processExecutionDAO.ksp
 
 services/planification/processPlanificationDAO.ksp

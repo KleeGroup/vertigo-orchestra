@@ -18,6 +18,7 @@ public final class OProcess implements DtObject {
 	private String name;
 	private String cronExpression;
 	private String initialParams;
+	private Boolean multiexecution;
 	private String trtCd;
 	private String prtCd;
 	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
@@ -97,6 +98,25 @@ public final class OProcess implements DtObject {
 	 */
 	public void setInitialParams(final String initialParams) {
 		this.initialParams = initialParams;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Accepte la multi-execution'. 
+	 * @return Boolean multiexecution 
+	 */
+	@Field(domain = "DO_BOOLEEN", label = "Accepte la multi-execution")
+	public Boolean getMultiexecution() {
+		return multiexecution;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Accepte la multi-execution'.
+	 * @param multiexecution Boolean 
+	 */
+	public void setMultiexecution(final Boolean multiexecution) {
+		this.multiexecution = multiexecution;
 	}
 
 	/**

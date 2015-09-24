@@ -13,6 +13,8 @@ public enum PlanificationState {
 
 	TRIGGERED,
 
+	MISFIRED,
+
 	CANCELED;
 
 }

@@ -205,6 +205,42 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	}
 
 	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testMultiExecutionMisfire() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MULTI MISFIRE")
+				.withManual()
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+		processPlannerManager.plannProcessAt(proId, new Date());
+
+		Thread.sleep(1000 * 60);
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void recurrentExecutionWithMisfire() throws InterruptedException {
+
+		processDefinitionManager.createDefinition(new ProcessDefinitionBuilder("TEST RECURRENT")
+				.withRecurrence()
+				.withCron("*/6 * * * * ?")
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build());
+
+		Thread.sleep(1000 * 60);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

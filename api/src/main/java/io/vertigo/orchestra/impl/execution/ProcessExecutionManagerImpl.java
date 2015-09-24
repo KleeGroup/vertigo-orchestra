@@ -21,7 +21,6 @@ import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
-import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
 /**
@@ -76,9 +75,13 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	@Override
 	public void initNewProcessesToLaunch() {
 		for (final OProcessPlanification processPlanification : processPlannerManager.getProcessToExecute()) {
-			final OProcessExecution processExecution = initProcessExecution(processPlanification);
-			processPlannerManager.triggerPlanification(processPlanification);
-			initFirstTaskExecution(processExecution);
+			if (canExecute(processPlanification)) {
+				final OProcessExecution processExecution = initProcessExecution(processPlanification);
+				processPlannerManager.triggerPlanification(processPlanification);
+				initFirstTaskExecution(processExecution);
+			} else {
+				processPlannerManager.misfirePlanification(processPlanification);
+			}
 		}
 	}
 
@@ -168,7 +171,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 		final OTaskExecution firstTaskExecution = initTaskExecutionWithTask(firstTask, processExecution.getPreId());
 		taskExecutionDAO.save(firstTaskExecution);
 
-		// We take the process initial params for the firtWorkspace
+		// We take the process initial params for the firstWorkspace
 		saveTaskExecutionWorkspace(firstTaskExecution.getTkeId(), new TaskExecutionWorkspace(processExecution.getProcess().getInitialParams()), true);
 
 	}
@@ -214,6 +217,16 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 	private void endSuccessfulProcessExecution(final Long preId) {
 		endProcessExecution(preId, ExecutionState.DONE);
+
+	}
+
+	private boolean canExecute(final OProcessPlanification processPlanification) {
+		// We check if process allow multiExecutions
+		final OProcess process = processPlanification.getProcessus();
+		if (!process.getMultiexecution()) {
+			return processExecutionDAO.getActiveProcessExecutionByProId(process.getProId()).isEmpty();
+		}
+		return true;
 
 	}
 

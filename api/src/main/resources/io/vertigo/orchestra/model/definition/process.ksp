@@ -6,6 +6,7 @@ create DtDefinition DT_O_PROCESS{
 	field NAME   	{domain : DO_LIBELLE, label :"Nom du processus", notNull:"false",},
 	field CRON_EXPRESSION	{domain : DO_LIBELLE, label :"Expression récurrence du processus", notNull:"false",},
 	field INITIAL_PARAMS	{domain : DO_JSON_TEXT, label :"Paramètres initiaux sous forme de JSON ", notNull:"false",},
+	field MULTIEXECUTION   	{domain : DO_BOOLEEN, label :"Accepte la multi-execution", notNull:"false",},
   
 },
 

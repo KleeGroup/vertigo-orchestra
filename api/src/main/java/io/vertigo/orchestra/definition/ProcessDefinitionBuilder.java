@@ -24,6 +24,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 		//-----
 		process = new OProcess();
 		process.setName(processName);
+		process.setMultiexecution(false);// By default no multi-execution
 
 	}
 
@@ -36,6 +37,16 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 		Assertion.checkState(process.getTrtCd() == null, "Le type de déclanchement est déjà renseigné");
 		// ---
 		process.setTrtCd("RECURRENT");
+		return this;
+	}
+
+	/**
+	 * Processus a déclanchement automatique.
+	 * @param delay
+	 * @return this
+	 */
+	public ProcessDefinitionBuilder withMultiExecution() {
+		process.setMultiexecution(true);
 		return this;
 	}
 

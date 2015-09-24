@@ -8,6 +8,7 @@ insert into o_execution_state(est_cd, label) values ('CANCELED', 'Canceled');
 insert into o_planification_state(pst_cd, label) values ('WAITING', 'Waiting');
 insert into o_planification_state(pst_cd, label) values ('RESERVED', 'Reserved');
 insert into o_planification_state(pst_cd, label) values ('TRIGGERED', 'Triggered');
+insert into o_planification_state(pst_cd, label) values ('MISFIRED', 'Misfired');
 insert into o_planification_state(pst_cd, label) values ('CANCELED', 'Canceled');
 
 insert into o_process_type(prt_cd, label) values ('DUMB', 'Dumb');

@@ -9,15 +9,14 @@ import org.apache.log4j.Logger;
 
 import io.vertigo.core.Home;
 import io.vertigo.core.component.di.injector.Injector;
-import io.vertigo.dynamo.work.WorkManager;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.execution.OTaskManager;
-import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
+import io.vertigo.orchestra.execution.ProcessExecutionManager;
 
 final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
 
-	private static final Logger LOGGER = Logger.getLogger(WorkManager.class); // même logger que le WorkListenerImpl
+	private static final Logger LOGGER = Logger.getLogger(ProcessExecutionManager.class);
 
 	/**
 	 * Pour vider les threadLocal entre deux utilisations du Thread dans le pool,
