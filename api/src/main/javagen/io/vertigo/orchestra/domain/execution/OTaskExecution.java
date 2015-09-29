@@ -18,6 +18,7 @@ public final class OTaskExecution implements DtObject {
 	private java.util.Date beginTime;
 	private java.util.Date endTime;
 	private String engine;
+	private String nodeName;
 	private Long tskId;
 	private Long preId;
 	private String estCd;
@@ -99,6 +100,25 @@ public final class OTaskExecution implements DtObject {
 	 */
 	public void setEngine(final String engine) {
 		this.engine = engine;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Nom du noeud'. 
+	 * @return String nodeName 
+	 */
+	@Field(domain = "DO_LIBELLE", label = "Nom du noeud")
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Nom du noeud'.
+	 * @param nodeName String 
+	 */
+	public void setNodeName(final String nodeName) {
+		this.nodeName = nodeName;
 	}
 
 	/**

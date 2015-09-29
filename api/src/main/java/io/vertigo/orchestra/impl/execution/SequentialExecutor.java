@@ -48,7 +48,7 @@ final class SequentialExecutor implements Activeable {
 			public void run() {
 				executeToDo();
 			}
-		}, timerDelay, timerDelay);
+		}, timerDelay + timerDelay / 10, timerDelay);
 
 	}
 

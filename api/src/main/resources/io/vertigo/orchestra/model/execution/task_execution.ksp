@@ -6,6 +6,7 @@ create DtDefinition DT_O_TASK_EXECUTION {
 	field BEGIN_TIME   	{domain : DO_TIMESTAMP, label :"Date de début", notNull:"true",},
 	field END_TIME   	{domain : DO_TIMESTAMP, label :"Date de fin", notNull:"false",},
 	field ENGINE   	{domain : DO_CLASSE, label :"Implémentation effective de l'execution", notNull:"false",},
+	field NODE_NAME   	{domain : DO_LIBELLE, label :"Nom du noeud", notNull:"false",},
   
 },
 

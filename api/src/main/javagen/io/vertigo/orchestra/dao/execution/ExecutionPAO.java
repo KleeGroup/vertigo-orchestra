@@ -39,9 +39,11 @@ public final class ExecutionPAO {
 
 	/**
 	 * Execute la tache TK_RESERVE_TASKS_TO_LAUNCH.
+	 * @param nodeName String 
 	*/
-	public void reserveTasksToLaunch() {
+	public void reserveTasksToLaunch(final String nodeName) {
 		final Task task = createTaskBuilder("TK_RESERVE_TASKS_TO_LAUNCH")
+				.addValue("NODE_NAME", nodeName)
 				.build();
 		getTaskManager().execute(task);
 	}

@@ -3,6 +3,7 @@ package io.vertigo.orchestra.impl.execution;
 import java.util.Date;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
@@ -32,8 +33,17 @@ import io.vertigo.orchestra.planner.ProcessPlannerManager;
 @Transactional
 public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
-	private SequentialExecutor sequentialExecutor;
+	@Inject
+	@Named("nodeName")
+	private String nodeName;
+	@Inject
+	@Named("workersCount")
+	private Integer workersCount;
+	@Inject
+	@Named("executionPeriod")
+	private Integer executionPeriod;
 
+	private SequentialExecutor sequentialExecutor;
 	@Inject
 	private ProcessPlannerManager processPlannerManager;
 	@Inject
@@ -55,7 +65,11 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	/** {@inheritDoc} */
 	@Override
 	public void postStart(final ProcessExecutionManager processExecutionManager) {
-		sequentialExecutor = new SequentialExecutor(processExecutionManager, 3, 1 * 1000);
+		Assertion.checkNotNull(executionPeriod);
+		Assertion.checkNotNull(workersCount);
+		Assertion.checkArgNotEmpty(nodeName);
+		// ---
+		sequentialExecutor = new SequentialExecutor(processExecutionManager, workersCount, executionPeriod * 1000);
 		sequentialExecutor.start();
 
 	}
@@ -67,8 +81,8 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	/** {@inheritDoc} */
 	@Override
 	public DtList<OTaskExecution> getTasksToLaunch() {
-		executionPAO.reserveTasksToLaunch();
-		return taskExecutionDAO.getTasksToLaunch();
+		executionPAO.reserveTasksToLaunch(nodeName);
+		return taskExecutionDAO.getTasksToLaunch(nodeName);
 	}
 
 	/** {@inheritDoc} */

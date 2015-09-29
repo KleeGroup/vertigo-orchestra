@@ -7,9 +7,11 @@ create Task TK_GET_PROCESS_TO_EXECUTE {
         	select prp.*
         	from o_process_planification prp
         	where prp.PST_CD = 'RESERVED'
+        	and prp.NODE_NAME = #NODE_NAME#
         	
 			"
 	attribute DTC_O_PROCESS_PLANIFICATION	 	{domain : DO_DT_O_PROCESS_PLANIFICATION_DTC		notNull:"true" 	inOut :"out"}
+	attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
 }
 
 
@@ -17,13 +19,14 @@ create Task TK_RESERVE_PROCESS_TO_EXECUTE {
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update o_process_planification
-        	set PST_CD = 'RESERVED'
+        	set PST_CD = 'RESERVED', NODE_NAME = #NODE_NAME#
         	where PST_CD = 'WAITING'
         	 and expected_time > #LOWER_LIMIT#
         	 and expected_time < #UPPER_LIMIT#
 			"
 	 attribute LOWER_LIMIT	 	{domain : DO_TIMESTAMP 		notNull:"true" 	inOut :"in"}
 	 attribute UPPER_LIMIT	 	{domain : DO_TIMESTAMP 		notNull:"true" 	inOut :"in"}
+	 attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
 }
 
 create Task TK_GET_LAST_PLANIFICATION_BY_PRO_ID {
@@ -41,3 +44,12 @@ create Task TK_GET_LAST_PLANIFICATION_BY_PRO_ID {
 		attribute PRO_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 		attribute DT_O_PROCESS_PLANIFICATION	 	{domain : DO_DT_O_PROCESS_PLANIFICATION_DTO		notNull:"false" 	inOut :"out"}
 }
+
+
+
+
+
+
+
+
+

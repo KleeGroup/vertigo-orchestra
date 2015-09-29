@@ -17,6 +17,7 @@ public final class OProcessPlanification implements DtObject {
 	private Long prpId;
 	private java.util.Date expectedTime;
 	private String state;
+	private String nodeName;
 	private Long proId;
 	private String pstCd;
 	private io.vertigo.orchestra.domain.definition.OProcess processus;
@@ -77,6 +78,25 @@ public final class OProcessPlanification implements DtObject {
 	 */
 	public void setState(final String state) {
 		this.state = state;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Nom du noeud'. 
+	 * @return String nodeName 
+	 */
+	@Field(domain = "DO_LIBELLE", label = "Nom du noeud")
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Nom du noeud'.
+	 * @param nodeName String 
+	 */
+	public void setNodeName(final String nodeName) {
+		this.nodeName = nodeName;
 	}
 
 	/**

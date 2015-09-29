@@ -49,5 +49,17 @@ public final class OProcessDAO extends DAOBroker<OProcess, java.lang.Long> {
 				.getResult();
 	}
 
+	/**
+	 * Execute la tache TK_GET_PROCESSES.
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> dtcOProcess
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> getProcesses() {
+		final Task task = createTaskBuilder("TK_GET_PROCESSES")
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
 
 }

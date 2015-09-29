@@ -17,8 +17,10 @@ import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
 import io.vertigo.orchestra.impl.execution.OTaskManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerInitializer;
+import io.vertigo.orchestra.impl.monitoring.MonitoringServicesImpl;
 import io.vertigo.orchestra.impl.planner.ProcessPlannerManagerImpl;
 import io.vertigo.orchestra.impl.planner.ProcessPlannerManagerInitializer;
+import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
 /**
@@ -33,15 +35,25 @@ public final class OrchestraFeatures extends Features {
 
 	@Override
 	protected void setUp() {
+		final String period = "1";
+		final String nodeName = "NODE_TEST_1";
+
+		// @formatter:off
 		getModuleConfigBuilder()
 				.withNoAPI()
 				.withInheritance(Object.class)
 				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
 				.beginComponent(ProcessPlannerManager.class, ProcessPlannerManagerImpl.class)
-				.withInitializer(ProcessPlannerManagerInitializer.class)
+					.addParam("nodeName", nodeName)
+					.addParam("planningPeriod", period)// in seconds
+					.addParam("forecastDuration", "60")// in seconds
+					.withInitializer(ProcessPlannerManagerInitializer.class)
 				.endComponent()
 				.beginComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
-				.withInitializer(ProcessExecutionManagerInitializer.class)
+					.addParam("nodeName", nodeName)
+					.addParam("executionPeriod", period)// in seconds
+					.addParam("workersCount", "3")
+					.withInitializer(ProcessExecutionManagerInitializer.class)
 				.endComponent()
 				.addComponent(OTaskManager.class, OTaskManagerImpl.class)
 				//----DAO
@@ -56,6 +68,12 @@ public final class OrchestraFeatures extends Features {
 				.addComponent(PlanificationPAO.class)
 				//----Definitions
 				.addDefinitionResource("kpr", "io/vertigo/orchestra/execution.kpr")
-				.addDefinitionResource("classes", DtDefinitions.class.getName());
+				.addDefinitionResource("classes", DtDefinitions.class.getName())
+				//---Services
+				.addComponent(MonitoringServices.class, MonitoringServicesImpl.class);
+				//---WS
+//				/.addComponent(WSMonitoring.class);
+		// @formatter:on
+
 	}
 }

@@ -131,6 +131,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		EXPECTED_TIME,
 		/** Propriété 'Etat de la planification'. */
 		STATE,
+		/** Propriété 'Nom du noeud'. */
+		NODE_NAME,
 		/** Propriété 'Processus'. */
 		PRO_ID,
 		/** Propriété 'PlanificationState'. */
@@ -177,6 +179,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		END_TIME,
 		/** Propriété 'Implémentation effective de l'execution'. */
 		ENGINE,
+		/** Propriété 'Nom du noeud'. */
+		NODE_NAME,
 		/** Propriété 'Tache'. */
 		TSK_ID,
 		/** Propriété 'Processus'. */

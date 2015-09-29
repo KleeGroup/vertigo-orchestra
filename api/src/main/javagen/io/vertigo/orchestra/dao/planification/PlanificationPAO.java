@@ -41,11 +41,13 @@ public final class PlanificationPAO {
 	 * Execute la tache TK_RESERVE_PROCESS_TO_EXECUTE.
 	 * @param lowerLimit java.util.Date 
 	 * @param upperLimit java.util.Date 
+	 * @param nodeName String 
 	*/
-	public void reserveProcessToExecute(final java.util.Date lowerLimit, final java.util.Date upperLimit) {
+	public void reserveProcessToExecute(final java.util.Date lowerLimit, final java.util.Date upperLimit, final String nodeName) {
 		final Task task = createTaskBuilder("TK_RESERVE_PROCESS_TO_EXECUTE")
 				.addValue("LOWER_LIMIT", lowerLimit)
 				.addValue("UPPER_LIMIT", upperLimit)
+				.addValue("NODE_NAME", nodeName)
 				.build();
 		getTaskManager().execute(task);
 	}

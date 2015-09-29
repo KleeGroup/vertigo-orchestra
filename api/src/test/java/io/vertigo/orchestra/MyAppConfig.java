@@ -62,6 +62,8 @@ public final class MyAppConfig {
 				.addAspect(VTransactionAspect.class)
 //				.addPlugin(LuceneIndexPlugin.class)
 				.endModule()
+			//.beginModule(PersonaFeatures.class).withUserSession(TestUserSession.class).endModule()
+			//.beginModule(VegaFeatures.class).withEmbeddedServer(8080).endModule()
 			.beginModule(OrchestraFeatures.class).endModule();
 		// @formatter:on
 	}
@@ -71,6 +73,6 @@ public final class MyAppConfig {
 		return createAppConfigBuilder().build();
 	}
 
-	
+
 
 }

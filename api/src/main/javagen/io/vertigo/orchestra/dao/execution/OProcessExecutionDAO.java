@@ -51,5 +51,19 @@ public final class OProcessExecutionDAO extends DAOBroker<OProcessExecution, jav
 				.getResult();
 	}
 
+	/**
+	 * Execute la tache TK_GET_EXECUTIONS_BY_PRO_ID.
+	 * @param proId Long 
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OProcessExecution> dtcOProcessExecution
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OProcessExecution> getExecutionsByProId(final Long proId) {
+		final Task task = createTaskBuilder("TK_GET_EXECUTIONS_BY_PRO_ID")
+				.addValue("PRO_ID", proId)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
 
 }

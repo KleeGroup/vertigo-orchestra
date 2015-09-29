@@ -7,19 +7,24 @@ create Task TK_GET_TASKS_TO_LAUNCH {
         		tke.*
         	from o_task_execution tke
         	where tke.EST_CD = 'RESERVED'
+        	and tke.NODE_NAME = #NODE_NAME#
         	
 			"
 	attribute DTC_TASK_EXECUTION	 	{domain : DO_DT_O_TASK_EXECUTION_DTC 		notNull:"true" 	inOut :"out"}
+	attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
 },
 
 create Task TK_RESERVE_TASKS_TO_LAUNCH {
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update  o_task_execution 
-        	set EST_CD = 'RESERVED' 
+        	set EST_CD = 'RESERVED',
+        		NODE_NAME = #NODE_NAME#
         	where EST_CD = 'WAITING'
         	
 			"
+			
+		attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
 }
 
 

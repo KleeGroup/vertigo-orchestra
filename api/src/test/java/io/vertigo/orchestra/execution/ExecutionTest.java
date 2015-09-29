@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.junit.Assert;
 import org.junit.Test;
 
+import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.metamodel.TaskDefinitionBuilder;
@@ -19,6 +21,11 @@ import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.domain.execution.OProcessExecution;
+import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.monitoring.MonitoringServices;
+import io.vertigo.orchestra.planner.PlanificationState;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.util.ListBuilder;
 
@@ -28,7 +35,7 @@ import io.vertigo.util.ListBuilder;
  * @author mlaroche.
  * @version $Id$
  */
-public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
+public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 	@Inject
 	private VTransactionManager transactionManager;
@@ -40,6 +47,9 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	@Inject
 	private ProcessDefinitionManager processDefinitionManager;
 
+	@Inject
+	private MonitoringServices monitoringServices;
+
 	@Test
 	public void clean() {
 		// nothing
@@ -49,35 +59,59 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void dumbexecution() throws InterruptedException {
+	public void singleExecution() throws InterruptedException {
 
-		final ProcessDefinition processDefinitionWrapper = new ProcessDefinitionBuilder("TEST MANUEL")
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MANUEL")
 				.withManual()
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinitionWrapper);
+		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinitionWrapper.getProcess().getProId();
+		final Long proId = processDefinition.getProcess().getProId();
+		// We check the save is ok
+		Assert.assertNotNull(proId);
 
+		// We plan right now
 		processPlannerManager.plannProcessAt(proId, new Date());
-		Thread.sleep(1000 * 60);
 
+		// The task takes 10 secondes to run we wait 12 secondes to check the final states
+		Thread.sleep(1000 * 12);
+
+		final DtList<OProcessPlanification> processPlanifications = monitoringServices.getPlanificationsByProId(proId);
+		// --- We check that planification is ok
+		Assert.assertEquals(1, processPlanifications.size());
+		final OProcessPlanification processPlanification = processPlanifications.get(0);
+		Assert.assertEquals(PlanificationState.TRIGGERED.name(), processPlanification.getPstCd());
+		// We check executions
+		checkExecutions(proId, 0, 0, 1, 0);
 	}
 
 	/**
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void dumbRecurrentExecution() throws InterruptedException {
+	public void recurrentExecution() throws InterruptedException {
 
-		processDefinitionManager.createDefinition(new ProcessDefinitionBuilder("TEST RECURRENT")
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST RECURRENT")
 				.withRecurrence()
 				.withCron("*/15 * * * * ?")
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
-				.build());
+				.build();
 
-		Thread.sleep(1000 * 60);
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+		// We check the save is ok
+		Assert.assertNotNull(proId);
+
+		// Execution takes 10 secondes and it's schedule every 15 secondes
+		Thread.sleep(1000 * 20);
+
+		// --- We check the counts
+		// After 30 secondes there is 1 execution done and 1 execution running
+		checkExecutions(proId, 0, 1, 1, 0);
+
 	}
 
 	/**
@@ -94,16 +128,24 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 		processDefinitionManager.createDefinition(processDefinition);
 
 		final Long proId = processDefinition.getProcess().getProId();
+		// We check the save is ok
+		Assert.assertNotNull(proId);
 
+		// We plan right now
 		processPlannerManager.plannProcessAt(proId, new Date());
-		Thread.sleep(1000 * 60);
+
+		// Error is after 2 seconds
+		Thread.sleep(1000 * 5);
+		// --- We check the counts
+		// After 5 secondes there is 1 process in error
+		checkExecutions(proId, 0, 0, 0, 1);
 	}
 
 	/**
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void testTwoTasks() throws InterruptedException {
+	public void twoTask() throws InterruptedException {
 
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
 				.withManual()
@@ -117,14 +159,19 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 
 		processPlannerManager.plannProcessAt(proId, new Date());
 
-		Thread.sleep(1000 * 60);
+		// After 15 seconds the process is still running
+		Thread.sleep(1000 * 15);
+		checkExecutions(proId, 0, 1, 0, 0);
+		// After 25 second the process is done
+		Thread.sleep(1000 * 10);
+		checkExecutions(proId, 0, 0, 1, 0);
 	}
 
 	/**
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void testTwoTasksWithError() throws InterruptedException {
+	public void twoTasksWithError() throws InterruptedException {
 
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
 				.withManual()
@@ -138,7 +185,12 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 
 		processPlannerManager.plannProcessAt(proId, new Date());
 
-		Thread.sleep(1000 * 60);
+		// After 5 seconds the process is still running
+		Thread.sleep(1000 * 5);
+		checkExecutions(proId, 0, 1, 0, 0);
+		// After 15 second the process is in Error
+		Thread.sleep(1000 * 10);
+		checkExecutions(proId, 0, 0, 0, 1);
 	}
 
 	/**
@@ -201,7 +253,12 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 
 		processPlannerManager.plannProcessAt(proId, new Date());
 
-		Thread.sleep(1000 * 60);
+		// After 1 second the process is running
+		Thread.sleep(1000 * 1);
+		checkExecutions(proId, 0, 1, 0, 0);
+		// After 5 seconds the process is in error because there is an exception after 3 seconds
+		Thread.sleep(1000 * 4);
+		checkExecutions(proId, 0, 0, 0, 1);
 	}
 
 	/**
@@ -229,6 +286,28 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 	 * @throws InterruptedException
 	 */
 	@Test
+	public void testMultiExecution() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MULTI")
+				.withManual()
+				.withMultiExecution()
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+		processPlannerManager.plannProcessAt(proId, new Date());
+
+		Thread.sleep(1000 * 60);
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
 	public void recurrentExecutionWithMisfire() throws InterruptedException {
 
 		processDefinitionManager.createDefinition(new ProcessDefinitionBuilder("TEST RECURRENT")
@@ -238,6 +317,62 @@ public class ExecutionServicesTest extends AbstractOrchestraTestCaseJU4 {
 				.build());
 
 		Thread.sleep(1000 * 60);
+	}
+
+	private void checkExecutions(final Long proId, final int waitingCount, final int runningCount, final int doneCount, final int errorCount) {
+		int waitingExecutionCount = 0;
+		int runningExecutionCount = 0;
+		int doneExecutionCount = 0;
+		int errorExecutionCount = 0;
+
+		for (final OProcessExecution processExecution : monitoringServices.getExecutionsByProId(proId)) {
+			// --- We check the execution state of the process
+			final DtList<OTaskExecution> taskExecutions = monitoringServices.getTaskExecutionsByPreId(processExecution.getPreId());
+			int countTaskRunning = 0;
+			int countTaskError = 0;
+			for (final OTaskExecution taskExecution : taskExecutions) {
+				switch (ExecutionState.valueOf(taskExecution.getEstCd())) {
+					case WAITING:
+						break;
+					case RUNNING:
+						countTaskRunning++;
+						break;
+					case ERROR:
+						countTaskError++;
+					default:
+						break;
+				}
+			}
+			switch (ExecutionState.valueOf(processExecution.getEstCd())) {
+				case WAITING:
+					waitingExecutionCount++;
+					break;
+				case RUNNING:
+					runningExecutionCount++;
+					// --- We check that there is one and only one task RUNNING if the process is Running
+					Assert.assertEquals(1, countTaskRunning);
+					break;
+				case DONE:
+					doneExecutionCount++;
+					// --- We check that all tasks are done if a process is done
+					for (final OTaskExecution taskExecution : taskExecutions) {
+						Assert.assertEquals(ExecutionState.DONE.name(), taskExecution.getEstCd());
+					}
+					break;
+				case ERROR:
+					errorExecutionCount++;
+					// --- We check that there is one and only one task is ERROR
+					Assert.assertEquals(1, countTaskError);
+					break;
+				default:
+					break;
+			}
+		}
+		// --- We check the counts
+		Assert.assertEquals(waitingCount, waitingExecutionCount);
+		Assert.assertEquals(runningCount, runningExecutionCount);
+		Assert.assertEquals(doneCount, doneExecutionCount);
+		Assert.assertEquals(errorCount, errorExecutionCount);
 	}
 
 	/**

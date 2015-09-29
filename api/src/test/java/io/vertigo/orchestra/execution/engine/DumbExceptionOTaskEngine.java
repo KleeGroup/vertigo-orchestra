@@ -15,6 +15,11 @@ public class DumbExceptionOTaskEngine implements OTaskEngine {
 	@Override
 	public TaskExecutionWorkspace execute(final TaskExecutionWorkspace workspace) {
 		workspace.setValue("currentObject", "An object");
+		try {
+			Thread.sleep(3 * 1000);
+		} catch (final InterruptedException e) {
+			// we do nothing
+		}
 		Integer.valueOf("a");
 		return workspace;
 	}

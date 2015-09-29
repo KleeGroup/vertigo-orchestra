@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  24 sept. 2015  11:12:31                     
+--   Date de création :  29 sept. 2015  10:44:17                     
 -- ============================================================
 
 -- ============================================================
@@ -190,6 +190,7 @@ create table O_PROCESS_PLANIFICATION
     PRP_ID      	 NUMERIC     	not null,
     EXPECTED_TIME	 TIMESTAMP   	,
     STATE       	 VARCHAR(20) 	,
+    NODE_NAME   	 VARCHAR(100)	,
     PRO_ID      	 NUMERIC     	,
     PST_CD      	 VARCHAR(20) 	,
     constraint PK_O_PROCESS_PLANIFICATION primary key (PRP_ID)
@@ -203,6 +204,9 @@ comment on column O_PROCESS_PLANIFICATION.EXPECTED_TIME is
 
 comment on column O_PROCESS_PLANIFICATION.STATE is
 'Etat de la planification';
+
+comment on column O_PROCESS_PLANIFICATION.NODE_NAME is
+'Nom du noeud';
 
 comment on column O_PROCESS_PLANIFICATION.PRO_ID is
 'Processus';
@@ -270,6 +274,7 @@ create table O_TASK_EXECUTION
     BEGIN_TIME  	 TIMESTAMP   	not null,
     END_TIME    	 TIMESTAMP   	,
     ENGINE      	 VARCHAR(200)	,
+    NODE_NAME   	 VARCHAR(100)	,
     TSK_ID      	 NUMERIC     	,
     PRE_ID      	 NUMERIC     	,
     EST_CD      	 VARCHAR(20) 	,
@@ -287,6 +292,9 @@ comment on column O_TASK_EXECUTION.END_TIME is
 
 comment on column O_TASK_EXECUTION.ENGINE is
 'Implémentation effective de l''execution';
+
+comment on column O_TASK_EXECUTION.NODE_NAME is
+'Nom du noeud';
 
 comment on column O_TASK_EXECUTION.TSK_ID is
 'Tache';

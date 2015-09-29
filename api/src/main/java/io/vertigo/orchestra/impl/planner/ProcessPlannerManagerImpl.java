@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
@@ -28,8 +29,17 @@ import io.vertigo.orchestra.planner.ProcessPlannerManager;
  */
 @Transactional
 public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
-	private final long timerDelay = 1; // in secondes
-	private final long forecastDuration = 60; // in seconds
+
+	@Inject
+	@Named("nodeName")
+	private String nodeName;
+	@Inject
+	@Named("planningPeriod")
+	private Integer planningPeriod;
+	@Inject
+	@Named("forecastDuration")
+	private Integer forecastDuration;
+
 	private ProcessScheduler processScheduler;
 
 	@Inject
@@ -47,7 +57,11 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 	/** {@inheritDoc} */
 	@Override
 	public void postStart(final ProcessPlannerManager processPlannerManager) {
-		processScheduler = new ProcessScheduler(processPlannerManager, timerDelay);
+		Assertion.checkNotNull(planningPeriod);
+		Assertion.checkNotNull(forecastDuration);
+		Assertion.checkArgNotEmpty(nodeName);
+		// ---
+		processScheduler = new ProcessScheduler(processPlannerManager, planningPeriod);
 		processScheduler.start();
 
 	}
@@ -84,13 +98,13 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 	@Override
 	public DtList<OProcessPlanification> getProcessToExecute() {
 		final GregorianCalendar lowerLimit = new GregorianCalendar(Locale.FRANCE);
-		lowerLimit.add(Calendar.SECOND, -((int) timerDelay / 2 + 1));
+		lowerLimit.add(Calendar.SECOND, -(planningPeriod / 2 + 1));
 
 		final GregorianCalendar upperLimit = new GregorianCalendar(Locale.FRANCE);
-		upperLimit.add(Calendar.SECOND, ((int) timerDelay / 2));
+		upperLimit.add(Calendar.SECOND, (planningPeriod / 2));
 
-		planificationPAO.reserveProcessToExecute(lowerLimit.getTime(), upperLimit.getTime());
-		return processPlanificationDAO.getProcessToExecute();
+		planificationPAO.reserveProcessToExecute(lowerLimit.getTime(), upperLimit.getTime(), nodeName);
+		return processPlanificationDAO.getProcessToExecute(nodeName);
 	}
 
 	/** {@inheritDoc} */
@@ -131,7 +145,7 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 			final CronExpression cronExpression = new CronExpression(process.getCronExpression());
 
 			if (!lastPlanificationOption.isDefined()) {
-				return Option.<Date> some(new Date(cronExpression.getTimeAfter(new Date()).getTime() + timerDelay / 2 * 1000)); // Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
+				return Option.<Date> some(new Date(cronExpression.getTimeAfter(new Date()).getTime() + planningPeriod / 2 * 1000)); // Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
 			} else {
 				final OProcessPlanification lastPlanification = lastPlanificationOption.get();
 				final Date nextPotentialPlainification = cronExpression.getTimeAfter(lastPlanification.getExpectedTime());

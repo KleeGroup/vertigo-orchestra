@@ -7,3 +7,6 @@ services/execution/taskExecutionDAO.ksp
 services/execution/processExecutionDAO.ksp
 
 services/planification/processPlanificationDAO.ksp
+
+
+services/monitoring/monitoringDAO.ksp

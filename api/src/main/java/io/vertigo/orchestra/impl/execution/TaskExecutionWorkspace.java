@@ -39,6 +39,10 @@ public final class TaskExecutionWorkspace {
 		jsonValue.addProperty(key, value);
 	}
 
+	public void removeKey(final String key) {
+		jsonValue.remove(key);
+	}
+
 	public String getStringForStorage() {
 		return jsonValue.toString();
 	}

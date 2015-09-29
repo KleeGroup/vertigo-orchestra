@@ -39,10 +39,26 @@ public final class OTaskExecutionDAO extends DAOBroker<OTaskExecution, java.lang
 
 	/**
 	 * Execute la tache TK_GET_TASKS_TO_LAUNCH.
+	 * @param nodeName String 
 	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OTaskExecution> dtcTaskExecution
 	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OTaskExecution> getTasksToLaunch() {
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OTaskExecution> getTasksToLaunch(final String nodeName) {
 		final Task task = createTaskBuilder("TK_GET_TASKS_TO_LAUNCH")
+				.addValue("NODE_NAME", nodeName)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
+	 * Execute la tache TK_GET_TASK_EXECUTIONS_BY_PRE_ID.
+	 * @param preId Long 
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OTaskExecution> dtcOTaskExecution
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OTaskExecution> getTaskExecutionsByPreId(final Long preId) {
+		final Task task = createTaskBuilder("TK_GET_TASK_EXECUTIONS_BY_PRE_ID")
+				.addValue("PRE_ID", preId)
 				.build();
 		return getTaskManager()
 				.execute(task)
