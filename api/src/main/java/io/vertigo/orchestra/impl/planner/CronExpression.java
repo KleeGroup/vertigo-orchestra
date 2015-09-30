@@ -249,15 +249,10 @@ public final class CronExpression {
 		}
 
 		public int getLastDayOfMonth(final int year) {
-			switch (this) {
-				case FEB:
-					if (isLeapYear(year)) {
-						return 29;
-					}
-				default:
-					return maxDay;
+			if (this == FEB && isLeapYear(year)) {
+				return 29;
 			}
-
+			return maxDay;
 		}
 	}
 
@@ -371,30 +366,6 @@ public final class CronExpression {
 	@Override
 	public String toString() {
 		return cronExpression;
-	}
-
-	/**
-	 * Indicates whether the specified cron expression can be parsed into a
-	 * valid cron expression
-	 *
-	 * @param cronExpression the expression to evaluate
-	 * @return a boolean indicating whether the given expression is a valid cron
-	 *         expression
-	 */
-	public static boolean isValidExpression(final String cronExpression) {
-
-		try {
-			new CronExpression(cronExpression);
-		} catch (final ParseException pe) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public static void validateExpression(final String cronExpression) throws ParseException {
-
-		new CronExpression(cronExpression);
 	}
 
 	/**
@@ -776,14 +747,13 @@ public final class CronExpression {
 					addToSet(val, end, v3, type);
 					i = vs.pos;
 					return i;
-				} else {
-					addToSet(val, end, v2, type);
-					return i;
-				}
-			} else {
-				addToSet(val, end, 1, type);
+				} 
+				addToSet(val, end, v2, type);
 				return i;
-			}
+				
+			} 
+			addToSet(val, end, 1, type);
+			return i;
 		}
 
 		if (c == '/') {
@@ -802,9 +772,8 @@ public final class CronExpression {
 				addToSet(val, end, v3, type);
 				i = vs.pos;
 				return i;
-			} else {
-				throw new ParseException("Unexpected character '" + c + "' after '/'", i);
-			}
+			} 
+			throw new ParseException("Unexpected character '" + c + "' after '/'", i);
 		}
 
 		addToSet(val, end, 0, type);
@@ -854,8 +823,7 @@ public final class CronExpression {
 				.toString();
 	}
 
-	private String getExpressionSetSummary(final java.util.Set<Integer> set) {
-
+	private static String getExpressionSetSummary(final java.util.Set<Integer> set) {
 		if (set.contains(NO_SPEC)) {
 			return "?";
 		}
@@ -880,25 +848,26 @@ public final class CronExpression {
 		return buf.toString();
 	}
 
-	private int skipWhiteSpace(int i, final String s) {
-		for (; i < s.length() && (s.charAt(i) == ' ' || s.charAt(i) == '\t'); i++) {
-			;
+	private static int skipWhiteSpace(final int i, final String s) {
+		int j =i;
+		for (; j < s.length() && (s.charAt(j) == ' ' || s.charAt(j) == '\t'); j++) {
+			//
 		}
 
-		return i;
+		return j;
 	}
 
-	private int findNextWhiteSpace(int i, final String s) {
-		for (; i < s.length() && (s.charAt(i) != ' ' || s.charAt(i) != '\t'); i++) {
-			;
+	private static int findNextWhiteSpace(final int i, final String s) {
+		int j =i;
+		for (; j < s.length() && (s.charAt(j) != ' ' || s.charAt(j) != '\t'); j++) {
+			//
 		}
-
-		return i;
+		return j;
 	}
 
-	private void addToSet(final int val, final int end, int incr, final int type)
-			throws ParseException {
+	private void addToSet(final int val, final int end, final int incr, final int type) throws ParseException {
 
+		int incr2 = incr;
 		final TreeSet<Integer> set = getSet(type);
 
 		if (type == SECOND || type == MINUTE) {
@@ -931,7 +900,7 @@ public final class CronExpression {
 			}
 		}
 
-		if ((incr == 0 || incr == -1) && val != ALL_SPEC_INT) {
+		if ((incr2 == 0 || incr2 == -1) && val != ALL_SPEC_INT) {
 			if (val != -1) {
 				set.add(val);
 			} else {
@@ -944,8 +913,8 @@ public final class CronExpression {
 		int startAt = val;
 		int stopAt = end;
 
-		if (val == ALL_SPEC_INT && incr <= 0) {
-			incr = 1;
+		if (val == ALL_SPEC_INT && incr2 <= 0) {
+			incr2 = 1;
 			set.add(ALL_SPEC); // put in a marker, but also fill values
 		}
 
@@ -1025,7 +994,7 @@ public final class CronExpression {
 			stopAt += max;
 		}
 
-		for (int i = startAt; i <= stopAt; i += incr) {
+		for (int i = startAt; i <= stopAt; i += incr2) {
 			if (max == -1) {
 				// ie: there's no max to overflow over
 				set.add(i);
@@ -1064,25 +1033,26 @@ public final class CronExpression {
 		}
 	}
 
-	private ValueSet getValue(final int v, final String s, int i) {
-		char c = s.charAt(i);
+	private static ValueSet getValue(final int v, final String s, int i) {
+		int j = i;
+		char c = s.charAt(j);
 		final StringBuilder s1 = new StringBuilder(String.valueOf(v));
 		while (c >= '0' && c <= '9') {
 			s1.append(c);
-			i++;
-			if (i >= s.length()) {
+			j++;
+			if (j >= s.length()) {
 				break;
 			}
-			c = s.charAt(i);
+			c = s.charAt(j);
 		}
 		final ValueSet val = new ValueSet();
 
-		val.pos = (i < s.length()) ? i : i + 1;
+		val.pos = (j < s.length()) ? j : j + 1;
 		val.value = Integer.parseInt(s1.toString());
 		return val;
 	}
 
-	private int getNumericValue(final String s, final int i) {
+	private static int getNumericValue(final String s, final int i) {
 		final int endOfVal = findNextWhiteSpace(i, s);
 		final String val = s.substring(i, endOfVal);
 		return Integer.parseInt(val);
@@ -1101,9 +1071,8 @@ public final class CronExpression {
 
 		// move ahead one second, since we're computing the time *after* the
 		// given time
-		afterTime = new Date(afterTime.getTime() + 1000);
 		// CronTrigger does not deal with milliseconds
-		cl.setTime(afterTime);
+		cl.setTime(new Date(afterTime.getTime() + 1000));
 		cl.set(Calendar.MILLISECOND, 0);
 
 		boolean gotOne = false;
@@ -1503,7 +1472,7 @@ public final class CronExpression {
 	 * @param cal the calendar to operate on
 	 * @param hour the hour to set
 	 */
-	private void setCalendarHour(final Calendar cal, final int hour) {
+	private static void setCalendarHour(final Calendar cal, final int hour) {
 		cal.set(java.util.Calendar.HOUR_OF_DAY, hour);
 		if (cal.get(java.util.Calendar.HOUR_OF_DAY) != hour && hour != 24) {
 			cal.set(java.util.Calendar.HOUR_OF_DAY, hour + 1);
