@@ -5,6 +5,7 @@ create DtDefinition DT_O_PROCESS_PLANIFICATION {
 	key PRP_ID	{domain : DO_IDENTIFIANT, label :"Id Planification", notNull:"true",},
 	field EXPECTED_TIME   	{domain : DO_TIMESTAMP, label :"Date d'execution prévue", notNull:"false",},
 	field STATE   	{domain : DO_CODE_IDENTIFIANT, label :"Etat de la planification", notNull:"false",},
+	field INITIAL_PARAMS	{domain : DO_JSON_TEXT, label :"Paramètres initiaux sous forme de JSON ", notNull:"false",},
 	field NODE_NAME   	{domain : DO_LIBELLE, label :"Nom du noeud", notNull:"false",},
 	
   

@@ -42,7 +42,8 @@ final class ProcessScheduler implements Activeable {
 
 	@Override
 	public void stop() {
-		// shutdown >>>>
+		planTimer.cancel();
+		planTimer.purge();
 	}
 
 }

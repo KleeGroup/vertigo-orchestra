@@ -7,6 +7,7 @@ import javax.inject.Named;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
+import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
@@ -23,6 +24,7 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
+import io.vertigo.util.StringUtil;
 
 /**
  * TODO : Description de la classe.
@@ -31,7 +33,7 @@ import io.vertigo.orchestra.planner.ProcessPlannerManager;
  * @version $Id$
  */
 @Transactional
-public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
+public class ProcessExecutionManagerImpl implements ProcessExecutionManager, Activeable {
 
 	@Inject
 	@Named("nodeName")
@@ -59,7 +61,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	private ExecutionPAO executionPAO;
 
 	//--------------------------------------------------------------------------------------------------
-	//--- Initialisation
+	//--- Activation
 	//--------------------------------------------------------------------------------------------------
 
 	/** {@inheritDoc} */
@@ -71,6 +73,19 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 		// ---
 		sequentialExecutor = new SequentialExecutor(processExecutionManager, workersCount, executionPeriod * 1000);
 		sequentialExecutor.start();
+
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void start() {
+		// Until fix we use an initializer for the start procedure
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {
+		sequentialExecutor.stop();
 
 	}
 
@@ -92,7 +107,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 			if (canExecute(processPlanification)) {
 				final OProcessExecution processExecution = initProcessExecution(processPlanification);
 				processPlannerManager.triggerPlanification(processPlanification);
-				initFirstTaskExecution(processExecution);
+				initFirstTaskExecution(processExecution, processPlanification);
 			} else {
 				processPlannerManager.misfirePlanification(processPlanification);
 			}
@@ -176,7 +191,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 		return newProcessExecution;
 	}
 
-	private void initFirstTaskExecution(final OProcessExecution processExecution) {
+	private void initFirstTaskExecution(final OProcessExecution processExecution, final OProcessPlanification processPlanification) {
 		Assertion.checkNotNull(processExecution.getProId());
 		Assertion.checkNotNull(processExecution.getPreId());
 		// ---
@@ -185,8 +200,16 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 		final OTaskExecution firstTaskExecution = initTaskExecutionWithTask(firstTask, processExecution.getPreId());
 		taskExecutionDAO.save(firstTaskExecution);
 
-		// We take the process initial params for the firstWorkspace
-		saveTaskExecutionWorkspace(firstTaskExecution.getTkeId(), new TaskExecutionWorkspace(processExecution.getProcess().getInitialParams()), true);
+		final TaskExecutionWorkspace initialWorkspace;
+		if (!StringUtil.isEmpty(processPlanification.getInitialParams())) {
+			// If Plannification specifies initialParams we take them
+			initialWorkspace = new TaskExecutionWorkspace(processPlanification.getInitialParams());
+		} else {
+			// Otherwise we take the process initial params for the firstWorkspace
+			initialWorkspace = new TaskExecutionWorkspace(processExecution.getProcess().getInitialParams());
+
+		}
+		saveTaskExecutionWorkspace(firstTaskExecution.getTkeId(), initialWorkspace, true);
 
 	}
 

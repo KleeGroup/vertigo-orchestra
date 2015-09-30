@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  29 sept. 2015  10:44:17                     
+--   Date de création :  29 sept. 2015  17:32:41                     
 -- ============================================================
 
 -- ============================================================
@@ -190,6 +190,7 @@ create table O_PROCESS_PLANIFICATION
     PRP_ID      	 NUMERIC     	not null,
     EXPECTED_TIME	 TIMESTAMP   	,
     STATE       	 VARCHAR(20) 	,
+    INITIAL_PARAMS	 TEXT        	,
     NODE_NAME   	 VARCHAR(100)	,
     PRO_ID      	 NUMERIC     	,
     PST_CD      	 VARCHAR(20) 	,
@@ -204,6 +205,9 @@ comment on column O_PROCESS_PLANIFICATION.EXPECTED_TIME is
 
 comment on column O_PROCESS_PLANIFICATION.STATE is
 'Etat de la planification';
+
+comment on column O_PROCESS_PLANIFICATION.INITIAL_PARAMS is
+'Paramètres initiaux sous forme de JSON';
 
 comment on column O_PROCESS_PLANIFICATION.NODE_NAME is
 'Nom du noeud';

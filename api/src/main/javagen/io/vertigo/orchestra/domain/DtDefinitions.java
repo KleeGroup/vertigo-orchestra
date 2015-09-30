@@ -131,6 +131,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		EXPECTED_TIME,
 		/** Propriété 'Etat de la planification'. */
 		STATE,
+		/** Propriété 'Paramètres initiaux sous forme de JSON'. */
+		INITIAL_PARAMS,
 		/** Propriété 'Nom du noeud'. */
 		NODE_NAME,
 		/** Propriété 'Processus'. */

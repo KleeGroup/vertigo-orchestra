@@ -6,6 +6,7 @@ import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
+import io.vertigo.orchestra.dao.execution.OExecutionWorkspaceDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OTaskExecutionDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
@@ -31,6 +32,9 @@ public class MonitoringServicesImpl implements MonitoringServices {
 	private OProcessExecutionDAO processExecutionDAO;
 	@Inject
 	private OTaskExecutionDAO taskExecutionDAO;
+
+	@Inject
+	private OExecutionWorkspaceDAO oExecutionWorkspaceDAO;
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;
 
@@ -67,7 +71,9 @@ public class MonitoringServicesImpl implements MonitoringServices {
 	/** {@inheritDoc} */
 	@Override
 	public OExecutionWorkspace geExecutionWorkspaceByTkeId(final Long tkeId, final boolean isIn) {
-		return null;
+		Assertion.checkNotNull(tkeId);
+		// ---
+		return oExecutionWorkspaceDAO.getExecutionWorkspace(tkeId, isIn);
 	}
 
 }

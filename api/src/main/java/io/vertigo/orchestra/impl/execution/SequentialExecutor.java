@@ -55,7 +55,8 @@ final class SequentialExecutor implements Activeable {
 	/** {@inheritDoc} */
 	@Override
 	public void stop() {
-		// shutdown >>>>
+		planTimer.cancel();
+		planTimer.purge();
 	}
 
 	private void executeToDo() {

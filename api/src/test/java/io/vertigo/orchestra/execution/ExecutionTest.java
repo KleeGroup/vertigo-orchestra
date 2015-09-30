@@ -21,9 +21,11 @@ import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.domain.execution.OExecutionWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.impl.execution.TaskExecutionWorkspace;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.planner.PlanificationState;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
@@ -105,11 +107,18 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		// We check the save is ok
 		Assert.assertNotNull(proId);
 
-		// Execution takes 10 secondes and it's schedule every 15 secondes
-		Thread.sleep(1000 * 20);
+		Thread.sleep(1000 * 1);
+		// --- We get the first planification
+		final DtList<OProcessPlanification> processPlanifications = monitoringServices.getPlanificationsByProId(proId);
+		Assert.assertEquals(1, processPlanifications.size());
+		final OProcessPlanification processPlanification = processPlanifications.get(0);
 
+		// We wait the planif
+		Thread.sleep(processPlanification.getExpectedTime().getTime() - System.currentTimeMillis());
+
+		// After 20 secondes there is 1 execution done and 1 execution running (for 5 secondes, half execution time)
+		Thread.sleep(1000 * 20);
 		// --- We check the counts
-		// After 30 secondes there is 1 execution done and 1 execution running
 		checkExecutions(proId, 0, 1, 1, 0);
 
 	}
@@ -211,19 +220,24 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		processPlannerManager.plannProcessAt(proId, new Date());
 
-		Thread.sleep(1000 * 60);
+		// We check 3 secondes to be sure that execution is running
+		Thread.sleep(1000 * 3);
+		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
+
+		final OExecutionWorkspace oExecutionWorkspace = monitoringServices.geExecutionWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
+		Assert.assertTrue(oExecutionWorkspace.getWorkspace().contains("filePath"));
+
 	}
 
 	/**
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void testTwoTasksWithInitialParams() throws InterruptedException {
+	public void testWithInitialParamsParseError() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS WITH PARAMS")
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
 				.withManual()
-				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.withInitialParams("{testError}")
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
 				.build();
 
@@ -233,7 +247,38 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		processPlannerManager.plannProcessAt(proId, new Date());
 
-		Thread.sleep(1000 * 60);
+		// We check 3 secondes to be sure that execution is running
+		Thread.sleep(1000 * 3);
+		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
+
+		final OExecutionWorkspace oExecutionWorkspace = monitoringServices.geExecutionWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
+		Assert.assertTrue(oExecutionWorkspace.getWorkspace().contains(TaskExecutionWorkspace.PARSING_ERROR_KEY));
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testWithInitialParamsInPlanification() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+				.withManual()
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date(), "{\"filePath\" : \"tata/tutu\"}");
+
+		// We check 3 secondes to be sure that execution is running
+		Thread.sleep(1000 * 3);
+		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
+
+		final OExecutionWorkspace oExecutionWorkspace = monitoringServices.geExecutionWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
+		Assert.assertTrue(oExecutionWorkspace.getWorkspace().contains("tata/tutu"));
 	}
 
 	/**
@@ -265,7 +310,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void testMultiExecutionMisfire() throws InterruptedException {
+	public void testMonoExecutionMisfire() throws InterruptedException {
 
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MULTI MISFIRE")
 				.withManual()
@@ -279,7 +324,12 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		processPlannerManager.plannProcessAt(proId, new Date());
 		processPlannerManager.plannProcessAt(proId, new Date());
 
-		Thread.sleep(1000 * 60);
+		// We wait 3 seconds
+		Thread.sleep(1000 * 3);
+		// We should have 1 planification triggered and 1 misfired
+		checkPlanifications(proId, 0, 1, 1);
+		// We should have one execution running
+		checkExecutions(proId, 0, 1, 0, 0);
 	}
 
 	/**
@@ -301,22 +351,39 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		processPlannerManager.plannProcessAt(proId, new Date());
 		processPlannerManager.plannProcessAt(proId, new Date());
 
-		Thread.sleep(1000 * 60);
+		// We wait 3 seconds
+		Thread.sleep(1000 * 3);
+		// We should have 2 planifications triggered
+		checkPlanifications(proId, 0, 2, 0);
+		// We should have two executions running
+		checkExecutions(proId, 0, 2, 0, 0);
 	}
 
-	/**
-	 * @throws InterruptedException
-	 */
-	@Test
-	public void recurrentExecutionWithMisfire() throws InterruptedException {
+	private void checkPlanifications(final Long proId, final int waitingCount, final int triggeredCount, final int misfiredCount) {
+		int waitingPlanificationCount = 0;
+		int triggeredPlanificationCount = 0;
+		int misfiredPlanificationCount = 0;
 
-		processDefinitionManager.createDefinition(new ProcessDefinitionBuilder("TEST RECURRENT")
-				.withRecurrence()
-				.withCron("*/6 * * * * ?")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
-				.build());
+		for (final OProcessPlanification processPlanification : monitoringServices.getPlanificationsByProId(proId)) {
 
-		Thread.sleep(1000 * 60);
+			switch (PlanificationState.valueOf(processPlanification.getPstCd())) {
+				case WAITING:
+					waitingPlanificationCount++;
+					break;
+				case TRIGGERED:
+					triggeredPlanificationCount++;
+					break;
+				case MISFIRED:
+					misfiredPlanificationCount++;
+					break;
+				default:
+					break;
+			}
+		}
+		// --- We check the counts
+		Assert.assertEquals(waitingCount, waitingPlanificationCount);
+		Assert.assertEquals(triggeredCount, triggeredPlanificationCount);
+		Assert.assertEquals(misfiredCount, misfiredPlanificationCount);
 	}
 
 	private void checkExecutions(final Long proId, final int waitingCount, final int runningCount, final int doneCount, final int errorCount) {

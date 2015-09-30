@@ -17,6 +17,7 @@ public final class OProcessPlanification implements DtObject {
 	private Long prpId;
 	private java.util.Date expectedTime;
 	private String state;
+	private String initialParams;
 	private String nodeName;
 	private Long proId;
 	private String pstCd;
@@ -78,6 +79,25 @@ public final class OProcessPlanification implements DtObject {
 	 */
 	public void setState(final String state) {
 		this.state = state;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'. 
+	 * @return String initialParams 
+	 */
+	@Field(domain = "DO_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
+	public String getInitialParams() {
+		return initialParams;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Paramètres initiaux sous forme de JSON'.
+	 * @param initialParams String 
+	 */
+	public void setInitialParams(final String initialParams) {
+		this.initialParams = initialParams;
 	}
 
 	/**

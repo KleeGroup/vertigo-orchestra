@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
+import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
@@ -28,7 +29,7 @@ import io.vertigo.orchestra.planner.ProcessPlannerManager;
  * @version $Id$
  */
 @Transactional
-public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
+public class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activeable {
 
 	@Inject
 	@Named("nodeName")
@@ -51,7 +52,7 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 	private PlanificationPAO planificationPAO;
 
 	//--------------------------------------------------------------------------------------------------
-	//--- Initialisation
+	//--- Activation
 	//--------------------------------------------------------------------------------------------------
 
 	/** {@inheritDoc} */
@@ -66,19 +67,41 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public void start() {
+		// Until fix we use an initializer for the start procedure
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void stop() {
+		processScheduler.stop();
+
+	}
+
 	//--------------------------------------------------------------------------------------------------
 	//--- Public
 	//--------------------------------------------------------------------------------------------------
 
 	/** {@inheritDoc} */
 	@Override
-	public void plannProcessAt(final Long proId, final Date planifiedTime) {
-
+	public void plannProcessAt(final Long proId, final Date planifiedTime, final String initialParams) {
+		Assertion.checkNotNull(proId);
+		// ---
 		final OProcessPlanification processPlanification = new OProcessPlanification();
 		processPlanification.setProId(proId);
 		processPlanification.setExpectedTime(planifiedTime);
 		processPlanification.setPstCd(PlanificationState.WAITING.name());
+		processPlanification.setInitialParams(initialParams);
 		processPlanificationDAO.save(processPlanification);
+
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void plannProcessAt(final Long proId, final Date planifiedTime) {
+		plannProcessAt(proId, planifiedTime, null);
 
 	}
 

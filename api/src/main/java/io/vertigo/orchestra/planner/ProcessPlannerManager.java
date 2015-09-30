@@ -13,6 +13,8 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
  */
 public interface ProcessPlannerManager extends PostActiveable<ProcessPlannerManager> {
 
+	void plannProcessAt(final Long proId, final Date planifiedTime, final String initialParams);
+
 	void plannProcessAt(final Long proId, final Date planifiedTime);
 
 	void plannRecurrentProcesses();

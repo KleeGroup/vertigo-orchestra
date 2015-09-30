@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.impl.execution;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 /**
@@ -12,15 +13,23 @@ import com.google.gson.JsonParser;
  */
 public final class TaskExecutionWorkspace {
 
-	private static final String STATUS_KEY = "status";
+	public static final String STATUS_KEY = "status";
+	public static final String PARSING_ERROR_KEY = "parsingError";
 
 	private final JsonObject jsonValue;
 
 	TaskExecutionWorkspace(final String stringStoredValue) {
+		JsonObject tempJsonValue = new JsonObject();
 		if (stringStoredValue != null) {
-			jsonValue = new JsonParser().parse(stringStoredValue).getAsJsonObject();
+			try {
+				tempJsonValue = new JsonParser().parse(stringStoredValue).getAsJsonObject();
+			} catch (final JsonParseException e) {
+				tempJsonValue.addProperty(PARSING_ERROR_KEY, e.getMessage());
+			} finally {
+				jsonValue = tempJsonValue;
+			}
 		} else {
-			jsonValue = new JsonObject();
+			jsonValue = tempJsonValue;
 		}
 	}
 
