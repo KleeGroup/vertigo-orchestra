@@ -3,7 +3,6 @@ package io.vertigo.orchestra.impl.planner;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.SortedSet;
 import java.util.StringTokenizer;
@@ -398,11 +397,9 @@ public final class CronExpression {
 
 	private void buildExpression(final String expression) throws ParseException {
 		try {
-
 			int exprOn = SECOND;
 
-			final StringTokenizer exprsTok = new StringTokenizer(expression, " \t",
-					false);
+			final StringTokenizer exprsTok = new StringTokenizer(expression, " \t", false);
 
 			while (exprsTok.hasMoreTokens() && exprOn <= YEAR) {
 				final String expr = exprsTok.nextToken().trim();
@@ -429,8 +426,7 @@ public final class CronExpression {
 			}
 
 			if (exprOn <= DAY_OF_WEEK) {
-				throw new ParseException("Unexpected end of expression.",
-						expression.length());
+				throw new ParseException("Unexpected end of expression.", expression.length());
 			}
 
 			if (exprOn <= YEAR) {
@@ -458,9 +454,7 @@ public final class CronExpression {
 		}
 	}
 
-	private int storeExpressionVals(final int pos, final String s, final int type)
-			throws ParseException {
-
+	private int storeExpressionVals(final int pos, final String s, final int type) throws ParseException {
 		int incr = 0;
 		int i = skipWhiteSpace(pos, s);
 		if (i >= s.length()) {
@@ -650,9 +644,7 @@ public final class CronExpression {
 		return i;
 	}
 
-	private int checkNext(final int pos, final String s, final int val, final int type)
-			throws ParseException {
-
+	private int checkNext(final int pos, final String s, final int val, final int type) throws ParseException {
 		int end = -1;
 		int i = pos;
 
@@ -787,39 +779,17 @@ public final class CronExpression {
 
 	public String getExpressionSummary() {
 		return new StringBuilder()
-				.append("seconds: ")
-				.append(getExpressionSetSummary(seconds))
-				.append("\n")
-				.append("minutes: ")
-				.append(getExpressionSetSummary(minutes))
-				.append("\n")
-				.append("hours: ")
-				.append(getExpressionSetSummary(hours))
-				.append("\n")
-				.append("daysOfMonth: ")
-				.append(getExpressionSetSummary(daysOfMonth))
-				.append("\n")
-				.append("months: ")
-				.append(getExpressionSetSummary(months))
-				.append("\n")
-				.append("daysOfWeek: ")
-				.append(getExpressionSetSummary(daysOfWeek))
-				.append("\n")
-				.append("lastdayOfWeek: ")
-				.append(lastdayOfWeek)
-				.append("\n")
-				.append("nearestWeekday: ")
-				.append(nearestWeekday)
-				.append("\n")
-				.append("NthDayOfWeek: ")
-				.append(nthdayOfWeek)
-				.append("\n")
-				.append("lastdayOfMonth: ")
-				.append(lastdayOfMonth)
-				.append("\n")
-				.append("years: ")
-				.append(getExpressionSetSummary(years))
-				.append("\n")
+				.append("seconds: ").append(getExpressionSetSummary(seconds)).append("\n")
+				.append("minutes: ").append(getExpressionSetSummary(minutes)).append("\n")
+				.append("hours: ").append(getExpressionSetSummary(hours)).append("\n")
+				.append("daysOfMonth: ").append(getExpressionSetSummary(daysOfMonth)).append("\n")
+				.append("months: ").append(getExpressionSetSummary(months)).append("\n")
+				.append("daysOfWeek: ").append(getExpressionSetSummary(daysOfWeek)).append("\n")
+				.append("lastdayOfWeek: ").append(lastdayOfWeek).append("\n")
+				.append("nearestWeekday: ").append(nearestWeekday).append("\n")
+				.append("NthDayOfWeek: ").append(nthdayOfWeek).append("\n")
+				.append("lastdayOfMonth: ").append(lastdayOfMonth).append("\n")
+				.append("years: ").append(getExpressionSetSummary(years)).append("\n")
 				.toString();
 	}
 
@@ -833,18 +803,14 @@ public final class CronExpression {
 
 		final StringBuilder buf = new StringBuilder();
 
-		final Iterator<Integer> itr = set.iterator();
 		boolean first = true;
-		while (itr.hasNext()) {
-			final Integer iVal = itr.next();
-			final String val = iVal.toString();
+		for (final Integer iVal :set){
 			if (!first) {
 				buf.append(",");
 			}
-			buf.append(val);
+			buf.append(iVal);
 			first = false;
 		}
-
 		return buf.toString();
 	}
 
@@ -889,14 +855,12 @@ public final class CronExpression {
 			}
 		} else if (type == MONTH) {
 			if ((val < 1 || val > 12 || end > 12) && (val != ALL_SPEC_INT)) {
-				throw new ParseException(
-						"Month values must be between 1 and 12", -1);
+				throw new ParseException("Month values must be between 1 and 12", -1);
 			}
 		} else if (type == DAY_OF_WEEK) {
 			if ((val == 0 || val > 7 || end > 7) && (val != ALL_SPEC_INT)
 					&& (val != NO_SPEC_INT)) {
-				throw new ParseException(
-						"Day-of-Week values must be between 1 and 7", -1);
+				throw new ParseException("Day-of-Week values must be between 1 and 7", -1);
 			}
 		}
 
