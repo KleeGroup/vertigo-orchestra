@@ -168,10 +168,10 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activea
 			final CronExpression cronExpression = new CronExpression(process.getCronExpression());
 
 			if (!lastPlanificationOption.isDefined()) {
-				return Option.<Date> some(new Date(cronExpression.getTimeAfter(new Date()).getTime() + planningPeriod / 2 * 1000)); // Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
+				return Option.<Date> some(new Date(cronExpression.getNextValidTimeAfter(new Date()).getTime() + planningPeriod / 2 * 1000)); // Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
 			} else {
 				final OProcessPlanification lastPlanification = lastPlanificationOption.get();
-				final Date nextPotentialPlainification = cronExpression.getTimeAfter(lastPlanification.getExpectedTime());
+				final Date nextPotentialPlainification = cronExpression.getNextValidTimeAfter(lastPlanification.getExpectedTime());
 				if (nextPotentialPlainification.before(new Date(System.currentTimeMillis() + forecastDuration * 1000))) {
 					return Option.<Date> some(nextPotentialPlainification);
 				}
