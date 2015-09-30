@@ -176,7 +176,6 @@ import java.util.TreeSet;
  * @author Refactoring from CronTrigger to CronExpression by Aaron Craven
  */
 public final class CronExpression {
-
 	private static final int SECOND = 0;
 	private static final int MINUTE = 1;
 	private static final int HOUR = 2;
@@ -836,32 +835,41 @@ public final class CronExpression {
 		int incr2 = incr;
 		final TreeSet<Integer> set = getSet(type);
 
-		if (type == SECOND || type == MINUTE) {
+		switch(type){
+			case SECOND:
+			case MINUTE:
 			if ((val < 0 || val > 59 || end > 59) && (val != ALL_SPEC_INT)) {
 				throw new ParseException(
 						"Minute and Second values must be between 0 and 59",
 						-1);
 			}
-		} else if (type == HOUR) {
+			break;
+			case HOUR:
 			if ((val < 0 || val > 23 || end > 23) && (val != ALL_SPEC_INT)) {
 				throw new ParseException(
 						"Hour values must be between 0 and 23", -1);
 			}
-		} else if (type == DAY_OF_MONTH) {
+			break;
+			case DAY_OF_MONTH: 
 			if ((val < 1 || val > 31 || end > 31) && (val != ALL_SPEC_INT)
 					&& (val != NO_SPEC_INT)) {
 				throw new ParseException(
 						"Day of month values must be between 1 and 31", -1);
 			}
-		} else if (type == MONTH) {
+			break;
+			case  MONTH:
 			if ((val < 1 || val > 12 || end > 12) && (val != ALL_SPEC_INT)) {
 				throw new ParseException("Month values must be between 1 and 12", -1);
 			}
-		} else if (type == DAY_OF_WEEK) {
+			break;
+			case DAY_OF_WEEK:
 			if ((val == 0 || val > 7 || end > 7) && (val != ALL_SPEC_INT)
 					&& (val != NO_SPEC_INT)) {
 				throw new ParseException("Day-of-Week values must be between 1 and 7", -1);
 			}
+			break;
+			default:
+				break;
 		}
 
 		if ((incr2 == 0 || incr2 == -1) && val != ALL_SPEC_INT) {
@@ -881,49 +889,59 @@ public final class CronExpression {
 			incr2 = 1;
 			set.add(ALL_SPEC); // put in a marker, but also fill values
 		}
-
-		if (type == SECOND || type == MINUTE) {
+		
+		switch (type){
+			case  SECOND :
+			case  MINUTE:
 			if (stopAt == -1) {
 				stopAt = 59;
 			}
 			if (startAt == -1 || startAt == ALL_SPEC_INT) {
 				startAt = 0;
 			}
-		} else if (type == HOUR) {
+			break;
+		case HOUR:
 			if (stopAt == -1) {
 				stopAt = 23;
 			}
 			if (startAt == -1 || startAt == ALL_SPEC_INT) {
 				startAt = 0;
 			}
-		} else if (type == DAY_OF_MONTH) {
+			break;
+		case DAY_OF_MONTH:
 			if (stopAt == -1) {
 				stopAt = 31;
 			}
 			if (startAt == -1 || startAt == ALL_SPEC_INT) {
 				startAt = 1;
 			}
-		} else if (type == MONTH) {
+			break;
+		case  MONTH:
 			if (stopAt == -1) {
 				stopAt = 12;
 			}
 			if (startAt == -1 || startAt == ALL_SPEC_INT) {
 				startAt = 1;
 			}
-		} else if (type == DAY_OF_WEEK) {
+			break;
+		case DAY_OF_WEEK:
 			if (stopAt == -1) {
 				stopAt = 7;
 			}
 			if (startAt == -1 || startAt == ALL_SPEC_INT) {
 				startAt = 1;
 			}
-		} else if (type == YEAR) {
+			break;
+		case  YEAR:
 			if (stopAt == -1) {
 				stopAt = MAX_YEAR;
 			}
 			if (startAt == -1 || startAt == ALL_SPEC_INT) {
 				startAt = 1970;
 			}
+			break;
+			default:
+				//On fait quoi
 		}
 
 		// if the end of the range is before the start, then we need to overflow into
