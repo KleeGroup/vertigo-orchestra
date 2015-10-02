@@ -26,24 +26,41 @@ public final class OTaskManagerImpl implements OTaskManager {
 	/** {@inheritDoc} */
 	@Override
 	public TaskExecutionWorkspace execute(final OTaskExecution taskExecution, final TaskExecutionWorkspace workspace) {
+		TaskExecutionWorkspace resultWorkspace = workspace;
+
 		try {
 			processExecutionManager.changeExecutionState(taskExecution, ExecutionState.RUNNING);
 			// ---
 			final OTaskEngine taskEngine = Injector.newInstance(
 					ClassUtil.classForName(taskExecution.getEngine(), OTaskEngine.class), Home.getComponentSpace());
-			return taskEngine.execute(workspace);
+
+			try {
+				// We try the execution and we keep the result
+				resultWorkspace = taskEngine.execute(workspace);
+
+			} catch (final Exception e) {
+				// In case of failure we keep the current workspace
+				resultWorkspace.setFailure();
+
+			} finally {
+				// We save the workspace which is the minimal state
+				processExecutionManager.saveTaskExecutionWorkspace(taskExecution.getTkeId(), resultWorkspace, false);
+				if (taskEngine instanceof AbstractOTaskEngine) {
+					// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...)
+					processExecutionManager.saveTaskLogs(taskExecution.getTkeId(), ((AbstractOTaskEngine) taskEngine).getLogger());
+				}
+			}
+
 		} catch (final Exception e) {
-			// In case of failure we return the current workspace
+			// Informative log
+			resultWorkspace.setFailure();
 			logError(taskExecution, e);
-			workspace.setFailure();
-			return workspace;
-		} finally {
-			processExecutionManager.saveTaskExecutionWorkspace(taskExecution.getTkeId(), workspace, false);
 		}
 
+		return resultWorkspace;
 	}
 
-	private void logError(final OTaskExecution taskExecution, final Throwable e) {
+	private static void logError(final OTaskExecution taskExecution, final Throwable e) {
 		LOGGER.error("Erreur de la tache : " + taskExecution.getEngine(), e);
 	}
 }

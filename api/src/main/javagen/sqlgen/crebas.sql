@@ -1,13 +1,12 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  29 sept. 2015  17:32:41                     
+--   Date de création :  2 oct. 2015  10:17:08                     
 -- ============================================================
 
 -- ============================================================
 --   Drop                                       
 -- ============================================================
 drop table O_EXECUTION_STATE cascade;
-drop table O_EXECUTION_WORKSPACE cascade;
 drop table O_PLANIFICATION_STATE cascade;
 drop table O_PROCESS cascade;
 drop table O_PROCESS_EXECUTION cascade;
@@ -15,6 +14,8 @@ drop table O_PROCESS_PLANIFICATION cascade;
 drop table O_PROCESS_TYPE cascade;
 drop table O_TASK cascade;
 drop table O_TASK_EXECUTION cascade;
+drop table O_TASK_LOG cascade;
+drop table O_TASK_WORKSPACE cascade;
 drop table TRIGGER_TYPE cascade;
 
 
@@ -23,9 +24,6 @@ drop table TRIGGER_TYPE cascade;
 --   Sequences                                      
 -- ============================================================
 create sequence SEQ_O_EXECUTION_STATE
-	start with 1000 cache 20; 
-
-create sequence SEQ_O_EXECUTION_WORKSPACE
 	start with 1000 cache 20; 
 
 create sequence SEQ_O_PLANIFICATION_STATE
@@ -49,6 +47,12 @@ create sequence SEQ_O_TASK
 create sequence SEQ_O_TASK_EXECUTION
 	start with 1000 cache 20; 
 
+create sequence SEQ_O_TASK_LOG
+	start with 1000 cache 20; 
+
+create sequence SEQ_O_TASK_WORKSPACE
+	start with 1000 cache 20; 
+
 create sequence SEQ_TRIGGER_TYPE
 	start with 1000 cache 20; 
 
@@ -69,31 +73,6 @@ comment on column O_EXECUTION_STATE.EST_CD is
 comment on column O_EXECUTION_STATE.LABEL is
 'Libellé';
 
--- ============================================================
---   Table : O_EXECUTION_WORKSPACE                                        
--- ============================================================
-create table O_EXECUTION_WORKSPACE
-(
-    EXW_ID      	 NUMERIC     	not null,
-    IS_IN       	 BOOL        	not null,
-    WORKSPACE   	 TEXT        	,
-    TKE_ID      	 NUMERIC     	,
-    constraint PK_O_EXECUTION_WORKSPACE primary key (EXW_ID)
-);
-
-comment on column O_EXECUTION_WORKSPACE.EXW_ID is
-'Id de l''execution d''un processus';
-
-comment on column O_EXECUTION_WORKSPACE.IS_IN is
-'Workspace in/out';
-
-comment on column O_EXECUTION_WORKSPACE.WORKSPACE is
-'Contenu du workspace';
-
-comment on column O_EXECUTION_WORKSPACE.TKE_ID is
-'TaskExecution';
-
-create index O_EXECUTION_WORKSPACE_TKE_ID_FK on O_EXECUTION_WORKSPACE (TKE_ID asc);
 -- ============================================================
 --   Table : O_PLANIFICATION_STATE                                        
 -- ============================================================
@@ -313,6 +292,52 @@ comment on column O_TASK_EXECUTION.EST_CD is
 
 create index O_TASK_EXECUTION_EST_CD_FK on O_TASK_EXECUTION (EST_CD asc);
 -- ============================================================
+--   Table : O_TASK_LOG                                        
+-- ============================================================
+create table O_TASK_LOG
+(
+    TKL_ID      	 NUMERIC     	not null,
+    LOG         	 TEXT        	,
+    TKE_ID      	 NUMERIC     	,
+    constraint PK_O_TASK_LOG primary key (TKL_ID)
+);
+
+comment on column O_TASK_LOG.TKL_ID is
+'Id du log';
+
+comment on column O_TASK_LOG.LOG is
+'Contenu du log';
+
+comment on column O_TASK_LOG.TKE_ID is
+'TaskExecution';
+
+create index O_TASK_LOG_TKE_ID_FK on O_TASK_LOG (TKE_ID asc);
+-- ============================================================
+--   Table : O_TASK_WORKSPACE                                        
+-- ============================================================
+create table O_TASK_WORKSPACE
+(
+    TKW_ID      	 NUMERIC     	not null,
+    IS_IN       	 BOOL        	not null,
+    WORKSPACE   	 TEXT        	,
+    TKE_ID      	 NUMERIC     	,
+    constraint PK_O_TASK_WORKSPACE primary key (TKW_ID)
+);
+
+comment on column O_TASK_WORKSPACE.TKW_ID is
+'Id de l''execution d''un processus';
+
+comment on column O_TASK_WORKSPACE.IS_IN is
+'Workspace in/out';
+
+comment on column O_TASK_WORKSPACE.WORKSPACE is
+'Contenu du workspace';
+
+comment on column O_TASK_WORKSPACE.TKE_ID is
+'TaskExecution';
+
+create index O_TASK_WORKSPACE_TKE_ID_FK on O_TASK_WORKSPACE (TKE_ID asc);
+-- ============================================================
 --   Table : TRIGGER_TYPE                                        
 -- ============================================================
 create table TRIGGER_TYPE
@@ -329,10 +354,6 @@ comment on column TRIGGER_TYPE.LABEL is
 'Libellé';
 
 
-
-alter table O_EXECUTION_WORKSPACE
-	add constraint FK_EXW_TKE foreign key (TKE_ID)
-	references O_TASK_EXECUTION (TKE_ID);
 
 alter table O_PROCESS_EXECUTION
 	add constraint FK_PRE_EST foreign key (EST_CD)
@@ -369,6 +390,14 @@ alter table O_TASK_EXECUTION
 alter table O_TASK_EXECUTION
 	add constraint FK_TKE_TSK foreign key (TSK_ID)
 	references O_TASK (TSK_ID);
+
+alter table O_TASK_LOG
+	add constraint FK_TKL_TKE foreign key (TKE_ID)
+	references O_TASK_EXECUTION (TKE_ID);
+
+alter table O_TASK_WORKSPACE
+	add constraint FK_TKW_TKE foreign key (TKE_ID)
+	references O_TASK_EXECUTION (TKE_ID);
 
 alter table O_TASK
 	add constraint FK_TSK_PRO foreign key (PRO_ID)

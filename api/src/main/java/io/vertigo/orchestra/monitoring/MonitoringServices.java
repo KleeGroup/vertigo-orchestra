@@ -1,10 +1,12 @@
 package io.vertigo.orchestra.monitoring;
 
 import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.domain.execution.OExecutionWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.domain.execution.OTaskLog;
+import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 
 /**
@@ -46,6 +48,13 @@ public interface MonitoringServices {
 	 * @param isIn true : workspace entrant, false : workspace sortant
 	 * @return un workspace de tâche.
 	 */
-			OExecutionWorkspace geExecutionWorkspaceByTkeId(Long tkeId, final boolean isIn);
+			OTaskWorkspace getTaskWorkspaceByTkeId(Long tkeId, final boolean isIn);
+
+	/**
+	 * Récupère un log associé à une execution de tâche.
+	 * @param tkeId l'id d'execution de tâche
+	 * @return un workspace de tâche.
+	 */
+			Option<OTaskLog> getTaskLogByTkeId(Long tkeId);
 
 }

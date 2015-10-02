@@ -1,8 +1,8 @@
 package io.vertigo.orchestra.domain.execution
 
-create DtDefinition DT_O_EXECUTION_WORKSPACE {
+create DtDefinition DT_O_TASK_WORKSPACE {
 	persistent: "true",
-	key EXW_ID			{domain : DO_IDENTIFIANT, label :"Id de l'execution d'un processus", notNull:"true",},
+	key TKW_ID			{domain : DO_IDENTIFIANT, label :"Id de l'execution d'un processus", notNull:"true",},
 	field IS_IN  		{domain : DO_BOOLEEN, label :"Workspace in/out", notNull:"true",},
 	field WORKSPACE 	{domain : DO_JSON_TEXT, label :"Contenu du workspace", notNull:"false",},
   
@@ -10,10 +10,10 @@ create DtDefinition DT_O_EXECUTION_WORKSPACE {
 
 
 
-create Association A_EXW_TKE {
+create Association A_TKW_TKE {
   fkFieldName : "TKE_ID"
     
- 	dtDefinitionA : DT_O_EXECUTION_WORKSPACE
+ 	dtDefinitionA : DT_O_TASK_WORKSPACE
 	dtDefinitionB : DT_O_TASK_EXECUTION
 			
 	navigabilityA : "false"
@@ -22,9 +22,9 @@ create Association A_EXW_TKE {
 	multiplicityA:"0..*"
 	multiplicityB:"0..1"
 	
-	labelA : "ExecutionWorkspace"
+	labelA : "TaskWorkspace"
 	labelB : "TaskExecution"
-	roleA : "ExecutionWorkspace"
+	roleA : "TaskWorkspace"
 	roleB : "TaskExecution"
 			
 }

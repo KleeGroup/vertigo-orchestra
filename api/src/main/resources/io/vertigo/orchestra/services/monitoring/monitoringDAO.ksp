@@ -56,7 +56,17 @@ create Task TK_GET_TASK_EXECUTIONS_BY_PRE_ID {
 }
 
 
-
+create Task TK_GET_TASK_LOG_BY_TKE_ID {
+    className : "io.vertigo.dynamox.task.TaskEngineSelect"
+        request : "
+        	select tkl.*
+        	from o_task_log tkl
+        	where tkl.TKE_ID = #TKE_ID#
+        	
+			"
+	attribute TKE_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+	attribute DTC_O_TASK_LOG	 	{domain : DO_DT_O_TASK_LOG_DTO		notNull:"false" 	inOut :"out"}
+}
 
 
 

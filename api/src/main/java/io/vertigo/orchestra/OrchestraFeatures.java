@@ -4,9 +4,10 @@ import io.vertigo.core.config.Features;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.dao.definition.OTaskDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
-import io.vertigo.orchestra.dao.execution.OExecutionWorkspaceDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OTaskExecutionDAO;
+import io.vertigo.orchestra.dao.execution.OTaskLogDAO;
+import io.vertigo.orchestra.dao.execution.OTaskWorkspaceDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
@@ -62,7 +63,8 @@ public final class OrchestraFeatures extends Features {
 				.addComponent(OProcessPlanificationDAO.class)
 				.addComponent(OTaskExecutionDAO.class)
 				.addComponent(OProcessExecutionDAO.class)
-				.addComponent(OExecutionWorkspaceDAO.class)
+				.addComponent(OTaskWorkspaceDAO.class)
+				.addComponent(OTaskLogDAO.class)
 				//----PAO
 				.addComponent(ExecutionPAO.class)
 				.addComponent(PlanificationPAO.class)

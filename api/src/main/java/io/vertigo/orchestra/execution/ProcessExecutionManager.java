@@ -4,6 +4,7 @@ import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.orchestra.PostActiveable;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.impl.execution.TaskExecutionWorkspace;
+import io.vertigo.orchestra.impl.execution.TaskLogger;
 
 /**
  * TODO : Description de la classe.
@@ -24,5 +25,7 @@ public interface ProcessExecutionManager extends PostActiveable<ProcessExecution
 	TaskExecutionWorkspace getWorkspaceForTaskExecution(final Long tkeId, final Boolean in);
 
 	void saveTaskExecutionWorkspace(Long tkeId, TaskExecutionWorkspace workspace, Boolean in);
+
+	void saveTaskLogs(Long tkeId, TaskLogger taskLogger);
 
 }

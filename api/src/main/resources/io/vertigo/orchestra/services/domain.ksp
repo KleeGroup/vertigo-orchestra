@@ -58,6 +58,13 @@ create Domain DO_JSON_TEXT {
 },
 
 
+create Domain DO_TEXT {
+	dataType : String
+	formatter : FMT_DEFAULT
+	storeType : "TEXT"
+},
+
+
 /**************************************************************************************************/
 /* 											Gestion des formatters 								  */
 /**************************************************************************************************/

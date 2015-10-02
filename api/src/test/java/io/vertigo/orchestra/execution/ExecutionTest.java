@@ -17,13 +17,15 @@ import io.vertigo.dynamo.task.model.TaskBuilder;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.dynamox.task.TaskEngineProc;
+import io.vertigo.lang.Option;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.domain.execution.OExecutionWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.domain.execution.OTaskLog;
+import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.impl.execution.TaskExecutionWorkspace;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
@@ -224,8 +226,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Thread.sleep(1000 * 3);
 		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
 
-		final OExecutionWorkspace oExecutionWorkspace = monitoringServices.geExecutionWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
-		Assert.assertTrue(oExecutionWorkspace.getWorkspace().contains("filePath"));
+		final OTaskWorkspace taskWorkspace = monitoringServices.getTaskWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
+		Assert.assertTrue(taskWorkspace.getWorkspace().contains("filePath"));
 
 	}
 
@@ -251,8 +253,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Thread.sleep(1000 * 3);
 		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
 
-		final OExecutionWorkspace oExecutionWorkspace = monitoringServices.geExecutionWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
-		Assert.assertTrue(oExecutionWorkspace.getWorkspace().contains(TaskExecutionWorkspace.PARSING_ERROR_KEY));
+		final OTaskWorkspace taskWorkspace = monitoringServices.getTaskWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
+		Assert.assertTrue(taskWorkspace.getWorkspace().contains(TaskExecutionWorkspace.PARSING_ERROR_KEY));
 	}
 
 	/**
@@ -277,8 +279,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Thread.sleep(1000 * 3);
 		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
 
-		final OExecutionWorkspace oExecutionWorkspace = monitoringServices.geExecutionWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
-		Assert.assertTrue(oExecutionWorkspace.getWorkspace().contains("tata/tutu"));
+		final OTaskWorkspace taskWorkspace = monitoringServices.getTaskWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
+		Assert.assertTrue(taskWorkspace.getWorkspace().contains("tata/tutu"));
 	}
 
 	/**
@@ -330,6 +332,33 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		checkPlanifications(proId, 0, 1, 1);
 		// We should have one execution running
 		checkExecutions(proId, 0, 1, 0, 0);
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testLog() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST LOG")
+				.withManual()
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbLoggedOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		final Long proId = processDefinition.getProcess().getProId();
+
+		processPlannerManager.plannProcessAt(proId, new Date());
+
+		// We wait 10 seconds until it's finished
+		Thread.sleep(1000 * 10);
+
+		checkExecutions(proId, 0, 0, 1, 0); // We are sure that the process is done so we can continue the test safely
+
+		final Option<OTaskLog> taskLog = monitoringServices.getTaskLogByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId());
+		Assert.assertTrue(taskLog.isDefined());
+
 	}
 
 	/**
@@ -404,10 +433,13 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 					case RUNNING:
 						countTaskRunning++;
 						break;
+					case DONE:
+						break;
 					case ERROR:
 						countTaskError++;
-					default:
 						break;
+					default:
+						throw new UnsupportedOperationException("Unsupported state :" + taskExecution.getEstCd());
 				}
 			}
 			switch (ExecutionState.valueOf(processExecution.getEstCd())) {
@@ -432,7 +464,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 					Assert.assertEquals(1, countTaskError);
 					break;
 				default:
-					break;
+					throw new UnsupportedOperationException("Unsupported state :" + processExecution.getEstCd());
 			}
 		}
 		// --- We check the counts
@@ -450,7 +482,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		//A chaque test on supprime tout
 		try (VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			final List<String> requests = new ListBuilder<String>()
-					.add(" delete from o_execution_workspace;")
+					.add(" delete from o_task_log;")
+					.add(" delete from o_task_workspace;")
 					.add(" delete from o_process_planification;")
 					.add(" delete from o_task_execution;")
 					.add(" delete from o_process_execution;")

@@ -297,7 +297,9 @@ public final class OTaskExecution implements DtObject {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_TKE_PRE", io.vertigo.orchestra.domain.execution.OProcessExecution.class);
 	}
 
-	// Association : ExecutionWorkspace non navigable
+	// Association : TaskWorkspace non navigable
+
+	// Association : TaskLog non navigable
 	/**
 	 * Association : ExecutionState.
 	 * @return io.vertigo.orchestra.domain.referential.OExecutionState

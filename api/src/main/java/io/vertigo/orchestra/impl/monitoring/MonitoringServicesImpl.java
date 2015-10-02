@@ -5,15 +5,18 @@ import javax.inject.Inject;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
+import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
-import io.vertigo.orchestra.dao.execution.OExecutionWorkspaceDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OTaskExecutionDAO;
+import io.vertigo.orchestra.dao.execution.OTaskLogDAO;
+import io.vertigo.orchestra.dao.execution.OTaskWorkspaceDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.domain.execution.OExecutionWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.domain.execution.OTaskLog;
+import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 
@@ -34,7 +37,9 @@ public class MonitoringServicesImpl implements MonitoringServices {
 	private OTaskExecutionDAO taskExecutionDAO;
 
 	@Inject
-	private OExecutionWorkspaceDAO oExecutionWorkspaceDAO;
+	private OTaskWorkspaceDAO taskWorkspaceDAO;
+	@Inject
+	private OTaskLogDAO taskLogDAO;
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;
 
@@ -70,10 +75,19 @@ public class MonitoringServicesImpl implements MonitoringServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public OExecutionWorkspace geExecutionWorkspaceByTkeId(final Long tkeId, final boolean isIn) {
+	public OTaskWorkspace getTaskWorkspaceByTkeId(final Long tkeId, final boolean isIn) {
 		Assertion.checkNotNull(tkeId);
 		// ---
-		return oExecutionWorkspaceDAO.getExecutionWorkspace(tkeId, isIn);
+		return taskWorkspaceDAO.getTaskWorkspace(tkeId, isIn);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Option<OTaskLog> getTaskLogByTkeId(final Long tkeId) {
+		Assertion.checkNotNull(tkeId);
+		// ---
+		return taskLogDAO.getTaskLogByTkeId(tkeId);
+
 	}
 
 }

@@ -6,15 +6,15 @@ import io.vertigo.dynamo.domain.model.DtObject;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
- * Objet de données OExecutionWorkspace
+ * Objet de données OTaskWorkspace
  */
 @DtDefinition
-public final class OExecutionWorkspace implements DtObject {
+public final class OTaskWorkspace implements DtObject {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	private Long exwId;
+	private Long tkwId;
 	private Boolean isIn;
 	private String workspace;
 	private Long tkeId;
@@ -23,20 +23,20 @@ public final class OExecutionWorkspace implements DtObject {
 	/**
 	 * Champ : PRIMARY_KEY.
 	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
-	 * @return Long exwId <b>Obligatoire</b>
+	 * @return Long tkwId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_IDENTIFIANT", type = "PRIMARY_KEY", notNull = true, label = "Id de l'execution d'un processus")
-	public Long getExwId() {
-		return exwId;
+	public Long getTkwId() {
+		return tkwId;
 	}
 
 	/**
 	 * Champ : PRIMARY_KEY.
 	 * Définit la valeur de la propriété 'Id de l'execution d'un processus'.
-	 * @param exwId Long <b>Obligatoire</b>
+	 * @param tkwId Long <b>Obligatoire</b>
 	 */
-	public void setExwId(final Long exwId) {
-		this.exwId = exwId;
+	public void setTkwId(final Long tkwId) {
+		this.tkwId = tkwId;
 	}
 
 	/**
@@ -101,17 +101,17 @@ public final class OExecutionWorkspace implements DtObject {
 	 * @return io.vertigo.orchestra.domain.execution.OTaskExecution
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_EXW_TKE",
+    	name = "A_TKW_TKE",
     	fkFieldName = "TKE_ID",
     	primaryDtDefinitionName = "DT_O_TASK_EXECUTION",
     	primaryIsNavigable = true,
     	primaryRole = "TaskExecution",
     	primaryLabel = "TaskExecution",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_EXECUTION_WORKSPACE",
+    	foreignDtDefinitionName = "DT_O_TASK_WORKSPACE",
     	foreignIsNavigable = false,
-    	foreignRole = "ExecutionWorkspace",
-    	foreignLabel = "ExecutionWorkspace",
+    	foreignRole = "TaskWorkspace",
+    	foreignLabel = "TaskWorkspace",
     	foreignMultiplicity = "0..*"
     )
 	public io.vertigo.orchestra.domain.execution.OTaskExecution getTaskExecution() {
@@ -139,21 +139,21 @@ public final class OExecutionWorkspace implements DtObject {
 	 * @return URI de l'association
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_EXW_TKE",
+    	name = "A_TKW_TKE",
     	fkFieldName = "TKE_ID",
     	primaryDtDefinitionName = "DT_O_TASK_EXECUTION",
     	primaryIsNavigable = true,
     	primaryRole = "TaskExecution",
     	primaryLabel = "TaskExecution",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_EXECUTION_WORKSPACE",
+    	foreignDtDefinitionName = "DT_O_TASK_WORKSPACE",
     	foreignIsNavigable = false,
-    	foreignRole = "ExecutionWorkspace",
-    	foreignLabel = "ExecutionWorkspace",
+    	foreignRole = "TaskWorkspace",
+    	foreignLabel = "TaskWorkspace",
     	foreignMultiplicity = "0..*"
     )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OTaskExecution> getTaskExecutionURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_EXW_TKE", io.vertigo.orchestra.domain.execution.OTaskExecution.class);
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_TKW_TKE", io.vertigo.orchestra.domain.execution.OTaskExecution.class);
 	}
 
 	/** {@inheritDoc} */

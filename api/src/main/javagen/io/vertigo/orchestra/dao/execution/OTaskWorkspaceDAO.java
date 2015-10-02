@@ -8,13 +8,13 @@ import io.vertigo.dynamo.task.model.TaskBuilder;
 import io.vertigo.dynamo.impl.store.util.DAOBroker;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.task.TaskManager;
-import io.vertigo.orchestra.domain.execution.OExecutionWorkspace;
+import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 
 /**
  * DAO : Accès à un object (DTO, DTC). 
- * OExecutionWorkspaceDAO
+ * OTaskWorkspaceDAO
  */
-public final class OExecutionWorkspaceDAO extends DAOBroker<OExecutionWorkspace, java.lang.Long> {
+public final class OTaskWorkspaceDAO extends DAOBroker<OTaskWorkspace, java.lang.Long> {
 	 
 	/**
 	 * Contructeur.
@@ -22,8 +22,8 @@ public final class OExecutionWorkspaceDAO extends DAOBroker<OExecutionWorkspace,
 	 * @param taskManager Manager de Task
 	 */
 	@Inject
-	public OExecutionWorkspaceDAO(final StoreManager storeManager, final TaskManager taskManager) {
-		super(OExecutionWorkspace.class, storeManager, taskManager);
+	public OTaskWorkspaceDAO(final StoreManager storeManager, final TaskManager taskManager) {
+		super(OTaskWorkspace.class, storeManager, taskManager);
 	}
 	
 
@@ -38,13 +38,13 @@ public final class OExecutionWorkspaceDAO extends DAOBroker<OExecutionWorkspace,
 	}
 
 	/**
-	 * Execute la tache TK_GET_EXECUTION_WORKSPACE.
+	 * Execute la tache TK_GET_TASK_WORKSPACE.
 	 * @param tkeId Long 
 	 * @param in Boolean 
-	 * @return io.vertigo.orchestra.domain.execution.OExecutionWorkspace dtOExecutionWorkspace
+	 * @return io.vertigo.orchestra.domain.execution.OTaskWorkspace dtOTaskWorkspace
 	*/
-	public io.vertigo.orchestra.domain.execution.OExecutionWorkspace getExecutionWorkspace(final Long tkeId, final Boolean in) {
-		final Task task = createTaskBuilder("TK_GET_EXECUTION_WORKSPACE")
+	public io.vertigo.orchestra.domain.execution.OTaskWorkspace getTaskWorkspace(final Long tkeId, final Boolean in) {
+		final Task task = createTaskBuilder("TK_GET_TASK_WORKSPACE")
 				.addValue("TKE_ID", tkeId)
 				.addValue("IN", in)
 				.build();

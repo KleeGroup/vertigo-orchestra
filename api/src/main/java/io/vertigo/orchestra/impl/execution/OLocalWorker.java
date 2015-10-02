@@ -77,7 +77,7 @@ final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
 		LOGGER.error("Erreur de la tache : " + taskExecution.getEngine(), e);
 	}
 
-	private RuntimeException asRuntimeException(final Exception e) {
+	private static RuntimeException asRuntimeException(final Exception e) {
 		if (e instanceof RuntimeException) {
 			return (RuntimeException) e;
 		}

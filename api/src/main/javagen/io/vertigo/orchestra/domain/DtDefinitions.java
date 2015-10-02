@@ -15,8 +15,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	public enum Definitions {
 			/** Objet de données OExecutionState. */
 			OExecutionState(io.vertigo.orchestra.domain.referential.OExecutionState.class),
-			/** Objet de données OExecutionWorkspace. */
-			OExecutionWorkspace(io.vertigo.orchestra.domain.execution.OExecutionWorkspace.class),
 			/** Objet de données OPlanificationState. */
 			OPlanificationState(io.vertigo.orchestra.domain.referential.OPlanificationState.class),
 			/** Objet de données OProcess. */
@@ -31,6 +29,10 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			OTask(io.vertigo.orchestra.domain.definition.OTask.class),
 			/** Objet de données OTaskExecution. */
 			OTaskExecution(io.vertigo.orchestra.domain.execution.OTaskExecution.class),
+			/** Objet de données OTaskLog. */
+			OTaskLog(io.vertigo.orchestra.domain.execution.OTaskLog.class),
+			/** Objet de données OTaskWorkspace. */
+			OTaskWorkspace(io.vertigo.orchestra.domain.execution.OTaskWorkspace.class),
 			/** Objet de données TriggerType. */
 			TriggerType(io.vertigo.orchestra.domain.referential.TriggerType.class),
 		;
@@ -57,20 +59,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		EST_CD,
 		/** Propriété 'Libellé'. */
 		LABEL,
-	}
-
-	/**
-	 * Enumération des champs de OExecutionWorkspace.
-	 */
-	public enum OExecutionWorkspaceFields implements DtFieldName {
-		/** Propriété 'Id de l'execution d'un processus'. */
-		EXW_ID,
-		/** Propriété 'Workspace in/out'. */
-		IS_IN,
-		/** Propriété 'Contenu du workspace'. */
-		WORKSPACE,
-		/** Propriété 'TaskExecution'. */
-		TKE_ID,
 	}
 
 	/**
@@ -189,6 +177,32 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		PRE_ID,
 		/** Propriété 'ExecutionState'. */
 		EST_CD,
+	}
+
+	/**
+	 * Enumération des champs de OTaskLog.
+	 */
+	public enum OTaskLogFields implements DtFieldName {
+		/** Propriété 'Id du log'. */
+		TKL_ID,
+		/** Propriété 'Contenu du log'. */
+		LOG,
+		/** Propriété 'TaskExecution'. */
+		TKE_ID,
+	}
+
+	/**
+	 * Enumération des champs de OTaskWorkspace.
+	 */
+	public enum OTaskWorkspaceFields implements DtFieldName {
+		/** Propriété 'Id de l'execution d'un processus'. */
+		TKW_ID,
+		/** Propriété 'Workspace in/out'. */
+		IS_IN,
+		/** Propriété 'Contenu du workspace'. */
+		WORKSPACE,
+		/** Propriété 'TaskExecution'. */
+		TKE_ID,
 	}
 
 	/**

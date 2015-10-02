@@ -11,15 +11,17 @@ import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
-import io.vertigo.orchestra.dao.execution.OExecutionWorkspaceDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OTaskExecutionDAO;
+import io.vertigo.orchestra.dao.execution.OTaskLogDAO;
+import io.vertigo.orchestra.dao.execution.OTaskWorkspaceDAO;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
-import io.vertigo.orchestra.domain.execution.OExecutionWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.domain.execution.OTaskLog;
+import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
@@ -56,7 +58,9 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager, Act
 	@Inject
 	private OTaskExecutionDAO taskExecutionDAO;
 	@Inject
-	private OExecutionWorkspaceDAO executionWorkspaceDAO;
+	private OTaskWorkspaceDAO taskWorkspaceDAO;
+	@Inject
+	private OTaskLogDAO taskLogDAO;
 	@Inject
 	private ExecutionPAO executionPAO;
 
@@ -155,8 +159,8 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager, Act
 		Assertion.checkNotNull(tkeId);
 		Assertion.checkNotNull(in);
 		// ---
-		final OExecutionWorkspace executionWorkspace = executionWorkspaceDAO.getExecutionWorkspace(tkeId, in);
-		return new TaskExecutionWorkspace(executionWorkspace.getWorkspace());
+		final OTaskWorkspace taskWorkspace = taskWorkspaceDAO.getTaskWorkspace(tkeId, in);
+		return new TaskExecutionWorkspace(taskWorkspace.getWorkspace());
 	}
 
 	/** {@inheritDoc} */
@@ -166,13 +170,25 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager, Act
 		Assertion.checkNotNull(in);
 		Assertion.checkNotNull(workspace);
 		// ---
-		final OExecutionWorkspace executionWorkspace = new OExecutionWorkspace();
-		executionWorkspace.setTkeId(tkeId);
-		executionWorkspace.setIsIn(in);
-		executionWorkspace.setWorkspace(workspace.getStringForStorage());
+		final OTaskWorkspace taskWorkspace = new OTaskWorkspace();
+		taskWorkspace.setTkeId(tkeId);
+		taskWorkspace.setIsIn(in);
+		taskWorkspace.setWorkspace(workspace.getStringForStorage());
 
-		executionWorkspaceDAO.save(executionWorkspace);
+		taskWorkspaceDAO.save(taskWorkspace);
 
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void saveTaskLogs(final Long tkeId, final TaskLogger taskLogger) {
+		Assertion.checkNotNull(tkeId);
+		Assertion.checkNotNull(taskLogger);
+		//
+		final OTaskLog taskLog = new OTaskLog();
+		taskLog.setTkeId(tkeId);
+		taskLog.setLog(taskLogger.getLogAsString());
+		taskLogDAO.save(taskLog);
 	}
 
 	//--------------------------------------------------------------------------------------------------
@@ -213,7 +229,7 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager, Act
 
 	}
 
-	private OTaskExecution initTaskExecutionWithTask(final OTask task, final Long preId) {
+	private static OTaskExecution initTaskExecutionWithTask(final OTask task, final Long preId) {
 		Assertion.checkNotNull(preId);
 		// ---
 		final OTaskExecution newTaskExecution = new OTaskExecution();

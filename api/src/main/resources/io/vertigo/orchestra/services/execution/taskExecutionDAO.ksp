@@ -28,18 +28,18 @@ create Task TK_RESERVE_TASKS_TO_LAUNCH {
 }
 
 
-create Task TK_GET_EXECUTION_WORKSPACE {
+create Task TK_GET_TASK_WORKSPACE {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select exw.*
-        	 from o_execution_workspace exw
-        	 where exw.TKE_ID = #TKE_ID#
-        	 and   exw.IS_IN = #IN#
+        	select tkw.*
+        	 from o_task_workspace tkw
+        	 where tkw.TKE_ID = #TKE_ID#
+        	 and   tkw.IS_IN = #IN#
         	
 			"
 			
 		attribute TKE_ID	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 		attribute IN	 	{domain : DO_BOOLEEN 			notNull:"true" 	inOut :"in"}
-		attribute DT_O_EXECUTION_WORKSPACE	 	{domain : DO_DT_O_EXECUTION_WORKSPACE_DTO 		notNull:"true" 	inOut :"out"}
+		attribute DT_O_TASK_WORKSPACE	 	{domain : DO_DT_O_TASK_WORKSPACE_DTO 		notNull:"true" 	inOut :"out"}
 }
 
