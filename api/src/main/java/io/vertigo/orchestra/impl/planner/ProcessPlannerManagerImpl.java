@@ -1,14 +1,5 @@
 package io.vertigo.orchestra.impl.planner;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Activeable;
@@ -21,6 +12,15 @@ import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.planner.PlanificationState;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
+
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * TODO : Description de la classe.
@@ -158,7 +158,6 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activea
 
 	/**
 	 * TODO : Description de la méthode.
-	 * @param process.
 	 * @throws ParseException
 	 */
 	private Option<Date> findNextPlanificationTime(final OProcess process) {

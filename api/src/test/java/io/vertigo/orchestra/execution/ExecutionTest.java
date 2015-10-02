@@ -1,13 +1,5 @@
 package io.vertigo.orchestra.execution;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import org.junit.Assert;
-import org.junit.Test;
-
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
@@ -32,6 +24,14 @@ import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.planner.PlanificationState;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.util.ListBuilder;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * TODO : Description de la classe.
@@ -405,6 +405,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				case MISFIRED:
 					misfiredPlanificationCount++;
 					break;
+				case CANCELED:
+				case RESERVED:
 				default:
 					break;
 			}
@@ -438,6 +440,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 					case ERROR:
 						countTaskError++;
 						break;
+					case CANCELED:
+					case RESERVED:
 					default:
 						throw new UnsupportedOperationException("Unsupported state :" + taskExecution.getEstCd());
 				}
@@ -463,6 +467,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 					// --- We check that there is one and only one task is ERROR
 					Assert.assertEquals(1, countTaskError);
 					break;
+				case CANCELED:
+				case RESERVED:
 				default:
 					throw new UnsupportedOperationException("Unsupported state :" + processExecution.getEstCd());
 			}
