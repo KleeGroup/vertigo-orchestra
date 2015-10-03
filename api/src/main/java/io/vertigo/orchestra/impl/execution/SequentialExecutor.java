@@ -22,9 +22,8 @@ final class SequentialExecutor implements Activeable {
 	private Timer planTimer;
 	private final long timerDelay;
 
-	private final ExecutorService pool = Executors.newCachedThreadPool();
+	private final ExecutorService workers;
 
-	private final OLocalCoordinator localCoordinator;
 	private final ProcessExecutionManager processExecutionManager;
 
 	SequentialExecutor(final ProcessExecutionManager processExecutionManager, final int workersCount, final int timerDelay) {
@@ -32,8 +31,8 @@ final class SequentialExecutor implements Activeable {
 		Assertion.checkNotNull(workersCount);
 		Assertion.checkNotNull(timerDelay);
 		// ---
+		workers = Executors.newFixedThreadPool(workersCount);
 		this.processExecutionManager = processExecutionManager;
-		localCoordinator = new OLocalCoordinator(workersCount);
 		this.timerDelay = timerDelay;
 
 	}
@@ -63,7 +62,8 @@ final class SequentialExecutor implements Activeable {
 		processExecutionManager.initNewProcessesToLaunch();
 		for (final OTaskExecution taskExecution : processExecutionManager.getTasksToLaunch()) {
 			final TaskExecutionWorkspace workspace = processExecutionManager.getWorkspaceForTaskExecution(taskExecution.getTkeId(), true);
-			pool.execute(new OWorker(localCoordinator, taskExecution, workspace, this));
+			workers.submit(new OWorker(taskExecution, workspace, this));
+			processExecutionManager.changeExecutionState(taskExecution, ExecutionState.SUBMITTED);
 		}
 	}
 

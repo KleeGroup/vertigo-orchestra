@@ -11,6 +11,8 @@ public enum ExecutionState {
 
 	RESERVED,
 
+	SUBMITTED,
+
 	RUNNING,
 
 	DONE,

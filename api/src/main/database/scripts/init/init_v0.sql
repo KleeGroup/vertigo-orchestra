@@ -1,5 +1,6 @@
 insert into o_execution_state(est_cd, label) values ('WAITING', 'Waiting');
 insert into o_execution_state(est_cd, label) values ('RESERVED', 'Reserved');
+insert into o_execution_state(est_cd, label) values ('SUBMITTED', 'Submitted');
 insert into o_execution_state(est_cd, label) values ('DONE', 'Done');
 insert into o_execution_state(est_cd, label) values ('RUNNING', 'Running');
 insert into o_execution_state(est_cd, label) values ('ERROR', 'Error');
