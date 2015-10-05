@@ -9,6 +9,7 @@ create Task TK_GET_RECURRENT_PROCESSES {
         		pro.*
         	from o_process pro
         	where pro.trt_cd = 'RECURRENT'
+        	for update
         	
 			"
 	attribute DTC_PROCESSES	 	{domain : DO_DT_O_PROCESS_DTC 		notNull:"true" 	inOut :"out"}

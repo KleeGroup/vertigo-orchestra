@@ -99,8 +99,10 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager, Act
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OTaskExecution> getTasksToLaunch() {
-		executionPAO.reserveTasksToLaunch(nodeName);
+	public DtList<OTaskExecution> getTasksToLaunch(final Long maxNumber) {
+		Assertion.checkNotNull(maxNumber);
+		// ---
+		executionPAO.reserveTasksToLaunch(nodeName, maxNumber);
 		return taskExecutionDAO.getTasksToLaunch(nodeName);
 	}
 

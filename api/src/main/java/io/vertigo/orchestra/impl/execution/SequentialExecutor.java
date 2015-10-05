@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
@@ -21,6 +22,7 @@ final class SequentialExecutor implements Activeable {
 
 	private Timer planTimer;
 	private final long timerDelay;
+	private final Long workersCount;
 
 	private final ExecutorService workers;
 
@@ -31,9 +33,12 @@ final class SequentialExecutor implements Activeable {
 		Assertion.checkNotNull(workersCount);
 		Assertion.checkNotNull(timerDelay);
 		// ---
+		Assertion.checkState(workersCount >= 1, "We need at least 1 worker");
+		// ---
 		workers = Executors.newFixedThreadPool(workersCount);
 		this.processExecutionManager = processExecutionManager;
 		this.timerDelay = timerDelay;
+		this.workersCount = (long) workersCount;
 
 	}
 
@@ -60,10 +65,10 @@ final class SequentialExecutor implements Activeable {
 
 	private void executeToDo() {
 		processExecutionManager.initNewProcessesToLaunch();
-		for (final OTaskExecution taskExecution : processExecutionManager.getTasksToLaunch()) {
+		for (final OTaskExecution taskExecution : processExecutionManager.getTasksToLaunch(getUnusedWorkersCount())) { //We submit only the process we can handle, no queue
 			final TaskExecutionWorkspace workspace = processExecutionManager.getWorkspaceForTaskExecution(taskExecution.getTkeId(), true);
-			workers.submit(new OWorker(taskExecution, workspace, this));
 			processExecutionManager.changeExecutionState(taskExecution, ExecutionState.SUBMITTED);
+			workers.submit(new OWorker(taskExecution, workspace, this));
 		}
 	}
 
@@ -88,6 +93,16 @@ final class SequentialExecutor implements Activeable {
 			}
 		}
 
+	}
+
+	private Long getUnusedWorkersCount() {
+		Assertion.checkNotNull(workers);
+		// ---
+		if (workers instanceof ThreadPoolExecutor) {
+			final ThreadPoolExecutor workersPool = (ThreadPoolExecutor) workers;
+			return workersCount - workersPool.getActiveCount();
+		}
+		return workersCount;
 	}
 
 }

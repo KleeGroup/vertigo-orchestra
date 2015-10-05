@@ -14,7 +14,7 @@ import io.vertigo.orchestra.impl.execution.TaskLogger;
  */
 public interface ProcessExecutionManager extends PostActiveable<ProcessExecutionManager> {
 
-	DtList<OTaskExecution> getTasksToLaunch();
+	DtList<OTaskExecution> getTasksToLaunch(final Long maxNumber);
 
 	void initNewProcessesToLaunch();
 

@@ -40,10 +40,12 @@ public final class ExecutionPAO {
 	/**
 	 * Execute la tache TK_RESERVE_TASKS_TO_LAUNCH.
 	 * @param nodeName String 
+	 * @param maxNumber Long 
 	*/
-	public void reserveTasksToLaunch(final String nodeName) {
+	public void reserveTasksToLaunch(final String nodeName, final Long maxNumber) {
 		final Task task = createTaskBuilder("TK_RESERVE_TASKS_TO_LAUNCH")
 				.addValue("NODE_NAME", nodeName)
+				.addValue("MAX_NUMBER", maxNumber)
 				.build();
 		getTaskManager().execute(task);
 	}

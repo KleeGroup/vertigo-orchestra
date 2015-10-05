@@ -20,11 +20,20 @@ create Task TK_RESERVE_TASKS_TO_LAUNCH {
         	update  o_task_execution 
         	set EST_CD = 'RESERVED',
         		NODE_NAME = #NODE_NAME#
-        	where EST_CD = 'WAITING'
+        		
+        	where tke_id in (
+        			select tke_id 
+        			from o_task_execution
+        			where EST_CD = 'WAITING'
+        			order by begin_time asc
+        			limit #MAX_NUMBER#
+        			for update
+        	)
         	
 			"
 			
 		attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
+		attribute MAX_NUMBER	 	{domain : DO_NOMBRE 		notNull:"true" 	inOut :"in"}
 }
 
 
