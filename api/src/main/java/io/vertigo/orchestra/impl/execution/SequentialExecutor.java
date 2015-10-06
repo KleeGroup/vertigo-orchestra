@@ -61,6 +61,7 @@ final class SequentialExecutor implements Activeable {
 	public void stop() {
 		planTimer.cancel();
 		planTimer.purge();
+		workers.shutdown();
 	}
 
 	private void executeToDo() {

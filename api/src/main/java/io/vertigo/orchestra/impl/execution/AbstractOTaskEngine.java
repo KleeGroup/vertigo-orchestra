@@ -10,7 +10,7 @@ import io.vertigo.orchestra.execution.OTaskEngine;
  */
 public abstract class AbstractOTaskEngine implements OTaskEngine {
 
-	private final TaskLogger taskLogger = new TaskLogger();
+	private final TaskLogger taskLogger = new TaskLogger(getClass().getName());
 
 	/**
 	 * Getter for the logger

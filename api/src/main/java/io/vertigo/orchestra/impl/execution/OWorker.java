@@ -35,7 +35,7 @@ public class OWorker implements Runnable {
 		doRun();
 	}
 
-	private <WR, W> void doRun() {
+	private  void doRun() {
 		final ExecutorService localExecutor = Executors.newSingleThreadExecutor();
 		final Future<TaskExecutionWorkspace> futureResult = localExecutor.submit(new OLocalWorker(taskExecution, params));
 		TaskExecutionWorkspace result;

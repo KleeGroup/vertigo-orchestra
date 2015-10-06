@@ -1,5 +1,13 @@
 package io.vertigo.orchestra.execution;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
@@ -24,14 +32,6 @@ import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.planner.PlanificationState;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.util.ListBuilder;
-
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
  * TODO : Description de la classe.
@@ -122,6 +122,25 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Thread.sleep(1000 * 20);
 		// --- We check the counts
 		checkExecutions(proId, 0, 1, 1, 0);
+
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void recurrentMultiNodeExecution() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST RECURRENT")
+				.withRecurrence()
+				.withMultiExecution()
+				.withCron("*/4 * * * * ?")
+				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.build();
+
+		processDefinitionManager.createDefinition(processDefinition);
+
+		Thread.sleep(1000 * 60 * 5);
 
 	}
 
@@ -341,7 +360,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	public void testLog() throws InterruptedException {
 
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST LOG")
-				.withManual()
+				.withRecurrence()
+				.withCron("*/15 * * * * ?")
 				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbLoggedOTaskEngine", false)
 				.build();
 
@@ -352,7 +372,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		processPlannerManager.plannProcessAt(proId, new Date());
 
 		// We wait 10 seconds until it's finished
-		Thread.sleep(1000 * 10);
+		Thread.sleep(1000 * 60 * 5);
 
 		checkExecutions(proId, 0, 0, 1, 0); // We are sure that the process is done so we can continue the test safely
 

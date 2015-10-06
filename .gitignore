@@ -21,3 +21,5 @@ ui/node_modules
 ui/bower_components
 ui/.npmrc
 .idea
+
+**/*.log
