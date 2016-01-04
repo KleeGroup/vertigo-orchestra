@@ -23,17 +23,17 @@ public final class OTask implements DtObject {
 	private io.vertigo.orchestra.domain.definition.OProcess process;
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id Tache'. 
 	 * @return Long tskId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "PRIMARY_KEY", notNull = true, label = "Id Tache")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id Tache")
 	public Long getTskId() {
 		return tskId;
 	}
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Définit la valeur de la propriété 'Id Tache'.
 	 * @param tskId Long <b>Obligatoire</b>
 	 */

@@ -25,17 +25,17 @@ public final class OProcessPlanification implements DtObject {
 	private io.vertigo.orchestra.domain.referential.OPlanificationState planificationState;
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id Planification'. 
 	 * @return Long prpId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "PRIMARY_KEY", notNull = true, label = "Id Planification")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id Planification")
 	public Long getPrpId() {
 		return prpId;
 	}
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Définit la valeur de la propriété 'Id Planification'.
 	 * @param prpId Long <b>Obligatoire</b>
 	 */

@@ -20,17 +20,17 @@ public final class OTaskLog implements DtObject {
 	private io.vertigo.orchestra.domain.execution.OTaskExecution taskExecution;
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id du log'. 
 	 * @return Long tklId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "PRIMARY_KEY", notNull = true, label = "Id du log")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id du log")
 	public Long getTklId() {
 		return tklId;
 	}
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Définit la valeur de la propriété 'Id du log'.
 	 * @param tklId Long <b>Obligatoire</b>
 	 */

@@ -25,17 +25,17 @@ public final class OProcess implements DtObject {
 	private io.vertigo.orchestra.domain.referential.OProcessType processType;
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id de la definition du processus'. 
 	 * @return Long proId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "PRIMARY_KEY", notNull = true, label = "Id de la definition du processus")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id de la definition du processus")
 	public Long getProId() {
 		return proId;
 	}
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Définit la valeur de la propriété 'Id de la definition du processus'.
 	 * @param proId Long <b>Obligatoire</b>
 	 */

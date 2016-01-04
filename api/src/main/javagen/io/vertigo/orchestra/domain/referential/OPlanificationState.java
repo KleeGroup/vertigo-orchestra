@@ -18,17 +18,17 @@ public final class OPlanificationState implements DtObject {
 	private String label;
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Code'. 
 	 * @return String pstCd <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_CODE_IDENTIFIANT", type = "PRIMARY_KEY", notNull = true, label = "Code")
+	@Field(domain = "DO_CODE_IDENTIFIANT", type = "ID", notNull = true, label = "Code")
 	public String getPstCd() {
 		return pstCd;
 	}
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Définit la valeur de la propriété 'Code'.
 	 * @param pstCd String <b>Obligatoire</b>
 	 */

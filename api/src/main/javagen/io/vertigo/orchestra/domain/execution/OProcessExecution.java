@@ -24,17 +24,17 @@ public final class OProcessExecution implements DtObject {
 	private io.vertigo.orchestra.domain.referential.OExecutionState executionState;
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
 	 * @return Long preId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "PRIMARY_KEY", notNull = true, label = "Id de l'execution d'un processus")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id de l'execution d'un processus")
 	public Long getPreId() {
 		return preId;
 	}
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Définit la valeur de la propriété 'Id de l'execution d'un processus'.
 	 * @param preId Long <b>Obligatoire</b>
 	 */

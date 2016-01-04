@@ -18,17 +18,17 @@ public final class OExecutionState implements DtObject {
 	private String label;
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Code'. 
 	 * @return String estCd <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_CODE_IDENTIFIANT", type = "PRIMARY_KEY", notNull = true, label = "Code")
+	@Field(domain = "DO_CODE_IDENTIFIANT", type = "ID", notNull = true, label = "Code")
 	public String getEstCd() {
 		return estCd;
 	}
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Définit la valeur de la propriété 'Code'.
 	 * @param estCd String <b>Obligatoire</b>
 	 */

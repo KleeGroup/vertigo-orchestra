@@ -18,17 +18,17 @@ public final class OProcessType implements DtObject {
 	private String label;
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Code'. 
 	 * @return String prtCd <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_CODE_IDENTIFIANT", type = "PRIMARY_KEY", notNull = true, label = "Code")
+	@Field(domain = "DO_CODE_IDENTIFIANT", type = "ID", notNull = true, label = "Code")
 	public String getPrtCd() {
 		return prtCd;
 	}
 
 	/**
-	 * Champ : PRIMARY_KEY.
+	 * Champ : ID.
 	 * Définit la valeur de la propriété 'Code'.
 	 * @param prtCd String <b>Obligatoire</b>
 	 */
