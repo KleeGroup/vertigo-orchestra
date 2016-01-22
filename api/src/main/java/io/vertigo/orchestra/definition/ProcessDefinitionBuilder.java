@@ -30,7 +30,6 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	/**
 	 * Processus a déclanchement automatique.
-	 * @param delay
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withRecurrence() {
@@ -42,7 +41,6 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	/**
 	 * Processus a déclanchement automatique.
-	 * @param delay
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withMultiExecution() {
@@ -52,7 +50,6 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	/**
 	 * Processus a déclanchement manuel.
-	 * @param delay
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withManual() {
@@ -75,7 +72,6 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	/**
 	 * Définit l'expression cron du process.
-	 * @param delay delay en secondes
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withCron(final String cronExpression) {
@@ -87,7 +83,6 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	/**
 	 * Ajoute un delai entre deux executions d'une tache récurrente.
-	 * @param delay delay en secondes
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder addTask(final String taskName, final String engine, final boolean milestone) {

@@ -1,7 +1,5 @@
 package io.vertigo.orchestra.dao.execution;
 
-import javax.inject.Inject;
-
 import io.vertigo.core.Home;
 import io.vertigo.dynamo.impl.store.util.DAOBroker;
 import io.vertigo.dynamo.store.StoreManager;
@@ -11,6 +9,8 @@ import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.execution.OTaskLog;
+
+import javax.inject.Inject;
 
 /**
  * DAO : Accès à un object (DTO, DTC).
@@ -30,7 +30,7 @@ public final class OTaskLogDAO extends DAOBroker<OTaskLog, java.lang.Long> {
 
 	/**
 	 * Création d'une tache.
-	 * @param task Type de la tache
+	 * @param name the task name
 	 * @return Builder de la tache
 	 */
 	private static TaskBuilder createTaskBuilder(final String name) {

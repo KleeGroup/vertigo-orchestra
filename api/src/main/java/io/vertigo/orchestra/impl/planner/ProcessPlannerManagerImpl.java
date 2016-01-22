@@ -158,7 +158,6 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activea
 
 	/**
 	 * TODO : Description de la méthode.
-	 * @throws ParseException
 	 */
 	private Option<Date> findNextPlanificationTime(final OProcess process) {
 		final Option<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(process.getProId());

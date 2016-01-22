@@ -1,13 +1,5 @@
 package io.vertigo.orchestra.execution;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import org.junit.Assert;
-import org.junit.Test;
-
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
@@ -32,6 +24,14 @@ import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.planner.PlanificationState;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 import io.vertigo.util.ListBuilder;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * TODO : Description de la classe.
@@ -462,6 +462,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 						break;
 					case CANCELED:
 					case RESERVED:
+					case SUBMITTED:
 					default:
 						throw new UnsupportedOperationException("Unsupported state :" + taskExecution.getEstCd());
 				}
@@ -489,6 +490,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 					break;
 				case CANCELED:
 				case RESERVED:
+				case SUBMITTED:
 				default:
 					throw new UnsupportedOperationException("Unsupported state :" + processExecution.getEstCd());
 			}

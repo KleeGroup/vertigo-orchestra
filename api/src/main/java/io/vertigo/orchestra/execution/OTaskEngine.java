@@ -13,6 +13,6 @@ public interface OTaskEngine {
 	/**
 	 * Réalise l'exécution d'une tache.
 	 */
-			TaskExecutionWorkspace execute(final TaskExecutionWorkspace workspace);
+	TaskExecutionWorkspace execute(final TaskExecutionWorkspace workspace);
 
 }
