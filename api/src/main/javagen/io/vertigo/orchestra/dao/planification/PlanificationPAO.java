@@ -1,19 +1,20 @@
 package io.vertigo.orchestra.dao.planification;
 
-import io.vertigo.core.Home;
+import javax.inject.Inject;
+
+import io.vertigo.app.Home;
+import io.vertigo.lang.Assertion;
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.lang.Assertion;
-
-import javax.inject.Inject;
+import io.vertigo.dynamo.store.StoreServices;
 
 /**
  * PAO : Accès aux objects du package. 
  * PlanificationPAO
  */
-public final class PlanificationPAO {
+public final class PlanificationPAO implements StoreServices {
 	private final TaskManager taskManager;
 
 	/**
@@ -23,17 +24,17 @@ public final class PlanificationPAO {
 	@Inject
 	public PlanificationPAO(final TaskManager taskManager) {
 		Assertion.checkNotNull(taskManager);
-		//---------------------------------------------------------------------
+		//-----
 		this.taskManager = taskManager;
 	}
 
 	/**
-	 * Création d'une tache.
-	 * @param name the task name
-	 * @return Builder de la tache
+	 * Creates a taskBuilder.
+	 * @param name  the name of the task
+	 * @return the builder 
 	 */
 	private static TaskBuilder createTaskBuilder(final String name) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(name, TaskDefinition.class);
+		final TaskDefinition taskDefinition = Home.getApp().getDefinitionSpace().resolve(name, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -52,7 +53,8 @@ public final class PlanificationPAO {
 		getTaskManager().execute(task);
 	}
 
-	private TaskManager getTaskManager() {
-		return taskManager;
-	}
+    
+    private TaskManager getTaskManager(){
+    	return taskManager;
+    } 
 }

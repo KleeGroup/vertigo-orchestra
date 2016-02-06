@@ -22,7 +22,7 @@ public final class TriggerType implements DtObject {
 	 * Récupère la valeur de la propriété 'Code'. 
 	 * @return String trtCd <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_CODE_IDENTIFIANT", type = "ID", notNull = true, label = "Code")
+	@Field(domain = "DO_CODE_IDENTIFIANT", type = "ID", required = true, label = "Code")
 	public String getTrtCd() {
 		return trtCd;
 	}

@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.monitoring;
 
 import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.lang.Component;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
@@ -13,7 +14,7 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
  * Services permettant de suivre le fonctionnement de la tour de controle.
  * @author mlaroche.
  */
-public interface MonitoringServices {
+public interface MonitoringServices extends Component {
 
 	/**
 	 * Récupère la liste des processus définis.

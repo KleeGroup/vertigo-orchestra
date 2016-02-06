@@ -57,20 +57,13 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activea
 
 	/** {@inheritDoc} */
 	@Override
-	public void postStart(final ProcessPlannerManager processPlannerManager) {
+	public void start() {
 		Assertion.checkNotNull(planningPeriod);
 		Assertion.checkNotNull(forecastDuration);
 		Assertion.checkArgNotEmpty(nodeName);
 		// ---
-		processScheduler = new ProcessScheduler(processPlannerManager, planningPeriod);
+		processScheduler = new ProcessScheduler(this, planningPeriod);
 		processScheduler.start();
-
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void start() {
-		// Until fix we use an initializer for the start procedure
 	}
 
 	/** {@inheritDoc} */

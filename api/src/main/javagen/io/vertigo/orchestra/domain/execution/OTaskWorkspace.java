@@ -25,7 +25,7 @@ public final class OTaskWorkspace implements DtObject {
 	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
 	 * @return Long tkwId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id de l'execution d'un processus")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
 	public Long getTkwId() {
 		return tkwId;
 	}
@@ -44,7 +44,7 @@ public final class OTaskWorkspace implements DtObject {
 	 * Récupère la valeur de la propriété 'Workspace in/out'. 
 	 * @return Boolean isIn <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_BOOLEEN", notNull = true, label = "Workspace in/out")
+	@Field(domain = "DO_BOOLEEN", required = true, label = "Workspace in/out")
 	public Boolean getIsIn() {
 		return isIn;
 	}
@@ -129,7 +129,7 @@ public final class OTaskWorkspace implements DtObject {
 			}
 		}		
 		if (taskExecution == null) {
-			taskExecution = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			taskExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return taskExecution;
 	}

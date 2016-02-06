@@ -15,7 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<maven.test.error.ignore>true</maven.test.error.ignore>
-		<vertigo.version>0.8.2</vertigo.version>
+		<vertigo.version>0.9.1</vertigo.version>
 		<sonar.sources>src/main/java</sonar.sources>
 		<sonar.exclusions>src/main/java/io/**</sonar.exclusions>
 	</properties>
@@ -111,6 +111,12 @@
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
 			<version>1.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.5.2</version>
+			<scope>test</scope>
 		</dependency>		
 	</dependencies>
 

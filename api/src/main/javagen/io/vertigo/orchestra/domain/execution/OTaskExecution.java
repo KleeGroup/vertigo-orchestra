@@ -31,7 +31,7 @@ public final class OTaskExecution implements DtObject {
 	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
 	 * @return Long tkeId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id de l'execution d'un processus")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
 	public Long getTkeId() {
 		return tkeId;
 	}
@@ -50,7 +50,7 @@ public final class OTaskExecution implements DtObject {
 	 * Récupère la valeur de la propriété 'Date de début'. 
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_TIMESTAMP", notNull = true, label = "Date de début")
+	@Field(domain = "DO_TIMESTAMP", required = true, label = "Date de début")
 	public java.util.Date getBeginTime() {
 		return beginTime;
 	}
@@ -211,7 +211,7 @@ public final class OTaskExecution implements DtObject {
 			}
 		}		
 		if (tache == null) {
-			tache = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			tache = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return tache;
 	}
@@ -270,7 +270,7 @@ public final class OTaskExecution implements DtObject {
 			}
 		}		
 		if (processusExecution == null) {
-			processusExecution = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			processusExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return processusExecution;
 	}
@@ -333,7 +333,7 @@ public final class OTaskExecution implements DtObject {
 			}
 		}		
 		if (executionState == null) {
-			executionState = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			executionState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return executionState;
 	}

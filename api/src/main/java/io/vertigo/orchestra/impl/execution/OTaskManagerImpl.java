@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import io.vertigo.core.Home;
+import io.vertigo.app.Home;
 import io.vertigo.core.component.di.injector.Injector;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.execution.ExecutionState;
@@ -32,7 +32,7 @@ public final class OTaskManagerImpl implements OTaskManager {
 			processExecutionManager.changeExecutionState(taskExecution, ExecutionState.RUNNING);
 			// ---
 			final OTaskEngine taskEngine = Injector.newInstance(
-					ClassUtil.classForName(taskExecution.getEngine(), OTaskEngine.class), Home.getComponentSpace());
+					ClassUtil.classForName(taskExecution.getEngine(), OTaskEngine.class), Home.getApp().getComponentSpace());
 
 			try {
 				// We try the execution and we keep the result

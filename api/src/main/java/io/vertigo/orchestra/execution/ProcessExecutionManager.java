@@ -1,7 +1,8 @@
 package io.vertigo.orchestra.execution;
 
 import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.orchestra.PostActiveable;
+import io.vertigo.lang.Activeable;
+import io.vertigo.lang.Component;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.impl.execution.TaskExecutionWorkspace;
 import io.vertigo.orchestra.impl.execution.TaskLogger;
@@ -12,7 +13,7 @@ import io.vertigo.orchestra.impl.execution.TaskLogger;
  * @author KleeGroup.
  * @version $Id$
  */
-public interface ProcessExecutionManager extends PostActiveable<ProcessExecutionManager> {
+public interface ProcessExecutionManager extends Component, Activeable {
 
 	DtList<OTaskExecution> getTasksToLaunch(final Long maxNumber);
 

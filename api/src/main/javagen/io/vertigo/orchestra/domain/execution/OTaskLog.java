@@ -24,7 +24,7 @@ public final class OTaskLog implements DtObject {
 	 * Récupère la valeur de la propriété 'Id du log'. 
 	 * @return Long tklId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id du log")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id du log")
 	public Long getTklId() {
 		return tklId;
 	}
@@ -109,7 +109,7 @@ public final class OTaskLog implements DtObject {
 			}
 		}		
 		if (taskExecution == null) {
-			taskExecution = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			taskExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return taskExecution;
 	}

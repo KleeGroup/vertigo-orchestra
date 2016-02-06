@@ -1,6 +1,6 @@
 package io.vertigo.orchestra;
 
-import io.vertigo.core.config.Features;
+import io.vertigo.app.config.Features;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.dao.definition.OTaskDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
@@ -17,10 +17,8 @@ import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
 import io.vertigo.orchestra.impl.execution.OTaskManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
-import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerInitializer;
 import io.vertigo.orchestra.impl.monitoring.MonitoringServicesImpl;
 import io.vertigo.orchestra.impl.planner.ProcessPlannerManagerImpl;
-import io.vertigo.orchestra.impl.planner.ProcessPlannerManagerInitializer;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
@@ -42,19 +40,16 @@ public final class OrchestraFeatures extends Features {
 		// @formatter:off
 		getModuleConfigBuilder()
 				.withNoAPI()
-				.withInheritance(Object.class)
 				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
 				.beginComponent(ProcessPlannerManager.class, ProcessPlannerManagerImpl.class)
 					.addParam("nodeName", nodeName)
 					.addParam("planningPeriod", period)// in seconds
 					.addParam("forecastDuration", "60")// in seconds
-					.withInitializer(ProcessPlannerManagerInitializer.class)
 				.endComponent()
 				.beginComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
 					.addParam("nodeName", nodeName)
 					.addParam("executionPeriod", period)// in seconds
 					.addParam("workersCount", "3")
-					.withInitializer(ProcessExecutionManagerInitializer.class)
 				.endComponent()
 				.addComponent(OTaskManager.class, OTaskManagerImpl.class)
 				//----DAO

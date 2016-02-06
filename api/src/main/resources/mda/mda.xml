@@ -1,14 +1,8 @@
 <?xml version =	'1.0' encoding = 'UTF-8'?>
 <config>
-	<boot>
-		<component api="LocaleManager" class="io.vertigo.core.impl.locale.LocaleManagerImpl" >
-			<param name="locales" value="fr_FR" />
-		</component>
-		<component api="ResourceManager" class="io.vertigo.core.impl.resource.ResourceManagerImpl">
-			<plugin class="io.vertigo.commons.plugins.resource.java.ClassPathResourceResolverPlugin" />
-			<plugin class="io.vertigo.commons.plugins.resource.url.URLResourceResolverPlugin" />
-		</component>
-		<component api="EnvironmentManager" class="io.vertigo.core.impl.environment.EnvironmentManagerImpl">
+	<boot locales="fr_FR">
+			<plugin class="io.vertigo.core.plugins.resource.classpath.ClassPathResourceResolverPlugin" />
+			<plugin class="io.vertigo.core.plugins.resource.url.URLResourceResolverPlugin" />
 			<plugin class="io.vertigo.dynamo.plugins.environment.loaders.kpr.KprLoaderPlugin" >
 				<param name="encoding" value="UTF-8" />
 			</plugin>
@@ -20,10 +14,6 @@
 			<plugin class="io.vertigo.dynamo.plugins.environment.registries.search.SearchDynamicRegistryPlugin" />
 			<plugin class="io.vertigo.dynamo.plugins.environment.registries.file.FileDynamicRegistryPlugin" />
 			<plugin class="io.vertigo.persona.plugins.security.loaders.SecurityResourceLoaderPlugin" />
-		</component>
-		<component api="VSecurityManager" class="io.vertigo.persona.impl.security.VSecurityManagerImpl">
-			<param name="userSessionClassName" value="io.vertigo.orchestra.security.OrchestraUserSession" />		
-		</component>
 	</boot>
 	<module name="vertigo-studio">
 	    <component api="MdaManager" class="io.vertigo.studio.impl.mda.MdaManagerImpl">

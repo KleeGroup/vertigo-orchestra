@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.definition;
 
 import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.lang.Component;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
@@ -11,7 +12,7 @@ import io.vertigo.orchestra.domain.definition.OTask;
  * @author mlaroche.
  * @version $Id$
  */
-public interface ProcessDefinitionManager {
+public interface ProcessDefinitionManager extends Component {
 
 	DtList<OProcess> getRecurrentProcesses();
 

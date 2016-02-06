@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  Feb 6, 2016  10:27:21 AM                     
+--   Date de création :  5 oct. 2015  11:48:58                     
 -- ============================================================
 
 -- ============================================================
@@ -64,6 +64,7 @@ create table O_EXECUTION_STATE
 (
     EST_CD      	 VARCHAR(20) 	not null,
     LABEL       	 VARCHAR(100)	,
+    constraint PK_O_EXECUTION_STATE primary key (EST_CD)
 );
 
 comment on column O_EXECUTION_STATE.EST_CD is
@@ -79,6 +80,7 @@ create table O_PLANIFICATION_STATE
 (
     PST_CD      	 VARCHAR(20) 	not null,
     LABEL       	 VARCHAR(100)	,
+    constraint PK_O_PLANIFICATION_STATE primary key (PST_CD)
 );
 
 comment on column O_PLANIFICATION_STATE.PST_CD is
@@ -99,6 +101,7 @@ create table O_PROCESS
     MULTIEXECUTION	 BOOL        	,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
+    constraint PK_O_PROCESS primary key (PRO_ID)
 );
 
 comment on column O_PROCESS.PRO_ID is
@@ -135,6 +138,7 @@ create table O_PROCESS_EXECUTION
     ENGINE      	 VARCHAR(200)	,
     PRO_ID      	 NUMERIC     	,
     EST_CD      	 VARCHAR(20) 	,
+    constraint PK_O_PROCESS_EXECUTION primary key (PRE_ID)
 );
 
 comment on column O_PROCESS_EXECUTION.PRE_ID is
@@ -169,6 +173,7 @@ create table O_PROCESS_PLANIFICATION
     NODE_NAME   	 VARCHAR(100)	,
     PRO_ID      	 NUMERIC     	,
     PST_CD      	 VARCHAR(20) 	,
+    constraint PK_O_PROCESS_PLANIFICATION primary key (PRP_ID)
 );
 
 comment on column O_PROCESS_PLANIFICATION.PRP_ID is
@@ -201,6 +206,7 @@ create table O_PROCESS_TYPE
 (
     PRT_CD      	 VARCHAR(20) 	not null,
     LABEL       	 VARCHAR(100)	,
+    constraint PK_O_PROCESS_TYPE primary key (PRT_CD)
 );
 
 comment on column O_PROCESS_TYPE.PRT_CD is
@@ -220,6 +226,7 @@ create table O_TASK
     MILESTONE   	 BOOL        	,
     ENGINE      	 VARCHAR(200)	,
     PRO_ID      	 NUMERIC     	,
+    constraint PK_O_TASK primary key (TSK_ID)
 );
 
 comment on column O_TASK.TSK_ID is
@@ -254,6 +261,7 @@ create table O_TASK_EXECUTION
     TSK_ID      	 NUMERIC     	,
     PRE_ID      	 NUMERIC     	,
     EST_CD      	 VARCHAR(20) 	,
+    constraint PK_O_TASK_EXECUTION primary key (TKE_ID)
 );
 
 comment on column O_TASK_EXECUTION.TKE_ID is
@@ -291,6 +299,7 @@ create table O_TASK_LOG
     TKL_ID      	 NUMERIC     	not null,
     LOG         	 TEXT        	,
     TKE_ID      	 NUMERIC     	,
+    constraint PK_O_TASK_LOG primary key (TKL_ID)
 );
 
 comment on column O_TASK_LOG.TKL_ID is
@@ -312,6 +321,7 @@ create table O_TASK_WORKSPACE
     IS_IN       	 BOOL        	not null,
     WORKSPACE   	 TEXT        	,
     TKE_ID      	 NUMERIC     	,
+    constraint PK_O_TASK_WORKSPACE primary key (TKW_ID)
 );
 
 comment on column O_TASK_WORKSPACE.TKW_ID is
@@ -334,6 +344,7 @@ create table TRIGGER_TYPE
 (
     TRT_CD      	 VARCHAR(20) 	not null,
     LABEL       	 VARCHAR(100)	,
+    constraint PK_TRIGGER_TYPE primary key (TRT_CD)
 );
 
 comment on column TRIGGER_TYPE.TRT_CD is

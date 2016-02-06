@@ -1,22 +1,22 @@
 package io.vertigo.orchestra.dao.execution;
 
-import io.vertigo.core.Home;
-import io.vertigo.dynamo.impl.store.util.DAOBroker;
-import io.vertigo.dynamo.store.StoreManager;
-import io.vertigo.dynamo.task.TaskManager;
+import javax.inject.Inject;
+import io.vertigo.app.Home;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
+import io.vertigo.dynamo.impl.store.util.DAOBroker;
+import io.vertigo.dynamo.store.StoreManager;
+import io.vertigo.dynamo.store.StoreServices;
+import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
-
-import javax.inject.Inject;
 
 /**
  * DAO : Accès à un object (DTO, DTC). 
  * OProcessExecutionDAO
  */
-public final class OProcessExecutionDAO extends DAOBroker<OProcessExecution, java.lang.Long> {
-
+public final class OProcessExecutionDAO extends DAOBroker<OProcessExecution, java.lang.Long> implements StoreServices {
+	 
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -26,14 +26,15 @@ public final class OProcessExecutionDAO extends DAOBroker<OProcessExecution, jav
 	public OProcessExecutionDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OProcessExecution.class, storeManager, taskManager);
 	}
+	
 
 	/**
-	 * Création d'une tache.
-	 * @param name the task name
-	 * @return Builder de la tache
+	 * Creates a taskBuilder.
+	 * @param name  the name of the task
+	 * @return the builder 
 	 */
 	private static TaskBuilder createTaskBuilder(final String name) {
-		final TaskDefinition taskDefinition = Home.getDefinitionSpace().resolve(name, TaskDefinition.class);
+		final TaskDefinition taskDefinition = Home.getApp().getDefinitionSpace().resolve(name, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
 	}
 
@@ -64,5 +65,6 @@ public final class OProcessExecutionDAO extends DAOBroker<OProcessExecution, jav
 				.execute(task)
 				.getResult();
 	}
+
 
 }

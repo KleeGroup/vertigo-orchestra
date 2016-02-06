@@ -27,7 +27,7 @@ public final class OTask implements DtObject {
 	 * Récupère la valeur de la propriété 'Id Tache'. 
 	 * @return Long tskId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id Tache")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id Tache")
 	public Long getTskId() {
 		return tskId;
 	}
@@ -169,7 +169,7 @@ public final class OTask implements DtObject {
 			}
 		}		
 		if (process == null) {
-			process = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return process;
 	}

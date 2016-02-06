@@ -29,7 +29,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'Id de la definition du processus'. 
 	 * @return Long proId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id de la definition du processus")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id de la definition du processus")
 	public Long getProId() {
 		return proId;
 	}
@@ -196,7 +196,7 @@ public final class OProcess implements DtObject {
 			}
 		}		
 		if (triggerType == null) {
-			triggerType = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			triggerType = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return triggerType;
 	}
@@ -255,7 +255,7 @@ public final class OProcess implements DtObject {
 			}
 		}		
 		if (processType == null) {
-			processType = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			processType = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return processType;
 	}

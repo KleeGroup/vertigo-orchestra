@@ -29,7 +29,7 @@ public final class OProcessPlanification implements DtObject {
 	 * Récupère la valeur de la propriété 'Id Planification'. 
 	 * @return Long prpId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", notNull = true, label = "Id Planification")
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id Planification")
 	public Long getPrpId() {
 		return prpId;
 	}
@@ -190,7 +190,7 @@ public final class OProcessPlanification implements DtObject {
 			}
 		}		
 		if (processus == null) {
-			processus = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			processus = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return processus;
 	}
@@ -249,7 +249,7 @@ public final class OProcessPlanification implements DtObject {
 			}
 		}		
 		if (planificationState == null) {
-			planificationState = io.vertigo.core.Home.getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			planificationState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
 		return planificationState;
 	}

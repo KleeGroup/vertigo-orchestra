@@ -68,22 +68,16 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager, Act
 	//--- Activation
 	//--------------------------------------------------------------------------------------------------
 
-	/** {@inheritDoc} */
-	@Override
-	public void postStart(final ProcessExecutionManager processExecutionManager) {
-		Assertion.checkNotNull(executionPeriod);
-		Assertion.checkNotNull(workersCount);
-		Assertion.checkArgNotEmpty(nodeName);
-		// ---
-		sequentialExecutor = new SequentialExecutor(processExecutionManager, workersCount, executionPeriod * 1000);
-		sequentialExecutor.start();
-
-	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void start() {
-		// Until fix we use an initializer for the start procedure
+		Assertion.checkNotNull(executionPeriod);
+		Assertion.checkNotNull(workersCount);
+		Assertion.checkArgNotEmpty(nodeName);
+		// ---
+		sequentialExecutor = new SequentialExecutor(this, workersCount, executionPeriod * 1000);
+		sequentialExecutor.start();
 	}
 
 	/** {@inheritDoc} */

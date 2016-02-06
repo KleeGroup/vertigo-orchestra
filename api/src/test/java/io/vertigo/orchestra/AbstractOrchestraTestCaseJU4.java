@@ -3,8 +3,8 @@ package io.vertigo.orchestra;
 import org.junit.After;
 import org.junit.Before;
 
-import io.vertigo.core.App;
-import io.vertigo.core.Home;
+import io.vertigo.app.App;
+import io.vertigo.app.Home;
 import io.vertigo.core.component.di.injector.Injector;
 
 /**
@@ -19,7 +19,7 @@ public class AbstractOrchestraTestCaseJU4 {
 	@Before
 	public void setUp() throws Exception {
 		app = new App(MyAppConfig.config());
-		Injector.injectMembers(this, Home.getComponentSpace());
+		Injector.injectMembers(this, Home.getApp().getComponentSpace());
 		doSetUp();
 	}
 
