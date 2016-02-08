@@ -7,7 +7,6 @@ import javax.inject.Named;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
-import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
@@ -35,7 +34,7 @@ import io.vertigo.util.StringUtil;
  * @version $Id$
  */
 @Transactional
-public class ProcessExecutionManagerImpl implements ProcessExecutionManager, Activeable {
+public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 	@Inject
 	@Named("nodeName")
@@ -67,7 +66,6 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager, Act
 	//--------------------------------------------------------------------------------------------------
 	//--- Activation
 	//--------------------------------------------------------------------------------------------------
-
 
 	/** {@inheritDoc} */
 	@Override

@@ -1,8 +1,16 @@
 package io.vertigo.orchestra.impl.planner;
 
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
-import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
@@ -13,15 +21,6 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.planner.PlanificationState;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 /**
  * TODO : Description de la classe.
  *
@@ -29,7 +28,7 @@ import javax.inject.Named;
  * @version $Id$
  */
 @Transactional
-public class ProcessPlannerManagerImpl implements ProcessPlannerManager, Activeable {
+public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 
 	@Inject
 	@Named("nodeName")
