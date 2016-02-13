@@ -3,9 +3,7 @@ package io.vertigo.orchestra.planner;
 import java.util.Date;
 
 import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Component;
-import io.vertigo.orchestra.PostActiveable;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 
 /**
@@ -13,13 +11,11 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
  *
  * @author mlaroche
  */
-public interface ProcessPlannerManager extends Component,Activeable {
+public interface ProcessPlannerManager extends Component {
 
 	void plannProcessAt(final Long proId, final Date planifiedTime, final String initialParams);
 
 	void plannProcessAt(final Long proId, final Date planifiedTime);
-
-	void plannRecurrentProcesses();
 
 	DtList<OProcessPlanification> getProcessToExecute();
 

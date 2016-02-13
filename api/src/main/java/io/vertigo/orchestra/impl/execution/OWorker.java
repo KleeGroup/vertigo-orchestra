@@ -18,10 +18,10 @@ public class OWorker implements Runnable {
 
 	private final OTaskExecution taskExecution;
 	private final TaskExecutionWorkspace params;
-	private final SequentialExecutor sequentialExecutor;
+	private final SequentialExecutorPlugin sequentialExecutor;
 
 	public OWorker(final OTaskExecution taskExecution,
-			final TaskExecutionWorkspace params, final SequentialExecutor sequentialExecutor) {
+			final TaskExecutionWorkspace params, final SequentialExecutorPlugin sequentialExecutor) {
 		Assertion.checkNotNull(taskExecution);
 		// -----
 		this.taskExecution = taskExecution;
@@ -35,7 +35,7 @@ public class OWorker implements Runnable {
 		doRun();
 	}
 
-	private  void doRun() {
+	private void doRun() {
 		final ExecutorService localExecutor = Executors.newSingleThreadExecutor();
 		final Future<TaskExecutionWorkspace> futureResult = localExecutor.submit(new OLocalWorker(taskExecution, params));
 		TaskExecutionWorkspace result;

@@ -17,8 +17,10 @@ import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
 import io.vertigo.orchestra.impl.execution.OTaskManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
+import io.vertigo.orchestra.impl.execution.SequentialExecutorPlugin;
 import io.vertigo.orchestra.impl.monitoring.MonitoringServicesImpl;
 import io.vertigo.orchestra.impl.planner.ProcessPlannerManagerImpl;
+import io.vertigo.orchestra.impl.planner.ProcessSchedulerPlugin;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.planner.ProcessPlannerManager;
 
@@ -41,16 +43,18 @@ public final class OrchestraFeatures extends Features {
 		getModuleConfigBuilder()
 				.withNoAPI()
 				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
-				.beginComponent(ProcessPlannerManager.class, ProcessPlannerManagerImpl.class)
+				.addComponent(ProcessPlannerManager.class, ProcessPlannerManagerImpl.class)
+				.beginPlugin(ProcessSchedulerPlugin.class)
 					.addParam("nodeName", nodeName)
 					.addParam("planningPeriod", period)// in seconds
 					.addParam("forecastDuration", "60")// in seconds
-				.endComponent()
-				.beginComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
+				.endPlugin()
+				.addComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
+				.beginPlugin(SequentialExecutorPlugin.class)
 					.addParam("nodeName", nodeName)
-					.addParam("executionPeriod", period)// in seconds
 					.addParam("workersCount", "3")
-				.endComponent()
+					.addParam("executionPeriod", period)// in seconds
+				.endPlugin()
 				.addComponent(OTaskManager.class, OTaskManagerImpl.class)
 				//----DAO
 				.addComponent(OProcessDAO.class)
