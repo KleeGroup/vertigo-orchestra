@@ -11,6 +11,8 @@ import java.util.TimerTask;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.log4j.Logger;
+
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
@@ -32,6 +34,9 @@ import io.vertigo.orchestra.planner.PlanificationState;
  * @version $Id$
  */
 public final class ProcessSchedulerPlugin implements Plugin, Activeable {
+
+	private static final Logger LOGGER = Logger.getLogger(ProcessSchedulerPlugin.class);
+
 	private Timer planTimer;
 	private final long timerDelay;
 
@@ -68,7 +73,12 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 			@Override
 			public void run() {
-				plannRecurrentProcesses();
+				try {
+					plannRecurrentProcesses();
+				} catch (Exception e) {
+					// We log the error and we continue the timer
+					LOGGER.error("Exception planning recurrent processes", e);
+				}
 
 			}
 		}, timerDelay, timerDelay);

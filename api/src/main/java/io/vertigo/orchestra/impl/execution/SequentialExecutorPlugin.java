@@ -10,6 +10,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.log4j.Logger;
+
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
@@ -39,6 +41,8 @@ import io.vertigo.util.StringUtil;
  * @version $Id$
  */
 public final class SequentialExecutorPlugin implements Plugin, Activeable {
+
+	private static final Logger LOGGER = Logger.getLogger(SequentialExecutorPlugin.class);
 
 	@Inject
 	private OProcessExecutionDAO processExecutionDAO;
@@ -84,7 +88,13 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 			@Override
 			public void run() {
-				executeToDo();
+				try {
+					executeToDo();
+				} catch (Exception e) {
+					// We log the error and we continue the timer
+					LOGGER.error("Exception launching tasks to executes", e);
+				}
+
 			}
 		}, timerDelay + timerDelay / 10, timerDelay);
 	}
@@ -169,14 +179,22 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	private void executeToDo() {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			initNewProcessesToLaunch();
-			for (final OTaskExecution taskExecution : /*debut de transaction*/getTasksToLaunch()/*fin de transaction*/) { //We submit only the process we can handle, no queue
+			transaction.commit();
+		}
+		final DtList<OTaskExecution> tasksToLaunch;
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			tasksToLaunch = getTasksToLaunch();
+			transaction.commit();
+		}
+		for (final OTaskExecution taskExecution : tasksToLaunch) { //We submit only the process we can handle, no queue
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 				final TaskExecutionWorkspace workspace = getWorkspaceForTaskExecution(taskExecution.getTkeId(), true);
 				changeExecutionState(taskExecution, ExecutionState.SUBMITTED);
 				workers.submit(new OWorker(taskExecution, workspace, this));
-
+				transaction.commit();
 			}
-			transaction.commit();
 		}
+
 	}
 
 	private void initFirstTaskExecution(final OProcessExecution processExecution, final OProcessPlanification processPlanification) {
