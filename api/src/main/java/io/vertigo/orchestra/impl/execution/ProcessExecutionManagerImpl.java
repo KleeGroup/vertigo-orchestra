@@ -87,24 +87,23 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	}
 
 	@Override
-	public TaskExecutionWorkspace getWorkspaceForTaskExecution(Long tkeId, Boolean in) {
+	public TaskExecutionWorkspace getWorkspaceForTaskExecution(final Long tkeId, final Boolean in) {
 		Assertion.checkNotNull(tkeId);
 		Assertion.checkNotNull(in);
 		// ---
 		if (transactionManager.hasCurrentTransaction()) {
 			return sequentialExecutor.getWorkspaceForTaskExecution(tkeId, in);
-		} else {
-			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				final TaskExecutionWorkspace workspace = sequentialExecutor.getWorkspaceForTaskExecution(tkeId, in);
-				transaction.commit();
-				return workspace;
-			}
+		}
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			final TaskExecutionWorkspace workspace = sequentialExecutor.getWorkspaceForTaskExecution(tkeId, in);
+			transaction.commit();
+			return workspace;
 		}
 
 	}
 
 	@Override
-	public void saveTaskExecutionWorkspace(Long tkeId, TaskExecutionWorkspace workspace, Boolean in) {
+	public void saveTaskExecutionWorkspace(final Long tkeId, final TaskExecutionWorkspace workspace, final Boolean in) {
 		Assertion.checkNotNull(tkeId);
 		Assertion.checkNotNull(workspace);
 		Assertion.checkNotNull(in);

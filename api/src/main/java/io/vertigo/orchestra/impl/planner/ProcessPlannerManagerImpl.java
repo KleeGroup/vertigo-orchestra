@@ -68,12 +68,11 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 	public DtList<OProcessPlanification> getProcessToExecute() {
 		if (transactionManager.hasCurrentTransaction()) {
 			return processScheduler.getProcessToExecute();
-		} else {
-			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				final DtList<OProcessPlanification> processesToExecute = processScheduler.getProcessToExecute();
-				transaction.commit();
-				return processesToExecute;
-			}
+		}
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			final DtList<OProcessPlanification> processesToExecute = processScheduler.getProcessToExecute();
+			transaction.commit();
+			return processesToExecute;
 		}
 	}
 
