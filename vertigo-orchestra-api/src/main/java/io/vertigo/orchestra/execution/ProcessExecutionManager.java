@@ -1,6 +1,6 @@
 package io.vertigo.orchestra.execution;
 
-import io.vertigo.lang.Component;
+import io.vertigo.lang.Manager;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.impl.execution.TaskExecutionWorkspace;
 import io.vertigo.orchestra.impl.execution.TaskLogger;
@@ -11,7 +11,7 @@ import io.vertigo.orchestra.impl.execution.TaskLogger;
  * @author KleeGroup.
  * @version $Id$
  */
-public interface ProcessExecutionManager extends Component {
+public interface ProcessExecutionManager extends Manager {
 
 	void changeExecutionState(OTaskExecution taskExecution, ExecutionState executionState);
 

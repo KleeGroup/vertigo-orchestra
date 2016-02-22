@@ -9,10 +9,128 @@
 	<groupId>io.vertigo</groupId>
 	<name>vertigo-orchestra</name>
 	<version>0.1-SNAPSHOT</version>
+	
+	<properties>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.test.failure.ignore>true</maven.test.failure.ignore>
+		<maven.test.error.ignore>true</maven.test.error.ignore>
+		<vertigo.version>0.9.1</vertigo.version>
+		<sonar.sources>src/main/java</sonar.sources>
+		<sonar.exclusions>src/main/java/io/**</sonar.exclusions>
+	</properties>
 
 	<modules>
 		<module>vertigo-orchestra-api</module>
 		<module>vertigo-orchestra-ui</module>
+		<module>vertigo-orchestra-impl</module>
 	</modules>
 
+	<build>
+		<plugins>
+			<plugin><!-- Copie des dÃ©pendances avant la gÃ©nÃ©ration. -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>src/main/webapp/WEB-INF/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/javagen</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>Jenkins</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.17</version>
+						<configuration>
+							<forkCount>1</forkCount>
+							<excludes>
+								<exclude>**/AllTest*.java</exclude>
+								<exclude>**/Abstract*Test*.java</exclude>
+							</excludes>
+							<testFailureIgnore>true</testFailureIgnore>
+							<!-- Fichier de propriétés spécifique pour cruise control -->
+							<systemPropertyVariables>
+							<!--
+								<propertiesFile>jenkins.test.properties</propertiesFile>
+								-->
+								<propertiesFile>test.properties</propertiesFile>
+							</systemPropertyVariables>
+							<properties>
+								<property>
+									<name>listener</name>
+									<value>org.sonar.java.jacoco.JUnitListener</value>
+								</property>
+							</properties>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.7.1.201405082137</version>
+						<executions>
+							<execution>
+								<id>default-prepare-agent</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>default-report</id>
+								<phase>test</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.codehaus.sonar-plugins.java</groupId>
+					<artifactId>sonar-jacoco-listeners</artifactId>
+					<version>2.4</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>
