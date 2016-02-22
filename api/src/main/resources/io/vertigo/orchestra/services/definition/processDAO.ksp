@@ -2,13 +2,13 @@ package io.vertigo.orchestra.dao.definition
 
 
 
-create Task TK_GET_RECURRENT_PROCESSES {
+create Task TK_GET_ALL_SCHEDULED_PROCESSES {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 
         		pro.*
         	from o_process pro
-        	where pro.trt_cd = 'RECURRENT'
+        	where pro.trt_cd = 'SCHEDULED'
         	for update
         	
 			"

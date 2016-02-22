@@ -14,5 +14,5 @@ insert into o_planification_state(pst_cd, label) values ('CANCELED', 'Canceled')
 
 insert into o_process_type(prt_cd, label) values ('DUMB', 'Dumb');
 
-insert into trigger_type(trt_cd, label) values ('RECURRENT', 'Recurrent');
-insert into trigger_type(trt_cd, label) values ('MANUAL', 'Manuel');
+insert into trigger_type(trt_cd, label) values ('SCHEDULED', 'scheduled');
+insert into trigger_type(trt_cd, label) values ('MANUAL', 'manual');

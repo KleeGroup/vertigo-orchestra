@@ -1,9 +1,5 @@
 package io.vertigo.orchestra.impl.definition;
 
-import java.util.List;
-
-import javax.inject.Inject;
-
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
@@ -14,6 +10,10 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * TODO : Description de la classe.
@@ -31,7 +31,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OProcess> getRecurrentProcesses() {
+	public DtList<OProcess> getAllScheduledProcesses() {
 		return processDao.getRecurrentProcesses();
 	}
 

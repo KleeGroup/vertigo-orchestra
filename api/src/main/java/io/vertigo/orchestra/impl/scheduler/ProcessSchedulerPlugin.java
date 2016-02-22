@@ -110,7 +110,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	private void plannRecurrentProcesses() {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			for (final OProcess process : processDefinitionManager.getRecurrentProcesses()) {
+			for (final OProcess process : processDefinitionManager.getAllScheduledProcesses()) {
 				final Option<Date> nextPlanification = findNextPlanificationTime(process);
 				if (nextPlanification.isDefined()) {
 					scheduleAt(process.getProId(), nextPlanification.get(), Option.option(process.getInitialParams()));

@@ -32,30 +32,8 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * Processus a déclanchement automatique.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withRecurrence() {
-		Assertion.checkState(process.getTrtCd() == null, "Le type de déclanchement est déjà renseigné");
-		// ---
-		process.setTrtCd("RECURRENT");
-		return this;
-	}
-
-	/**
-	 * Processus a déclanchement automatique.
-	 * @return this
-	 */
 	public ProcessDefinitionBuilder withMultiExecution() {
 		process.setMultiexecution(true);
-		return this;
-	}
-
-	/**
-	 * Processus a déclanchement manuel.
-	 * @return this
-	 */
-	public ProcessDefinitionBuilder withManual() {
-		Assertion.checkState(process.getTrtCd() == null, "Le type de déclanchement est déjà renseigné");
-		// ---
-		process.setTrtCd("MANUAL");
 		return this;
 	}
 
@@ -75,7 +53,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withCron(final String cronExpression) {
-		Assertion.checkState(process.getTrtCd() == "RECURRENT", "Le type de déclanchement doit être recurrent");
+		Assertion.checkArgNotEmpty(cronExpression);
 		// ---
 		process.setCronExpression(cronExpression);
 		return this;
@@ -100,6 +78,11 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
+		if (process.getCronExpression() != null) {
+			process.setTrtCd("SCHEDULED");
+		} else {
+			process.setTrtCd("MANUAL");
+		}
 		return new ProcessDefinition(process, tasksBuilder.unmodifiable().build());
 	}
 

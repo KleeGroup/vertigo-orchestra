@@ -14,7 +14,7 @@ import io.vertigo.orchestra.domain.definition.OTask;
  */
 public interface ProcessDefinitionManager extends Component {
 
-	DtList<OProcess> getRecurrentProcesses();
+	DtList<OProcess> getAllScheduledProcesses();
 
 	OTask getFirtTaskByProcess(Long proId);
 
