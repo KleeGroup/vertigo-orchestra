@@ -1,17 +1,5 @@
 package io.vertigo.orchestra.impl.execution;
 
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.apache.log4j.Logger;
-
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
@@ -31,8 +19,20 @@ import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.ExecutionState;
-import io.vertigo.orchestra.planner.ProcessPlannerManager;
+import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 import io.vertigo.util.StringUtil;
+
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.apache.log4j.Logger;
 
 /**
  * TODO : Description de la classe.
@@ -59,24 +59,33 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	private Timer planTimer;
 	private final long timerDelay;
 
-	@Inject
-	private ProcessDefinitionManager processDefinitionManager;
-	@Inject
-	private ProcessPlannerManager processPlannerManager;
-	@Inject
-	private VTransactionManager transactionManager;
+	private final ProcessDefinitionManager processDefinitionManager;
+	private final ProcessSchedulerManager processSchedulerManager;
+	private final VTransactionManager transactionManager;
 
 	@Inject
-	public SequentialExecutorPlugin(@Named("nodeName") final String nodeName, @Named("workersCount") final Long workersCount, @Named("executionPeriod") final Integer executionPeriod) {
+	public SequentialExecutorPlugin(
+			final ProcessDefinitionManager processDefinitionManager,
+			final ProcessSchedulerManager processSchedulerManager,
+			final VTransactionManager transactionManager,
+			@Named("nodeName") final String nodeName,
+			@Named("workersCount") final Long workersCount,
+			@Named("executionPeriod") final Integer executionPeriod) {
+		Assertion.checkNotNull(processDefinitionManager);
+		Assertion.checkNotNull(processSchedulerManager);
+		Assertion.checkNotNull(transactionManager);
 		Assertion.checkNotNull(nodeName);
 		Assertion.checkNotNull(workersCount);
 		Assertion.checkNotNull(executionPeriod);
 		// ---
 		Assertion.checkState(workersCount >= 1, "We need at least 1 worker");
 		// ---
+		this.processDefinitionManager = processDefinitionManager;
+		this.processSchedulerManager = processSchedulerManager;
+		this.transactionManager = transactionManager;
 		this.nodeName = nodeName;
 		this.workersCount = (long) workersCount;
-		this.timerDelay = 1000 * executionPeriod;
+		timerDelay = 1000 * executionPeriod;
 		workers = Executors.newFixedThreadPool(workersCount.intValue());
 	}
 
@@ -90,7 +99,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			public void run() {
 				try {
 					executeToDo();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					// We log the error and we continue the timer
 					LOGGER.error("Exception launching tasks to executes", e);
 				}
@@ -249,13 +258,13 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	}
 
 	private void initNewProcessesToLaunch() {
-		for (final OProcessPlanification processPlanification : processPlannerManager.getProcessToExecute()) {
+		for (final OProcessPlanification processPlanification : processSchedulerManager.getProcessToExecute()) {
 			if (canExecute(processPlanification)) {
 				final OProcessExecution processExecution = initProcessExecution(processPlanification);
-				processPlannerManager.triggerPlanification(processPlanification);
+				processSchedulerManager.triggerPlanification(processPlanification);
 				initFirstTaskExecution(processExecution, processPlanification);
 			} else {
-				processPlannerManager.misfirePlanification(processPlanification);
+				processSchedulerManager.misfirePlanification(processPlanification);
 			}
 		}
 	}

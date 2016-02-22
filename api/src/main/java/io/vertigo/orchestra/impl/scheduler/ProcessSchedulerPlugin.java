@@ -1,4 +1,18 @@
-package io.vertigo.orchestra.impl.planner;
+package io.vertigo.orchestra.impl.scheduler;
+
+import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.dynamo.transaction.VTransactionManager;
+import io.vertigo.dynamo.transaction.VTransactionWritable;
+import io.vertigo.lang.Activeable;
+import io.vertigo.lang.Assertion;
+import io.vertigo.lang.Option;
+import io.vertigo.lang.Plugin;
+import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
+import io.vertigo.orchestra.dao.planification.PlanificationPAO;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.domain.definition.OProcess;
+import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.scheduler.PlanificationState;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -13,20 +27,6 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 
-import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.dynamo.transaction.VTransactionManager;
-import io.vertigo.dynamo.transaction.VTransactionWritable;
-import io.vertigo.lang.Activeable;
-import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
-import io.vertigo.lang.Plugin;
-import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
-import io.vertigo.orchestra.dao.planification.PlanificationPAO;
-import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.domain.planification.OProcessPlanification;
-import io.vertigo.orchestra.planner.PlanificationState;
-
 /**
  * TODO : Description de la classe.
  *
@@ -40,9 +40,9 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	private Timer planTimer;
 	private final long timerDelay;
 
-	private String nodeName;
-	private Integer planningPeriod;
-	private Integer forecastDuration;
+	private final String nodeName;
+	private final Integer planningPeriod;
+	private final Integer forecastDuration;
 
 	@Inject
 	private ProcessDefinitionManager processDefinitionManager;
@@ -60,7 +60,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(planningPeriod);
 		Assertion.checkNotNull(forecastDuration);
 		//-----
-		this.timerDelay = planningPeriod * 1000;
+		timerDelay = planningPeriod * 1000;
 		this.nodeName = nodeName;
 		this.planningPeriod = planningPeriod;
 		this.forecastDuration = forecastDuration;
@@ -75,7 +75,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 			public void run() {
 				try {
 					plannRecurrentProcesses();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					// We log the error and we continue the timer
 					LOGGER.error("Exception planning recurrent processes", e);
 				}
@@ -94,14 +94,16 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	//--- Package
 	//--------------------------------------------------------------------------------------------------
 
-	void plannProcessAt(final Long proId, final Date planifiedTime, final String initialParams) {
+	void scheduleAt(final Long proId, final Date planifiedTime, final Option<String> initialParamsOption) {
 		Assertion.checkNotNull(proId);
 		// ---
 		final OProcessPlanification processPlanification = new OProcessPlanification();
 		processPlanification.setProId(proId);
 		processPlanification.setExpectedTime(planifiedTime);
 		processPlanification.setPstCd(PlanificationState.WAITING.name());
-		processPlanification.setInitialParams(initialParams);
+		if (initialParamsOption.isDefined()) {
+			processPlanification.setInitialParams(initialParamsOption.get());
+		}
 		processPlanificationDAO.save(processPlanification);
 
 	}
@@ -111,7 +113,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 			for (final OProcess process : processDefinitionManager.getRecurrentProcesses()) {
 				final Option<Date> nextPlanification = findNextPlanificationTime(process);
 				if (nextPlanification.isDefined()) {
-					plannProcessAt(process.getProId(), nextPlanification.get(), process.getInitialParams());
+					scheduleAt(process.getProId(), nextPlanification.get(), Option.option(process.getInitialParams()));
 				}
 			}
 			transaction.commit();

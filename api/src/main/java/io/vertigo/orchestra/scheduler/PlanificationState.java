@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.planner;
+package io.vertigo.orchestra.scheduler;
 
 /**
  * Enumération des états de planification.
@@ -6,7 +6,6 @@ package io.vertigo.orchestra.planner;
  * @version $Id$
  */
 public enum PlanificationState {
-
 	WAITING,
 
 	RESERVED,
@@ -16,5 +15,4 @@ public enum PlanificationState {
 	MISFIRED,
 
 	CANCELED;
-
 }

@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.planner;
+package io.vertigo.orchestra.impl.scheduler;
 
 import java.text.ParseException;
 import java.util.Calendar;

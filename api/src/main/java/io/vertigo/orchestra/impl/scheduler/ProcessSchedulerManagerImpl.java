@@ -1,15 +1,16 @@
-package io.vertigo.orchestra.impl.planner;
-
-import java.util.Date;
-
-import javax.inject.Inject;
+package io.vertigo.orchestra.impl.scheduler;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Assertion;
+import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
-import io.vertigo.orchestra.planner.ProcessPlannerManager;
+import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+
+import java.util.Date;
+
+import javax.inject.Inject;
 
 /**
  * TODO : Description de la classe.
@@ -17,22 +18,20 @@ import io.vertigo.orchestra.planner.ProcessPlannerManager;
  * @author mlaroche.
  * @version $Id$
  */
-public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
-
-	@Inject
-	private VTransactionManager transactionManager;
+public class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
+	private final VTransactionManager transactionManager;
 
 	private final ProcessSchedulerPlugin processScheduler;
 
-	//--------------------------------------------------------------------------------------------------
-	//--- Constructeur
-	//--------------------------------------------------------------------------------------------------
 	@Inject
-	public ProcessPlannerManagerImpl(final ProcessSchedulerPlugin processScheduler) {
+	public ProcessSchedulerManagerImpl(
+			final VTransactionManager transactionManager,
+			final ProcessSchedulerPlugin processScheduler) {
+		Assertion.checkNotNull(transactionManager);
 		Assertion.checkNotNull(processScheduler);
 		// ---
+		this.transactionManager = transactionManager;
 		this.processScheduler = processScheduler;
-
 	}
 
 	//--------------------------------------------------------------------------------------------------
@@ -41,24 +40,17 @@ public class ProcessPlannerManagerImpl implements ProcessPlannerManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void plannProcessAt(final Long proId, final Date planifiedTime, final String initialParams) {
+	public void scheduleAt(final Long proId, final Date planifiedTime, final Option<String> initialParamsOption) {
 		Assertion.checkNotNull(proId);
 		// ---
 		if (transactionManager.hasCurrentTransaction()) {
-			processScheduler.plannProcessAt(proId, planifiedTime, initialParams);
+			processScheduler.scheduleAt(proId, planifiedTime, initialParamsOption);
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				processScheduler.plannProcessAt(proId, planifiedTime, initialParams);
+				processScheduler.scheduleAt(proId, planifiedTime, initialParamsOption);
 				transaction.commit();
 			}
 		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void plannProcessAt(final Long proId, final Date planifiedTime) {
-		plannProcessAt(proId, planifiedTime, null);
-
 	}
 
 	/** {@inheritDoc} */

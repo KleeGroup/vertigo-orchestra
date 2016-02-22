@@ -19,10 +19,10 @@ import io.vertigo.orchestra.impl.execution.OTaskManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
 import io.vertigo.orchestra.impl.execution.SequentialExecutorPlugin;
 import io.vertigo.orchestra.impl.monitoring.MonitoringServicesImpl;
-import io.vertigo.orchestra.impl.planner.ProcessPlannerManagerImpl;
-import io.vertigo.orchestra.impl.planner.ProcessSchedulerPlugin;
+import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl;
+import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
-import io.vertigo.orchestra.planner.ProcessPlannerManager;
+import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**
  * Defines extension comment.
@@ -43,7 +43,7 @@ public final class OrchestraFeatures extends Features {
 		getModuleConfigBuilder()
 				.withNoAPI()
 				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
-				.addComponent(ProcessPlannerManager.class, ProcessPlannerManagerImpl.class)
+				.addComponent(ProcessSchedulerManager.class, ProcessSchedulerManagerImpl.class)
 				.beginPlugin(ProcessSchedulerPlugin.class)
 					.addParam("nodeName", nodeName)
 					.addParam("planningPeriod", period)// in seconds

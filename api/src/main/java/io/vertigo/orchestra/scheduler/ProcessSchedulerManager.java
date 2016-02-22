@@ -1,21 +1,20 @@
-package io.vertigo.orchestra.planner;
-
-import java.util.Date;
+package io.vertigo.orchestra.scheduler;
 
 import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.lang.Component;
+import io.vertigo.lang.Manager;
+import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+
+import java.util.Date;
 
 /**
  * API des services liés à la planification des processus.
  *
  * @author mlaroche
  */
-public interface ProcessPlannerManager extends Component {
+public interface ProcessSchedulerManager extends Manager {
 
-	void plannProcessAt(final Long proId, final Date planifiedTime, final String initialParams);
-
-	void plannProcessAt(final Long proId, final Date planifiedTime);
+	void scheduleAt(final Long proId, final Date planifiedTime, final Option<String> initialParams);
 
 	DtList<OProcessPlanification> getProcessToExecute();
 
