@@ -37,19 +37,9 @@
 			<version>${vertigo.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-persona-api</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-vega-api</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-tempo-api</artifactId>
-			<version>${vertigo.version}</version>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>io.vertigo</groupId>
@@ -60,27 +50,6 @@
 			<groupId>io.vertigo</groupId>
 			<artifactId>vertigo-dynamo-impl</artifactId>
 			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-persona-impl</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-vega-impl</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-tempo-impl</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-studio</artifactId>
-			<version>${vertigo.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -100,17 +69,6 @@
 			<version>${vertigo.version}</version>
 			<type>test-jar</type>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty.orbit</groupId>
-			<artifactId>javax.servlet</artifactId>
-			<version>3.0.0.v201112011016</version>
-			<scope>provided</scope>
-		</dependency> 
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-			<version>1.4.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mchange</groupId>
