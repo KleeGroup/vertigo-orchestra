@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>vertigo-orchestra</artifactId>
+	<artifactId>vertigo-orchestra-reactor</artifactId>
 	<packaging>pom</packaging>
 
 	<groupId>io.vertigo</groupId>
@@ -11,8 +11,8 @@
 	<version>0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>api</module>
-		<module>ui</module>
+		<module>vertigo-orchestra-api</module>
+		<module>vertigo-orchestra-ui</module>
 	</modules>
 
 </project>
