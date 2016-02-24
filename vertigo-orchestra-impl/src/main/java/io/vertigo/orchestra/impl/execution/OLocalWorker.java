@@ -1,18 +1,17 @@
 package io.vertigo.orchestra.impl.execution;
 
+import io.vertigo.app.Home;
+import io.vertigo.core.component.di.injector.Injector;
+import io.vertigo.lang.Assertion;
+import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.execution.ProcessExecutionManager;
+
 import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
-
-import io.vertigo.app.Home;
-import io.vertigo.core.component.di.injector.Injector;
-import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.execution.OTaskManager;
-import io.vertigo.orchestra.execution.ProcessExecutionManager;
 
 final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
 
@@ -35,7 +34,7 @@ final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
 	}
 
 	@Inject
-	private OTaskManager taskManager;
+	private ProcessExecutionManager processExecutionManager;
 
 	private final OTaskExecution taskExecution;
 	private final TaskExecutionWorkspace workspace;
@@ -56,7 +55,7 @@ final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
 	@Override
 	public TaskExecutionWorkspace call() {
 		try {
-			return taskManager.execute(taskExecution, workspace);
+			return processExecutionManager.execute(taskExecution, workspace);
 		} catch (final Exception e) {
 			logError(e);
 			throw asRuntimeException(e);
