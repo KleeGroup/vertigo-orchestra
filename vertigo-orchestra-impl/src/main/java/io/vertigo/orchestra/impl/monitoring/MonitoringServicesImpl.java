@@ -6,13 +6,11 @@ import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
-import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OTaskExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OTaskLogDAO;
 import io.vertigo.orchestra.dao.execution.OTaskWorkspaceDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
-import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.domain.execution.OTaskLog;
@@ -30,8 +28,6 @@ import io.vertigo.orchestra.monitoring.MonitoringServices;
 public class MonitoringServicesImpl implements MonitoringServices {
 
 	@Inject
-	private OProcessDAO processDAO;
-	@Inject
 	private OProcessExecutionDAO processExecutionDAO;
 	@Inject
 	private OTaskExecutionDAO taskExecutionDAO;
@@ -42,12 +38,6 @@ public class MonitoringServicesImpl implements MonitoringServices {
 	private OTaskLogDAO taskLogDAO;
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;
-
-	/** {@inheritDoc} */
-	@Override
-	public DtList<OProcess> getProcesses() {
-		return processDAO.getProcesses();
-	}
 
 	/** {@inheritDoc} */
 	@Override

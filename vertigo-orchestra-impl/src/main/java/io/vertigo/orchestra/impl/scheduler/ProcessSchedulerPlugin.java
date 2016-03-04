@@ -1,23 +1,11 @@
 package io.vertigo.orchestra.impl.scheduler;
 
-import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.dynamo.transaction.VTransactionManager;
-import io.vertigo.dynamo.transaction.VTransactionWritable;
-import io.vertigo.lang.Activeable;
-import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
-import io.vertigo.lang.Plugin;
-import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
-import io.vertigo.orchestra.dao.planification.PlanificationPAO;
-import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.domain.planification.OProcessPlanification;
-import io.vertigo.orchestra.scheduler.PlanificationState;
-
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +14,20 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+
+import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.dynamo.transaction.VTransactionManager;
+import io.vertigo.dynamo.transaction.VTransactionWritable;
+import io.vertigo.lang.Activeable;
+import io.vertigo.lang.Assertion;
+import io.vertigo.lang.Option;
+import io.vertigo.lang.Plugin;
+import io.vertigo.orchestra.dao.definition.OProcessDAO;
+import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
+import io.vertigo.orchestra.dao.planification.PlanificationPAO;
+import io.vertigo.orchestra.domain.definition.OProcess;
+import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.scheduler.PlanificationState;
 
 /**
  * TODO : Description de la classe.
@@ -45,14 +47,14 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	private final Integer forecastDuration;
 
 	@Inject
-	private ProcessDefinitionManager processDefinitionManager;
-	@Inject
 	private VTransactionManager transactionManager;
 
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;
 	@Inject
 	private PlanificationPAO planificationPAO;
+	@Inject
+	private OProcessDAO processDao;
 
 	@Inject
 	public ProcessSchedulerPlugin(@Named("nodeName") final String nodeName, @Named("planningPeriod") final Integer planningPeriod, @Named("forecastDuration") final Integer forecastDuration) {
@@ -110,7 +112,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	private void plannRecurrentProcesses() {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			for (final OProcess process : processDefinitionManager.getAllScheduledProcesses()) {
+			for (final OProcess process : getAllScheduledProcesses()) {
 				final Option<Date> nextPlanification = findNextPlanificationTime(process);
 				if (nextPlanification.isDefined()) {
 					scheduleAt(process.getProId(), nextPlanification.get(), Option.option(process.getInitialParams()));
@@ -121,7 +123,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	}
 
-	DtList<OProcessPlanification> getProcessToExecute() {
+	List<Long> getProcessToExecute() {
 		final GregorianCalendar lowerLimit = new GregorianCalendar(Locale.FRANCE);
 		lowerLimit.add(Calendar.SECOND, -(planningPeriod / 2 + 1));
 
@@ -129,16 +131,23 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 		upperLimit.add(Calendar.SECOND, (planningPeriod / 2));
 
 		planificationPAO.reserveProcessToExecute(lowerLimit.getTime(), upperLimit.getTime(), nodeName);
-		return processPlanificationDAO.getProcessToExecute(nodeName);
+		final DtList<OProcessPlanification> processToExecute = processPlanificationDAO.getProcessToExecute(nodeName);
+		final List<Long> prpIdsToExecute = new ArrayList<>();
+		for (final OProcessPlanification processPlanification : processToExecute) {
+			prpIdsToExecute.add(processPlanification.getPrpId());
+		}
+		return prpIdsToExecute;
 	}
 
-	void triggerPlanification(final OProcessPlanification processPlanification) {
+	void triggerPlanification(final Long prpId) {
+		final OProcessPlanification processPlanification = processPlanificationDAO.get(prpId);
 		processPlanification.setPstCd(PlanificationState.TRIGGERED.name());
 		processPlanificationDAO.save(processPlanification);
 
 	}
 
-	void misfirePlanification(final OProcessPlanification processPlanification) {
+	void misfirePlanification(final Long prpId) {
+		final OProcessPlanification processPlanification = processPlanificationDAO.get(prpId);
 		processPlanification.setPstCd(PlanificationState.MISFIRED.name());
 		processPlanificationDAO.save(processPlanification);
 	}
@@ -176,6 +185,10 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 		return Option.<Date> none();
 
+	}
+
+	private DtList<OProcess> getAllScheduledProcesses() {
+		return processDao.getRecurrentProcesses();
 	}
 
 }

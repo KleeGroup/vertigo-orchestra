@@ -1,7 +1,8 @@
-package io.vertigo.orchestra.definition;
+package io.vertigo.orchestra.impl.definition;
 
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Builder;
+import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
 import io.vertigo.util.ListBuilder;
@@ -83,7 +84,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 		} else {
 			process.setTrtCd("MANUAL");
 		}
-		return new ProcessDefinition(process, tasksBuilder.unmodifiable().build());
+		return new ProcessDefinitionImpl(process, tasksBuilder.unmodifiable().build());
 	}
 
 }

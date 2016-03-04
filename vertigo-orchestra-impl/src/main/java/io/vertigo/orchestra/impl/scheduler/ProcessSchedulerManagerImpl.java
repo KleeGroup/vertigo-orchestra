@@ -1,16 +1,15 @@
 package io.vertigo.orchestra.impl.scheduler;
 
-import io.vertigo.dynamo.domain.model.DtList;
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
-import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
-
-import java.util.Date;
-
-import javax.inject.Inject;
 
 /**
  * TODO : Description de la classe.
@@ -57,12 +56,12 @@ public class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OProcessPlanification> getProcessToExecute() {
+	public List<Long> getProcessToExecute() {
 		if (transactionManager.hasCurrentTransaction()) {
 			return processScheduler.getProcessToExecute();
 		}
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			final DtList<OProcessPlanification> processesToExecute = processScheduler.getProcessToExecute();
+			final List<Long> processesToExecute = processScheduler.getProcessToExecute();
 			transaction.commit();
 			return processesToExecute;
 		}
@@ -70,12 +69,12 @@ public class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void triggerPlanification(final OProcessPlanification processPlanification) {
+	public void triggerPlanification(final Long prpId) {
 		if (transactionManager.hasCurrentTransaction()) {
-			processScheduler.triggerPlanification(processPlanification);
+			processScheduler.triggerPlanification(prpId);
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				processScheduler.triggerPlanification(processPlanification);
+				processScheduler.triggerPlanification(prpId);
 				transaction.commit();
 			}
 		}
@@ -84,12 +83,12 @@ public class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void misfirePlanification(final OProcessPlanification processPlanification) {
+	public void misfirePlanification(final Long prpId) {
 		if (transactionManager.hasCurrentTransaction()) {
-			processScheduler.misfirePlanification(processPlanification);
+			processScheduler.misfirePlanification(prpId);
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				processScheduler.misfirePlanification(processPlanification);
+				processScheduler.misfirePlanification(prpId);
 				transaction.commit();
 			}
 		}

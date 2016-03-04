@@ -1,9 +1,6 @@
 package io.vertigo.orchestra.execution;
 
 import io.vertigo.lang.Manager;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.impl.execution.TaskExecutionWorkspace;
-import io.vertigo.orchestra.impl.execution.TaskLogger;
 
 /**
  * TODO : Description de la classe.
@@ -12,13 +9,5 @@ import io.vertigo.orchestra.impl.execution.TaskLogger;
  * @version $Id$
  */
 public interface ProcessExecutionManager extends Manager {
-
-	void changeExecutionState(OTaskExecution taskExecution, ExecutionState executionState);
-
-	TaskExecutionWorkspace getWorkspaceForTaskExecution(final Long tkeId, final Boolean in);
-
-	void saveTaskExecutionWorkspace(Long tkeId, TaskExecutionWorkspace workspace, Boolean in);
-
-	void saveTaskLogs(Long tkeId, TaskLogger taskLogger);
-
+	// Nothing
 }

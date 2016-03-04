@@ -16,12 +16,6 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 public interface MonitoringServices extends Component {
 
 	/**
-	 * Récupère la liste des processus définis.
-	 * @return la liste des processus.
-	 */
-	DtList<OProcess> getProcesses();
-
-	/**
 	 * Récupère la liste des planifications liés à un processus.
 	 * @param proId l'id du processus
 	 * @return la liste des planification concernant ce processus.

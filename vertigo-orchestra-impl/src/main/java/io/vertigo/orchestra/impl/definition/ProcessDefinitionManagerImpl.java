@@ -1,19 +1,17 @@
 package io.vertigo.orchestra.impl.definition;
 
-import io.vertigo.dynamo.domain.model.DtList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.dao.definition.OTaskDAO;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
-
-import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * TODO : Description de la classe.
@@ -28,28 +26,6 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	private OProcessDAO processDao;
 	@Inject
 	private OTaskDAO taskDAO;
-
-	/** {@inheritDoc} */
-	@Override
-	public DtList<OProcess> getAllScheduledProcesses() {
-		return processDao.getRecurrentProcesses();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public OTask getFirtTaskByProcess(final Long proId) {
-		Assertion.checkNotNull(proId);
-		// ---
-		return taskDAO.getFirstTaskByProcess(proId);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Option<OTask> getNextTaskByTskId(final Long tskId) {
-		Assertion.checkNotNull(tskId);
-		// ---
-		return taskDAO.getNextTaskByTskId(tskId);
-	}
 
 	/** {@inheritDoc} */
 	@Override
