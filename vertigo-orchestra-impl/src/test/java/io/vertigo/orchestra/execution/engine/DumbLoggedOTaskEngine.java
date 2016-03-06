@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.execution.engine;
 
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 import io.vertigo.orchestra.impl.execution.AbstractOTaskEngine;
-import io.vertigo.orchestra.impl.execution.TaskExecutionWorkspace;
 
 /**
  * TODO : Description de la classe.

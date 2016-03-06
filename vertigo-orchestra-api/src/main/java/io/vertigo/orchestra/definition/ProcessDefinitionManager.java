@@ -1,5 +1,7 @@
 package io.vertigo.orchestra.definition;
 
+import java.util.List;
+
 import io.vertigo.lang.Component;
 
 /**
@@ -11,4 +13,8 @@ import io.vertigo.lang.Component;
 public interface ProcessDefinitionManager extends Component {
 
 	void createDefinition(Process processDefinition);
+
+	Process getProcessDefinition(String processName);
+
+	List<Process> getAllProcessDefinitions();
 }

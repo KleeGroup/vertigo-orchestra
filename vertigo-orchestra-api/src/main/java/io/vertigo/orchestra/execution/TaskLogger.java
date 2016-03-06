@@ -1,7 +1,4 @@
-package io.vertigo.orchestra.impl.execution;
-
-import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.execution.ProcessExecutionManager;
+package io.vertigo.orchestra.execution;
 
 import java.io.IOException;
 
@@ -10,6 +7,8 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+
+import io.vertigo.lang.Assertion;
 
 /**
  * Task Logger.
@@ -27,7 +26,7 @@ public class TaskLogger {
 	/**
 	 * Constructeur package protected.
 	 */
-	TaskLogger(final String engineName) {
+	public TaskLogger(final String engineName) {
 		Assertion.checkArgNotEmpty(engineName);
 		// ---
 		// Creates or get the logger

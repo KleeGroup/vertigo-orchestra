@@ -1,7 +1,5 @@
 package io.vertigo.orchestra.execution;
 
-import io.vertigo.orchestra.impl.execution.TaskExecutionWorkspace;
-
 /**
  * Interface d'un engine de tâche.
  *

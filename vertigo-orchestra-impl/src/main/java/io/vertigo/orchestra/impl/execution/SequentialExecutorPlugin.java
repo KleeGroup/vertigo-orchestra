@@ -37,6 +37,8 @@ import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.OTaskEngine;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
+import io.vertigo.orchestra.execution.TaskLogger;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
@@ -142,12 +144,12 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			if (error != null) {
 				error.printStackTrace();
-				changeExecutionState(taskExecution, ExecutionState.ERROR);
+				doChangeExecutionState(taskExecution, ExecutionState.ERROR);
 			} else {
 				if (workspaceOut.isSuccess()) {
 					endTaskExecutionAndInitNext(taskExecution);
 				} else {
-					changeExecutionState(taskExecution, ExecutionState.ERROR);
+					doChangeExecutionState(taskExecution, ExecutionState.ERROR);
 				}
 			}
 			transaction.commit();
@@ -156,6 +158,17 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	}
 
 	void changeExecutionState(final OTaskExecution taskExecution, final ExecutionState executionState) {
+		if (transactionManager.hasCurrentTransaction()) {
+			doChangeExecutionState(taskExecution, executionState);
+		} else {
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+				doChangeExecutionState(taskExecution, executionState);
+				transaction.commit();
+			}
+		}
+	}
+
+	private void doChangeExecutionState(final OTaskExecution taskExecution, final ExecutionState executionState) {
 		Assertion.checkNotNull(taskExecution);
 		// ---
 		taskExecution.setEstCd(executionState.name());
@@ -209,11 +222,14 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				resultWorkspace.setFailure();
 
 			} finally {
-				// We save the workspace which is the minimal state
-				saveTaskExecutionWorkspace(taskExecution.getTkeId(), resultWorkspace, false);
-				if (taskEngine instanceof AbstractOTaskEngine) {
-					// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...)
-					saveTaskLogs(taskExecution.getTkeId(), ((AbstractOTaskEngine) taskEngine).getLogger());
+				try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+					// We save the workspace which is the minimal state
+					saveTaskExecutionWorkspace(taskExecution.getTkeId(), resultWorkspace, false);
+					if (taskEngine instanceof AbstractOTaskEngine) {
+						// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...)
+						saveTaskLogs(taskExecution.getTkeId(), ((AbstractOTaskEngine) taskEngine).getLogger());
+					}
+					transaction.commit();
 				}
 			}
 
@@ -243,7 +259,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		for (final OTaskExecution taskExecution : tasksToLaunch) { //We submit only the process we can handle, no queue
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 				final TaskExecutionWorkspace workspace = getWorkspaceForTaskExecution(taskExecution.getTkeId(), true);
-				changeExecutionState(taskExecution, ExecutionState.SUBMITTED);
+				doChangeExecutionState(taskExecution, ExecutionState.SUBMITTED);
 				workers.submit(new OWorker(taskExecution, workspace, this));
 				transaction.commit();
 			}

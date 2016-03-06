@@ -65,4 +65,16 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	}
 
+	@Override
+	public Process getProcessDefinition(String processName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Process> getAllProcessDefinitions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

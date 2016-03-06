@@ -39,11 +39,11 @@ public final class OProcessDAO extends DAOBroker<OProcess, java.lang.Long> imple
 	}
 
 	/**
-	 * Execute la tache TK_GET_RECURRENT_PROCESSES.
+	 * Execute la tache TK_GET_ALL_SCHEDULED_PROCESSES.
 	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> dtcProcesses
 	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> getRecurrentProcesses() {
-		final Task task = createTaskBuilder("TK_GET_RECURRENT_PROCESSES")
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> getAllScheduledProcesses() {
+		final Task task = createTaskBuilder("TK_GET_ALL_SCHEDULED_PROCESSES")
 				.build();
 		return getTaskManager()
 				.execute(task)

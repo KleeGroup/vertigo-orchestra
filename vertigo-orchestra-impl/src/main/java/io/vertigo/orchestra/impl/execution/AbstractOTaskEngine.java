@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.impl.execution;
 
 import io.vertigo.orchestra.execution.OTaskEngine;
+import io.vertigo.orchestra.execution.TaskLogger;
 
 /**
  * TODO : Description de la classe.

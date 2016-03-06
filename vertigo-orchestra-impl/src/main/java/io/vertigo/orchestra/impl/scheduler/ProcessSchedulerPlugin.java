@@ -188,7 +188,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	}
 
 	private DtList<OProcess> getAllScheduledProcesses() {
-		return processDao.getRecurrentProcesses();
+		return processDao.getAllScheduledProcesses();
 	}
 
 }

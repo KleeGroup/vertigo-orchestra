@@ -7,6 +7,7 @@ import java.util.concurrent.Future;
 
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 
 /**
  * TODO : Description de la classe.

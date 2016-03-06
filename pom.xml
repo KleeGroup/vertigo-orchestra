@@ -23,8 +23,8 @@
 
 	<modules>
 		<module>vertigo-orchestra-api</module>
-		<module>vertigo-orchestra-ui</module>
 		<module>vertigo-orchestra-impl</module>
+		<module>vertigo-orchestra-ui</module>
 	</modules>
 
 	<profiles>

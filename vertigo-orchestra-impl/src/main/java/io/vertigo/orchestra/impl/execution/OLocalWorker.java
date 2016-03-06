@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
 
 final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
 

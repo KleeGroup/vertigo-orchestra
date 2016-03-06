@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.execution;
+package io.vertigo.orchestra.execution;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -18,7 +18,7 @@ public final class TaskExecutionWorkspace {
 
 	private final JsonObject jsonValue;
 
-	TaskExecutionWorkspace(final String stringStoredValue) {
+	public TaskExecutionWorkspace(final String stringStoredValue) {
 		JsonObject tempJsonValue = new JsonObject();
 		if (stringStoredValue != null) {
 			try {
