@@ -1,5 +1,13 @@
 package io.vertigo.orchestra.execution;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
@@ -11,7 +19,7 @@ import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.dynamox.task.TaskEngineProc;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
-import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.Process;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.execution.OTaskExecution;
@@ -24,14 +32,6 @@ import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.scheduler.PlanificationState;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 import io.vertigo.util.ListBuilder;
-
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
  * TODO : Description de la classe.
@@ -65,13 +65,13 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void singleExecution() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MANUEL")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST MANUEL")
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 		// We check the save is ok
 		Assert.assertNotNull(proId);
 
@@ -96,14 +96,14 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void recurrentExecution() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST SCHEDULED")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST SCHEDULED")
 				.withCron("*/15 * * * * ?")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 		// We check the save is ok
 		Assert.assertNotNull(proId);
 
@@ -148,13 +148,13 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void executionError() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST ERROR")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine", false)
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST ERROR")
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 		// We check the save is ok
 		Assert.assertNotNull(proId);
 
@@ -174,14 +174,14 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void twoTask() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
 
@@ -199,14 +199,14 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void twoTasksWithError() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine", false)
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
 
@@ -224,14 +224,14 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testWithInitialParams() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
 
@@ -250,14 +250,14 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testWithInitialParamsParseError() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
 				.withInitialParams("{testError}")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
 
@@ -275,14 +275,14 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testWithInitialParamsInPlanification() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.some("{\"filePath\" : \"tata/tutu\"}"));
 
@@ -300,13 +300,13 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testException() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbExceptionOTaskEngine", false)
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbExceptionOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
 
@@ -324,13 +324,13 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testMonoExecutionMisfire() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MULTI MISFIRE")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST MULTI MISFIRE")
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
@@ -349,13 +349,13 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testLog() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST LOG")
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbLoggedOTaskEngine", false)
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST LOG")
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbLoggedOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
 
@@ -375,14 +375,14 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testMultiExecution() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MULTI")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST MULTI")
 				.withMultiExecution()
-				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
 
-		final Long proId = processDefinition.getProcess().getProId();
+		final Long proId = processDefinition.getId();
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());

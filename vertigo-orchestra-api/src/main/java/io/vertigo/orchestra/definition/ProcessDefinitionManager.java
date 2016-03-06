@@ -10,5 +10,5 @@ import io.vertigo.lang.Component;
  */
 public interface ProcessDefinitionManager extends Component {
 
-	void createDefinition(ProcessDefinition processDefinition);
+	void createDefinition(Process processDefinition);
 }

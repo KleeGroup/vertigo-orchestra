@@ -14,7 +14,7 @@
 	
 	<pathconvert property="class.path">
 		<path>
-            <fileset dir="./src/main/webapp/WEB-INF/lib">
+            <fileset dir="./src/lib">
                 <include name="*.jar" />
             </fileset>          	
 		</path>

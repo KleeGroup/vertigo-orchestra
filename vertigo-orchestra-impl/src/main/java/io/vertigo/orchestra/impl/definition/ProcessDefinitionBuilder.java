@@ -2,9 +2,9 @@ package io.vertigo.orchestra.impl.definition;
 
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Builder;
-import io.vertigo.orchestra.definition.ProcessDefinition;
-import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.domain.definition.OTask;
+import io.vertigo.lang.Option;
+import io.vertigo.orchestra.definition.Activity;
+import io.vertigo.orchestra.definition.Process;
 import io.vertigo.util.ListBuilder;
 
 /**
@@ -13,9 +13,13 @@ import io.vertigo.util.ListBuilder;
  * @author mlaroche.
  * @version $Id$
  */
-public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
-	private final OProcess process;
-	private final ListBuilder<OTask> tasksBuilder = new ListBuilder<>();
+public final class ProcessDefinitionBuilder implements Builder<Process> {
+
+	private String name;
+	private Option<String> cronExpression = Option.<String> none();
+	private Option<String> initialParams = Option.<String> none();
+	private boolean multiExecution = false;
+	private final ListBuilder<Activity> activitiesBuilder = new ListBuilder<>();
 
 	/**
 	 * Constructeur.
@@ -23,9 +27,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	public ProcessDefinitionBuilder(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		//-----
-		process = new OProcess();
-		process.setName(processName);
-		process.setMultiexecution(false);// By default no multi-execution
+		this.name = processName;
 
 	}
 
@@ -34,7 +36,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withMultiExecution() {
-		process.setMultiexecution(true);
+		multiExecution = true;
 		return this;
 	}
 
@@ -44,8 +46,9 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withInitialParams(final String initialParams) {
+		Assertion.checkNotNull(initialParams);
 		// ---
-		process.setInitialParams(initialParams);
+		this.initialParams = Option.<String> some(initialParams);
 		return this;
 	}
 
@@ -54,9 +57,9 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withCron(final String cronExpression) {
-		Assertion.checkArgNotEmpty(cronExpression);
+		Assertion.checkNotNull(cronExpression);
 		// ---
-		process.setCronExpression(cronExpression);
+		this.cronExpression = Option.<String> some(cronExpression);
 		return this;
 	}
 
@@ -64,27 +67,19 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * Ajoute un delai entre deux executions d'une tache récurrente.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder addTask(final String taskName, final String engine, final boolean milestone) {
+	public ProcessDefinitionBuilder addActivity(final String taskName, final String engine) {
 		Assertion.checkArgNotEmpty(taskName);
 		Assertion.checkArgNotEmpty(engine);
 		// ---
-		final OTask task = new OTask();
-		task.setName(taskName);
-		task.setEngine(engine);
-		task.setMilestone(milestone);
-		tasksBuilder.add(task);
+		final Activity activity = new ActivityImpl(taskName, engine);
+		activitiesBuilder.add(activity);
 		return this;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public ProcessDefinition build() {
-		if (process.getCronExpression() != null) {
-			process.setTrtCd("SCHEDULED");
-		} else {
-			process.setTrtCd("MANUAL");
-		}
-		return new ProcessDefinitionImpl(process, tasksBuilder.unmodifiable().build());
+	public Process build() {
+		return new ProcessImpl(name, cronExpression, initialParams, multiExecution, activitiesBuilder.unmodifiable().build());
 	}
 
 }

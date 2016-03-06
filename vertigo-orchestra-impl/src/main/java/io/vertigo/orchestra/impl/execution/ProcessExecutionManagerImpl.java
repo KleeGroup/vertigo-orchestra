@@ -1,5 +1,7 @@
 package io.vertigo.orchestra.impl.execution;
 
+import javax.inject.Inject;
+
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 
 /**
@@ -9,5 +11,9 @@ import io.vertigo.orchestra.execution.ProcessExecutionManager;
  * @version $Id$
  */
 public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
-	// Nothing
+
+	@Inject
+	public ProcessExecutionManagerImpl(final SequentialExecutorPlugin sequentialExecutorPlugin) {
+
+	}
 }

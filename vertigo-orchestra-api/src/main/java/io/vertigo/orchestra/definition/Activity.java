@@ -6,7 +6,10 @@ package io.vertigo.orchestra.definition;
  * @author mlaroche.
  * @version $Id$
  */
-public interface ProcessDefinition {
+public interface Activity {
 
 	String getName();
+
+	String getEngine();
+
 }
