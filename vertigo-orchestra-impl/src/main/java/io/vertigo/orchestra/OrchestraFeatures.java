@@ -13,6 +13,7 @@ import io.vertigo.orchestra.dao.planification.PlanificationPAO;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.DtDefinitions;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.impl.OrchestraManagerImpl;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
 import io.vertigo.orchestra.impl.execution.SequentialExecutorPlugin;
@@ -53,6 +54,7 @@ public final class OrchestraFeatures extends Features {
 					.addParam("workersCount", "3")
 					.addParam("executionPeriod", period)// in seconds
 				.endPlugin()
+				.addComponent(OrchestraManager.class, OrchestraManagerImpl.class)
 				//----DAO
 				.addComponent(OProcessDAO.class)
 				.addComponent(OTaskDAO.class)
