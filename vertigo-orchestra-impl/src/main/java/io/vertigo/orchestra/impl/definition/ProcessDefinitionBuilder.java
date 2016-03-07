@@ -15,7 +15,7 @@ import io.vertigo.util.ListBuilder;
  */
 public final class ProcessDefinitionBuilder implements Builder<Process> {
 
-	private String name;
+	private final String name;
 	private Option<String> cronExpression = Option.<String> none();
 	private Option<String> initialParams = Option.<String> none();
 	private boolean multiExecution = false;
@@ -27,7 +27,7 @@ public final class ProcessDefinitionBuilder implements Builder<Process> {
 	public ProcessDefinitionBuilder(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		//-----
-		this.name = processName;
+		name = processName;
 
 	}
 
@@ -45,10 +45,10 @@ public final class ProcessDefinitionBuilder implements Builder<Process> {
 	 * @param initialParams les paramètres initiaux sous format JSON
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withInitialParams(final String initialParams) {
-		Assertion.checkNotNull(initialParams);
+	public ProcessDefinitionBuilder withInitialParams(final String initialParameters) {
+		Assertion.checkNotNull(initialParameters);
 		// ---
-		this.initialParams = Option.<String> some(initialParams);
+		initialParams = Option.<String> some(initialParameters);
 		return this;
 	}
 
@@ -56,10 +56,10 @@ public final class ProcessDefinitionBuilder implements Builder<Process> {
 	 * Définit l'expression cron du process.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withCron(final String cronExpression) {
-		Assertion.checkNotNull(cronExpression);
+	public ProcessDefinitionBuilder withCron(final String scheduleExpression) {
+		Assertion.checkNotNull(scheduleExpression);
 		// ---
-		this.cronExpression = Option.<String> some(cronExpression);
+		cronExpression = Option.<String> some(scheduleExpression);
 		return this;
 	}
 

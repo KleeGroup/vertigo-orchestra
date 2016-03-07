@@ -14,6 +14,6 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 	@Inject
 	public ProcessExecutionManagerImpl(final SequentialExecutorPlugin sequentialExecutorPlugin) {
-
+		// nothing
 	}
 }
