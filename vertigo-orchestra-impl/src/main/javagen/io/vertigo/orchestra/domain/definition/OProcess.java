@@ -19,6 +19,7 @@ public final class OProcess implements DtObject {
 	private String cronExpression;
 	private String initialParams;
 	private Boolean multiexecution;
+	private Boolean active;
 	private String trtCd;
 	private String prtCd;
 	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
@@ -117,6 +118,25 @@ public final class OProcess implements DtObject {
 	 */
 	public void setMultiexecution(final Boolean multiexecution) {
 		this.multiexecution = multiexecution;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Version active'. 
+	 * @return Boolean active <b>Obligatoire</b>
+	 */
+	@Field(domain = "DO_BOOLEEN", required = true, label = "Version active")
+	public Boolean getActive() {
+		return active;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Version active'.
+	 * @param active Boolean <b>Obligatoire</b>
+	 */
+	public void setActive(final Boolean active) {
+		this.active = active;
 	}
 
 	/**

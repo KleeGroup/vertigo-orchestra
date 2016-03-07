@@ -1,9 +1,12 @@
 package io.vertigo.orchestra.impl.definition;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
@@ -13,6 +16,7 @@ import io.vertigo.orchestra.definition.Process;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.definition.OTask;
+import io.vertigo.util.StringUtil;
 
 /**
  * TODO : Description de la classe.
@@ -66,15 +70,66 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	}
 
 	@Override
-	public Process getProcessDefinition(String processName) {
-		// TODO Auto-generated method stub
-		return null;
+	public Process getProcessDefinition(final String processName) {
+		Assertion.checkNotNull(processName);
+		// ---
+		final OProcess process = processDao.getActiveProcessByName(processName);
+		final DtList<OTask> tasks = taskDAO.getTasksByProId(process.getProId());
+
+		return decodeProcessDefinition(process, tasks);
 	}
 
 	@Override
 	public List<Process> getAllProcessDefinitions() {
-		// TODO Auto-generated method stub
-		return null;
+		final DtList<OProcess> processes = processDao.getAllActiveProcesses();
+		final DtList<OTask> tasks = taskDAO.getAllTasksInActiveProcesses();
+		// ---
+		final List<Process> processDefinitions = new ArrayList<>();
+
+		for (final OProcess process : processes) {
+			final List<OTask> taskByProcess = new ArrayList<>();
+			for (final OTask task : tasks) {
+				if (task.getProId().equals(process.getProId())) {
+					taskByProcess.add(task);
+				}
+			}
+			taskByProcess.sort(new OTaskComparator());
+			processDefinitions.add(decodeProcessDefinition(process, taskByProcess));
+		}
+		return processDefinitions;
+
 	}
 
+	private static Process decodeProcessDefinition(final OProcess process, final List<OTask> tasks) {
+		Assertion.checkNotNull(process);
+		Assertion.checkNotNull(tasks);
+		// ---
+		final ProcessDefinitionBuilder definitionBuilder = new ProcessDefinitionBuilder(process.getName());
+		if (!StringUtil.isEmpty(process.getCronExpression())) {
+			definitionBuilder.withCron(process.getCronExpression());
+		}
+		if (!StringUtil.isEmpty(process.getInitialParams())) {
+			definitionBuilder.withInitialParams(process.getInitialParams());
+		}
+		if (process.getMultiexecution()) {
+			definitionBuilder.withMultiExecution();
+		}
+		for (final OTask task : tasks) {
+			definitionBuilder.addActivity(task.getName(), task.getEngine());
+		}
+		final Process processDefinition = definitionBuilder.build();
+		processDefinition.setId(process.getProId());
+		return processDefinition;
+
+	}
+
+	class OTaskComparator implements Comparator<OTask> {
+
+		/** {@inheritDoc} */
+		@Override
+		public int compare(final OTask task1, final OTask task2) {
+			return (int) (task1.getNumber() - task2.getNumber());
+		}
+
+	}
 }

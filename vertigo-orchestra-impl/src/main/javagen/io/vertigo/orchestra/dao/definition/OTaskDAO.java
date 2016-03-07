@@ -67,5 +67,31 @@ public final class OTaskDAO extends DAOBroker<OTask, java.lang.Long> implements 
 				.getResult());
 	}
 
+	/**
+	 * Execute la tache TK_GET_TASKS_BY_PRO_ID.
+	 * @param proId Long 
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OTask> dtOTasks
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OTask> getTasksByProId(final Long proId) {
+		final Task task = createTaskBuilder("TK_GET_TASKS_BY_PRO_ID")
+				.addValue("PRO_ID", proId)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
+	 * Execute la tache TK_GET_ALL_TASKS_IN_ACTIVE_PROCESSES.
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OTask> dtcOTasks
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OTask> getAllTasksInActiveProcesses() {
+		final Task task = createTaskBuilder("TK_GET_ALL_TASKS_IN_ACTIVE_PROCESSES")
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
 
 }

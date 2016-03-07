@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  Mar 6, 2016  9:56:26 PM                     
+--   Date de création :  7 mars 2016  17:59:21                     
 -- ============================================================
 
 -- ============================================================
@@ -97,6 +97,7 @@ create table O_PROCESS
     CRON_EXPRESSION	 VARCHAR(100)	,
     INITIAL_PARAMS	 TEXT        	,
     MULTIEXECUTION	 BOOL        	,
+    ACTIVE      	 BOOL        	not null,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
 );
@@ -115,6 +116,9 @@ comment on column O_PROCESS.INITIAL_PARAMS is
 
 comment on column O_PROCESS.MULTIEXECUTION is
 'Accepte la multi-execution';
+
+comment on column O_PROCESS.ACTIVE is
+'Version active';
 
 comment on column O_PROCESS.TRT_CD is
 'TriggerType';

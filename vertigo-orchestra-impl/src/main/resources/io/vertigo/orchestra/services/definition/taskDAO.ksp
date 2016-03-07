@@ -48,3 +48,30 @@ create Task TK_GET_NEXT_TASK_BY_TSK_ID {
 		attribute DT_O_TASK	 	{domain : DO_DT_O_TASK_DTO		notNull:"false" 	inOut :"out"}
 }
 
+
+create Task TK_GET_TASKS_BY_PRO_ID {
+    className : "io.vertigo.dynamox.task.TaskEngineSelect"
+        request : "
+        
+        	select tsk.* 
+                from O_TASK tsk 
+                where tsk.PRO_ID = #PRO_ID#
+        	
+			"
+	attribute PRO_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+	attribute DT_O_TASKS	 	{domain : DO_DT_O_TASK_DTC 		notNull:"true" 	inOut :"out"}
+}
+
+
+create Task TK_GET_ALL_TASKS_IN_ACTIVE_PROCESSES {
+    className : "io.vertigo.dynamox.task.TaskEngineSelect"
+        request : "
+        
+        	select tsk.* 
+                from O_TASK tsk 
+                join O_PROCESS pro on pro.PRO_ID = tsk.PRO_ID
+                where pro.ACTIVE = 1
+        	
+			"
+	attribute DTC_O_TASKS	 	{domain : DO_DT_O_TASK_DTC 		notNull:"true" 	inOut :"out"}
+}

@@ -51,6 +51,32 @@ public final class OProcessDAO extends DAOBroker<OProcess, java.lang.Long> imple
 	}
 
 	/**
+	 * Execute la tache TK_GET_ACTIVE_PROCESS_BY_NAME.
+	 * @param name String 
+	 * @return io.vertigo.orchestra.domain.definition.OProcess dtProcess
+	*/
+	public io.vertigo.orchestra.domain.definition.OProcess getActiveProcessByName(final String name) {
+		final Task task = createTaskBuilder("TK_GET_ACTIVE_PROCESS_BY_NAME")
+				.addValue("NAME", name)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
+	 * Execute la tache TK_GET_ALL_ACTIVE_PROCESSES.
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> dtcProcesses
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> getAllActiveProcesses() {
+		final Task task = createTaskBuilder("TK_GET_ALL_ACTIVE_PROCESSES")
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
 	 * Execute la tache TK_GET_PROCESSES.
 	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> dtcOProcess
 	*/
