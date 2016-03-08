@@ -43,29 +43,29 @@ create Task TK_GET_EXECUTIONS_BY_PRO_ID {
 
 
 
-create Task TK_GET_TASK_EXECUTIONS_BY_PRE_ID {
+create Task TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select tke.*
-        	from o_task_execution tke
-        	where tke.PRE_ID = #PRE_ID#
+        	select ace.*
+        	from o_activity_execution ace
+        	where ace.PRE_ID = #PRE_ID#
         	
 			"
 	attribute PRE_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
-	attribute DTC_O_TASK_EXECUTION	 	{domain : DO_DT_O_TASK_EXECUTION_DTC		notNull:"true" 	inOut :"out"}
+	attribute DTC_O_ACTIVITY_EXECUTION	 	{domain : DO_DT_O_ACTIVITY_EXECUTION_DTC		notNull:"true" 	inOut :"out"}
 }
 
 
-create Task TK_GET_TASK_LOG_BY_TKE_ID {
+create Task TK_GET_ACTIVITY_LOG_BY_ACE_ID {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select tkl.*
-        	from o_task_log tkl
-        	where tkl.TKE_ID = #TKE_ID#
+        	select acl.*
+        	from o_activity_log acl
+        	where acl.ACE_ID = #ACE_ID#
         	
 			"
-	attribute TKE_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
-	attribute DTC_O_TASK_LOG	 	{domain : DO_DT_O_TASK_LOG_DTO		notNull:"false" 	inOut :"out"}
+	attribute ACE_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+	attribute DTC_O_ACTIVITY_LOG	 	{domain : DO_DT_O_ACTIVITY_LOG_DTO		notNull:"false" 	inOut :"out"}
 }
 
 

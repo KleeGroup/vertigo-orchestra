@@ -1,0 +1,31 @@
+package io.vertigo.orchestra.domain.definition
+
+create DtDefinition DT_O_ACTIVITY {
+	persistent: "true",
+	key ACT_ID	{domain : DO_IDENTIFIANT, label :"Id Activité", notNull:"true",},
+	field NAME   	{domain : DO_LIBELLE, label :"Nom de l'activité", notNull:"false",},
+	field NUMBER   	{domain : DO_NOMBRE, label :"Numéro de l'activité", notNull:"false",},
+	field MILESTONE   	{domain : DO_BOOLEEN, label :"Jalon", notNull:"false",},
+	field ENGINE   	{domain : DO_CLASSE, label :"Implémentation de l'activité", notNull:"false",},
+	
+  
+},
+
+create Association A_ACT_PRO {
+  fkFieldName : "PRO_ID"
+    
+ 	dtDefinitionA : DT_O_ACTIVITY
+	dtDefinitionB : DT_O_PROCESS
+			
+	navigabilityA : "false"
+	navigabilityB : "true"
+	
+	multiplicityA:"0..*"
+	multiplicityB:"0..1"
+	
+	labelA : "Activity"
+	labelB : "Processus"
+	roleA : "Activity"
+	roleB : "Process"
+			
+}

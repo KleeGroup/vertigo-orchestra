@@ -13,6 +13,14 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	 * Enumération des DtDefinitions.
 	 */
 	public enum Definitions {
+			/** Objet de données OActivity. */
+			OActivity(io.vertigo.orchestra.domain.definition.OActivity.class),
+			/** Objet de données OActivityExecution. */
+			OActivityExecution(io.vertigo.orchestra.domain.execution.OActivityExecution.class),
+			/** Objet de données OActivityLog. */
+			OActivityLog(io.vertigo.orchestra.domain.execution.OActivityLog.class),
+			/** Objet de données OActivityWorkspace. */
+			OActivityWorkspace(io.vertigo.orchestra.domain.execution.OActivityWorkspace.class),
 			/** Objet de données OExecutionState. */
 			OExecutionState(io.vertigo.orchestra.domain.referential.OExecutionState.class),
 			/** Objet de données OPlanificationState. */
@@ -25,14 +33,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			OProcessPlanification(io.vertigo.orchestra.domain.planification.OProcessPlanification.class),
 			/** Objet de données OProcessType. */
 			OProcessType(io.vertigo.orchestra.domain.referential.OProcessType.class),
-			/** Objet de données OTask. */
-			OTask(io.vertigo.orchestra.domain.definition.OTask.class),
-			/** Objet de données OTaskExecution. */
-			OTaskExecution(io.vertigo.orchestra.domain.execution.OTaskExecution.class),
-			/** Objet de données OTaskLog. */
-			OTaskLog(io.vertigo.orchestra.domain.execution.OTaskLog.class),
-			/** Objet de données OTaskWorkspace. */
-			OTaskWorkspace(io.vertigo.orchestra.domain.execution.OTaskWorkspace.class),
 			/** Objet de données TriggerType. */
 			TriggerType(io.vertigo.orchestra.domain.referential.TriggerType.class),
 		;
@@ -50,6 +50,72 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			return clazz;
 		}
     }
+
+	/**
+	 * Enumération des champs de OActivity.
+	 */
+	public enum OActivityFields implements DtFieldName {
+		/** Propriété 'Id Activité'. */
+		ACT_ID,
+		/** Propriété 'Nom de l'activité'. */
+		NAME,
+		/** Propriété 'Numéro de l'activité'. */
+		NUMBER,
+		/** Propriété 'Jalon'. */
+		MILESTONE,
+		/** Propriété 'Implémentation de l'activité'. */
+		ENGINE,
+		/** Propriété 'Processus'. */
+		PRO_ID,
+	}
+
+	/**
+	 * Enumération des champs de OActivityExecution.
+	 */
+	public enum OActivityExecutionFields implements DtFieldName {
+		/** Propriété 'Id de l'execution d'un processus'. */
+		ACE_ID,
+		/** Propriété 'Date de début'. */
+		BEGIN_TIME,
+		/** Propriété 'Date de fin'. */
+		END_TIME,
+		/** Propriété 'Implémentation effective de l'execution'. */
+		ENGINE,
+		/** Propriété 'Nom du noeud'. */
+		NODE_NAME,
+		/** Propriété 'Activity'. */
+		ACT_ID,
+		/** Propriété 'Processus'. */
+		PRE_ID,
+		/** Propriété 'ExecutionState'. */
+		EST_CD,
+	}
+
+	/**
+	 * Enumération des champs de OActivityLog.
+	 */
+	public enum OActivityLogFields implements DtFieldName {
+		/** Propriété 'Id du log'. */
+		ACL_ID,
+		/** Propriété 'Contenu du log'. */
+		LOG,
+		/** Propriété 'ActivityExecution'. */
+		ACE_ID,
+	}
+
+	/**
+	 * Enumération des champs de OActivityWorkspace.
+	 */
+	public enum OActivityWorkspaceFields implements DtFieldName {
+		/** Propriété 'Id de l'execution d'un processus'. */
+		ACW_ID,
+		/** Propriété 'Workspace in/out'. */
+		IS_IN,
+		/** Propriété 'Contenu du workspace'. */
+		WORKSPACE,
+		/** Propriété 'ActivityExecution'. */
+		ACE_ID,
+	}
 
 	/**
 	 * Enumération des champs de OExecutionState.
@@ -139,72 +205,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		PRT_CD,
 		/** Propriété 'Libellé'. */
 		LABEL,
-	}
-
-	/**
-	 * Enumération des champs de OTask.
-	 */
-	public enum OTaskFields implements DtFieldName {
-		/** Propriété 'Id Tache'. */
-		TSK_ID,
-		/** Propriété 'Nom de la tâche'. */
-		NAME,
-		/** Propriété 'Numéro de la tâche'. */
-		NUMBER,
-		/** Propriété 'Jalon'. */
-		MILESTONE,
-		/** Propriété 'Implémentation de la tâche'. */
-		ENGINE,
-		/** Propriété 'Processus'. */
-		PRO_ID,
-	}
-
-	/**
-	 * Enumération des champs de OTaskExecution.
-	 */
-	public enum OTaskExecutionFields implements DtFieldName {
-		/** Propriété 'Id de l'execution d'un processus'. */
-		TKE_ID,
-		/** Propriété 'Date de début'. */
-		BEGIN_TIME,
-		/** Propriété 'Date de fin'. */
-		END_TIME,
-		/** Propriété 'Implémentation effective de l'execution'. */
-		ENGINE,
-		/** Propriété 'Nom du noeud'. */
-		NODE_NAME,
-		/** Propriété 'Tache'. */
-		TSK_ID,
-		/** Propriété 'Processus'. */
-		PRE_ID,
-		/** Propriété 'ExecutionState'. */
-		EST_CD,
-	}
-
-	/**
-	 * Enumération des champs de OTaskLog.
-	 */
-	public enum OTaskLogFields implements DtFieldName {
-		/** Propriété 'Id du log'. */
-		TKL_ID,
-		/** Propriété 'Contenu du log'. */
-		LOG,
-		/** Propriété 'TaskExecution'. */
-		TKE_ID,
-	}
-
-	/**
-	 * Enumération des champs de OTaskWorkspace.
-	 */
-	public enum OTaskWorkspaceFields implements DtFieldName {
-		/** Propriété 'Id de l'execution d'un processus'. */
-		TKW_ID,
-		/** Propriété 'Workspace in/out'. */
-		IS_IN,
-		/** Propriété 'Contenu du workspace'. */
-		WORKSPACE,
-		/** Propriété 'TaskExecution'. */
-		TKE_ID,
 	}
 
 	/**

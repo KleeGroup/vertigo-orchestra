@@ -3,10 +3,10 @@ package io.vertigo.orchestra.monitoring;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.lang.Component;
 import io.vertigo.lang.Option;
+import io.vertigo.orchestra.domain.execution.OActivityExecution;
+import io.vertigo.orchestra.domain.execution.OActivityLog;
+import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.domain.execution.OTaskLog;
-import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 
 /**
@@ -34,7 +34,7 @@ public interface MonitoringServices extends Component {
 	 * @param preId l'id de l'execution de processus
 	 * @return la liste des tâches executées pour cette execution de processus.
 	 */
-	DtList<OTaskExecution> getTaskExecutionsByPreId(Long preId);
+	DtList<OActivityExecution> getActivityExecutionsByPreId(Long preId);
 
 	/**
 	 * Récupère un workspace associé à une execution de tâche.
@@ -42,13 +42,13 @@ public interface MonitoringServices extends Component {
 	 * @param isIn true : workspace entrant, false : workspace sortant
 	 * @return un workspace de tâche.
 	 */
-	OTaskWorkspace getTaskWorkspaceByTkeId(Long tkeId, final boolean isIn);
+	OActivityWorkspace getActivityWorkspaceByAceId(Long aceId, final boolean isIn);
 
 	/**
 	 * Récupère un log associé à une execution de tâche.
 	 * @param tkeId l'id d'execution de tâche
 	 * @return un workspace de tâche.
 	 */
-	Option<OTaskLog> getTaskLogByTkeId(Long tkeId);
+	Option<OActivityLog> getActivityLogByAceId(Long aceId);
 
 }

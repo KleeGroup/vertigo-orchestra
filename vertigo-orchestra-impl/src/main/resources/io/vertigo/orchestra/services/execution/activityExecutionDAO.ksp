@@ -1,29 +1,29 @@
 package io.vertigo.orchestra.dao.execution
 
-create Task TK_GET_TASKS_TO_LAUNCH {
+create Task TK_GET_ACTIVITIES_TO_LAUNCH {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 
-        		tke.*
-        	from o_task_execution tke
-        	where tke.EST_CD = 'RESERVED'
-        	and tke.NODE_NAME = #NODE_NAME#
+        		ace.*
+        	from o_activity_execution ace
+        	where ace.EST_CD = 'RESERVED'
+        	and ace.NODE_NAME = #NODE_NAME#
         	
 			"
-	attribute DTC_TASK_EXECUTION	 	{domain : DO_DT_O_TASK_EXECUTION_DTC 		notNull:"true" 	inOut :"out"}
+	attribute DTC_ACTIVITY_EXECUTION	 	{domain : DO_DT_O_ACTIVITY_EXECUTION_DTC 		notNull:"true" 	inOut :"out"}
 	attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
 },
 
-create Task TK_RESERVE_TASKS_TO_LAUNCH {
+create Task TK_RESERVE_ACTIVITIES_TO_LAUNCH {
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
-        	update  o_task_execution 
+        	update  o_activity_execution 
         	set EST_CD = 'RESERVED',
         		NODE_NAME = #NODE_NAME#
         		
-        	where tke_id in (
-        			select tke_id 
-        			from o_task_execution
+        	where ace_id in (
+        			select ace_id 
+        			from o_activity_execution
         			where EST_CD = 'WAITING'
         			order by begin_time asc
         			limit #MAX_NUMBER#
@@ -37,18 +37,18 @@ create Task TK_RESERVE_TASKS_TO_LAUNCH {
 }
 
 
-create Task TK_GET_TASK_WORKSPACE {
+create Task TK_GET_ACTIVITY_WORKSPACE {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select tkw.*
-        	 from o_task_workspace tkw
-        	 where tkw.TKE_ID = #TKE_ID#
-        	 and   tkw.IS_IN = #IN#
+        	select acw.*
+        	 from o_activity_workspace acw
+        	 where acw.ACE_ID = #ACE_ID#
+        	 and   acw.IS_IN = #IN#
         	
 			"
 			
-		attribute TKE_ID	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+		attribute ACE_ID	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 		attribute IN	 	{domain : DO_BOOLEEN 			notNull:"true" 	inOut :"in"}
-		attribute DT_O_TASK_WORKSPACE	 	{domain : DO_DT_O_TASK_WORKSPACE_DTO 		notNull:"true" 	inOut :"out"}
+		attribute DT_O_ACTIVITY_WORKSPACE	 	{domain : DO_DT_O_ACTIVITY_WORKSPACE_DTO 		notNull:"true" 	inOut :"out"}
 }
 

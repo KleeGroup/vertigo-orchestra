@@ -178,7 +178,7 @@ public final class OProcess implements DtObject {
 	}
 
 
-	// Association : Tache non navigable
+	// Association : Activity non navigable
 
 	// Association : ExecutionProcessus non navigable
 

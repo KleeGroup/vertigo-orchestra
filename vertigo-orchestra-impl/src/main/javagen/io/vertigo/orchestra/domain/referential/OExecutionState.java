@@ -58,7 +58,7 @@ public final class OExecutionState implements DtObject {
 
 	// Association : ExecutionProcessus non navigable
 
-	// Association : ExecutionTache non navigable
+	// Association : ExecutionActivity non navigable
 
 	/** {@inheritDoc} */
 	@Override

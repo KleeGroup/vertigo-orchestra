@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.execution.engine;
 
-import io.vertigo.orchestra.execution.OTaskEngine;
-import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
+import io.vertigo.orchestra.execution.ActivityEngine;
+import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 
 /**
  * TODO : Description de la classe.
@@ -9,11 +9,11 @@ import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
  * @author mlaroche.
  * @version $Id$
  */
-public class DumbExceptionOTaskEngine implements OTaskEngine {
+public class DumbExceptionActivityEngine implements ActivityEngine {
 
 	/** {@inheritDoc} */
 	@Override
-	public TaskExecutionWorkspace execute(final TaskExecutionWorkspace workspace) {
+	public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
 		workspace.setValue("currentObject", "An object");
 		try {
 			Thread.sleep(3 * 1000);

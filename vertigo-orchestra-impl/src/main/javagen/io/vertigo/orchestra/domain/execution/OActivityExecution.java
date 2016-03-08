@@ -6,43 +6,43 @@ import io.vertigo.dynamo.domain.model.DtObject;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
- * Objet de données OTaskExecution
+ * Objet de données OActivityExecution
  */
 @DtDefinition
-public final class OTaskExecution implements DtObject {
+public final class OActivityExecution implements DtObject {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	private Long tkeId;
+	private Long aceId;
 	private java.util.Date beginTime;
 	private java.util.Date endTime;
 	private String engine;
 	private String nodeName;
-	private Long tskId;
+	private Long actId;
 	private Long preId;
 	private String estCd;
-	private io.vertigo.orchestra.domain.definition.OTask tache;
+	private io.vertigo.orchestra.domain.definition.OActivity activity;
 	private io.vertigo.orchestra.domain.execution.OProcessExecution processusExecution;
 	private io.vertigo.orchestra.domain.referential.OExecutionState executionState;
 
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
-	 * @return Long tkeId <b>Obligatoire</b>
+	 * @return Long aceId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
-	public Long getTkeId() {
-		return tkeId;
+	public Long getAceId() {
+		return aceId;
 	}
 
 	/**
 	 * Champ : ID.
 	 * Définit la valeur de la propriété 'Id de l'execution d'un processus'.
-	 * @param tkeId Long <b>Obligatoire</b>
+	 * @param aceId Long <b>Obligatoire</b>
 	 */
-	public void setTkeId(final Long tkeId) {
-		this.tkeId = tkeId;
+	public void setAceId(final Long aceId) {
+		this.aceId = aceId;
 	}
 
 	/**
@@ -123,21 +123,21 @@ public final class OTaskExecution implements DtObject {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Tache'. 
-	 * @return Long tskId 
+	 * Récupère la valeur de la propriété 'Activity'. 
+	 * @return Long actId 
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "FOREIGN_KEY", label = "Tache")
-	public Long getTskId() {
-		return tskId;
+	@Field(domain = "DO_IDENTIFIANT", type = "FOREIGN_KEY", label = "Activity")
+	public Long getActId() {
+		return actId;
 	}
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Définit la valeur de la propriété 'Tache'.
-	 * @param tskId Long 
+	 * Définit la valeur de la propriété 'Activity'.
+	 * @param actId Long 
 	 */
-	public void setTskId(final Long tskId) {
-		this.tskId = tskId;
+	public void setActId(final Long actId) {
+		this.actId = actId;
 	}
 
 	/**
@@ -179,80 +179,80 @@ public final class OTaskExecution implements DtObject {
 	}
 
 	/**
-	 * Association : Tache.
-	 * @return io.vertigo.orchestra.domain.definition.OTask
+	 * Association : Activity.
+	 * @return io.vertigo.orchestra.domain.definition.OActivity
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_TKE_TSK",
-    	fkFieldName = "TSK_ID",
-    	primaryDtDefinitionName = "DT_O_TASK",
+    	name = "A_ACE_ACT",
+    	fkFieldName = "ACT_ID",
+    	primaryDtDefinitionName = "DT_O_ACTIVITY",
     	primaryIsNavigable = true,
-    	primaryRole = "Tache",
-    	primaryLabel = "Tache",
+    	primaryRole = "Activity",
+    	primaryLabel = "Activity",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_TASK_EXECUTION",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
     	foreignIsNavigable = false,
-    	foreignRole = "TaskExecution",
-    	foreignLabel = "ExecutionTache",
+    	foreignRole = "ExecutionActivity",
+    	foreignLabel = "ExecutionActivity",
     	foreignMultiplicity = "0..*"
     )
-	public io.vertigo.orchestra.domain.definition.OTask getTache() {
-		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OTask> fkURI = getTacheURI();
+	public io.vertigo.orchestra.domain.definition.OActivity getActivity() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OActivity> fkURI = getActivityURI();
 		if (fkURI == null) {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (tache != null) {
+		if (activity != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OTask> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(tache), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(tache));
+			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OActivity> uri;
+			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(activity), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(activity));
 			if (!fkURI.toURN().equals(uri.toURN())) {
-				tache = null;
+				activity = null;
 			}
 		}		
-		if (tache == null) {
-			tache = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+		if (activity == null) {
+			activity = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
 		}
-		return tache;
+		return activity;
 	}
 
 	/**
-	 * Retourne l'URI: Tache.
+	 * Retourne l'URI: Activity.
 	 * @return URI de l'association
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_TKE_TSK",
-    	fkFieldName = "TSK_ID",
-    	primaryDtDefinitionName = "DT_O_TASK",
+    	name = "A_ACE_ACT",
+    	fkFieldName = "ACT_ID",
+    	primaryDtDefinitionName = "DT_O_ACTIVITY",
     	primaryIsNavigable = true,
-    	primaryRole = "Tache",
-    	primaryLabel = "Tache",
+    	primaryRole = "Activity",
+    	primaryLabel = "Activity",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_TASK_EXECUTION",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
     	foreignIsNavigable = false,
-    	foreignRole = "TaskExecution",
-    	foreignLabel = "ExecutionTache",
+    	foreignRole = "ExecutionActivity",
+    	foreignLabel = "ExecutionActivity",
     	foreignMultiplicity = "0..*"
     )
-	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OTask> getTacheURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_TKE_TSK", io.vertigo.orchestra.domain.definition.OTask.class);
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OActivity> getActivityURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_ACT", io.vertigo.orchestra.domain.definition.OActivity.class);
 	}
 	/**
 	 * Association : Processus.
 	 * @return io.vertigo.orchestra.domain.execution.OProcessExecution
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_TKE_PRE",
+    	name = "A_ACE_PRE",
     	fkFieldName = "PRE_ID",
     	primaryDtDefinitionName = "DT_O_PROCESS_EXECUTION",
     	primaryIsNavigable = true,
     	primaryRole = "ProcessusExecution",
     	primaryLabel = "Processus",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_TASK_EXECUTION",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
     	foreignIsNavigable = false,
-    	foreignRole = "TaskExecution",
-    	foreignLabel = "ExecutionTache",
+    	foreignRole = "ExecutionActivity",
+    	foreignLabel = "ExecutionActivity",
     	foreignMultiplicity = "0..*"
     )
 	public io.vertigo.orchestra.domain.execution.OProcessExecution getProcessusExecution() {
@@ -280,42 +280,42 @@ public final class OTaskExecution implements DtObject {
 	 * @return URI de l'association
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_TKE_PRE",
+    	name = "A_ACE_PRE",
     	fkFieldName = "PRE_ID",
     	primaryDtDefinitionName = "DT_O_PROCESS_EXECUTION",
     	primaryIsNavigable = true,
     	primaryRole = "ProcessusExecution",
     	primaryLabel = "Processus",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_TASK_EXECUTION",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
     	foreignIsNavigable = false,
-    	foreignRole = "TaskExecution",
-    	foreignLabel = "ExecutionTache",
+    	foreignRole = "ExecutionActivity",
+    	foreignLabel = "ExecutionActivity",
     	foreignMultiplicity = "0..*"
     )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OProcessExecution> getProcessusExecutionURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_TKE_PRE", io.vertigo.orchestra.domain.execution.OProcessExecution.class);
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_PRE", io.vertigo.orchestra.domain.execution.OProcessExecution.class);
 	}
 
-	// Association : TaskWorkspace non navigable
+	// Association : ActivityWorkspace non navigable
 
-	// Association : TaskLog non navigable
+	// Association : ActivityLog non navigable
 	/**
 	 * Association : ExecutionState.
 	 * @return io.vertigo.orchestra.domain.referential.OExecutionState
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_TKE_EST",
+    	name = "A_ACE_EST",
     	fkFieldName = "EST_CD",
     	primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
     	primaryIsNavigable = true,
     	primaryRole = "ExecutionState",
     	primaryLabel = "ExecutionState",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_TASK_EXECUTION",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
     	foreignIsNavigable = false,
-    	foreignRole = "TaskExecution",
-    	foreignLabel = "ExecutionTache",
+    	foreignRole = "ExecutionActivity",
+    	foreignLabel = "ExecutionActivity",
     	foreignMultiplicity = "0..*"
     )
 	public io.vertigo.orchestra.domain.referential.OExecutionState getExecutionState() {
@@ -343,21 +343,21 @@ public final class OTaskExecution implements DtObject {
 	 * @return URI de l'association
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_TKE_EST",
+    	name = "A_ACE_EST",
     	fkFieldName = "EST_CD",
     	primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
     	primaryIsNavigable = true,
     	primaryRole = "ExecutionState",
     	primaryLabel = "ExecutionState",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_TASK_EXECUTION",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
     	foreignIsNavigable = false,
-    	foreignRole = "TaskExecution",
-    	foreignLabel = "ExecutionTache",
+    	foreignRole = "ExecutionActivity",
+    	foreignLabel = "ExecutionActivity",
     	foreignMultiplicity = "0..*"
     )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> getExecutionStateURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_TKE_EST", io.vertigo.orchestra.domain.referential.OExecutionState.class);
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_EST", io.vertigo.orchestra.domain.referential.OExecutionState.class);
 	}
 
 	/** {@inheritDoc} */

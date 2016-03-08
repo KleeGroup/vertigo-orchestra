@@ -1,9 +1,9 @@
 services/domain.ksp
 
 services/definition/processDAO.ksp
-services/definition/taskDAO.ksp
+services/definition/activityDAO.ksp
 
-services/execution/taskExecutionDAO.ksp
+services/execution/activityExecutionDAO.ksp
 services/execution/processExecutionDAO.ksp
 
 services/planification/processPlanificationDAO.ksp

@@ -5,20 +5,20 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 /**
- * TaskExecutionWorkspace.
+ * ActivityExecutionWorkspace.
  * This is limited to a key(string) value(string) workspace.
  *
  * @author mlaroche.
  * @version $Id$
  */
-public final class TaskExecutionWorkspace {
+public final class ActivityExecutionWorkspace {
 
 	public static final String STATUS_KEY = "status";
 	public static final String PARSING_ERROR_KEY = "parsingError";
 
 	private final JsonObject jsonValue;
 
-	public TaskExecutionWorkspace(final String stringStoredValue) {
+	public ActivityExecutionWorkspace(final String stringStoredValue) {
 		JsonObject tempJsonValue = new JsonObject();
 		if (stringStoredValue != null) {
 			try {

@@ -197,7 +197,7 @@ public final class OProcessExecution implements DtObject {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
 
-	// Association : ExecutionTache non navigable
+	// Association : ExecutionActivity non navigable
 	/**
 	 * Association : ExecutionState.
 	 * @return io.vertigo.orchestra.domain.referential.OExecutionState

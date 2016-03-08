@@ -5,37 +5,37 @@ import java.util.concurrent.Callable;
 import org.apache.log4j.Logger;
 
 import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
+import io.vertigo.orchestra.domain.execution.OActivityExecution;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
-import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
+import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 
-final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
+final class OLocalWorker implements Callable<ActivityExecutionWorkspace> {
 
 	private static final Logger LOGGER = Logger.getLogger(ProcessExecutionManager.class);
 
 	private final SequentialExecutorPlugin sequentialExecutor;
 
-	private final OTaskExecution taskExecution;
-	private final TaskExecutionWorkspace workspace;
+	private final OActivityExecution activityExecution;
+	private final ActivityExecutionWorkspace workspace;
 
 	/**
 	 * Constructor.
 	 */
-	OLocalWorker(final SequentialExecutorPlugin sequentialExecutor, final OTaskExecution taskExecution, final TaskExecutionWorkspace workspace) {
+	OLocalWorker(final SequentialExecutorPlugin sequentialExecutor, final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspace) {
 		Assertion.checkNotNull(sequentialExecutor);
-		Assertion.checkNotNull(taskExecution);
+		Assertion.checkNotNull(activityExecution);
 		Assertion.checkNotNull(workspace);
 		// -----
-		this.taskExecution = taskExecution;
+		this.activityExecution = activityExecution;
 		this.workspace = workspace;
 		this.sequentialExecutor = sequentialExecutor;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public TaskExecutionWorkspace call() {
+	public ActivityExecutionWorkspace call() {
 		try {
-			return sequentialExecutor.execute(taskExecution, workspace);
+			return sequentialExecutor.execute(activityExecution, workspace);
 		} catch (final Exception e) {
 			logError(e);
 			throw asRuntimeException(e);
@@ -43,7 +43,7 @@ final class OLocalWorker implements Callable<TaskExecutionWorkspace> {
 	}
 
 	private void logError(final Throwable e) {
-		LOGGER.error("Erreur de la tache : " + taskExecution.getEngine(), e);
+		LOGGER.error("Erreur de la tache : " + activityExecution.getEngine(), e);
 	}
 
 	private static RuntimeException asRuntimeException(final Exception e) {

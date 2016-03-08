@@ -21,24 +21,24 @@ import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.lang.Plugin;
-import io.vertigo.orchestra.dao.definition.OTaskDAO;
+import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
+import io.vertigo.orchestra.dao.execution.OActivityExecutionDAO;
+import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
+import io.vertigo.orchestra.dao.execution.OActivityWorkspaceDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
-import io.vertigo.orchestra.dao.execution.OTaskExecutionDAO;
-import io.vertigo.orchestra.dao.execution.OTaskLogDAO;
-import io.vertigo.orchestra.dao.execution.OTaskWorkspaceDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
+import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.domain.definition.OTask;
+import io.vertigo.orchestra.domain.execution.OActivityExecution;
+import io.vertigo.orchestra.domain.execution.OActivityLog;
+import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.domain.execution.OTaskLog;
-import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.execution.ActivityEngine;
+import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
+import io.vertigo.orchestra.execution.ActivityLogger;
 import io.vertigo.orchestra.execution.ExecutionState;
-import io.vertigo.orchestra.execution.OTaskEngine;
-import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
-import io.vertigo.orchestra.execution.TaskLogger;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
@@ -58,15 +58,15 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;
 	@Inject
-	private OTaskExecutionDAO taskExecutionDAO;
+	private OActivityExecutionDAO activityExecutionDAO;
 	@Inject
-	private OTaskWorkspaceDAO taskWorkspaceDAO;
+	private OActivityWorkspaceDAO activityWorkspaceDAO;
 	@Inject
 	private ExecutionPAO executionPAO;
 	@Inject
-	private OTaskLogDAO taskLogDAO;
+	private OActivityLogDAO activityLogDAO;
 	@Inject
-	private OTaskDAO taskDAO;
+	private OActivityDAO activityDAO;
 
 	private final Long workersCount;
 	private final String nodeName;
@@ -103,7 +103,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	/** {@inheritDoc} */
 	@Override
 	public void start() {
-		planTimer = new Timer("LaunchTaskToDo", true);
+		planTimer = new Timer("LaunchActivitiesToDo", true);
 		planTimer.schedule(new TimerTask() {
 
 			@Override
@@ -112,7 +112,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 					executeToDo();
 				} catch (final Exception e) {
 					// We log the error and we continue the timer
-					LOGGER.error("Exception launching tasks to executes", e);
+					LOGGER.error("Exception launching activities to executes", e);
 				}
 
 			}
@@ -133,10 +133,10 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	/**
 	 * TODO : Description de la méthode.
-	 * @param taskExecution
+	 * @param activityExecution
 	 * @param workspaceOut
 	 */
-	void putResult(final OTaskExecution taskExecution, final TaskExecutionWorkspace workspaceOut, final Throwable error) {
+	void putResult(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspaceOut, final Throwable error) {
 		Assertion.checkNotNull(workspaceOut);
 		Assertion.checkNotNull(workspaceOut.getValue("status"), "Le status est obligatoire dans le résultat");
 		// ---
@@ -144,12 +144,12 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			if (error != null) {
 				error.printStackTrace();
-				doChangeExecutionState(taskExecution, ExecutionState.ERROR);
+				doChangeExecutionState(activityExecution, ExecutionState.ERROR);
 			} else {
 				if (workspaceOut.isSuccess()) {
-					endTaskExecutionAndInitNext(taskExecution);
+					endActivityExecutionAndInitNext(activityExecution);
 				} else {
-					doChangeExecutionState(taskExecution, ExecutionState.ERROR);
+					doChangeExecutionState(activityExecution, ExecutionState.ERROR);
 				}
 			}
 			transaction.commit();
@@ -157,65 +157,65 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	}
 
-	void changeExecutionState(final OTaskExecution taskExecution, final ExecutionState executionState) {
+	void changeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {
 		if (transactionManager.hasCurrentTransaction()) {
-			doChangeExecutionState(taskExecution, executionState);
+			doChangeExecutionState(activityExecution, executionState);
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				doChangeExecutionState(taskExecution, executionState);
+				doChangeExecutionState(activityExecution, executionState);
 				transaction.commit();
 			}
 		}
 	}
 
-	private void doChangeExecutionState(final OTaskExecution taskExecution, final ExecutionState executionState) {
-		Assertion.checkNotNull(taskExecution);
+	private void doChangeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {
+		Assertion.checkNotNull(activityExecution);
 		// ---
-		taskExecution.setEstCd(executionState.name());
-		taskExecutionDAO.save(taskExecution);
+		activityExecution.setEstCd(executionState.name());
+		activityExecutionDAO.save(activityExecution);
 
 		// If it's an error the entire process is in Error
 		if (ExecutionState.ERROR.equals(executionState)) {
-			endProcessExecution(taskExecution.getPreId(), ExecutionState.ERROR);
+			endProcessExecution(activityExecution.getPreId(), ExecutionState.ERROR);
 		}
 
 	}
 
-	TaskExecutionWorkspace getWorkspaceForTaskExecution(final Long tkeId, final Boolean in) {
-		Assertion.checkNotNull(tkeId);
+	ActivityExecutionWorkspace getWorkspaceForActivityExecution(final Long aceId, final Boolean in) {
+		Assertion.checkNotNull(aceId);
 		Assertion.checkNotNull(in);
 		// ---
-		final OTaskWorkspace taskWorkspace = taskWorkspaceDAO.getTaskWorkspace(tkeId, in);
-		return new TaskExecutionWorkspace(taskWorkspace.getWorkspace());
+		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in);
+		return new ActivityExecutionWorkspace(activityWorkspace.getWorkspace());
 	}
 
-	void saveTaskExecutionWorkspace(final Long tkeId, final TaskExecutionWorkspace workspace, final Boolean in) {
-		Assertion.checkNotNull(tkeId);
+	void saveActivityExecutionWorkspace(final Long aceId, final ActivityExecutionWorkspace workspace, final Boolean in) {
+		Assertion.checkNotNull(aceId);
 		Assertion.checkNotNull(in);
 		Assertion.checkNotNull(workspace);
 		// ---
-		final OTaskWorkspace taskWorkspace = new OTaskWorkspace();
-		taskWorkspace.setTkeId(tkeId);
-		taskWorkspace.setIsIn(in);
-		taskWorkspace.setWorkspace(workspace.getStringForStorage());
+		final OActivityWorkspace activityWorkspace = new OActivityWorkspace();
+		activityWorkspace.setAceId(aceId);
+		activityWorkspace.setIsIn(in);
+		activityWorkspace.setWorkspace(workspace.getStringForStorage());
 
-		taskWorkspaceDAO.save(taskWorkspace);
+		activityWorkspaceDAO.save(activityWorkspace);
 
 	}
 
 	/** {@inheritDoc} */
-	TaskExecutionWorkspace execute(final OTaskExecution taskExecution, final TaskExecutionWorkspace workspace) {
-		TaskExecutionWorkspace resultWorkspace = workspace;
+	ActivityExecutionWorkspace execute(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspace) {
+		ActivityExecutionWorkspace resultWorkspace = workspace;
 
 		try {
-			changeExecutionState(taskExecution, ExecutionState.RUNNING);
+			changeExecutionState(activityExecution, ExecutionState.RUNNING);
 			// ---
-			final OTaskEngine taskEngine = Injector.newInstance(
-					ClassUtil.classForName(taskExecution.getEngine(), OTaskEngine.class), Home.getApp().getComponentSpace());
+			final ActivityEngine activityEngine = Injector.newInstance(
+					ClassUtil.classForName(activityExecution.getEngine(), ActivityEngine.class), Home.getApp().getComponentSpace());
 
 			try {
 				// We try the execution and we keep the result
-				resultWorkspace = taskEngine.execute(workspace);
+				resultWorkspace = activityEngine.execute(workspace);
 
 			} catch (final Exception e) {
 				// In case of failure we keep the current workspace
@@ -224,10 +224,10 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			} finally {
 				try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 					// We save the workspace which is the minimal state
-					saveTaskExecutionWorkspace(taskExecution.getTkeId(), resultWorkspace, false);
-					if (taskEngine instanceof AbstractOTaskEngine) {
+					saveActivityExecutionWorkspace(activityExecution.getAceId(), resultWorkspace, false);
+					if (activityEngine instanceof AbstractActivityEngine) {
 						// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...)
-						saveTaskLogs(taskExecution.getTkeId(), ((AbstractOTaskEngine) taskEngine).getLogger());
+						saveActivityLogs(activityExecution.getAceId(), ((AbstractActivityEngine) activityEngine).getLogger());
 					}
 					transaction.commit();
 				}
@@ -236,7 +236,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		} catch (final Exception e) {
 			// Informative log
 			resultWorkspace.setFailure();
-			logError(taskExecution, e);
+			logError(activityExecution, e);
 		}
 
 		return resultWorkspace;
@@ -251,40 +251,40 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			initNewProcessesToLaunch();
 			transaction.commit();
 		}
-		final DtList<OTaskExecution> tasksToLaunch;
+		final DtList<OActivityExecution> activitiesToLaunch;
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			tasksToLaunch = getTasksToLaunch();
+			activitiesToLaunch = getActivitiesToLaunch();
 			transaction.commit();
 		}
-		for (final OTaskExecution taskExecution : tasksToLaunch) { //We submit only the process we can handle, no queue
+		for (final OActivityExecution activityExecution : activitiesToLaunch) { //We submit only the process we can handle, no queue
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				final TaskExecutionWorkspace workspace = getWorkspaceForTaskExecution(taskExecution.getTkeId(), true);
-				doChangeExecutionState(taskExecution, ExecutionState.SUBMITTED);
-				workers.submit(new OWorker(taskExecution, workspace, this));
+				final ActivityExecutionWorkspace workspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), true);
+				doChangeExecutionState(activityExecution, ExecutionState.SUBMITTED);
+				workers.submit(new OWorker(activityExecution, workspace, this));
 				transaction.commit();
 			}
 		}
 
 	}
 
-	private void initFirstTaskExecution(final OProcessExecution processExecution, final OProcessPlanification processPlanification) {
+	private void initFirstAcitvityExecution(final OProcessExecution processExecution, final OProcessPlanification processPlanification) {
 		Assertion.checkNotNull(processExecution.getProId());
 		Assertion.checkNotNull(processExecution.getPreId());
 		// ---
-		final OTask firstTask = getFirtTaskByProcess(processExecution.getProId());
-		final OTaskExecution firstTaskExecution = initTaskExecutionWithTask(firstTask, processExecution.getPreId());
-		taskExecutionDAO.save(firstTaskExecution);
+		final OActivity firstActivity = getFirtActivityByProcess(processExecution.getProId());
+		final OActivityExecution firstActivityExecution = initActivityExecutionWithActivity(firstActivity, processExecution.getPreId());
+		activityExecutionDAO.save(firstActivityExecution);
 
-		final TaskExecutionWorkspace initialWorkspace;
+		final ActivityExecutionWorkspace initialWorkspace;
 		if (!StringUtil.isEmpty(processPlanification.getInitialParams())) {
 			// If Plannification specifies initialParams we take them
-			initialWorkspace = new TaskExecutionWorkspace(processPlanification.getInitialParams());
+			initialWorkspace = new ActivityExecutionWorkspace(processPlanification.getInitialParams());
 		} else {
 			// Otherwise we take the process initial params for the firstWorkspace
-			initialWorkspace = new TaskExecutionWorkspace(processExecution.getProcess().getInitialParams());
+			initialWorkspace = new ActivityExecutionWorkspace(processExecution.getProcess().getInitialParams());
 
 		}
-		saveTaskExecutionWorkspace(firstTaskExecution.getTkeId(), initialWorkspace, true);
+		saveActivityExecutionWorkspace(firstActivityExecution.getAceId(), initialWorkspace, true);
 
 	}
 
@@ -300,21 +300,21 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		return newProcessExecution;
 	}
 
-	private void endTaskExecutionAndInitNext(final OTaskExecution taskExecution) {
-		endTask(taskExecution);
+	private void endActivityExecutionAndInitNext(final OActivityExecution activityExecution) {
+		endActivity(activityExecution);
 
-		final Option<OTask> nextTask = getNextTaskByTskId(taskExecution.getTskId());
-		if (nextTask.isDefined()) {
-			final OTaskExecution nextTaskExecution = initTaskExecutionWithTask(nextTask.get(), taskExecution.getPreId());
-			taskExecutionDAO.save(nextTaskExecution);
+		final Option<OActivity> nextActivity = getNextActivityByActId(activityExecution.getActId());
+		if (nextActivity.isDefined()) {
+			final OActivityExecution nextActivityExecution = initActivityExecutionWithActivity(nextActivity.get(), activityExecution.getPreId());
+			activityExecutionDAO.save(nextActivityExecution);
 			// We keep the old workspace for the nextTask
-			final TaskExecutionWorkspace previousWorkspace = getWorkspaceForTaskExecution(taskExecution.getTkeId(), false);
+			final ActivityExecutionWorkspace previousWorkspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
 			// We remove the status
 			previousWorkspace.resetStatus();
-			saveTaskExecutionWorkspace(nextTaskExecution.getTkeId(), previousWorkspace, true);
+			saveActivityExecutionWorkspace(nextActivityExecution.getAceId(), previousWorkspace, true);
 
 		} else {
-			endSuccessfulProcessExecution(taskExecution.getPreId());
+			endSuccessfulProcessExecution(activityExecution.getPreId());
 		}
 	}
 
@@ -324,40 +324,40 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			if (canExecute(processPlanification)) {
 				final OProcessExecution processExecution = initProcessExecution(processPlanification);
 				processSchedulerManager.triggerPlanification(prpId);
-				initFirstTaskExecution(processExecution, processPlanification);
+				initFirstAcitvityExecution(processExecution, processPlanification);
 			} else {
 				processSchedulerManager.misfirePlanification(prpId);
 			}
 		}
 	}
 
-	private DtList<OTaskExecution> getTasksToLaunch() {
+	private DtList<OActivityExecution> getActivitiesToLaunch() {
 		final Long maxNumber = getUnusedWorkersCount();
 		Assertion.checkNotNull(maxNumber);
 		// ---
-		executionPAO.reserveTasksToLaunch(nodeName, maxNumber);
-		return taskExecutionDAO.getTasksToLaunch(nodeName);
+		executionPAO.reserveActivitiesToLaunch(nodeName, maxNumber);
+		return activityExecutionDAO.getActivitiesToLaunch(nodeName);
 	}
 
-	private static OTaskExecution initTaskExecutionWithTask(final OTask task, final Long preId) {
+	private static OActivityExecution initActivityExecutionWithActivity(final OActivity activity, final Long preId) {
 		Assertion.checkNotNull(preId);
 		// ---
-		final OTaskExecution newTaskExecution = new OTaskExecution();
+		final OActivityExecution newActivityExecution = new OActivityExecution();
 
-		newTaskExecution.setPreId(preId);
-		newTaskExecution.setTskId(task.getTskId());
-		newTaskExecution.setBeginTime(new Date());
-		newTaskExecution.setEngine(task.getEngine());
-		newTaskExecution.setEstCd(ExecutionState.WAITING.name());
+		newActivityExecution.setPreId(preId);
+		newActivityExecution.setActId(activity.getActId());
+		newActivityExecution.setBeginTime(new Date());
+		newActivityExecution.setEngine(activity.getEngine());
+		newActivityExecution.setEstCd(ExecutionState.WAITING.name());
 
-		return newTaskExecution;
+		return newActivityExecution;
 
 	}
 
-	private void endTask(final OTaskExecution taskExecution) {
-		taskExecution.setEndTime(new Date());
-		taskExecution.setEstCd(ExecutionState.DONE.name());
-		taskExecutionDAO.save(taskExecution);
+	private void endActivity(final OActivityExecution activityExecution) {
+		activityExecution.setEndTime(new Date());
+		activityExecution.setEstCd(ExecutionState.DONE.name());
+		activityExecutionDAO.save(activityExecution);
 
 	}
 
@@ -393,29 +393,29 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	}
 
-	private void saveTaskLogs(final Long tkeId, final TaskLogger taskLogger) {
-		Assertion.checkNotNull(tkeId);
-		Assertion.checkNotNull(taskLogger);
+	private void saveActivityLogs(final Long aceId, final ActivityLogger activityLogger) {
+		Assertion.checkNotNull(aceId);
+		Assertion.checkNotNull(activityLogger);
 		//
 		if (transactionManager.hasCurrentTransaction()) {
-			doSaveTaskLogs(tkeId, taskLogger);
+			doSaveActivityLogs(aceId, activityLogger);
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				doSaveTaskLogs(tkeId, taskLogger);
+				doSaveActivityLogs(aceId, activityLogger);
 				transaction.commit();
 			}
 		}
 
 	}
 
-	private void doSaveTaskLogs(final Long tkeId, final TaskLogger taskLogger) {
-		Assertion.checkNotNull(tkeId);
-		Assertion.checkNotNull(taskLogger);
+	private void doSaveActivityLogs(final Long aceId, final ActivityLogger activityLogger) {
+		Assertion.checkNotNull(aceId);
+		Assertion.checkNotNull(activityLogger);
 		//
-		final OTaskLog taskLog = new OTaskLog();
-		taskLog.setTkeId(tkeId);
-		taskLog.setLog(taskLogger.getLogAsString());
-		taskLogDAO.save(taskLog);
+		final OActivityLog activityLog = new OActivityLog();
+		activityLog.setAceId(aceId);
+		activityLog.setLog(activityLogger.getLogAsString());
+		activityLogDAO.save(activityLog);
 	}
 
 	private Long getUnusedWorkersCount() {
@@ -428,20 +428,20 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		return workersCount;
 	}
 
-	private static void logError(final OTaskExecution taskExecution, final Throwable e) {
-		LOGGER.error("Erreur de la tache : " + taskExecution.getEngine(), e);
+	private static void logError(final OActivityExecution activityExecution, final Throwable e) {
+		LOGGER.error("Erreur de l'activité : " + activityExecution.getEngine(), e);
 	}
 
-	private OTask getFirtTaskByProcess(final Long proId) {
+	private OActivity getFirtActivityByProcess(final Long proId) {
 		Assertion.checkNotNull(proId);
 		// ---
-		return taskDAO.getFirstTaskByProcess(proId);
+		return activityDAO.getFirstActivityByProcess(proId);
 	}
 
-	private Option<OTask> getNextTaskByTskId(final Long tskId) {
-		Assertion.checkNotNull(tskId);
+	private Option<OActivity> getNextActivityByActId(final Long actId) {
+		Assertion.checkNotNull(actId);
 		// ---
-		return taskDAO.getNextTaskByTskId(tskId);
+		return activityDAO.getNextActivityByActId(actId);
 	}
 
 }

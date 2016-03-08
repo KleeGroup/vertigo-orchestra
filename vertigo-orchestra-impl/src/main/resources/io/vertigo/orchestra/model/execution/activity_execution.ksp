@@ -1,8 +1,8 @@
 package io.vertigo.orchestra.domain.execution
 
-create DtDefinition DT_O_TASK_EXECUTION {
+create DtDefinition DT_O_ACTIVITY_EXECUTION {
 	persistent: "true",
-	key TKE_ID			{domain : DO_IDENTIFIANT, label :"Id de l'execution d'un processus", notNull:"true",},
+	key ACE_ID			{domain : DO_IDENTIFIANT, label :"Id de l'execution d'un processus", notNull:"true",},
 	field BEGIN_TIME   	{domain : DO_TIMESTAMP, label :"Date de début", notNull:"true",},
 	field END_TIME   	{domain : DO_TIMESTAMP, label :"Date de fin", notNull:"false",},
 	field ENGINE   	{domain : DO_CLASSE, label :"Implémentation effective de l'execution", notNull:"false",},
@@ -12,11 +12,11 @@ create DtDefinition DT_O_TASK_EXECUTION {
 
 
 
-create Association A_TKE_TSK {
-  fkFieldName : "TSK_ID"
+create Association A_ACE_ACT {
+  fkFieldName : "ACT_ID"
     
- 	dtDefinitionA : DT_O_TASK_EXECUTION
-	dtDefinitionB : DT_O_TASK
+ 	dtDefinitionA : DT_O_ACTIVITY_EXECUTION
+	dtDefinitionB : DT_O_ACTIVITY
 			
 	navigabilityA : "false"
 	navigabilityB : "true"
@@ -24,18 +24,18 @@ create Association A_TKE_TSK {
 	multiplicityA:"0..*"
 	multiplicityB:"0..1"
 	
-	labelA : "ExecutionTache"
-	labelB : "Tache"
-	roleA : "TaskExecution"
-	roleB : "Tache"
+	labelA : "ExecutionActivity"
+	labelB : "Activity"
+	roleA : "ExecutionActivity"
+	roleB : "Activity"
 			
 }
 
 
-create Association A_TKE_EST {
+create Association A_ACE_EST {
   fkFieldName : "EST_CD"
     
- 	dtDefinitionA : DT_O_TASK_EXECUTION
+ 	dtDefinitionA : DT_O_ACTIVITY_EXECUTION
 	dtDefinitionB : DT_O_EXECUTION_STATE
 			
 	navigabilityA : "false"
@@ -44,18 +44,18 @@ create Association A_TKE_EST {
 	multiplicityA:"0..*"
 	multiplicityB:"0..1"
 	
-	labelA : "ExecutionTache"
+	labelA : "ExecutionActivity"
 	labelB : "ExecutionState"
-	roleA : "TaskExecution"
+	roleA : "ExecutionActivity"
 	roleB : "ExecutionState"
 			
 }
 
 
-create Association A_TKE_PRE {
+create Association A_ACE_PRE {
   fkFieldName : "PRE_ID"
     
- 	dtDefinitionA : DT_O_TASK_EXECUTION
+ 	dtDefinitionA : DT_O_ACTIVITY_EXECUTION
 	dtDefinitionB : DT_O_PROCESS_EXECUTION
 			
 	navigabilityA : "false"
@@ -64,9 +64,9 @@ create Association A_TKE_PRE {
 	multiplicityA:"0..*"
 	multiplicityB:"0..1"
 	
-	labelA : "ExecutionTache"
+	labelA : "ExecutionActivity"
 	labelB : "Processus"
-	roleA : "TaskExecution"
+	roleA : "ExecutionActivity"
 	roleB : "ProcessusExecution"
 			
 }

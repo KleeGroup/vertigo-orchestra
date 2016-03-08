@@ -11,13 +11,13 @@ import io.vertigo.orchestra.definition.Activity;
  */
 public final class ActivityImpl implements Activity {
 
-	private String name;
-	private String engine;
+	private final String name;
+	private final String engine;
 
 	/**
 	 * Constructor only used by its builder.
-	 * @param process
-	 * @param tasks
+	 * @param name
+	 * @param engine
 	 */
 	ActivityImpl(final String name, final String engine) {
 		Assertion.checkNotNull(name);

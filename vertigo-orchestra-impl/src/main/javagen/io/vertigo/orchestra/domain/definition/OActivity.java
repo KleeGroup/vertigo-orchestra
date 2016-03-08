@@ -6,15 +6,15 @@ import io.vertigo.dynamo.domain.model.DtObject;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
- * Objet de données OTask
+ * Objet de données OActivity
  */
 @DtDefinition
-public final class OTask implements DtObject {
+public final class OActivity implements DtObject {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	private Long tskId;
+	private Long actId;
 	private String name;
 	private Long number;
 	private Boolean milestone;
@@ -24,36 +24,36 @@ public final class OTask implements DtObject {
 
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id Tache'. 
-	 * @return Long tskId <b>Obligatoire</b>
+	 * Récupère la valeur de la propriété 'Id Activité'. 
+	 * @return Long actId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id Tache")
-	public Long getTskId() {
-		return tskId;
+	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id Activité")
+	public Long getActId() {
+		return actId;
 	}
 
 	/**
 	 * Champ : ID.
-	 * Définit la valeur de la propriété 'Id Tache'.
-	 * @param tskId Long <b>Obligatoire</b>
+	 * Définit la valeur de la propriété 'Id Activité'.
+	 * @param actId Long <b>Obligatoire</b>
 	 */
-	public void setTskId(final Long tskId) {
-		this.tskId = tskId;
+	public void setActId(final Long actId) {
+		this.actId = actId;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom de la tâche'. 
+	 * Récupère la valeur de la propriété 'Nom de l'activité'. 
 	 * @return String name 
 	 */
-	@Field(domain = "DO_LIBELLE", label = "Nom de la tâche")
+	@Field(domain = "DO_LIBELLE", label = "Nom de l'activité")
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Nom de la tâche'.
+	 * Définit la valeur de la propriété 'Nom de l'activité'.
 	 * @param name String 
 	 */
 	public void setName(final String name) {
@@ -62,17 +62,17 @@ public final class OTask implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Numéro de la tâche'. 
+	 * Récupère la valeur de la propriété 'Numéro de l'activité'. 
 	 * @return Long number 
 	 */
-	@Field(domain = "DO_NOMBRE", label = "Numéro de la tâche")
+	@Field(domain = "DO_NOMBRE", label = "Numéro de l'activité")
 	public Long getNumber() {
 		return number;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Numéro de la tâche'.
+	 * Définit la valeur de la propriété 'Numéro de l'activité'.
 	 * @param number Long 
 	 */
 	public void setNumber(final Long number) {
@@ -100,17 +100,17 @@ public final class OTask implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Implémentation de la tâche'. 
+	 * Récupère la valeur de la propriété 'Implémentation de l'activité'. 
 	 * @return String engine 
 	 */
-	@Field(domain = "DO_CLASSE", label = "Implémentation de la tâche")
+	@Field(domain = "DO_CLASSE", label = "Implémentation de l'activité")
 	public String getEngine() {
 		return engine;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Implémentation de la tâche'.
+	 * Définit la valeur de la propriété 'Implémentation de l'activité'.
 	 * @param engine String 
 	 */
 	public void setEngine(final String engine) {
@@ -141,17 +141,17 @@ public final class OTask implements DtObject {
 	 * @return io.vertigo.orchestra.domain.definition.OProcess
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_TSK_PRO",
+    	name = "A_ACT_PRO",
     	fkFieldName = "PRO_ID",
     	primaryDtDefinitionName = "DT_O_PROCESS",
     	primaryIsNavigable = true,
     	primaryRole = "Process",
     	primaryLabel = "Processus",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_TASK",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY",
     	foreignIsNavigable = false,
-    	foreignRole = "Taches",
-    	foreignLabel = "Tache",
+    	foreignRole = "Activity",
+    	foreignLabel = "Activity",
     	foreignMultiplicity = "0..*"
     )
 	public io.vertigo.orchestra.domain.definition.OProcess getProcess() {
@@ -179,24 +179,24 @@ public final class OTask implements DtObject {
 	 * @return URI de l'association
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_TSK_PRO",
+    	name = "A_ACT_PRO",
     	fkFieldName = "PRO_ID",
     	primaryDtDefinitionName = "DT_O_PROCESS",
     	primaryIsNavigable = true,
     	primaryRole = "Process",
     	primaryLabel = "Processus",
     	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_TASK",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY",
     	foreignIsNavigable = false,
-    	foreignRole = "Taches",
-    	foreignLabel = "Tache",
+    	foreignRole = "Activity",
+    	foreignLabel = "Activity",
     	foreignMultiplicity = "0..*"
     )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_TSK_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACT_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
 
-	// Association : ExecutionTache non navigable
+	// Association : ExecutionActivity non navigable
 
 	/** {@inheritDoc} */
 	@Override

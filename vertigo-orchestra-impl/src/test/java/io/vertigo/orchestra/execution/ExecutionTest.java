@@ -21,10 +21,10 @@ import io.vertigo.lang.Option;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.Process;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.domain.execution.OActivityExecution;
+import io.vertigo.orchestra.domain.execution.OActivityLog;
+import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
-import io.vertigo.orchestra.domain.execution.OTaskExecution;
-import io.vertigo.orchestra.domain.execution.OTaskLog;
-import io.vertigo.orchestra.domain.execution.OTaskWorkspace;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
@@ -65,7 +65,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	public void singleExecution() throws InterruptedException {
 
 		final Process processDefinition = new ProcessDefinitionBuilder("TEST MANUEL")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -97,7 +97,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Process processDefinition = new ProcessDefinitionBuilder("TEST SCHEDULED")
 				.withCron("*/15 * * * * ?")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -132,7 +132,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	//				.withRecurrence()
 	//				.withMultiExecution()
 	//				.withCron("*/4 * * * * ?")
-	//				.addTask("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine", false)
+	//				.addTask("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine", false)
 	//				.build();
 	//
 	//		processDefinitionManager.createDefinition(processDefinition);
@@ -148,7 +148,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	public void executionError() throws InterruptedException {
 
 		final Process processDefinition = new ProcessDefinitionBuilder("TEST ERROR")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbErrorActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -171,11 +171,11 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void twoTask() throws InterruptedException {
+	public void twoActivities() throws InterruptedException {
 
-		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 ACTIVITIES")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -196,11 +196,11 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void twoTasksWithError() throws InterruptedException {
+	public void twoActivitiesWithError() throws InterruptedException {
 
-		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbErrorOTaskEngine")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 ACTIVITIES ERROR")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbErrorActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -223,9 +223,9 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testWithInitialParams() throws InterruptedException {
 
-		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST INITIAL PARAMS")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -238,8 +238,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Thread.sleep(1000 * 5);
 		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
 
-		final OTaskWorkspace taskWorkspace = monitoringServices.getTaskWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
-		Assert.assertTrue(taskWorkspace.getWorkspace().contains("filePath"));
+		final OActivityWorkspace activityWorkspace = monitoringServices.getActivityWorkspaceByAceId(monitoringServices.getActivityExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getAceId(), true);
+		Assert.assertTrue(activityWorkspace.getWorkspace().contains("filePath"));
 
 	}
 
@@ -249,9 +249,9 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testWithInitialParamsParseError() throws InterruptedException {
 
-		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST INITIAL PARAMS ERROR")
 				.withInitialParams("{testError}")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -264,8 +264,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Thread.sleep(1000 * 5);
 		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
 
-		final OTaskWorkspace taskWorkspace = monitoringServices.getTaskWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
-		Assert.assertTrue(taskWorkspace.getWorkspace().contains(TaskExecutionWorkspace.PARSING_ERROR_KEY));
+		final OActivityWorkspace activityWorkspace = monitoringServices.getActivityWorkspaceByAceId(monitoringServices.getActivityExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getAceId(), true);
+		Assert.assertTrue(activityWorkspace.getWorkspace().contains(ActivityExecutionWorkspace.PARSING_ERROR_KEY));
 	}
 
 	/**
@@ -274,9 +274,9 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testWithInitialParamsInPlanification() throws InterruptedException {
 
-		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST INITIALPARAMS PLANIF")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -289,8 +289,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Thread.sleep(1000 * 3);
 		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
 
-		final OTaskWorkspace taskWorkspace = monitoringServices.getTaskWorkspaceByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId(), true);
-		Assert.assertTrue(taskWorkspace.getWorkspace().contains("tata/tutu"));
+		final OActivityWorkspace activityWorkspace = monitoringServices.getActivityWorkspaceByAceId(monitoringServices.getActivityExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getAceId(), true);
+		Assert.assertTrue(activityWorkspace.getWorkspace().contains("tata/tutu"));
 	}
 
 	/**
@@ -299,8 +299,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testException() throws InterruptedException {
 
-		final Process processDefinition = new ProcessDefinitionBuilder("TEST 2 TASKS")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbExceptionOTaskEngine")
+		final Process processDefinition = new ProcessDefinitionBuilder("TEST EXCEPTION")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbExceptionActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -324,7 +324,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	public void testMonoExecutionMisfire() throws InterruptedException {
 
 		final Process processDefinition = new ProcessDefinitionBuilder("TEST MULTI MISFIRE")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -349,7 +349,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	public void testLog() throws InterruptedException {
 
 		final Process processDefinition = new ProcessDefinitionBuilder("TEST LOG")
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbLoggedOTaskEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbLoggedActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -363,8 +363,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		checkExecutions(proId, 0, 0, 1, 0); // We are sure that the process is done so we can continue the test safely
 
-		final Option<OTaskLog> taskLog = monitoringServices.getTaskLogByTkeId(monitoringServices.getTaskExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getTkeId());
-		Assert.assertTrue(taskLog.isDefined());
+		final Option<OActivityLog> activityLog = monitoringServices.getActivityLogByAceId(monitoringServices.getActivityExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getAceId());
+		Assert.assertTrue(activityLog.isDefined());
 
 	}
 
@@ -376,7 +376,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Process processDefinition = new ProcessDefinitionBuilder("TEST MULTI")
 				.withMultiExecution()
-				.addActivity("DUMB TASK", "io.vertigo.orchestra.execution.engine.DumbOTaskEngine")
+				.addActivity("DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
 				.build();
 
 		processDefinitionManager.createDefinition(processDefinition);
@@ -431,26 +431,26 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		for (final OProcessExecution processExecution : monitoringServices.getExecutionsByProId(proId)) {
 			// --- We check the execution state of the process
-			final DtList<OTaskExecution> taskExecutions = monitoringServices.getTaskExecutionsByPreId(processExecution.getPreId());
-			int countTaskRunning = 0;
-			int countTaskError = 0;
-			for (final OTaskExecution taskExecution : taskExecutions) {
-				switch (ExecutionState.valueOf(taskExecution.getEstCd())) {
+			final DtList<OActivityExecution> activityExecutions = monitoringServices.getActivityExecutionsByPreId(processExecution.getPreId());
+			int countActivitiesRunning = 0;
+			int countActivitiesError = 0;
+			for (final OActivityExecution activityExecution : activityExecutions) {
+				switch (ExecutionState.valueOf(activityExecution.getEstCd())) {
 					case WAITING:
 						break;
 					case RUNNING:
-						countTaskRunning++;
+						countActivitiesRunning++;
 						break;
 					case DONE:
 						break;
 					case ERROR:
-						countTaskError++;
+						countActivitiesError++;
 						break;
 					case CANCELED:
 					case RESERVED:
 					case SUBMITTED:
 					default:
-						throw new UnsupportedOperationException("Unsupported state :" + taskExecution.getEstCd());
+						throw new UnsupportedOperationException("Unsupported state :" + activityExecution.getEstCd());
 				}
 			}
 			switch (ExecutionState.valueOf(processExecution.getEstCd())) {
@@ -459,20 +459,20 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 					break;
 				case RUNNING:
 					runningExecutionCount++;
-					// --- We check that there is one and only one task RUNNING if the process is Running
-					Assert.assertEquals(1, countTaskRunning);
+					// --- We check that there is one and only one activity RUNNING if the process is Running
+					Assert.assertEquals(1, countActivitiesRunning);
 					break;
 				case DONE:
 					doneExecutionCount++;
-					// --- We check that all tasks are done if a process is done
-					for (final OTaskExecution taskExecution : taskExecutions) {
-						Assert.assertEquals(ExecutionState.DONE.name(), taskExecution.getEstCd());
+					// --- We check that all activities are done if a process is done
+					for (final OActivityExecution activityExecution : activityExecutions) {
+						Assert.assertEquals(ExecutionState.DONE.name(), activityExecution.getEstCd());
 					}
 					break;
 				case ERROR:
 					errorExecutionCount++;
-					// --- We check that there is one and only one task is ERROR
-					Assert.assertEquals(1, countTaskError);
+					// --- We check that there is one and only one activity is ERROR
+					Assert.assertEquals(1, countActivitiesError);
 					break;
 				case CANCELED:
 				case RESERVED:
@@ -496,12 +496,12 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		//A chaque test on supprime tout
 		try (VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			final List<String> requests = new ListBuilder<String>()
-					.add(" delete from o_task_log;")
-					.add(" delete from o_task_workspace;")
+					.add(" delete from o_activity_log;")
+					.add(" delete from o_activity_workspace;")
 					.add(" delete from o_process_planification;")
-					.add(" delete from o_task_execution;")
+					.add(" delete from o_activity_execution;")
 					.add(" delete from o_process_execution;")
-					.add(" delete from o_task;")
+					.add(" delete from o_activity;")
 					.add(" delete from o_process;")
 					.build();
 

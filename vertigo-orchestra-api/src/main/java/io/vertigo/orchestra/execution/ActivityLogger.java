@@ -11,28 +11,28 @@ import org.apache.log4j.PatternLayout;
 import io.vertigo.lang.Assertion;
 
 /**
- * Task Logger.
+ * Activity Logger.
  *
  * @author mlaroche.
  */
-public class TaskLogger {
+public class ActivityLogger {
 
 	private static final String LOG_FILE_EXTENSION = ".log";
 	private final StringBuilder log = new StringBuilder();
 
-	private final Logger TASK_LOGGER;
+	private final Logger ACTIVITY_LOGGER;
 	private final Logger LOGGER = Logger.getLogger(ProcessExecutionManager.class);
 
 	/**
 	 * Constructeur package protected.
 	 */
-	public TaskLogger(final String engineName) {
+	public ActivityLogger(final String engineName) {
 		Assertion.checkArgNotEmpty(engineName);
 		// ---
 		// Creates or get the logger
 		if (LogManager.exists(engineName) != null) {
 			// If it exist we keep it
-			TASK_LOGGER = Logger.getLogger(engineName);
+			ACTIVITY_LOGGER = Logger.getLogger(engineName);
 		} else {
 			Logger tempLogger = null;
 			try {
@@ -48,7 +48,7 @@ public class TaskLogger {
 				LOGGER.warn("");
 				tempLogger = LOGGER;
 			} finally {
-				TASK_LOGGER = tempLogger;
+				ACTIVITY_LOGGER = tempLogger;
 			}
 
 		}
@@ -58,21 +58,21 @@ public class TaskLogger {
 		// We log in Orchestra
 		log.append("[Info] ").append(message).append("\n");
 		// We log in Log4j
-		TASK_LOGGER.info(message);
+		ACTIVITY_LOGGER.info(message);
 	}
 
 	public void warn(final String message) {
 		// We log in Orchestra
 		log.append("[Warn] ").append(message).append("\n");
 		// We log in Log4j
-		TASK_LOGGER.warn(message);
+		ACTIVITY_LOGGER.warn(message);
 	}
 
 	public void error(final String message) {
 		// We log in Orchestra
 		log.append("[Error] ").append(message).append("\n");
 		// We log in Log4j
-		TASK_LOGGER.error(message);
+		ACTIVITY_LOGGER.error(message);
 	}
 
 	public String getLogAsString() {

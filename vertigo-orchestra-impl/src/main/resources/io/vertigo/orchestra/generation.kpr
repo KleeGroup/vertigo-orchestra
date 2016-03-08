@@ -1,13 +1,13 @@
 execution.kpr
 
 ./model/definition/process.ksp
-./model/definition/task.ksp
+./model/definition/activity.ksp
 
 
 ./model/execution/process_execution.ksp
-./model/execution/task_execution.ksp
-./model/execution/task_workspace.ksp
-./model/execution/task_log.ksp
+./model/execution/activity_execution.ksp
+./model/execution/activity_workspace.ksp
+./model/execution/activity_log.ksp
 
 
 ./model/planification/process_planification.ksp

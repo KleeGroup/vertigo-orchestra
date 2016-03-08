@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.execution.engine;
 
-import io.vertigo.orchestra.execution.TaskExecutionWorkspace;
-import io.vertigo.orchestra.impl.execution.AbstractOTaskEngine;
+import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
+import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
 
 /**
  * TODO : Description de la classe.
@@ -9,11 +9,11 @@ import io.vertigo.orchestra.impl.execution.AbstractOTaskEngine;
  * @author mlaroche.
  * @version $Id$
  */
-public class DumbLoggedOTaskEngine extends AbstractOTaskEngine {
+public class DumbLoggedActivityEngine extends AbstractActivityEngine {
 
 	/** {@inheritDoc} */
 	@Override
-	public TaskExecutionWorkspace execute(final TaskExecutionWorkspace workspace) {
+	public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
 		getLogger().info("Info 1");
 		getLogger().info("Info 2");
 		workspace.setSucess();

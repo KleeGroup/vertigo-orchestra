@@ -6,11 +6,11 @@ package io.vertigo.orchestra.execution;
  * @author mlaroche.
  * @version $Id$
  */
-public interface OTaskEngine {
+public interface ActivityEngine {
 
 	/**
 	 * Réalise l'exécution d'une tache.
 	 */
-	TaskExecutionWorkspace execute(final TaskExecutionWorkspace workspace);
+	ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace);
 
 }

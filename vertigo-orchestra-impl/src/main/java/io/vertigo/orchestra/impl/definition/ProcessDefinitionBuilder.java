@@ -67,11 +67,11 @@ public final class ProcessDefinitionBuilder implements Builder<Process> {
 	 * Ajoute un delai entre deux executions d'une tache récurrente.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder addActivity(final String taskName, final String engine) {
-		Assertion.checkArgNotEmpty(taskName);
+	public ProcessDefinitionBuilder addActivity(final String activityName, final String engine) {
+		Assertion.checkArgNotEmpty(activityName);
 		Assertion.checkArgNotEmpty(engine);
 		// ---
-		final Activity activity = new ActivityImpl(taskName, engine);
+		final Activity activity = new ActivityImpl(activityName, engine);
 		activitiesBuilder.add(activity);
 		return this;
 	}

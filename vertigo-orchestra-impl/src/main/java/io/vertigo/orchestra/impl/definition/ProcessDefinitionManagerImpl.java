@@ -9,13 +9,13 @@ import javax.inject.Inject;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
+import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
-import io.vertigo.orchestra.dao.definition.OTaskDAO;
 import io.vertigo.orchestra.definition.Activity;
 import io.vertigo.orchestra.definition.Process;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.domain.definition.OTask;
 import io.vertigo.util.StringUtil;
 
 /**
@@ -30,7 +30,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	@Inject
 	private OProcessDAO processDao;
 	@Inject
-	private OTaskDAO taskDAO;
+	private OActivityDAO activityDAO;
 
 	/** {@inheritDoc} */
 	@Override
@@ -51,20 +51,21 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 		final List<Activity> activities = processDefinition.getActivities();
 
+		process.setActive(Boolean.TRUE);
 		processDao.save(process);
 
 		// We update the id
 		processDefinition.setId(process.getProId());
 
-		long taskId = 1L;
+		long activityNumber = 1L;
 		for (final Activity activity : activities) {
-			final OTask task = new OTask();
-			task.setName(activity.getName());
-			task.setEngine(activity.getEngine());
-			task.setProId(process.getProId());
-			task.setNumber(taskId);
-			taskDAO.save(task);// We have 10 tasks max so we can iterate
-			taskId++;
+			final OActivity oActivity = new OActivity();
+			oActivity.setName(activity.getName());
+			oActivity.setEngine(activity.getEngine());
+			oActivity.setProId(process.getProId());
+			oActivity.setNumber(activityNumber);
+			activityDAO.save(oActivity);// We have 10 activities max so we can iterate
+			activityNumber++;
 		}
 
 	}
@@ -74,35 +75,35 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		Assertion.checkNotNull(processName);
 		// ---
 		final OProcess process = processDao.getActiveProcessByName(processName);
-		final DtList<OTask> tasks = taskDAO.getTasksByProId(process.getProId());
+		final DtList<OActivity> activities = activityDAO.getActivitiesByProId(process.getProId());
 
-		return decodeProcessDefinition(process, tasks);
+		return decodeProcessDefinition(process, activities);
 	}
 
 	@Override
 	public List<Process> getAllProcessDefinitions() {
 		final DtList<OProcess> processes = processDao.getAllActiveProcesses();
-		final DtList<OTask> tasks = taskDAO.getAllTasksInActiveProcesses();
+		final DtList<OActivity> activities = activityDAO.getAllActivitiesInActiveProcesses();
 		// ---
 		final List<Process> processDefinitions = new ArrayList<>();
 
 		for (final OProcess process : processes) {
-			final List<OTask> taskByProcess = new ArrayList<>();
-			for (final OTask task : tasks) {
-				if (task.getProId().equals(process.getProId())) {
-					taskByProcess.add(task);
+			final List<OActivity> activitiesByProcess = new ArrayList<>();
+			for (final OActivity activity : activities) {
+				if (activity.getProId().equals(process.getProId())) {
+					activitiesByProcess.add(activity);
 				}
 			}
-			taskByProcess.sort(new OTaskComparator());
-			processDefinitions.add(decodeProcessDefinition(process, taskByProcess));
+			activitiesByProcess.sort(new OActivityComparator());
+			processDefinitions.add(decodeProcessDefinition(process, activitiesByProcess));
 		}
 		return processDefinitions;
 
 	}
 
-	private static Process decodeProcessDefinition(final OProcess process, final List<OTask> tasks) {
+	private static Process decodeProcessDefinition(final OProcess process, final List<OActivity> oActivities) {
 		Assertion.checkNotNull(process);
-		Assertion.checkNotNull(tasks);
+		Assertion.checkNotNull(oActivities);
 		// ---
 		final ProcessDefinitionBuilder definitionBuilder = new ProcessDefinitionBuilder(process.getName());
 		if (!StringUtil.isEmpty(process.getCronExpression())) {
@@ -114,8 +115,8 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		if (process.getMultiexecution()) {
 			definitionBuilder.withMultiExecution();
 		}
-		for (final OTask task : tasks) {
-			definitionBuilder.addActivity(task.getName(), task.getEngine());
+		for (final OActivity activity : oActivities) {
+			definitionBuilder.addActivity(activity.getName(), activity.getEngine());
 		}
 		final Process processDefinition = definitionBuilder.build();
 		processDefinition.setId(process.getProId());
@@ -123,12 +124,12 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	}
 
-	class OTaskComparator implements Comparator<OTask> {
+	class OActivityComparator implements Comparator<OActivity> {
 
 		/** {@inheritDoc} */
 		@Override
-		public int compare(final OTask task1, final OTask task2) {
-			return (int) (task1.getNumber() - task2.getNumber());
+		public int compare(final OActivity actikvity1, final OActivity activity2) {
+			return (int) (actikvity1.getNumber() - activity2.getNumber());
 		}
 
 	}

@@ -25,8 +25,11 @@ public final class ProcessImpl implements Process {
 
 	/**
 	 * Constructor only used by its builder.
-	 * @param process
-	 * @param tasks
+	 * @param name
+	 * @param cronExpression
+	 * @param initialParams
+	 * @param multiExecution
+	 * @param activities
 	 */
 	ProcessImpl(final String name, final Option<String> cronExpression, final Option<String> initialParams, final boolean multiExecution, final List<Activity> activities) {
 		Assertion.checkNotNull(name);
