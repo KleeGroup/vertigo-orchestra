@@ -8,7 +8,7 @@ create Task TK_GET_ALL_SCHEDULED_PROCESSES {
         	select 
         		pro.*
         	from o_process pro
-        	where pro.trt_cd = 'SCHEDULED'
+        	where pro.trt_cd = 'SCHEDULED' and pro.active is true
         	for update
         	
 			"
@@ -37,7 +37,7 @@ create Task TK_GET_ALL_ACTIVE_PROCESSES {
         	select 
         		pro.*
         	from o_process pro
-        	where pro.ACTIVE = 1
+        	where pro.ACTIVE is true
         	
 			"
 	attribute DTC_PROCESSES	 	{domain : DO_DT_O_PROCESS_DTC 		notNull:"true" 	inOut :"out"}

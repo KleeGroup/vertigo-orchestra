@@ -70,7 +70,7 @@ create Task TK_GET_ALL_ACTIVITIES_IN_ACTIVE_PROCESSES {
         	select act.* 
                 from O_ACTIVITY act 
                 join O_PROCESS pro on pro.PRO_ID = act.PRO_ID
-                where pro.ACTIVE = 1
+                where pro.ACTIVE is true
         	
 			"
 	attribute DT_O_ACTIVITIES	 	{domain : DO_DT_O_ACTIVITY_DTC 		notNull:"true" 	inOut :"out"}
