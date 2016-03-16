@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.impl.definition;
 
 import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.definition.Activity;
+import io.vertigo.orchestra.definition.ActivityDefinition;
 
 /**
  * TODO : Description de la classe.
@@ -9,7 +9,7 @@ import io.vertigo.orchestra.definition.Activity;
  * @author mlaroche.
  * @version $Id$
  */
-public final class ActivityImpl implements Activity {
+public final class ActivityImpl implements ActivityDefinition {
 
 	private final String name;
 	private final String engine;

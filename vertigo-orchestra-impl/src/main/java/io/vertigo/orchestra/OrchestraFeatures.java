@@ -17,10 +17,10 @@ import io.vertigo.orchestra.impl.OrchestraManagerImpl;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
 import io.vertigo.orchestra.impl.execution.SequentialExecutorPlugin;
-import io.vertigo.orchestra.impl.monitoring.MonitoringServicesImpl;
 import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl;
 import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
+import io.vertigo.orchestra.monitoring.MonitoringServicesImpl;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**

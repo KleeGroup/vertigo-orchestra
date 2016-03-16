@@ -7,8 +7,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,10 +40,10 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	private static final Logger LOGGER = Logger.getLogger(ProcessSchedulerPlugin.class);
 
-	private Timer planTimer;
 	private final long timerDelay;
 
 	private final String nodeName;
+	private final ScheduledExecutorService localScheduledExecutor;
 	private final Integer planningPeriod;
 	private final Integer forecastDuration;
 
@@ -66,13 +67,13 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 		this.nodeName = nodeName;
 		this.planningPeriod = planningPeriod;
 		this.forecastDuration = forecastDuration;
+		localScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 	}
 
 	@Override
 	public void start() {
-		planTimer = new Timer("PlannNewProcesses", true);
-		planTimer.schedule(new TimerTask() {
 
+		localScheduledExecutor.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -83,13 +84,12 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 				}
 
 			}
-		}, timerDelay, timerDelay);
+		}, timerDelay + timerDelay / 10, timerDelay, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
 	public void stop() {
-		planTimer.cancel();
-		planTimer.purge();
+		localScheduledExecutor.shutdown();
 	}
 
 	//--------------------------------------------------------------------------------------------------
@@ -125,10 +125,9 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	List<Long> getProcessToExecute() {
 		final GregorianCalendar lowerLimit = new GregorianCalendar(Locale.FRANCE);
-		lowerLimit.add(Calendar.SECOND, -(planningPeriod / 2 + 1));
+		lowerLimit.add(Calendar.SECOND, -planningPeriod * 5 / 4); //Just to be sure that nothing will be lost
 
 		final GregorianCalendar upperLimit = new GregorianCalendar(Locale.FRANCE);
-		upperLimit.add(Calendar.SECOND, (planningPeriod / 2));
 
 		planificationPAO.reserveProcessToExecute(lowerLimit.getTime(), upperLimit.getTime(), nodeName);
 		final DtList<OProcessPlanification> processToExecute = processPlanificationDAO.getProcessToExecute(nodeName);
@@ -172,7 +171,9 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 			final CronExpression cronExpression = new CronExpression(process.getCronExpression());
 
 			if (!lastPlanificationOption.isDefined()) {
-				return Option.<Date> some(new Date(cronExpression.getNextValidTimeAfter(new Date()).getTime() + planningPeriod / 2 * 1000)); // Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
+				final Date now = new Date();
+				final Date compatibleNow = new Date(now.getTime() + (planningPeriod / 2 * 1000));// Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
+				return Option.<Date> some(cronExpression.getNextValidTimeAfter(compatibleNow));
 			}
 			final OProcessPlanification lastPlanification = lastPlanificationOption.get();
 			final Date nextPotentialPlainification = cronExpression.getNextValidTimeAfter(lastPlanification.getExpectedTime());

@@ -1,0 +1,11 @@
+<?xml version =	'1.0' encoding = 'UTF-8'?>
+<config>
+	<module name="orchestra-ui-services">
+		<component api="DefinitionServices" class="io.vertigo.orchestra.ui.services.impl.DefinitionServicesImpl" />
+	</module>
+	<module name="orchestra-ui-ws" api="false" >
+		<component class="io.vertigo.vega.impl.webservice.catalog.CatalogWebServices" />
+		<component class="io.vertigo.vega.impl.webservice.catalog.SwaggerWebServices" />
+		<component class="io.vertigo.orchestra.ui.ws.definition.WsDefinition" />
+	</module>
+</config>

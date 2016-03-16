@@ -4,8 +4,8 @@ import java.util.List;
 
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
-import io.vertigo.orchestra.definition.Activity;
-import io.vertigo.orchestra.definition.Process;
+import io.vertigo.orchestra.definition.ActivityDefinition;
+import io.vertigo.orchestra.definition.ProcessDefinition;
 
 /**
  * TODO : Description de la classe.
@@ -13,13 +13,13 @@ import io.vertigo.orchestra.definition.Process;
  * @author mlaroche.
  * @version $Id$
  */
-public final class ProcessImpl implements Process {
+public final class ProcessImpl implements ProcessDefinition {
 
 	private final String name;
 	private final Option<String> cronExpression;
 	private final Option<String> initialParams;
 	private final boolean multiExecution;
-	private final List<Activity> activities;
+	private final List<ActivityDefinition> activities;
 
 	private long id;
 
@@ -31,7 +31,7 @@ public final class ProcessImpl implements Process {
 	 * @param multiExecution
 	 * @param activities
 	 */
-	ProcessImpl(final String name, final Option<String> cronExpression, final Option<String> initialParams, final boolean multiExecution, final List<Activity> activities) {
+	ProcessImpl(final String name, final Option<String> cronExpression, final Option<String> initialParams, final boolean multiExecution, final List<ActivityDefinition> activities) {
 		Assertion.checkNotNull(name);
 		Assertion.checkNotNull(activities);
 		//---
@@ -80,7 +80,7 @@ public final class ProcessImpl implements Process {
 
 	/** {@inheritDoc} */
 	@Override
-	public List<Activity> getActivities() {
+	public List<ActivityDefinition> getActivities() {
 		return activities;
 	}
 

@@ -1,11 +1,11 @@
 package io.vertigo.orchestra.impl.execution;
 
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -71,7 +71,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	private final Long workersCount;
 	private final String nodeName;
 	private final ExecutorService workers;
-	private Timer planTimer;
+	private final ScheduledExecutorService localScheduledExecutor;
 	private final long timerDelay;
 
 	private final ProcessSchedulerManager processSchedulerManager;
@@ -98,14 +98,13 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		this.workersCount = (long) workersCount;
 		timerDelay = 1000 * executionPeriod;
 		workers = Executors.newFixedThreadPool(workersCount.intValue());
+		localScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void start() {
-		planTimer = new Timer("LaunchActivitiesToDo", true);
-		planTimer.schedule(new TimerTask() {
-
+		localScheduledExecutor.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -116,14 +115,14 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				}
 
 			}
-		}, timerDelay + timerDelay / 10, timerDelay);
+		}, timerDelay + timerDelay / 10, timerDelay, TimeUnit.MILLISECONDS);
+
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void stop() {
-		planTimer.cancel();
-		planTimer.purge();
+		localScheduledExecutor.shutdown();
 		workers.shutdown();
 	}
 

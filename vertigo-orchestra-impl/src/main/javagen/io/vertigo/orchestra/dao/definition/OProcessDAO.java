@@ -2,6 +2,7 @@ package io.vertigo.orchestra.dao.definition;
 
 import javax.inject.Inject;
 import io.vertigo.app.Home;
+import io.vertigo.lang.Option;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
@@ -53,15 +54,15 @@ public final class OProcessDAO extends DAOBroker<OProcess, java.lang.Long> imple
 	/**
 	 * Execute la tache TK_GET_ACTIVE_PROCESS_BY_NAME.
 	 * @param name String 
-	 * @return io.vertigo.orchestra.domain.definition.OProcess dtProcess
+	 * @return Option de io.vertigo.orchestra.domain.definition.OProcess dtProcess
 	*/
-	public io.vertigo.orchestra.domain.definition.OProcess getActiveProcessByName(final String name) {
+	public Option<io.vertigo.orchestra.domain.definition.OProcess> getActiveProcessByName(final String name) {
 		final Task task = createTaskBuilder("TK_GET_ACTIVE_PROCESS_BY_NAME")
 				.addValue("NAME", name)
 				.build();
-		return getTaskManager()
+		return Option.option((io.vertigo.orchestra.domain.definition.OProcess)getTaskManager()
 				.execute(task)
-				.getResult();
+				.getResult());
 	}
 
 	/**

@@ -23,11 +23,11 @@ create Task TK_GET_ACTIVE_PROCESS_BY_NAME {
         		pro.*
         	from o_process pro
         	where pro.NAME = #NAME#
-	        	and pro.ACTIVE = 1
+	        	and pro.ACTIVE is true
         	
 			"
-	attribute NAME			 	{domain : DO_LIBELLE 				notNull:"true" 	inOut :"in"}
-	attribute DT_PROCESS	 	{domain : DO_DT_O_PROCESS_DTO 		notNull:"true" 	inOut :"out"}
+	attribute NAME			 	{domain : DO_LIBELLE 				notNull:"true" 		inOut :"in"}
+	attribute DT_PROCESS	 	{domain : DO_DT_O_PROCESS_DTO 		notNull:"false" 	inOut :"out"}
 }
 
 

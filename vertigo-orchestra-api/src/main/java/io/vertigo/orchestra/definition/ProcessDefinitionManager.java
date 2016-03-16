@@ -12,9 +12,11 @@ import io.vertigo.lang.Component;
  */
 public interface ProcessDefinitionManager extends Component {
 
-	void createDefinition(Process processDefinition);
+	void createDefinition(ProcessDefinition processDefinition);
 
-	Process getProcessDefinition(String processName);
+	ProcessDefinition getProcessDefinition(String processName);
 
-	List<Process> getAllProcessDefinitions();
+	List<ProcessDefinition> getAllProcessDefinitions();
+
+	boolean processDefinitionExist(String processName);
 }

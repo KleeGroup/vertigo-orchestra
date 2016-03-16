@@ -8,24 +8,24 @@ import javax.inject.Inject;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.OrchestraManager;
-import io.vertigo.orchestra.definition.Process;
+import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**
- * 
+ *
  * Orchestra high-level services implementation.
  * @author matth
  *
  */
 public class OrchestraManagerImpl implements OrchestraManager {
 
-	private ProcessDefinitionManager processDefinitionManager;
-	private ProcessSchedulerManager processSchedulerManager;
+	private final ProcessDefinitionManager processDefinitionManager;
+	private final ProcessSchedulerManager processSchedulerManager;
 
 	@Inject
-	public OrchestraManagerImpl(ProcessDefinitionManager processDefinitionManager, ProcessExecutionManager processExecutionManager, ProcessSchedulerManager processSchedulerManager) {
+	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager, final ProcessExecutionManager processExecutionManager, final ProcessSchedulerManager processSchedulerManager) {
 		Assertion.checkNotNull(processDefinitionManager);
 		Assertion.checkNotNull(processExecutionManager);
 		Assertion.checkNotNull(processSchedulerManager);
@@ -35,7 +35,7 @@ public class OrchestraManagerImpl implements OrchestraManager {
 	}
 
 	@Override
-	public void createDefinition(Process processDefinition) {
+	public void createDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
 		processDefinitionManager.createDefinition(processDefinition);
@@ -43,14 +43,22 @@ public class OrchestraManagerImpl implements OrchestraManager {
 	}
 
 	@Override
-	public Process getProcessDefinition(final String processName) {
+	public ProcessDefinition getProcessDefinition(final String processName) {
 		Assertion.checkNotNull(processName);
 		// ---
 		return processDefinitionManager.getProcessDefinition(processName);
 	}
 
+	/** {@inheritDoc} */
 	@Override
-	public List<Process> getAllProcesses() {
+	public boolean processDefinitionExist(final String processName) {
+		Assertion.checkNotNull(processName);
+		// ---
+		return processDefinitionManager.processDefinitionExist(processName);
+	}
+
+	@Override
+	public List<ProcessDefinition> getAllProcesses() {
 		return processDefinitionManager.getAllProcessDefinitions();
 	}
 
@@ -64,7 +72,7 @@ public class OrchestraManagerImpl implements OrchestraManager {
 		Assertion.checkNotNull(processName);
 		Assertion.checkNotNull(expectedTime);
 		// ---
-		final Process processDefintion = getProcessDefinition(processName);
+		final ProcessDefinition processDefintion = getProcessDefinition(processName);
 		Assertion.checkNotNull(processDefintion);
 		// ---
 		processSchedulerManager.scheduleAt(processDefintion.getId(), expectedTime, initialParams);

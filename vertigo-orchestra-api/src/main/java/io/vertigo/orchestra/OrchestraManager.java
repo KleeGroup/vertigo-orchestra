@@ -5,7 +5,7 @@ import java.util.List;
 
 import io.vertigo.lang.Manager;
 import io.vertigo.lang.Option;
-import io.vertigo.orchestra.definition.Process;
+import io.vertigo.orchestra.definition.ProcessDefinition;
 
 /**
  * Orchestra high-level services.
@@ -15,11 +15,13 @@ import io.vertigo.orchestra.definition.Process;
  */
 public interface OrchestraManager extends Manager {
 
-	void createDefinition(Process processDefinition);
+	void createDefinition(ProcessDefinition processDefinition);
 
-	Process getProcessDefinition(String processName);
+	ProcessDefinition getProcessDefinition(String processName);
 
-	List<Process> getAllProcesses();
+	boolean processDefinitionExist(String processName);
+
+	List<ProcessDefinition> getAllProcesses();
 
 	void scheduleNow(String processName, Option<String> initialParams);
 

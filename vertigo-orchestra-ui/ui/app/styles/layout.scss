@@ -1,0 +1,56 @@
+@import "variables";
+
+body > div {
+    background-color: #FAFAFA;
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+
+    [data-focus='layout'] {
+        background-color: transparent;
+        min-height: 100%;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    //default styles
+    h1, h2, h3, h4, h5, h6 {
+        padding: 0;
+        margin: 0;
+        margin-bottom: 8px;
+        color: $color-primary;
+    }
+    h1 {
+        font-size: 112px;
+        line-height: 98px;
+        font-weight: 300;
+    }
+    h2 {
+        font-size: 56px;
+        line-height: 50px;
+        font-weight: 400;
+    }
+    h3 {
+        font-size: 45px;
+        line-height: 40px;
+        font-weight: 400;
+    }
+    h4 {
+        font-size: 34px;
+        line-height: 30px;
+        font-weight: 400;
+    }
+    h5 {
+        font-size: 24px;
+        line-height: 22px;
+        font-weight: 400;
+    }
+    h6 {
+        font-size: 20px;
+        line-height: 20px;
+        font-weight: 500;
+    }
+}

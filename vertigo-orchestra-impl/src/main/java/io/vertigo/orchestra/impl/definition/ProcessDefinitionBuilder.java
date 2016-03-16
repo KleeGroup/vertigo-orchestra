@@ -3,8 +3,8 @@ package io.vertigo.orchestra.impl.definition;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Builder;
 import io.vertigo.lang.Option;
-import io.vertigo.orchestra.definition.Activity;
-import io.vertigo.orchestra.definition.Process;
+import io.vertigo.orchestra.definition.ActivityDefinition;
+import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.util.ListBuilder;
 
 /**
@@ -13,13 +13,13 @@ import io.vertigo.util.ListBuilder;
  * @author mlaroche.
  * @version $Id$
  */
-public final class ProcessDefinitionBuilder implements Builder<Process> {
+public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 
 	private final String name;
 	private Option<String> cronExpression = Option.<String> none();
 	private Option<String> initialParams = Option.<String> none();
 	private boolean multiExecution = false;
-	private final ListBuilder<Activity> activitiesBuilder = new ListBuilder<>();
+	private final ListBuilder<ActivityDefinition> activitiesBuilder = new ListBuilder<>();
 
 	/**
 	 * Constructeur.
@@ -71,14 +71,14 @@ public final class ProcessDefinitionBuilder implements Builder<Process> {
 		Assertion.checkArgNotEmpty(activityName);
 		Assertion.checkArgNotEmpty(engine);
 		// ---
-		final Activity activity = new ActivityImpl(activityName, engine);
+		final ActivityDefinition activity = new ActivityImpl(activityName, engine);
 		activitiesBuilder.add(activity);
 		return this;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Process build() {
+	public ProcessDefinition build() {
 		return new ProcessImpl(name, cronExpression, initialParams, multiExecution, activitiesBuilder.unmodifiable().build());
 	}
 

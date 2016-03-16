@@ -33,6 +33,11 @@
 				<param name="baseCible" value="PostgreSql" />
 				<param name="generateDrop" value="true" />
 			</plugin>
+			<plugin class="io.vertigo.studio.plugins.mda.domain.JSGeneratorPlugin">
+				<param name ="targetSubDir" value="."/>
+				<param name="generateDtResourcesJS" value="true" />
+				<param name="generateJsDtDefinitions" value="true" />
+			</plugin>
 	        <plugin class="io.vertigo.studio.plugins.mda.task.TaskGeneratorPlugin">
 		        <param name ="targetSubDir" value="."/>
 	        </plugin>
