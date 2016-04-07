@@ -12,6 +12,7 @@ import io.vertigo.orchestra.definition.ActivityDefinition;
 public final class ActivityImpl implements ActivityDefinition {
 
 	private final String name;
+	private final String label;
 	private final String engine;
 
 	/**
@@ -19,11 +20,12 @@ public final class ActivityImpl implements ActivityDefinition {
 	 * @param name
 	 * @param engine
 	 */
-	ActivityImpl(final String name, final String engine) {
+	ActivityImpl(final String name, final String label, final String engine) {
 		Assertion.checkNotNull(name);
 		Assertion.checkNotNull(engine);
 		//-----
 		this.name = name;
+		this.label = label;
 		this.engine = engine;
 	}
 
@@ -31,6 +33,12 @@ public final class ActivityImpl implements ActivityDefinition {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public String getLabel() {
+		return label;
 	}
 
 	/** {@inheritDoc} */

@@ -16,12 +16,12 @@ public final class OProcessPlanification implements DtObject {
 
 	private Long prpId;
 	private java.util.Date expectedTime;
-	private String state;
 	private String initialParams;
-	private String nodeName;
 	private Long proId;
+	private Long nodId;
 	private String pstCd;
 	private io.vertigo.orchestra.domain.definition.OProcess processus;
+	private io.vertigo.orchestra.domain.execution.ONode node;
 	private io.vertigo.orchestra.domain.referential.OPlanificationState planificationState;
 
 	/**
@@ -64,25 +64,6 @@ public final class OProcessPlanification implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Etat de la planification'. 
-	 * @return String state 
-	 */
-	@Field(domain = "DO_CODE_IDENTIFIANT", label = "Etat de la planification")
-	public String getState() {
-		return state;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Etat de la planification'.
-	 * @param state String 
-	 */
-	public void setState(final String state) {
-		this.state = state;
-	}
-
-	/**
-	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'. 
 	 * @return String initialParams 
 	 */
@@ -98,25 +79,6 @@ public final class OProcessPlanification implements DtObject {
 	 */
 	public void setInitialParams(final String initialParams) {
 		this.initialParams = initialParams;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du noeud'. 
-	 * @return String nodeName 
-	 */
-	@Field(domain = "DO_LIBELLE", label = "Nom du noeud")
-	public String getNodeName() {
-		return nodeName;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Nom du noeud'.
-	 * @param nodeName String 
-	 */
-	public void setNodeName(final String nodeName) {
-		this.nodeName = nodeName;
 	}
 
 	/**
@@ -136,6 +98,25 @@ public final class OProcessPlanification implements DtObject {
 	 */
 	public void setProId(final Long proId) {
 		this.proId = proId;
+	}
+
+	/**
+	 * Champ : FOREIGN_KEY.
+	 * Récupère la valeur de la propriété 'Node'. 
+	 * @return Long nodId 
+	 */
+	@Field(domain = "DO_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
+	public Long getNodId() {
+		return nodId;
+	}
+
+	/**
+	 * Champ : FOREIGN_KEY.
+	 * Définit la valeur de la propriété 'Node'.
+	 * @param nodId Long 
+	 */
+	public void setNodId(final Long nodId) {
+		this.nodId = nodId;
 	}
 
 	/**
@@ -215,6 +196,65 @@ public final class OProcessPlanification implements DtObject {
     )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessusURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
+	}
+	/**
+	 * Association : Node.
+	 * @return io.vertigo.orchestra.domain.execution.ONode
+	 */
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRP_NOD",
+    	fkFieldName = "NOD_ID",
+    	primaryDtDefinitionName = "DT_O_NODE",
+    	primaryIsNavigable = true,
+    	primaryRole = "Node",
+    	primaryLabel = "Node",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ProcessPlanification",
+    	foreignLabel = "PlanificationProcessus",
+    	foreignMultiplicity = "0..*"
+    )
+	public io.vertigo.orchestra.domain.execution.ONode getNode() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> fkURI = getNodeURI();
+		if (fkURI == null) {
+			return null;
+		}
+		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
+		if (node != null) {
+			// On s'assure que l'objet correspond à la bonne clé
+			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> uri;
+			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(node), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(node));
+			if (!fkURI.toURN().equals(uri.toURN())) {
+				node = null;
+			}
+		}		
+		if (node == null) {
+			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+		}
+		return node;
+	}
+
+	/**
+	 * Retourne l'URI: Node.
+	 * @return URI de l'association
+	 */
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRP_NOD",
+    	fkFieldName = "NOD_ID",
+    	primaryDtDefinitionName = "DT_O_NODE",
+    	primaryIsNavigable = true,
+    	primaryRole = "Node",
+    	primaryLabel = "Node",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ProcessPlanification",
+    	foreignLabel = "PlanificationProcessus",
+    	foreignMultiplicity = "0..*"
+    )
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> getNodeURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_NOD", io.vertigo.orchestra.domain.execution.ONode.class);
 	}
 	/**
 	 * Association : PlanificationState.

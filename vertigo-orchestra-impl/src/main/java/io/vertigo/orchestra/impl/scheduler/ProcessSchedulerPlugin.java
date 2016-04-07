@@ -28,6 +28,7 @@ import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.execution.NodeManager;
 import io.vertigo.orchestra.scheduler.PlanificationState;
 
 /**
@@ -42,7 +43,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	private final long timerDelay;
 
-	private final String nodeName;
+	private final Long nodId;
 	private final ScheduledExecutorService localScheduledExecutor;
 	private final Integer planningPeriod;
 	private final Integer forecastDuration;
@@ -58,13 +59,18 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	private OProcessDAO processDao;
 
 	@Inject
-	public ProcessSchedulerPlugin(@Named("nodeName") final String nodeName, @Named("planningPeriod") final Integer planningPeriod, @Named("forecastDuration") final Integer forecastDuration) {
+	public ProcessSchedulerPlugin(final NodeManager nodeManager, @Named("nodeName") final String nodeName, @Named("planningPeriod") final Integer planningPeriod, @Named("forecastDuration") final Integer forecastDuration) {
+		Assertion.checkNotNull(nodeManager);
 		Assertion.checkNotNull(nodeName);
 		Assertion.checkNotNull(planningPeriod);
 		Assertion.checkNotNull(forecastDuration);
 		//-----
 		timerDelay = planningPeriod * 1000;
-		this.nodeName = nodeName;
+		// We register the node
+		nodId = nodeManager.registerNode(nodeName);
+		// ---
+		Assertion.checkNotNull(nodId);
+		// ---
 		this.planningPeriod = planningPeriod;
 		this.forecastDuration = forecastDuration;
 		localScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
@@ -84,7 +90,9 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 				}
 
 			}
-		}, timerDelay + timerDelay / 10, timerDelay, TimeUnit.MILLISECONDS);
+		}, 0, timerDelay, TimeUnit.MILLISECONDS);
+		// We clean the planification
+		cleanPastPlanification();
 	}
 
 	@Override
@@ -125,12 +133,12 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	List<Long> getProcessToExecute() {
 		final GregorianCalendar lowerLimit = new GregorianCalendar(Locale.FRANCE);
-		lowerLimit.add(Calendar.SECOND, -planningPeriod * 5 / 4); //Just to be sure that nothing will be lost
+		lowerLimit.add(Calendar.SECOND, -planningPeriod * 3 / 2); //Just to be sure that nothing will be lost
 
 		final GregorianCalendar upperLimit = new GregorianCalendar(Locale.FRANCE);
 
-		planificationPAO.reserveProcessToExecute(lowerLimit.getTime(), upperLimit.getTime(), nodeName);
-		final DtList<OProcessPlanification> processToExecute = processPlanificationDAO.getProcessToExecute(nodeName);
+		planificationPAO.reserveProcessToExecute(lowerLimit.getTime(), upperLimit.getTime(), nodId);
+		final DtList<OProcessPlanification> processToExecute = processPlanificationDAO.getProcessToExecute(nodId);
 		final List<Long> prpIdsToExecute = new ArrayList<>();
 		for (final OProcessPlanification processPlanification : processToExecute) {
 			prpIdsToExecute.add(processPlanification.getPrpId());
@@ -190,6 +198,33 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	private DtList<OProcess> getAllScheduledProcesses() {
 		return processDao.getAllScheduledProcesses();
+	}
+
+	// clean Planification on startup
+
+	private void cleanPastPlanification() {
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			doCleanPastPlanification();
+			transaction.commit();
+		}
+	}
+
+	private void doCleanPastPlanification() {
+		final Date now = new Date();
+		planificationPAO.cleanPlanificationsOnBoot(now);
+		// ---
+		for (final OProcessPlanification planification : processPlanificationDAO.getAllLastPastPlanifications(now)) {
+			// We check the process policy of validity
+			final OProcess process = planification.getProcessus();
+			final Long ageOfPlanification = (now.getTime() - planification.getExpectedTime().getTime()) / (60 * 1000);// in seconds
+			if (ageOfPlanification < process.getRescuePeriod()) {
+				planification.setPstCd(PlanificationState.RESCUED.name());
+			} else {
+				planification.setPstCd(PlanificationState.MISFIRED.name());
+			}
+			processPlanificationDAO.save(planification);
+		}
+
 	}
 
 }

@@ -12,6 +12,10 @@ module.exports = {
             domain: "DO_LIBELLE",
             required: false
         },
+        label: {
+            domain: "DO_LIBELLE",
+            required: false
+        },
         number: {
             domain: "DO_NOMBRE",
             required: false
@@ -34,9 +38,13 @@ module.exports = {
             domain: "DO_IDENTIFIANT",
             required: true
         },
-        beginTime: {
+        creationTime: {
             domain: "DO_TIMESTAMP",
             required: true
+        },
+        beginTime: {
+            domain: "DO_TIMESTAMP",
+            required: false
         },
         endTime: {
             domain: "DO_TIMESTAMP",
@@ -46,15 +54,15 @@ module.exports = {
             domain: "DO_CLASSE",
             required: false
         },
-        nodeName: {
-            domain: "DO_LIBELLE",
-            required: false
-        },
         actId: {
             domain: "DO_IDENTIFIANT",
             required: false
         },
         preId: {
+            domain: "DO_IDENTIFIANT",
+            required: false
+        },
+        nodId: {
             domain: "DO_IDENTIFIANT",
             required: false
         },
@@ -105,6 +113,20 @@ module.exports = {
             required: false
         }
     },
+    oNode: {
+        nodId: {
+            domain: "DO_IDENTIFIANT",
+            required: true
+        },
+        name: {
+            domain: "DO_LIBELLE",
+            required: true
+        },
+        heartbeat: {
+            domain: "DO_TIMESTAMP",
+            required: true
+        }
+    },
     oPlanificationState: {
         pstCd: {
             domain: "DO_CODE_IDENTIFIANT",
@@ -124,6 +146,10 @@ module.exports = {
             domain: "DO_LIBELLE",
             required: false
         },
+        label: {
+            domain: "DO_LIBELLE",
+            required: false
+        },
         cronExpression: {
             domain: "DO_LIBELLE",
             required: false
@@ -138,6 +164,10 @@ module.exports = {
         },
         active: {
             domain: "DO_BOOLEEN",
+            required: true
+        },
+        rescuePeriod: {
+            domain: "DO_NOMBRE",
             required: true
         },
         trtCd: {
@@ -184,19 +214,15 @@ module.exports = {
             domain: "DO_TIMESTAMP",
             required: false
         },
-        state: {
-            domain: "DO_CODE_IDENTIFIANT",
-            required: false
-        },
         initialParams: {
             domain: "DO_JSON_TEXT",
             required: false
         },
-        nodeName: {
-            domain: "DO_LIBELLE",
+        proId: {
+            domain: "DO_IDENTIFIANT",
             required: false
         },
-        proId: {
+        nodId: {
             domain: "DO_IDENTIFIANT",
             required: false
         },

@@ -7,11 +7,11 @@ create Task TK_GET_ACTIVITIES_TO_LAUNCH {
         		ace.*
         	from o_activity_execution ace
         	where ace.EST_CD = 'RESERVED'
-        	and ace.NODE_NAME = #NODE_NAME#
+        	and ace.NOD_ID = #NOD_ID#
         	
 			"
 	attribute DTC_ACTIVITY_EXECUTION	 	{domain : DO_DT_O_ACTIVITY_EXECUTION_DTC 		notNull:"true" 	inOut :"out"}
-	attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
+	attribute NOD_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 },
 
 create Task TK_RESERVE_ACTIVITIES_TO_LAUNCH {
@@ -19,20 +19,20 @@ create Task TK_RESERVE_ACTIVITIES_TO_LAUNCH {
         request : "
         	update  o_activity_execution 
         	set EST_CD = 'RESERVED',
-        		NODE_NAME = #NODE_NAME#
+        		NOD_ID = #NOD_ID#
         		
         	where ace_id in (
         			select ace_id 
         			from o_activity_execution
-        			where EST_CD = 'WAITING'
-        			order by begin_time asc
+        			where EST_CD = 'WAITING' or EST_CD = 'RESERVED'
+        			order by creation_time asc
         			limit #MAX_NUMBER#
         			for update
         	)
         	
 			"
 			
-		attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
+		attribute NOD_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 		attribute MAX_NUMBER	 	{domain : DO_NOMBRE 		notNull:"true" 	inOut :"in"}
 }
 

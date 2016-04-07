@@ -7,6 +7,6 @@
 	
 	<Parameter name="boot.nodeName" value="NODE_TEST_1" override="false" />	 
 	<Parameter name="boot.timerPeriod" value="10" override="false" />	 
-	<Parameter name="boot.forecastDuration" value="120" override="false" />	
+	<Parameter name="boot.forecastDuration" value="1200" override="false" />	
 	<Parameter name="boot.workersCount" value="3" override="false" />	
 </Context>

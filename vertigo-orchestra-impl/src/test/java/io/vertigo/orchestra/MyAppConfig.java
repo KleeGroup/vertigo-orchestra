@@ -15,6 +15,8 @@ import io.vertigo.dynamo.plugins.environment.loaders.kpr.KprLoaderPlugin;
 import io.vertigo.dynamo.plugins.environment.registries.domain.DomainDynamicRegistryPlugin;
 import io.vertigo.dynamo.plugins.environment.registries.task.TaskDynamicRegistryPlugin;
 import io.vertigo.dynamo.plugins.store.datastore.postgresql.PostgreSqlDataStorePlugin;
+import io.vertigo.orchestra.monitoring.MonitoringServices;
+import io.vertigo.orchestra.monitoring.MonitoringServicesImpl;
 
 public final class MyAppConfig {
 	@SuppressWarnings("deprecation")
@@ -51,7 +53,11 @@ public final class MyAppConfig {
 				.endModule()
 			//.beginModule(PersonaFeatures.class).withUserSession(TestUserSession.class).endModule()
 			//.beginModule(VegaFeatures.class).withEmbeddedServer(8080).endModule()
-			.beginModule(OrchestraFeatures.class).endModule();
+			.beginModule(OrchestraFeatures.class).endModule()
+			.beginModule("orchestra-test")
+			//---Services
+			.addComponent(MonitoringServices.class, MonitoringServicesImpl.class)
+			.endModule();
 		// @formatter:on
 	}
 

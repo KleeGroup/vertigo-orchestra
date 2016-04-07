@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  16 mars 2016  15:11:06                     
+--   Date de création :  7 avr. 2016  18:27:38                     
 -- ============================================================
 
 -- ============================================================
@@ -11,6 +11,7 @@ drop table O_ACTIVITY_EXECUTION cascade;
 drop table O_ACTIVITY_LOG cascade;
 drop table O_ACTIVITY_WORKSPACE cascade;
 drop table O_EXECUTION_STATE cascade;
+drop table O_NODE cascade;
 drop table O_PLANIFICATION_STATE cascade;
 drop table O_PROCESS cascade;
 drop table O_PROCESS_EXECUTION cascade;
@@ -36,6 +37,9 @@ create sequence SEQ_O_ACTIVITY_WORKSPACE
 	start with 1000 cache 20; 
 
 create sequence SEQ_O_EXECUTION_STATE
+	start with 1000 cache 20; 
+
+create sequence SEQ_O_NODE
 	start with 1000 cache 20; 
 
 create sequence SEQ_O_PLANIFICATION_STATE
@@ -64,6 +68,7 @@ create table O_ACTIVITY
 (
     ACT_ID      	 NUMERIC     	not null,
     NAME        	 VARCHAR(100)	,
+    LABEL       	 VARCHAR(100)	,
     NUMBER      	 NUMERIC     	,
     MILESTONE   	 BOOL        	,
     ENGINE      	 VARCHAR(200)	,
@@ -75,6 +80,9 @@ comment on column O_ACTIVITY.ACT_ID is
 
 comment on column O_ACTIVITY.NAME is
 'Nom de l''activité';
+
+comment on column O_ACTIVITY.LABEL is
+'Libellé de l''activité';
 
 comment on column O_ACTIVITY.NUMBER is
 'Numéro de l''activité';
@@ -95,17 +103,21 @@ create index O_ACTIVITY_PRO_ID_FK on O_ACTIVITY (PRO_ID asc);
 create table O_ACTIVITY_EXECUTION
 (
     ACE_ID      	 NUMERIC     	not null,
-    BEGIN_TIME  	 TIMESTAMP   	not null,
+    CREATION_TIME	 TIMESTAMP   	not null,
+    BEGIN_TIME  	 TIMESTAMP   	,
     END_TIME    	 TIMESTAMP   	,
     ENGINE      	 VARCHAR(200)	,
-    NODE_NAME   	 VARCHAR(100)	,
     ACT_ID      	 NUMERIC     	,
     PRE_ID      	 NUMERIC     	,
+    NOD_ID      	 NUMERIC     	,
     EST_CD      	 VARCHAR(20) 	,
 );
 
 comment on column O_ACTIVITY_EXECUTION.ACE_ID is
 'Id de l''execution d''un processus';
+
+comment on column O_ACTIVITY_EXECUTION.CREATION_TIME is
+'Date de création';
 
 comment on column O_ACTIVITY_EXECUTION.BEGIN_TIME is
 'Date de début';
@@ -116,9 +128,6 @@ comment on column O_ACTIVITY_EXECUTION.END_TIME is
 comment on column O_ACTIVITY_EXECUTION.ENGINE is
 'Implémentation effective de l''execution';
 
-comment on column O_ACTIVITY_EXECUTION.NODE_NAME is
-'Nom du noeud';
-
 comment on column O_ACTIVITY_EXECUTION.ACT_ID is
 'Activity';
 
@@ -127,6 +136,10 @@ comment on column O_ACTIVITY_EXECUTION.PRE_ID is
 'Processus';
 
 create index O_ACTIVITY_EXECUTION_PRE_ID_FK on O_ACTIVITY_EXECUTION (PRE_ID asc);
+comment on column O_ACTIVITY_EXECUTION.NOD_ID is
+'Node';
+
+create index O_ACTIVITY_EXECUTION_NOD_ID_FK on O_ACTIVITY_EXECUTION (NOD_ID asc);
 comment on column O_ACTIVITY_EXECUTION.EST_CD is
 'ExecutionState';
 
@@ -191,6 +204,25 @@ comment on column O_EXECUTION_STATE.LABEL is
 'Libellé';
 
 -- ============================================================
+--   Table : O_NODE                                        
+-- ============================================================
+create table O_NODE
+(
+    NOD_ID      	 NUMERIC     	not null,
+    NAME        	 VARCHAR(100)	not null,
+    HEARTBEAT   	 TIMESTAMP   	not null,
+);
+
+comment on column O_NODE.NOD_ID is
+'Id du noeud';
+
+comment on column O_NODE.NAME is
+'Nom du noeud';
+
+comment on column O_NODE.HEARTBEAT is
+'Date de dernière activité';
+
+-- ============================================================
 --   Table : O_PLANIFICATION_STATE                                        
 -- ============================================================
 create table O_PLANIFICATION_STATE
@@ -212,10 +244,12 @@ create table O_PROCESS
 (
     PRO_ID      	 NUMERIC     	not null,
     NAME        	 VARCHAR(100)	,
+    LABEL       	 VARCHAR(100)	,
     CRON_EXPRESSION	 VARCHAR(100)	,
     INITIAL_PARAMS	 TEXT        	,
     MULTIEXECUTION	 BOOL        	,
     ACTIVE      	 BOOL        	not null,
+    RESCUE_PERIOD	 NUMERIC     	not null,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
 );
@@ -225,6 +259,9 @@ comment on column O_PROCESS.PRO_ID is
 
 comment on column O_PROCESS.NAME is
 'Nom du processus';
+
+comment on column O_PROCESS.LABEL is
+'Libellé du processus';
 
 comment on column O_PROCESS.CRON_EXPRESSION is
 'Expression récurrence du processus';
@@ -237,6 +274,9 @@ comment on column O_PROCESS.MULTIEXECUTION is
 
 comment on column O_PROCESS.ACTIVE is
 'Version active';
+
+comment on column O_PROCESS.RESCUE_PERIOD is
+'Temps de validité d''une planification';
 
 comment on column O_PROCESS.TRT_CD is
 'TriggerType';
@@ -286,10 +326,9 @@ create table O_PROCESS_PLANIFICATION
 (
     PRP_ID      	 NUMERIC     	not null,
     EXPECTED_TIME	 TIMESTAMP   	,
-    STATE       	 VARCHAR(20) 	,
     INITIAL_PARAMS	 TEXT        	,
-    NODE_NAME   	 VARCHAR(100)	,
     PRO_ID      	 NUMERIC     	,
+    NOD_ID      	 NUMERIC     	,
     PST_CD      	 VARCHAR(20) 	,
 );
 
@@ -299,19 +338,17 @@ comment on column O_PROCESS_PLANIFICATION.PRP_ID is
 comment on column O_PROCESS_PLANIFICATION.EXPECTED_TIME is
 'Date d''execution prévue';
 
-comment on column O_PROCESS_PLANIFICATION.STATE is
-'Etat de la planification';
-
 comment on column O_PROCESS_PLANIFICATION.INITIAL_PARAMS is
 'Paramètres initiaux sous forme de JSON';
-
-comment on column O_PROCESS_PLANIFICATION.NODE_NAME is
-'Nom du noeud';
 
 comment on column O_PROCESS_PLANIFICATION.PRO_ID is
 'Processus';
 
 create index O_PROCESS_PLANIFICATION_PRO_ID_FK on O_PROCESS_PLANIFICATION (PRO_ID asc);
+comment on column O_PROCESS_PLANIFICATION.NOD_ID is
+'Node';
+
+create index O_PROCESS_PLANIFICATION_NOD_ID_FK on O_PROCESS_PLANIFICATION (NOD_ID asc);
 comment on column O_PROCESS_PLANIFICATION.PST_CD is
 'PlanificationState';
 
@@ -357,6 +394,10 @@ alter table O_ACTIVITY_EXECUTION
 	references O_EXECUTION_STATE (EST_CD);
 
 alter table O_ACTIVITY_EXECUTION
+	add constraint FK_ACE_NOD foreign key (NOD_ID)
+	references O_NODE (NOD_ID);
+
+alter table O_ACTIVITY_EXECUTION
 	add constraint FK_ACE_PRE foreign key (PRE_ID)
 	references O_PROCESS_EXECUTION (PRE_ID);
 
@@ -383,6 +424,10 @@ alter table O_PROCESS
 alter table O_PROCESS
 	add constraint FK_PRO_TRT foreign key (TRT_CD)
 	references TRIGGER_TYPE (TRT_CD);
+
+alter table O_PROCESS_PLANIFICATION
+	add constraint FK_PRP_NOD foreign key (NOD_ID)
+	references O_NODE (NOD_ID);
 
 alter table O_PROCESS_PLANIFICATION
 	add constraint FK_PRP_PRO foreign key (PRO_ID)

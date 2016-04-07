@@ -16,9 +16,11 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 public final class ProcessImpl implements ProcessDefinition {
 
 	private final String name;
+	private final String label;
 	private final Option<String> cronExpression;
 	private final Option<String> initialParams;
 	private final boolean multiExecution;
+	private final Long rescuePeriod;
 	private final List<ActivityDefinition> activities;
 
 	private long id;
@@ -31,14 +33,16 @@ public final class ProcessImpl implements ProcessDefinition {
 	 * @param multiExecution
 	 * @param activities
 	 */
-	ProcessImpl(final String name, final Option<String> cronExpression, final Option<String> initialParams, final boolean multiExecution, final List<ActivityDefinition> activities) {
+	ProcessImpl(final String name, final String label, final Option<String> cronExpression, final Option<String> initialParams, final boolean multiExecution, final Long rescuePeriod, final List<ActivityDefinition> activities) {
 		Assertion.checkNotNull(name);
 		Assertion.checkNotNull(activities);
 		//---
 		this.name = name;
+		this.label = label;
 		this.cronExpression = cronExpression;
 		this.initialParams = initialParams;
 		this.multiExecution = multiExecution;
+		this.rescuePeriod = rescuePeriod;
 		this.activities = activities;
 	}
 
@@ -62,6 +66,12 @@ public final class ProcessImpl implements ProcessDefinition {
 
 	/** {@inheritDoc} */
 	@Override
+	public String getLabel() {
+		return label;
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public Option<String> getCronExpression() {
 		return cronExpression;
 	}
@@ -70,6 +80,12 @@ public final class ProcessImpl implements ProcessDefinition {
 	@Override
 	public Option<String> getInitialParams() {
 		return initialParams;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Long getRescuePeriod() {
+		return rescuePeriod;
 	}
 
 	/** {@inheritDoc} */

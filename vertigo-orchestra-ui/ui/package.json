@@ -1,120 +1,142 @@
 {
-  "author": "focus@kleegroup.com",
-  "name": "focus-starter-kit",
-  "description": "front-end demo spa",
-  "version": "3.0.0",
-  "homepage": "https://github.com/KleeGroup/focus-starter-kit",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/KleeGroup/focus-starter-kit.git"
-  },
-  "engines": {
-    "node": "0.4.x",
-    "npm": "2.14.x"
-  },
-  "scripts": {
-    "bundle": "better-npm-run bundle",
-    "build": "npm run bundle",
-    "start": "better-npm-run webpack-dev-server",
-    "watch": "better-npm-run bundle-watch",
-    "webpack-dev-server": "better-npm-run webpack-dev-server",
-    "profile": "better-npm-run profile"
-  },
-  "betterScripts": {
-    "bundle": {
-      "command": "webpack --progress",
-      "env": {
-        "ANCHOR_CLASS": "your-app",
-        "ENTRY_FILE_PATH": "./app/index",
-        "BABELIFIED_PATH": "./app",
-        "DEV": false,
-        "NODE_ENV": "production",
-        "LIBRARY_NAME": "YourApp",
-        "OUTPUT_DIR": "./public",
-        "PACKAGE_JSON_PATH": "./"
-      }
+    "author": "focus@kleegroup.com",
+    "name": "orchestra-app",
+    "description": "Orchestra UI",
+    "version": "0.1.0",
+    "homepage": "https://github.com/KleeGroup/focus-demo-app",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/KleeGroup/focus-demo-app.git"
     },
-    "bundle-watch": {
-      "command": "webpack --progress --watch",
-      "env": {
-        "ANCHOR_CLASS": "your-app",
-        "ENTRY_FILE_PATH": "./app/index",
-        "BABELIFIED_PATH": "./app",
-        "DEV": false,
-        "LIBRARY_NAME": "YourApp",
-        "OUTPUT_DIR": "./public",
-        "PACKAGE_JSON_PATH": "./"
-      }
+    "engines": {
+        "node": "0.4.x",
+        "npm": "2.14.x"
     },
-    "webpack-dev-server": {
-      "command": "node ./dev-server.js",
-      "env": {
-        "ANCHOR_CLASS": "your-app",
-        "ENTRY_FILE_PATH": "./app/index",
-        "BABELIFIED_PATH": "./app",
-        "PAGE_TITLE": "Your application",
-        "API_PORT": 8080,
-        "OUTPUT_DIR": "./public",
-        "PACKAGE_JSON_PATH": "./"
-      }
+    "scripts": {
+        "bundle": "better-npm-run bundle",
+        "build": "npm run bundle",
+        "start": "npm run start:npm",
+        "start:local": "better-npm-run webpack-dev-server-local-focus",
+        "start:npm": "better-npm-run webpack-dev-server-npm-focus",
+        "watch": "better-npm-run watch",
+        "profile": "better-npm-run profile",
+        "test": "return  0"
+    },
+    "main": "app/index.js",
+    "babel": {
+        "presets": [
+            "focus"
+        ]
+    },
+    "betterScripts": {
+        "bundle": {
+            "command": "webpack --progress",
+            "env": {
+                "ANCHOR_CLASS": "orchestra-app",
+                "BABELIFIED_PATH": "./app",
+                "ENTRY_FILE_PATH": "./app/index",
+                "PAGE_TITLE": "Orchestra",
+                "API_PORT": 8080,
+                "OUTPUT_DIR": "./public",
+                "LOCAL_FOCUS": false
+            }
+        },
+        "profile": {
+            "command": "webpack --progress --json --profile > profile.json",
+            "env": {
+                "ANCHOR_CLASS": "orchestra-app",
+                "BABELIFIED_PATH": "./app",
+                "ENTRY_FILE_PATH": "./app/index",
+                "PAGE_TITLE": "Orchestra",
+                "API_PORT": 8080,
+                "OUTPUT_DIR": "./public",
+                "LOCAL_FOCUS": true
+            }
+        },
+        "watch": {
+            "command": "webpack --watch",
+            "env": {
+                "ANCHOR_CLASS": "orchestra-app",
+                "BABELIFIED_PATH": "./app",
+                "ENTRY_FILE_PATH": "./app/index",
+                "PAGE_TITLE": "Orchestra",
+                "API_PORT": 8080,
+                "OUTPUT_DIR": "./public",
+                "LOCAL_FOCUS": false
+            }
+        },
+        "webpack-dev-server-local-focus": {
+            "command": "node ./dev-server.js",
+            "env": {
+                "ANCHOR_CLASS": "orchestra-app",
+                "BABELIFIED_PATH": "./app",
+                "ENTRY_FILE_PATH": "./app/index",
+                "PAGE_TITLE": "Orchestra",
+                "API_PORT": 8080,
+                "OUTPUT_DIR": "./public",
+                "LOCAL_FOCUS": true
+            }
+        },
+        "webpack-dev-server-npm-focus": {
+            "command": "node ./dev-server.js",
+            "env": {
+                "ANCHOR_CLASS": "orchestra-app",
+                "BABELIFIED_PATH": "./app",
+                "ENTRY_FILE_PATH": "./app/index",
+                "PAGE_TITLE": "Orchestra",
+                "API_PORT": 8080,
+                "OUTPUT_DIR": "./public",
+                "LOCAL_FOCUS": false
+            }
+        }
+    },
+    "license": "MIT",
+    "dependencies": {
+        "focus-core": "^0.14.0-beta0",
+        "focus-components": "^0.14.0-beta2",
+        "focus-notifications": "^0.2.0-rc6",
+        "immutable": "^3.7.2",
+        "jquery": "3.0.0-alpha1",
+        "lodash": "^3.10.1",
+        "moment": "^2.10.3",
+        "native-promise-only": "^0.8.0-a",
+        "numeral": "^1.5.3",
+        "react": "^0.14.6",
+        "react-dom": "^0.14.6"
+    },
+    "devDependencies": {
+        "animate.css": "^3.4.0",
+        "autoprefixer-loader": "^3.2.0",
+        "babel": "^6.3.26",
+        "babel-cli": "^6.4.5",
+        "babel-core": "^6.4.5",
+        "babel-eslint": "^5.0.0-beta6",
+        "babel-loader": "^6.2.4",
+        "babel-preset-focus": "^0.5.2",
+        "babel-runtime": "^6.3.19",
+        "better-npm-run": "0.0.5",
+        "body-parser": "^1.14.1",
+        "css-loader": "^0.21.0",
+        "electron-prebuilt": "0.36.9",
+        "eslint": "1.5.1",
+        "eslint-config-focus": "0.3.0",
+        "eslint-plugin-filenames": "0.1.1",
+        "eslint-plugin-react": "3.5.0",
+        "exports-loader": "^0.6.2",
+        "express": "^4.13.3",
+        "extract-text-webpack-plugin": "^1.0.1",
+        "font-awesome": "^4.5.0",
+        "json-loader": "^0.5.3",
+        "material-design-icons-iconfont": "^2.0.4",
+        "migration-tool": "^0.1.0",
+        "react-addons-css-transition-group": "^0.14.6",
+        "react-hot-loader": "^1.3.0",
+        "sass-loader": "^3.1.2",
+        "source-map-loader": "^0.1.5",
+        "style-loader": "^0.12.4",
+        "url-loader": "^0.5.6",
+        "webpack": "^1.12.14",
+        "webpack-dev-server": "^1.14.1",
+        "webpack-focus": "^0.11.2"
     }
-  },
-  "babel": {
-    "presets": [
-      "stage-0",
-      "react",
-      "es2015"
-    ],
-    "plugins": [
-      "transform-class-properties",
-      "transform-decorators-legacy",
-      "add-module-exports"
-    ]
-  },
-  "main": "app/index.js",
-  "license": "MIT",
-  "dependencies": {
-    "focus-components": "0.8.6-beta5",
-    "focus-core": "0.12.4-beta4",
-    "jquery": "^2.2.0",
-    "lodash": "^4.0.1",
-    "mdi": "^1.4.57",
-    "moment": "^2.10.3",
-    "numeral": "^1.5.3",
-    "react": "^0.14.1",
-    "react-dom": "^0.14.1"
-  },
-  "devDependencies": {
-    "babel": "^6.3.26",
-    "babel-cli": "^6.4.5",
-    "babel-core": "^6.4.5",
-    "babel-eslint": "^5.0.0-beta6",
-    "babel-loader": "^6.2.1",
-    "babel-plugin-add-module-exports": "^0.1.2",
-    "babel-plugin-transform-class-properties": "^6.4.0",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
-    "babel-preset-stage-0": "^6.3.13",
-    "babel-runtime": "^6.3.19",
-    "better-npm-run": "0.0.5",
-    "css-loader": "^0.21.0",
-    "eslint": "1.5.1",
-    "eslint-config-focus": "0.3.0",
-    "eslint-plugin-filenames": "0.1.1",
-    "eslint-plugin-react": "3.5.0",
-    "extract-text-webpack-plugin": "^1.0.1",
-    "json-loader": "^0.5.3",
-    "material-design-icons-iconfont": "^2.0.4",
-    "node-sass": "^3.4.2",
-    "opener": "^1.4.1",
-    "react-hot-loader": "1.3.0",
-    "sass-loader": "^3.0.0",
-    "source-map-loader": "^0.1.5",
-    "style-loader": "^0.12.4",
-    "url-loader": "^0.5.6",
-    "webpack": "^1.12.12",
-    "webpack-dev-server": "1.14.1",
-    "webpack-focus": "^0.9.1"
-  }
 }

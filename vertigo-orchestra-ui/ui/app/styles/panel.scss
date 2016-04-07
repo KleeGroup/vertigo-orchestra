@@ -1,0 +1,45 @@
+@import "variables";
+
+$panel-padding-sides:20px;
+
+[data-mode="edit"] {
+    [data-focus='panel'] {
+        border: 3px solid $primary-color-light;
+    }
+}
+
+[data-focus='panel'] {
+    [data-focus='panel-title'] {
+        h1,h2,h3,h4 {
+            color:$primary-color;
+        }
+    }
+    &[data-demo="overview"] {
+        background-color: $primary-color-light;
+        [data-focus="button-action"] {
+            background-color: $accent-color;
+            color: $primary-color-text;
+        }
+    }
+    [data-focus="panel-content"] {
+        position: relative;
+        //padding-top: 80px;
+        .filters-bar {
+            width: calc(100% + #{$panel-padding-sides * 2});
+            text-align: center;
+            background-color: $accent-color;
+            padding-top: 20px;
+            position: relative;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            margin-left: -$panel-padding-sides;
+            [data-focus='button-action']{
+                color:$primary-color-text;
+                &[data-active="true"]{
+                    border-bottom: 3px solid $primary-color-text;
+                    background-color: rgba(255,255,255, 0.12);
+                }
+            }
+        }
+    }
+}

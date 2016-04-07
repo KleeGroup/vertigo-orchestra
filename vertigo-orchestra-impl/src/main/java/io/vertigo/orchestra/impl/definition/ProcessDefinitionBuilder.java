@@ -16,18 +16,21 @@ import io.vertigo.util.ListBuilder;
 public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
 
 	private final String name;
+	private final String label;
 	private Option<String> cronExpression = Option.<String> none();
 	private Option<String> initialParams = Option.<String> none();
 	private boolean multiExecution = false;
+	private Long rescuePeriod = 0L;
 	private final ListBuilder<ActivityDefinition> activitiesBuilder = new ListBuilder<>();
 
 	/**
 	 * Constructeur.
 	 */
-	public ProcessDefinitionBuilder(final String processName) {
+	public ProcessDefinitionBuilder(final String processName, final String processlabel) {
 		Assertion.checkArgNotEmpty(processName);
 		//-----
 		name = processName;
+		label = processlabel;
 
 	}
 
@@ -37,6 +40,15 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 */
 	public ProcessDefinitionBuilder withMultiExecution() {
 		multiExecution = true;
+		return this;
+	}
+
+	/**
+	 * Processus a déclanchement automatique.
+	 * @return this
+	 */
+	public ProcessDefinitionBuilder withRescuePeriod(final Long processRescuePeriod) {
+		rescuePeriod = processRescuePeriod;
 		return this;
 	}
 
@@ -67,11 +79,11 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * Ajoute un delai entre deux executions d'une tache récurrente.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder addActivity(final String activityName, final String engine) {
+	public ProcessDefinitionBuilder addActivity(final String activityName, final String activityLabel, final String engine) {
 		Assertion.checkArgNotEmpty(activityName);
 		Assertion.checkArgNotEmpty(engine);
 		// ---
-		final ActivityDefinition activity = new ActivityImpl(activityName, engine);
+		final ActivityDefinition activity = new ActivityImpl(activityName, activityLabel, engine);
 		activitiesBuilder.add(activity);
 		return this;
 	}
@@ -79,7 +91,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessImpl(name, cronExpression, initialParams, multiExecution, activitiesBuilder.unmodifiable().build());
+		return new ProcessImpl(name, label, cronExpression, initialParams, multiExecution, rescuePeriod, activitiesBuilder.unmodifiable().build());
 	}
 
 }

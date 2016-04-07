@@ -1,0 +1,17 @@
+package io.vertigo.orchestra.dao.execution
+
+create Task TK_GET_NODE_BY_NAME {
+    className : "io.vertigo.dynamox.task.TaskEngineSelect"
+        request : "
+        	select 
+        		nod.*
+        	from o_node nod
+        	where nod.NAME = #NODE_NAME#
+			"
+	attribute DTO_O_NODE	 	{domain : DO_DT_O_NODE_DTO 		notNull:"false" 	inOut :"out"}
+	attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
+},
+
+
+
+

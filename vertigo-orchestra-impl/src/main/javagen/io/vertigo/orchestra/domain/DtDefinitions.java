@@ -23,6 +23,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			OActivityWorkspace(io.vertigo.orchestra.domain.execution.OActivityWorkspace.class),
 			/** Objet de données OExecutionState. */
 			OExecutionState(io.vertigo.orchestra.domain.referential.OExecutionState.class),
+			/** Objet de données ONode. */
+			ONode(io.vertigo.orchestra.domain.execution.ONode.class),
 			/** Objet de données OPlanificationState. */
 			OPlanificationState(io.vertigo.orchestra.domain.referential.OPlanificationState.class),
 			/** Objet de données OProcess. */
@@ -59,6 +61,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		ACT_ID,
 		/** Propriété 'Nom de l'activité'. */
 		NAME,
+		/** Propriété 'Libellé de l'activité'. */
+		LABEL,
 		/** Propriété 'Numéro de l'activité'. */
 		NUMBER,
 		/** Propriété 'Jalon'. */
@@ -75,18 +79,20 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	public enum OActivityExecutionFields implements DtFieldName {
 		/** Propriété 'Id de l'execution d'un processus'. */
 		ACE_ID,
+		/** Propriété 'Date de création'. */
+		CREATION_TIME,
 		/** Propriété 'Date de début'. */
 		BEGIN_TIME,
 		/** Propriété 'Date de fin'. */
 		END_TIME,
 		/** Propriété 'Implémentation effective de l'execution'. */
 		ENGINE,
-		/** Propriété 'Nom du noeud'. */
-		NODE_NAME,
 		/** Propriété 'Activity'. */
 		ACT_ID,
 		/** Propriété 'Processus'. */
 		PRE_ID,
+		/** Propriété 'Node'. */
+		NOD_ID,
 		/** Propriété 'ExecutionState'. */
 		EST_CD,
 	}
@@ -128,6 +134,18 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	}
 
 	/**
+	 * Enumération des champs de ONode.
+	 */
+	public enum ONodeFields implements DtFieldName {
+		/** Propriété 'Id du noeud'. */
+		NOD_ID,
+		/** Propriété 'Nom du noeud'. */
+		NAME,
+		/** Propriété 'Date de dernière activité'. */
+		HEARTBEAT,
+	}
+
+	/**
 	 * Enumération des champs de OPlanificationState.
 	 */
 	public enum OPlanificationStateFields implements DtFieldName {
@@ -145,6 +163,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		PRO_ID,
 		/** Propriété 'Nom du processus'. */
 		NAME,
+		/** Propriété 'Libellé du processus'. */
+		LABEL,
 		/** Propriété 'Expression récurrence du processus'. */
 		CRON_EXPRESSION,
 		/** Propriété 'Paramètres initiaux sous forme de JSON'. */
@@ -153,6 +173,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		MULTIEXECUTION,
 		/** Propriété 'Version active'. */
 		ACTIVE,
+		/** Propriété 'Temps de validité d'une planification'. */
+		RESCUE_PERIOD,
 		/** Propriété 'TriggerType'. */
 		TRT_CD,
 		/** Propriété 'ProcessType'. */
@@ -185,14 +207,12 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		PRP_ID,
 		/** Propriété 'Date d'execution prévue'. */
 		EXPECTED_TIME,
-		/** Propriété 'Etat de la planification'. */
-		STATE,
 		/** Propriété 'Paramètres initiaux sous forme de JSON'. */
 		INITIAL_PARAMS,
-		/** Propriété 'Nom du noeud'. */
-		NODE_NAME,
 		/** Propriété 'Processus'. */
 		PRO_ID,
+		/** Propriété 'Node'. */
+		NOD_ID,
 		/** Propriété 'PlanificationState'. */
 		PST_CD,
 	}

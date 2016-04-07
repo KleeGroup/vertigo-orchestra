@@ -14,6 +14,8 @@ public interface ProcessDefinition {
 
 	String getName();
 
+	String getLabel();
+
 	long getId();
 
 	void setId(long id);
@@ -25,5 +27,7 @@ public interface ProcessDefinition {
 	boolean getMultiexecution();
 
 	List<ActivityDefinition> getActivities();
+
+	Long getRescuePeriod();
 
 }

@@ -1,2 +1,5 @@
 execution.kpr
 
+services/domain.ksp
+
+model/summary/executionSummary.ksp

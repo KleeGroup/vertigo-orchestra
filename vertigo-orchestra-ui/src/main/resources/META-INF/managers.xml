@@ -64,12 +64,14 @@
 		<component class="io.vertigo.orchestra.dao.execution.OActivityLogDAO"/>
 		<component class="io.vertigo.orchestra.dao.execution.ExecutionPAO"/>
 		<component class="io.vertigo.orchestra.dao.planification.PlanificationPAO"/>
+		<component class="io.vertigo.orchestra.dao.execution.ONodeDAO"/>
 	</module>
 	<module name="orchestra">
 		<definitions>
 			<resource type ="kpr" path="io/vertigo/orchestra/execution.kpr"/>
 		    <resource type="classes" path="io.vertigo.orchestra.domain.DtDefinitions" />  
 		</definitions>   
+		<component api="NodeManager" class="io.vertigo.orchestra.impl.execution.NodeManagerImpl"/>
 		<component api="ProcessDefinitionManager" class="io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl"/>
 		<component api="ProcessSchedulerManager" class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl">
 			<plugin class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin">

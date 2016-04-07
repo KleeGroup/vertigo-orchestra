@@ -12,7 +12,7 @@
 	<artifactId>vertigo-orchestra-impl</artifactId>
 	<packaging>jar</packaging>
 	<name>vertigo-orchestra-impl</name>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>io.vertigo</groupId>
@@ -63,31 +63,32 @@
 			<artifactId>c3p0</artifactId>
 			<version>0.9.5.2</version>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
 	</dependencies>
 	<build>
-			<plugins>
-				<plugin><!-- Copie des dÃ©pendances avant la gÃ©nÃ©ration. -->
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>2.1</version>
-					<executions>
-						<execution>
-							<id>copy-dependencies</id>
-							<phase>generate-sources</phase>
-							<goals>
-								<goal>copy-dependencies</goal>
-							</goals>
-							<configuration>
-								<outputDirectory>target/lib</outputDirectory>
-								<overWriteReleases>false</overWriteReleases>
-								<overWriteSnapshots>true</overWriteSnapshots>
-								<overWriteIfNewer>true</overWriteIfNewer>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-module-dependencies</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>lib</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>dependencies-assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<version>1.7</version>

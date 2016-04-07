@@ -1,10 +1,12 @@
 import history from 'focus-core/history';
+import {registerRoutes} from './router';
 
-//Start the application.
-console.info('############# Application starting ############');
-console.info('Loading routes...');
-require('./router');
-console.info('All the routes are loaded...');
+export default function startApp() {
+    //Start the application.
+    console.log('Loading all the routes...');
+    registerRoutes();
+    console.log('All the routes are loaded...');
 
-//Start the router.
-history.start();
+    //Start the router.
+    history.start();
+}

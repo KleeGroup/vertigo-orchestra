@@ -42,13 +42,24 @@ public final class PlanificationPAO implements StoreServices {
 	 * Execute la tache TK_RESERVE_PROCESS_TO_EXECUTE.
 	 * @param lowerLimit java.util.Date 
 	 * @param upperLimit java.util.Date 
-	 * @param nodeName String 
+	 * @param nodId Long 
 	*/
-	public void reserveProcessToExecute(final java.util.Date lowerLimit, final java.util.Date upperLimit, final String nodeName) {
+	public void reserveProcessToExecute(final java.util.Date lowerLimit, final java.util.Date upperLimit, final Long nodId) {
 		final Task task = createTaskBuilder("TK_RESERVE_PROCESS_TO_EXECUTE")
 				.addValue("LOWER_LIMIT", lowerLimit)
 				.addValue("UPPER_LIMIT", upperLimit)
-				.addValue("NODE_NAME", nodeName)
+				.addValue("NOD_ID", nodId)
+				.build();
+		getTaskManager().execute(task);
+	}
+
+	/**
+	 * Execute la tache TK_CLEAN_PLANIFICATIONS_ON_BOOT.
+	 * @param currentDate java.util.Date 
+	*/
+	public void cleanPlanificationsOnBoot(final java.util.Date currentDate) {
+		final Task task = createTaskBuilder("TK_CLEAN_PLANIFICATIONS_ON_BOOT")
+				.addValue("CURRENT_DATE", currentDate)
 				.build();
 		getTaskManager().execute(task);
 	}

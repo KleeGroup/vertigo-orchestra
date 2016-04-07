@@ -16,10 +16,12 @@ public final class OProcess implements DtObject {
 
 	private Long proId;
 	private String name;
+	private String label;
 	private String cronExpression;
 	private String initialParams;
 	private Boolean multiexecution;
 	private Boolean active;
+	private Long rescuePeriod;
 	private String trtCd;
 	private String prtCd;
 	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
@@ -61,6 +63,25 @@ public final class OProcess implements DtObject {
 	 */
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Libellé du processus'. 
+	 * @return String label 
+	 */
+	@Field(domain = "DO_LIBELLE", label = "Libellé du processus")
+	public String getLabel() {
+		return label;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Libellé du processus'.
+	 * @param label String 
+	 */
+	public void setLabel(final String label) {
+		this.label = label;
 	}
 
 	/**
@@ -137,6 +158,25 @@ public final class OProcess implements DtObject {
 	 */
 	public void setActive(final Boolean active) {
 		this.active = active;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Temps de validité d'une planification'. 
+	 * @return Long rescuePeriod <b>Obligatoire</b>
+	 */
+	@Field(domain = "DO_NOMBRE", required = true, label = "Temps de validité d'une planification")
+	public Long getRescuePeriod() {
+		return rescuePeriod;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Temps de validité d'une planification'.
+	 * @param rescuePeriod Long <b>Obligatoire</b>
+	 */
+	public void setRescuePeriod(final Long rescuePeriod) {
+		this.rescuePeriod = rescuePeriod;
 	}
 
 	/**

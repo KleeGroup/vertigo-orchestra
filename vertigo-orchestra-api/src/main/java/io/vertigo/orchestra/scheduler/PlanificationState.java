@@ -14,5 +14,7 @@ public enum PlanificationState {
 
 	MISFIRED,
 
-	CANCELED;
+	CANCELED,
+
+	RESCUED;
 }

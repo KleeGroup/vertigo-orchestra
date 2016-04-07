@@ -10,6 +10,8 @@ public interface ActivityDefinition {
 
 	String getName();
 
+	String getLabel();
+
 	String getEngine();
 
 }

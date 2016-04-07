@@ -14,21 +14,13 @@
     <meta name="author" content="Klee Group">
     <title>FOCUS démo</title>
     <link rel="icon" type="image/png" href="static/img/focus.png" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/0.5.0/showdown.js"></script>
-    <link rel="stylesheet" href="static/stylesheets/app.css">
-    <script src='static/javascripts/vendor.js'></script>
-    <!-- Include Required Prerequisites -->
-  	<!--script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js"></script-->
-
-  	<!-- Include Date Range Picker -->
-  	<!-- script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/1/daterangepicker.js"></script>
-  	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/1/daterangepicker-bs3.css" /-->
-    <script src='static/javascripts/app.js'></script>
+    <link rel="stylesheet" href="http://localhost:3000/orchestra-app.css">
 
 </head>
 <body>
-
-	<script>require('index');</script>
+	<div class='orchestra-app'></div>
+	<script type='text/javascript' src='http://localhost:3000/orchestra-app.js'></script>
+	<script src=''></script>
 
 </body>
 </html>

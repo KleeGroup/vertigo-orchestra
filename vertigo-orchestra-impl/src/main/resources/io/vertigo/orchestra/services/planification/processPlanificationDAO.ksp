@@ -7,11 +7,11 @@ create Task TK_GET_PROCESS_TO_EXECUTE {
         	select prp.*
         	from o_process_planification prp
         	where prp.PST_CD = 'RESERVED'
-        	and prp.NODE_NAME = #NODE_NAME#
+        	and prp.NOD_ID = #NOD_ID#
         	
 			"
 	attribute DTC_O_PROCESS_PLANIFICATION	 	{domain : DO_DT_O_PROCESS_PLANIFICATION_DTC		notNull:"true" 	inOut :"out"}
-	attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
+	attribute NOD_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 }
 
 
@@ -19,14 +19,13 @@ create Task TK_RESERVE_PROCESS_TO_EXECUTE {
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update o_process_planification
-        	set PST_CD = 'RESERVED', NODE_NAME = #NODE_NAME#
-        	where PST_CD = 'WAITING'
-        	 and expected_time > #LOWER_LIMIT#
-        	 and expected_time < #UPPER_LIMIT#
+        	set PST_CD = 'RESERVED', NOD_ID = #NOD_ID#
+        	where (PST_CD = 'WAITING' and expected_time > #LOWER_LIMIT# and expected_time < #UPPER_LIMIT#) 
+        			or (PST_CD = 'RESCUED')
 			"
 	 attribute LOWER_LIMIT	 	{domain : DO_TIMESTAMP 		notNull:"true" 	inOut :"in"}
 	 attribute UPPER_LIMIT	 	{domain : DO_TIMESTAMP 		notNull:"true" 	inOut :"in"}
-	 attribute NODE_NAME	 	{domain : DO_LIBELLE 		notNull:"true" 	inOut :"in"}
+	 attribute NOD_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 }
 
 create Task TK_GET_LAST_PLANIFICATION_BY_PRO_ID {
@@ -39,11 +38,45 @@ create Task TK_GET_LAST_PLANIFICATION_BY_PRO_ID {
 				    from o_process_planification
 				    group by pro_id
 				) pp on pp.pro_id = prp.pro_id and pp.MaxDate = prp.expected_time
-        	where prp.PRO_ID = #PRO_ID#
+        	where prp.PRO_ID = #PRO_ID# and prp.pst_cd = 'WAITING'
 			"
 		attribute PRO_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 		attribute DT_O_PROCESS_PLANIFICATION	 	{domain : DO_DT_O_PROCESS_PLANIFICATION_DTO		notNull:"false" 	inOut :"out"}
 }
+
+
+create Task TK_GET_ALL_LAST_PAST_PLANIFICATIONS {
+    className : "io.vertigo.dynamox.task.TaskEngineSelect"
+        request : "
+        	select prp.* from  o_process_planification prp
+        	inner join (
+				    select pro_id, max(expected_time) as MaxDate
+				    from o_process_planification
+				    where expected_time < #CURRENT_DATE# and pst_cd = 'WAITING'
+				    group by pro_id
+				) pp on pp.pro_id = prp.pro_id and pp.MaxDate = prp.expected_time
+			
+			"
+		attribute CURRENT_DATE 	{domain : DO_TIMESTAMP 			notNull:"true" 	inOut :"in"}
+		attribute PROCESS_PLANIFICATIONS	 	{domain : DO_DT_O_PROCESS_PLANIFICATION_DTC		notNull:"true" 	inOut :"out"}
+}
+
+
+create Task TK_CLEAN_PLANIFICATIONS_ON_BOOT {
+    className : "io.vertigo.dynamox.task.TaskEngineProc"
+        request : "
+        	update o_process_planification set 
+			pst_cd = 'MISFIRED'
+			where pst_cd = 'WAITING' and expected_time < #CURRENT_DATE# and prp_id not in (select prp.PRP_ID from  o_process_planification prp
+        	inner join (
+				    select pro_id, max(expected_time) as MaxDate
+				    from o_process_planification
+				    group by pro_id
+				) pp on pp.pro_id = prp.pro_id and pp.MaxDate = prp.expected_time)
+			"
+		attribute CURRENT_DATE 	{domain : DO_TIMESTAMP 			notNull:"true" 	inOut :"in"}
+}
+
 
 
 

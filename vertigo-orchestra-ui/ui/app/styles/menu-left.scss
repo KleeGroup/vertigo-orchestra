@@ -1,0 +1,10 @@
+@import "variables";
+
+[data-focus="menu-left"] {
+    background-color: $primary-color;
+    [data-focus="menu-brand"] {
+        background: $primary-color-dark url('../images/brand.png') no-repeat;
+        background-position: 50%;
+        background-repeat: no-repeat;
+    }
+}

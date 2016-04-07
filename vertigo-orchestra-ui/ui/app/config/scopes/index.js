@@ -1,4 +1,9 @@
-export default {
-    // Scope1: 'SCOPE1',
-    // Scope2: 'SCOPE2'
+////////////////////////////////////////////////////
+/// SCOPE CONFIG
+/// Mapping scope keys between app and api...
+////////////////////////////////////////////////////
+
+export const scopesConfig = {
+    movie: 'movie',
+    person: 'person'
 };

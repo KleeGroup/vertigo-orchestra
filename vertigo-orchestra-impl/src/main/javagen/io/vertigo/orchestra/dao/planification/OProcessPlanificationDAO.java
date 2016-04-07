@@ -41,12 +41,12 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 
 	/**
 	 * Execute la tache TK_GET_PROCESS_TO_EXECUTE.
-	 * @param nodeName String 
+	 * @param nodId Long 
 	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> dtcOProcessPlanification
 	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> getProcessToExecute(final String nodeName) {
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> getProcessToExecute(final Long nodId) {
 		final Task task = createTaskBuilder("TK_GET_PROCESS_TO_EXECUTE")
-				.addValue("NODE_NAME", nodeName)
+				.addValue("NOD_ID", nodId)
 				.build();
 		return getTaskManager()
 				.execute(task)
@@ -65,6 +65,20 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 		return Option.option((io.vertigo.orchestra.domain.planification.OProcessPlanification)getTaskManager()
 				.execute(task)
 				.getResult());
+	}
+
+	/**
+	 * Execute la tache TK_GET_ALL_LAST_PAST_PLANIFICATIONS.
+	 * @param currentDate java.util.Date 
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> processPlanifications
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> getAllLastPastPlanifications(final java.util.Date currentDate) {
+		final Task task = createTaskBuilder("TK_GET_ALL_LAST_PAST_PLANIFICATIONS")
+				.addValue("CURRENT_DATE", currentDate)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
 	}
 
 	/**

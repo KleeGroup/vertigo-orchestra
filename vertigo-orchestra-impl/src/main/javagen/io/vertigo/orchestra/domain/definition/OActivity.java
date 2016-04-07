@@ -16,6 +16,7 @@ public final class OActivity implements DtObject {
 
 	private Long actId;
 	private String name;
+	private String label;
 	private Long number;
 	private Boolean milestone;
 	private String engine;
@@ -58,6 +59,25 @@ public final class OActivity implements DtObject {
 	 */
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Libellé de l'activité'. 
+	 * @return String label 
+	 */
+	@Field(domain = "DO_LIBELLE", label = "Libellé de l'activité")
+	public String getLabel() {
+		return label;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Libellé de l'activité'.
+	 * @param label String 
+	 */
+	public void setLabel(final String label) {
+		this.label = label;
 	}
 
 	/**

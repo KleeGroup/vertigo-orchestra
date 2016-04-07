@@ -39,6 +39,7 @@ import io.vertigo.orchestra.execution.ActivityEngine;
 import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.execution.ActivityLogger;
 import io.vertigo.orchestra.execution.ExecutionState;
+import io.vertigo.orchestra.execution.NodeManager;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
@@ -69,21 +70,24 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	private OActivityDAO activityDAO;
 
 	private final Long workersCount;
-	private final String nodeName;
+	private final Long nodId;
 	private final ExecutorService workers;
 	private final ScheduledExecutorService localScheduledExecutor;
 	private final long timerDelay;
 
+	private final NodeManager nodeManager;
 	private final ProcessSchedulerManager processSchedulerManager;
 	private final VTransactionManager transactionManager;
 
 	@Inject
 	public SequentialExecutorPlugin(
 			final ProcessSchedulerManager processSchedulerManager,
+			final NodeManager nodeManager,
 			final VTransactionManager transactionManager,
 			@Named("nodeName") final String nodeName,
 			@Named("workersCount") final Long workersCount,
 			@Named("executionPeriod") final Integer executionPeriod) {
+		Assertion.checkNotNull(nodeManager);
 		Assertion.checkNotNull(processSchedulerManager);
 		Assertion.checkNotNull(transactionManager);
 		Assertion.checkNotNull(nodeName);
@@ -92,9 +96,14 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		// ---
 		Assertion.checkState(workersCount >= 1, "We need at least 1 worker");
 		// ---
+		this.nodeManager = nodeManager;
 		this.processSchedulerManager = processSchedulerManager;
 		this.transactionManager = transactionManager;
-		this.nodeName = nodeName;
+		// We register the node
+		nodId = nodeManager.registerNode(nodeName);
+		// ---
+		Assertion.checkNotNull(nodId);
+		// ---
 		this.workersCount = (long) workersCount;
 		timerDelay = 1000 * executionPeriod;
 		workers = Executors.newFixedThreadPool(workersCount.intValue());
@@ -104,18 +113,20 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	/** {@inheritDoc} */
 	@Override
 	public void start() {
+
 		localScheduledExecutor.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					executeToDo();
+					nodeManager.updateHeartbeat(nodId);
 				} catch (final Exception e) {
 					// We log the error and we continue the timer
 					LOGGER.error("Exception launching activities to executes", e);
 				}
 
 			}
-		}, timerDelay + timerDelay / 10, timerDelay, TimeUnit.MILLISECONDS);
+		}, timerDelay / 2, timerDelay, TimeUnit.MILLISECONDS);
 
 	}
 
@@ -259,6 +270,8 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 				final ActivityExecutionWorkspace workspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), true);
 				doChangeExecutionState(activityExecution, ExecutionState.SUBMITTED);
+				// We set the beginning time of the activity
+				activityExecution.setBeginTime(new Date());
 				workers.submit(new OWorker(activityExecution, workspace, this));
 				transaction.commit();
 			}
@@ -305,6 +318,8 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		final Option<OActivity> nextActivity = getNextActivityByActId(activityExecution.getActId());
 		if (nextActivity.isDefined()) {
 			final OActivityExecution nextActivityExecution = initActivityExecutionWithActivity(nextActivity.get(), activityExecution.getPreId());
+			// We keep the previous worker (Not the same but the slot) for the next Activity Execution
+			reserveActivityExecution(nextActivityExecution);
 			activityExecutionDAO.save(nextActivityExecution);
 			// We keep the old workspace for the nextTask
 			final ActivityExecutionWorkspace previousWorkspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
@@ -334,8 +349,8 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		final Long maxNumber = getUnusedWorkersCount();
 		Assertion.checkNotNull(maxNumber);
 		// ---
-		executionPAO.reserveActivitiesToLaunch(nodeName, maxNumber);
-		return activityExecutionDAO.getActivitiesToLaunch(nodeName);
+		executionPAO.reserveActivitiesToLaunch(nodId, maxNumber);
+		return activityExecutionDAO.getActivitiesToLaunch(nodId);
 	}
 
 	private static OActivityExecution initActivityExecutionWithActivity(final OActivity activity, final Long preId) {
@@ -345,12 +360,17 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 		newActivityExecution.setPreId(preId);
 		newActivityExecution.setActId(activity.getActId());
-		newActivityExecution.setBeginTime(new Date());
+		newActivityExecution.setCreationTime(new Date());
 		newActivityExecution.setEngine(activity.getEngine());
 		newActivityExecution.setEstCd(ExecutionState.WAITING.name());
 
 		return newActivityExecution;
 
+	}
+
+	private void reserveActivityExecution(final OActivityExecution activityExecution) {
+		activityExecution.setEstCd(ExecutionState.RESERVED.name());
+		activityExecution.setNodId(nodId);
 	}
 
 	private void endActivity(final OActivityExecution activityExecution) {

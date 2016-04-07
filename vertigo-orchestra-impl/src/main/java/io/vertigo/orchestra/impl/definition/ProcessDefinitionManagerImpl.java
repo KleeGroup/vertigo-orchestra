@@ -41,9 +41,11 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		final OProcess process = new OProcess();
 
 		process.setName(processDefinition.getName());
+		process.setLabel(processDefinition.getLabel());
 		process.setCronExpression(processDefinition.getCronExpression().getOrElse(null));
 		process.setInitialParams(processDefinition.getInitialParams().getOrElse(null));
 		process.setMultiexecution(processDefinition.getMultiexecution());
+		process.setRescuePeriod(processDefinition.getRescuePeriod());
 		if (processDefinition.getCronExpression().isDefined()) {
 			process.setTrtCd("SCHEDULED");
 		} else {
@@ -62,6 +64,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		for (final ActivityDefinition activity : activities) {
 			final OActivity oActivity = new OActivity();
 			oActivity.setName(activity.getName());
+			oActivity.setLabel(activity.getLabel());
 			oActivity.setEngine(activity.getEngine());
 			oActivity.setProId(process.getProId());
 			oActivity.setNumber(activityNumber);
@@ -110,7 +113,8 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		Assertion.checkNotNull(process);
 		Assertion.checkNotNull(oActivities);
 		// ---
-		final ProcessDefinitionBuilder definitionBuilder = new ProcessDefinitionBuilder(process.getName());
+		final ProcessDefinitionBuilder definitionBuilder = new ProcessDefinitionBuilder(process.getName(), process.getLabel());
+		definitionBuilder.withRescuePeriod(process.getRescuePeriod());
 		if (!StringUtil.isEmpty(process.getCronExpression())) {
 			definitionBuilder.withCron(process.getCronExpression());
 		}
@@ -121,7 +125,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 			definitionBuilder.withMultiExecution();
 		}
 		for (final OActivity activity : oActivities) {
-			definitionBuilder.addActivity(activity.getName(), activity.getEngine());
+			definitionBuilder.addActivity(activity.getName(), activity.getLabel(), activity.getEngine());
 		}
 		final ProcessDefinition processDefinition = definitionBuilder.build();
 		processDefinition.setId(process.getProId());

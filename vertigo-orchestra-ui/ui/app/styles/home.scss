@@ -1,0 +1,13 @@
+@import './_variables.scss';
+
+[data-demo='homepage'] {
+    h1 {
+        color: $accent-color;
+        font-size: 40px;
+        margin-left: 5px;
+        line-height: 40px;
+    }
+    [data-demo="concept-card-list"] {
+        margin-bottom: 30px;
+    }
+}

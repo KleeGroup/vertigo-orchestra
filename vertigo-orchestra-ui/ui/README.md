@@ -1,41 +1,54 @@
-# Starter kit
+# Focus demo application
 
-This starter kit is here to help you to initialize a new project using [focusjs](https://github.com/KleeGroup/focus) and [focusjs-components](https://github.com/KleeGroup/focus-components).
+## Purpose
 
-Your maybe asking how should I proceed ?
+This application sets to music FOCUS libraries and components.
 
-Don't worry, we are here to help:
+![image](https://cloud.githubusercontent.com/assets/5349745/11564024/2604cbca-99d7-11e5-9c9c-406d9cabdbbd.png)
 
-![image](http://pahq.wpengine.netdna-cdn.com/wp-content/uploads/2014/01/cliffhangerbdcap1.jpg)
+![image](https://cloud.githubusercontent.com/assets/5349745/11563963/ea3a509c-99d6-11e5-8810-acc4b4b67493.png)
 
-Just follow these steps :
-- Initialize your project structure: 
-  - An **api** folder which will contain your api (node, .NET, Java, ...)
-  - A **ui** folder which will contain the focus application
+## How to install it ?
 
-![image](https://cloud.githubusercontent.com/assets/286966/9111105/d0c5f60c-3c43-11e5-9159-0e7053da9eef.png)
+Clone or download project code sources.
 
-- Inside the **ui** folder, copy the content of this repository , you can do one of the following options:
-  -  `git clone https://github.com/KleeGroup/focus-starter-kit.git`  and `rm -rf .git` to remove the git repositorty information
-  -  Click on the download button and copy the directory inside your ui directory
+Install package dependencies :
 
-![image](https://cloud.githubusercontent.com/assets/286966/9111118/eb37a602-3c43-11e5-9aa5-485d7bf23f42.png)
-- Install your node dependencies: `npm install` in the ui directory
-- Check the `brunch.config` file and check the line `paths.public` to see where the focus's application content is copy
+```shell
+npm i
+```
 
-![image](https://cloud.githubusercontent.com/assets/286966/9111137/1b452d6a-3c44-11e5-9461-1ebad9990078.png)
+## How to launch it ?
 
-- Run the local brunch watcher to start coding on your app `npm run watch`, you should see a running watcher in your console.
+You don't have your own server API, you can use our mock API by launching this command:
+```shell
+node api
+```
 
-You should see something like that:
-![image](https://cloud.githubusercontent.com/assets/286966/9111065/6e218124-3c43-11e5-8ff3-ab3943e2bb08.png)
+The mock API serve fake datas at this URL : `http://localhost:9999/`.
 
+The section below explain how to plug your own API.
 
-Please don't hesitate to report any bug you'll find on issues's page of each concerned project.
-- [Focus](https://github.com/KleeGroup/focus/issues)
-- [Focus-components](https://github.com/KleeGroup/focus-components/issues)
+To launch webapp server :
+```shell
+npm start
+```
 
-![issue](http://cdn.makeagif.com/media/8-06-2015/G1PLU7.gif)
+Open you browser and access to this URL : `http://localhost:3000/`
 
+## How to plug my own backend API ?
 
-![http://media.giphy.com/media/a3Ym0AUSAsHfi/giphy.gif](http://media.giphy.com/media/a3Ym0AUSAsHfi/giphy.gif)
+Edit `config.webpack.js` file and replace `API_ROOT` var by root your root API URL in this section :
+
+```javascript
+plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+        API_ROOT: '"http://localhost:9999"'
+    })
+],
+```
+
+## API format
+
+API must respect those rules : https://gist.github.com/pierr/86159b709242ea96c71c

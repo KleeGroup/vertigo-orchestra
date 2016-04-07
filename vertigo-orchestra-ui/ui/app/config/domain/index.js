@@ -1,37 +1,22 @@
-import DO_CODE from './do-code';
-import DO_COMMENT from './do-comment';
-import DO_DATE from './do-date';
-import DO_DATE_TIME from './do-date-time';
-import DO_EMAIL from './do-email';
-import DO_FILE_NAME from './do-file-name';
-import DO_FIRST_NAME from './do-first-name';
-import DO_ID from './do-id';
-import DO_LABEL_LONG from './do-label-long';
-import DO_LABEL_MEDIUM from './do-label-medium';
-import DO_LABEL_SHORT from './do-label-short';
-import DO_LAST_NAME from './do-last-name';
-import DO_PASSWORD from './do-password';
-import DO_RUNTIME from './do-runtime';
-import DO_URL from './do-url';
-import DO_YEAR from './do-year';
-import DO_YES_NO from './do-yes-no';
+import DO_IDENTIFIANT from './do-identifiant';
+import DO_CODE_IDENTIFIANT from './do-code-identifiant';
+import DO_LIBELLE from './do-libelle';
+import DO_CLASSE from './do-classe';
+import DO_BOOLEEN from './do-booleen';
+import DO_TIMESTAMP from './do-timestamp';
+import DO_NOMBRE from './do-nombre';
+import DO_JSON_TEXT from './do-json-text';
+import DO_TEXT from './do-text';
+
 
 export default {
-    DO_CODE,
-    DO_COMMENT,
-    DO_DATE,
-    DO_DATE_TIME,
-    DO_EMAIL,
-    DO_FILE_NAME,
-    DO_FIRST_NAME,
-    DO_ID,
-    DO_LABEL_LONG,
-    DO_LABEL_MEDIUM,
-    DO_LABEL_SHORT,
-    DO_LAST_NAME,
-    DO_PASSWORD,
-    DO_RUNTIME,
-    DO_URL,
-    DO_YEAR,
-    DO_YES_NO
+    DO_IDENTIFIANT,
+    DO_CODE_IDENTIFIANT,
+    DO_LIBELLE,
+    DO_CLASSE,
+    DO_BOOLEEN,
+    DO_TIMESTAMP,
+    DO_NOMBRE,
+    DO_JSON_TEXT,
+    DO_TEXT
 };

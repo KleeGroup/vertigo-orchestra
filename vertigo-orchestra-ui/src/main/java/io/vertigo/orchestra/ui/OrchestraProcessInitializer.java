@@ -16,6 +16,7 @@ import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
 public class OrchestraProcessInitializer implements ComponentInitializer {
 
 	private static final String TEST_PROCESS_NAME = "TEST SCHEDULED";
+	private static final String TEST_PROCESS_LABEL = "Processus Planifié de test";
 
 	@Inject
 	private OrchestraManager orchestraManager;
@@ -25,9 +26,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 	public void init() {
 
 		if (!orchestraManager.processDefinitionExist(TEST_PROCESS_NAME)) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder(TEST_PROCESS_NAME)
+			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder(TEST_PROCESS_NAME, TEST_PROCESS_LABEL)
 					.withCron("0 */1 * * * ?")
-					.addActivity("DUMB ACTIVITY", EmptyActivityEngine.class.getName())
+					.addActivity("DUMB ACTIVITY 1 1", "Activité vide", EmptyActivityEngine.class.getName())
+					.addActivity("DUMB ACTIVITY 1 2", "Activité vide 2", EmptyActivityEngine.class.getName())
 					.build();
 
 			orchestraManager.createDefinition(processDefinition);

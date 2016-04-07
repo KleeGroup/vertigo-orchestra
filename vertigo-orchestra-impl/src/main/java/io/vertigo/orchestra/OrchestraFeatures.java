@@ -7,20 +7,21 @@ import io.vertigo.orchestra.dao.execution.ExecutionPAO;
 import io.vertigo.orchestra.dao.execution.OActivityExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.dao.execution.OActivityWorkspaceDAO;
+import io.vertigo.orchestra.dao.execution.ONodeDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.DtDefinitions;
+import io.vertigo.orchestra.execution.NodeManager;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.impl.OrchestraManagerImpl;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
+import io.vertigo.orchestra.impl.execution.NodeManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
 import io.vertigo.orchestra.impl.execution.SequentialExecutorPlugin;
 import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl;
 import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
-import io.vertigo.orchestra.monitoring.MonitoringServices;
-import io.vertigo.orchestra.monitoring.MonitoringServicesImpl;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**
@@ -41,6 +42,7 @@ public final class OrchestraFeatures extends Features {
 		// @formatter:off
 		getModuleConfigBuilder()
 				.withNoAPI()
+				.addComponent(NodeManager.class, NodeManagerImpl.class)
 				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
 				.addComponent(ProcessSchedulerManager.class, ProcessSchedulerManagerImpl.class)
 				.beginPlugin(ProcessSchedulerPlugin.class)
@@ -63,14 +65,13 @@ public final class OrchestraFeatures extends Features {
 				.addComponent(OProcessExecutionDAO.class)
 				.addComponent(OActivityWorkspaceDAO.class)
 				.addComponent(OActivityLogDAO.class)
+				.addComponent(ONodeDAO.class)
 				//----PAO
 				.addComponent(ExecutionPAO.class)
 				.addComponent(PlanificationPAO.class)
 				//----Definitions
 				.addDefinitionResource("kpr", "io/vertigo/orchestra/execution.kpr")
-				.addDefinitionResource("classes", DtDefinitions.class.getName())
-				//---Services
-				.addComponent(MonitoringServices.class, MonitoringServicesImpl.class);
+				.addDefinitionResource("classes", DtDefinitions.class.getName());
 				//---WS
 //				/.addComponent(WSMonitoring.class);
 		// @formatter:on

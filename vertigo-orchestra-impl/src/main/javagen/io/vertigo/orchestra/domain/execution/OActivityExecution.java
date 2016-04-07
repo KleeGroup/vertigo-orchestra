@@ -15,15 +15,17 @@ public final class OActivityExecution implements DtObject {
 	private static final long serialVersionUID = 1L;
 
 	private Long aceId;
+	private java.util.Date creationTime;
 	private java.util.Date beginTime;
 	private java.util.Date endTime;
 	private String engine;
-	private String nodeName;
 	private Long actId;
 	private Long preId;
+	private Long nodId;
 	private String estCd;
 	private io.vertigo.orchestra.domain.definition.OActivity activity;
 	private io.vertigo.orchestra.domain.execution.OProcessExecution processusExecution;
+	private io.vertigo.orchestra.domain.execution.ONode node;
 	private io.vertigo.orchestra.domain.referential.OExecutionState executionState;
 
 	/**
@@ -47,10 +49,29 @@ public final class OActivityExecution implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de début'. 
-	 * @return java.util.Date beginTime <b>Obligatoire</b>
+	 * Récupère la valeur de la propriété 'Date de création'. 
+	 * @return java.util.Date creationTime <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_TIMESTAMP", required = true, label = "Date de début")
+	@Field(domain = "DO_TIMESTAMP", required = true, label = "Date de création")
+	public java.util.Date getCreationTime() {
+		return creationTime;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Date de création'.
+	 * @param creationTime java.util.Date <b>Obligatoire</b>
+	 */
+	public void setCreationTime(final java.util.Date creationTime) {
+		this.creationTime = creationTime;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Date de début'. 
+	 * @return java.util.Date beginTime 
+	 */
+	@Field(domain = "DO_TIMESTAMP", label = "Date de début")
 	public java.util.Date getBeginTime() {
 		return beginTime;
 	}
@@ -58,7 +79,7 @@ public final class OActivityExecution implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de début'.
-	 * @param beginTime java.util.Date <b>Obligatoire</b>
+	 * @param beginTime java.util.Date 
 	 */
 	public void setBeginTime(final java.util.Date beginTime) {
 		this.beginTime = beginTime;
@@ -103,25 +124,6 @@ public final class OActivityExecution implements DtObject {
 	}
 
 	/**
-	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du noeud'. 
-	 * @return String nodeName 
-	 */
-	@Field(domain = "DO_LIBELLE", label = "Nom du noeud")
-	public String getNodeName() {
-		return nodeName;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Nom du noeud'.
-	 * @param nodeName String 
-	 */
-	public void setNodeName(final String nodeName) {
-		this.nodeName = nodeName;
-	}
-
-	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'Activity'. 
 	 * @return Long actId 
@@ -157,6 +159,25 @@ public final class OActivityExecution implements DtObject {
 	 */
 	public void setPreId(final Long preId) {
 		this.preId = preId;
+	}
+
+	/**
+	 * Champ : FOREIGN_KEY.
+	 * Récupère la valeur de la propriété 'Node'. 
+	 * @return Long nodId 
+	 */
+	@Field(domain = "DO_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
+	public Long getNodId() {
+		return nodId;
+	}
+
+	/**
+	 * Champ : FOREIGN_KEY.
+	 * Définit la valeur de la propriété 'Node'.
+	 * @param nodId Long 
+	 */
+	public void setNodId(final Long nodId) {
+		this.nodId = nodId;
 	}
 
 	/**
@@ -300,6 +321,65 @@ public final class OActivityExecution implements DtObject {
 	// Association : ActivityWorkspace non navigable
 
 	// Association : ActivityLog non navigable
+	/**
+	 * Association : Node.
+	 * @return io.vertigo.orchestra.domain.execution.ONode
+	 */
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_ACE_NOD",
+    	fkFieldName = "NOD_ID",
+    	primaryDtDefinitionName = "DT_O_NODE",
+    	primaryIsNavigable = true,
+    	primaryRole = "Node",
+    	primaryLabel = "Node",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionActivity",
+    	foreignLabel = "ExecutionActivity",
+    	foreignMultiplicity = "0..*"
+    )
+	public io.vertigo.orchestra.domain.execution.ONode getNode() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> fkURI = getNodeURI();
+		if (fkURI == null) {
+			return null;
+		}
+		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
+		if (node != null) {
+			// On s'assure que l'objet correspond à la bonne clé
+			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> uri;
+			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(node), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(node));
+			if (!fkURI.toURN().equals(uri.toURN())) {
+				node = null;
+			}
+		}		
+		if (node == null) {
+			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+		}
+		return node;
+	}
+
+	/**
+	 * Retourne l'URI: Node.
+	 * @return URI de l'association
+	 */
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_ACE_NOD",
+    	fkFieldName = "NOD_ID",
+    	primaryDtDefinitionName = "DT_O_NODE",
+    	primaryIsNavigable = true,
+    	primaryRole = "Node",
+    	primaryLabel = "Node",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionActivity",
+    	foreignLabel = "ExecutionActivity",
+    	foreignMultiplicity = "0..*"
+    )
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> getNodeURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_NOD", io.vertigo.orchestra.domain.execution.ONode.class);
+	}
 	/**
 	 * Association : ExecutionState.
 	 * @return io.vertigo.orchestra.domain.referential.OExecutionState
