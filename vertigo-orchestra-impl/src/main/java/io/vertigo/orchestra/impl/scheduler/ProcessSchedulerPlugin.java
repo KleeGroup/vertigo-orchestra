@@ -133,7 +133,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	List<Long> getProcessToExecute() {
 		final GregorianCalendar lowerLimit = new GregorianCalendar(Locale.FRANCE);
-		lowerLimit.add(Calendar.SECOND, -planningPeriod * 3 / 2); //Just to be sure that nothing will be lost
+		lowerLimit.add(Calendar.SECOND, -planningPeriod * 5 / 4); //Just to be sure that nothing will be lost
 
 		final GregorianCalendar upperLimit = new GregorianCalendar(Locale.FRANCE);
 

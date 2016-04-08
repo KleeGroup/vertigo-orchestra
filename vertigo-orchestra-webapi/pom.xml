@@ -3,12 +3,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>vertigo-orchestra-ui</artifactId>
-	<packaging>war</packaging>
-
+	<parent>
+		<groupId>io.vertigo</groupId>
+		<artifactId>vertigo-orchestra-reactor</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+	
+	<name>vertigo-orchestra-webapi</name>
 	<groupId>io.vertigo</groupId>
-	<name>vertigo-orchestra-ui</name>
 	<version>0.1-SNAPSHOT</version>
+	<artifactId>vertigo-orchestra-webapi</artifactId>
+	<packaging>jar</packaging>
 
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
@@ -22,22 +27,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-orchestra-webapi</artifactId>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
 			<artifactId>vertigo-orchestra-impl</artifactId>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-orchestra-api</artifactId>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-vega-impl</artifactId>
+			<artifactId>vertigo-vega-api</artifactId>
 			<version>${vertigo.version}</version>
 		</dependency>
 		<dependency>
@@ -58,11 +53,6 @@
 		<dependency>
 			<groupId>io.vertigo</groupId>
 			<artifactId>vertigo-commons-impl</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-studio</artifactId>
 			<version>${vertigo.version}</version>
 		</dependency>
 		<dependency>
@@ -91,4 +81,47 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<build>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.6</version>
+					<executions>
+						<execution>
+							<id>copy-module-dependencies</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+							<configuration>
+								<finalName>lib</finalName>
+								<appendAssemblyId>false</appendAssemblyId>
+								<descriptors>
+									<descriptor>dependencies-assembly.xml</descriptor>
+								</descriptors>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.7</version>
+					<executions>
+						<execution>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>src/main/javagen</source>
+								</sources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+	</build>
 </project>

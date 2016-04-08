@@ -20,7 +20,7 @@ create Task TK_RESERVE_PROCESS_TO_EXECUTE {
         request : "
         	update o_process_planification
         	set PST_CD = 'RESERVED', NOD_ID = #NOD_ID#
-        	where (PST_CD = 'WAITING' and expected_time > #LOWER_LIMIT# and expected_time < #UPPER_LIMIT#) 
+        	where (PST_CD = 'WAITING' and expected_time >= #LOWER_LIMIT# and expected_time <= #UPPER_LIMIT#) 
         			or (PST_CD = 'RESCUED')
 			"
 	 attribute LOWER_LIMIT	 	{domain : DO_TIMESTAMP 		notNull:"true" 	inOut :"in"}

@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.ui;
+package io.vertigo.orchestra.webapi;
 
 import javax.inject.Inject;
 
@@ -6,7 +6,6 @@ import io.vertigo.core.spaces.component.ComponentInitializer;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
-import io.vertigo.orchestra.webapi.EmptyActivityEngine;
 
 /**
  * Initialisation des processus gérés par Orchestra

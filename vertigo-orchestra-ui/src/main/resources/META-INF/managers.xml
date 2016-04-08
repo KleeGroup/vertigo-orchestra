@@ -112,13 +112,13 @@
 			<param name="collection" value="orchestra-ui" />
 		</component>
 	</module>
-	<module name="orchestra-ui">
+	<module name="orchestra-webapi">
 		<definitions>
-			<resource type ="kpr" path="io/vertigo/orchestra/ui/execution.kpr"/>
-		    <resource type="classes" path="io.vertigo.orchestra.ui.domain.DtDefinitions" />  
+			<resource type ="kpr" path="io/vertigo/orchestra/webapi/execution.kpr"/>
+		    <resource type="classes" path="io.vertigo.orchestra.webapi.domain.DtDefinitions" />  
 		</definitions>
 	</module>
 	<init>
-		<initializer class="io.vertigo.orchestra.ui.OrchestraProcessInitializer" />
+		<initializer class="io.vertigo.orchestra.webapi.OrchestraProcessInitializer" />
 	</init>
 </config>

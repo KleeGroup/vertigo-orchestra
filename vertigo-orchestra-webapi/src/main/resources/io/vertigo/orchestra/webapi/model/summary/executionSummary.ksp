@@ -1,0 +1,16 @@
+package io.vertigo.orchestra.webapi.domain.summary
+
+create DtDefinition DT_O_EXECUTION_SUMMARY {
+	persistent: "false",
+	field PRO_ID   					{domain : DO_IDENTIFIANT, label :"Id du processus", notNull:"true",},
+	field PROCESS_NAME   			{domain : DO_LIBELLE, label :"Nom du processus", notNull:"true",},
+	field PROCESS_LABEL   			{domain : DO_LIBELLE, label :"Nom du processus", notNull:"true",},
+	field LAST_EXECUTION_TIME   	{domain : DO_TIMESTAMP, label :"Dernière exécution le", notNull:"false",},
+	field NEXT_EXECUTION_TIME   	{domain : DO_TIMESTAMP, label :"Prochaine exécution le", notNull:"false",},
+	field ERRORS_COUNT   			{domain : DO_NOMBRE, label :"Nom du noeud", notNull:"false",},
+	field MISFIRED_COUNT   			{domain : DO_NOMBRE, label :"Nom du noeud", notNull:"false",},
+	field SUCCESSFUL_COUNT   		{domain : DO_NOMBRE, label :"Nom du noeud", notNull:"false",},
+	field AVERAGE_EXECUTION_TIME   	{domain : DO_NOMBRE, label :"Durée moyenne d'exécution", notNull:"false",},
+  
+},
+
