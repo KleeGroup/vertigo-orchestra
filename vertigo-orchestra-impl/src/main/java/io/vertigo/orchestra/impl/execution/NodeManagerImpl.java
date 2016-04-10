@@ -29,7 +29,6 @@ public class NodeManagerImpl implements NodeManager {
 		// ---
 		final Option<ONode> existingNode = nodeDAO.getNodeByName(nodeName);
 		final ONode node = existingNode.getOrElse(new ONode());
-		node.setHeartbeat(new Date());
 		if (existingNode.isDefined()) {
 			nodeDAO.update(node);
 		} else {
@@ -42,9 +41,9 @@ public class NodeManagerImpl implements NodeManager {
 
 	@Override
 	public void updateHeartbeat(final Long nodId) {
-		//		final ONode node = nodeDAO.get(nodId);
-		//		node.setHeartbeat(new Date());
-		//		nodeDAO.update(node);
+		final ONode node = nodeDAO.get(nodId);
+		node.setHeartbeat(new Date());
+		nodeDAO.update(node);
 
 	}
 

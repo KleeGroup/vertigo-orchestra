@@ -51,6 +51,17 @@ public final class ExecutionPAO implements StoreServices {
 		getTaskManager().execute(task);
 	}
 
+	/**
+	 * Execute la tache TK_HANDLE_PROCESSES_OF_DEAD_NODES.
+	 * @param maxDate java.util.Date 
+	*/
+	public void handleProcessesOfDeadNodes(final java.util.Date maxDate) {
+		final Task task = createTaskBuilder("TK_HANDLE_PROCESSES_OF_DEAD_NODES")
+				.addValue("MAX_DATE", maxDate)
+				.build();
+		getTaskManager().execute(task);
+	}
+
     
     private TaskManager getTaskManager(){
     	return taskManager;

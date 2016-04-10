@@ -13,5 +13,29 @@ create Task TK_GET_NODE_BY_NAME {
 },
 
 
+create Task TK_HANDLE_PROCESSES_OF_DEAD_NODES {
+    className : "io.vertigo.dynamox.task.TaskEngineProc"
+        request : "
+        	update o_activity_execution 
+        	set EST_CD = 'ABORTED'
+        	where ACE_ID in (
+				select ace.ACE_ID
+				from o_activity_execution ace
+				join o_node nod on nod.NOD_ID = ace.NOD_ID
+				where ace.EST_CD = 'RUNNING' and nod.HEARTBEAT < #MAX_DATE#);
+			
+ 			update o_process_execution
+        	set EST_CD = 'ABORTED'
+        	where PRE_ID in (
+				select pre.PRE_ID
+				from o_process_execution pre
+				join o_activity_execution ace on ace.PRE_ID = pre.PRE_ID
+				where ace.EST_CD = 'ABORTED');
+        	
+			"
+	attribute MAX_DATE	 	{domain : DO_TIMESTAMP 		notNull:"true" 	inOut :"in"}
+},
+
+
 
 

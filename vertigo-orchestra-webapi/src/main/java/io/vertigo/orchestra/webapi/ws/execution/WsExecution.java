@@ -1,7 +1,9 @@
 package io.vertigo.orchestra.webapi.ws.execution;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -72,18 +74,8 @@ public class WsExecution implements WebServices {
 	@GET("summary/{proId}")
 	@AnonymousAccessAllowed
 	public OExecutionSummary getWeekSummaryByProId(@PathParam("proId") final Long proId) {
-		final Calendar cal = new GregorianCalendar();
-		// "calculate" the start date of the week
-		final Calendar first = (Calendar) cal.clone();
-		first.add(Calendar.DAY_OF_WEEK,
-				first.getFirstDayOfWeek() - first.get(Calendar.DAY_OF_WEEK));
-
-		// and add six days to the end date
-		final Calendar last = (Calendar) first.clone();
-		last.add(Calendar.DAY_OF_YEAR, 6);
-
 		final String processName = definitionServices.getProcessDefinitionById(proId).getName();
-		return executionServices.getSummaryByDateAndName(processName, first.getTime(), last.getTime());
+		return executionServices.getSummaryByDateAndName(processName, getFirstDayOfWeekDate(), getFirstDayOfNextWeekDate());
 	}
 
 	/**
@@ -92,15 +84,34 @@ public class WsExecution implements WebServices {
 	@GET("summaries")
 	@AnonymousAccessAllowed
 	public DtList<OExecutionSummary> getWeekSummaries() {
-		final Calendar cal = new GregorianCalendar();
+		return executionServices.getSummariesByDate(getFirstDayOfWeekDate(), getFirstDayOfNextWeekDate());
+	}
+
+	private static Date getFirstDayOfWeekDate() {
+		return getFirstDayOfWeek().getTime();
+	}
+
+	private static Date getFirstDayOfNextWeekDate() {
+		final Calendar first = getFirstDayOfWeek();
+		// and add seven days to the end date
+		final Calendar last = (Calendar) first.clone();
+		last.add(Calendar.DAY_OF_YEAR, 7);
+
+		return last.getTime();
+	}
+
+	private static Calendar getFirstDayOfWeek() {
+		final Calendar cal = new GregorianCalendar(Locale.FRANCE);
 		// "calculate" the start date of the week
 		final Calendar first = (Calendar) cal.clone();
-		first.add(Calendar.DAY_OF_WEEK,
-				first.getFirstDayOfWeek() - first.get(Calendar.DAY_OF_WEEK));
+		first.set(Calendar.DAY_OF_WEEK, first.getFirstDayOfWeek());
+		first.set(Calendar.HOUR_OF_DAY, 0);
+		first.set(Calendar.MINUTE, 0);
+		first.set(Calendar.SECOND, 0);
 
-		// and add six days to the end date
-		final Calendar last = (Calendar) first.clone();
-		last.add(Calendar.DAY_OF_YEAR, 6);
-		return executionServices.getSummariesByDate(first.getTime(), last.getTime());
+		first.set(Calendar.MILLISECOND, 0);
+
+		return first;
+
 	}
 }

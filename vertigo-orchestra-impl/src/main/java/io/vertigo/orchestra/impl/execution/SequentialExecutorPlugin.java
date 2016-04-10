@@ -113,6 +113,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	/** {@inheritDoc} */
 	@Override
 	public void start() {
+		handleDeadNodeProcesses();
 
 		localScheduledExecutor.scheduleAtFixedRate(new Runnable() {
 			@Override
@@ -120,6 +121,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				try {
 					executeToDo();
 					nodeManager.updateHeartbeat(nodId);
+					handleDeadNodeProcesses();
 				} catch (final Exception e) {
 					// We log the error and we continue the timer
 					LOGGER.error("Exception launching activities to executes", e);
@@ -461,6 +463,16 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(actId);
 		// ---
 		return activityDAO.getNextActivityByActId(actId);
+	}
+
+	private void handleDeadNodeProcesses() {
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			final Long now = System.currentTimeMillis();
+			// We wait two heartbeat to be sure that the node is dead
+			final Date maxDate = new Date(now - 2 * timerDelay);
+			executionPAO.handleProcessesOfDeadNodes(maxDate);
+			transaction.commit();
+		}
 	}
 
 }

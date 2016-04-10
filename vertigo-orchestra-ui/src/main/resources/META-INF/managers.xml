@@ -119,6 +119,6 @@
 		</definitions>
 	</module>
 	<init>
-		<initializer class="io.vertigo.orchestra.webapi.OrchestraProcessInitializer" />
+		<initializer class="io.vertigo.orchestra.ui.OrchestraProcessInitializer" />
 	</init>
 </config>

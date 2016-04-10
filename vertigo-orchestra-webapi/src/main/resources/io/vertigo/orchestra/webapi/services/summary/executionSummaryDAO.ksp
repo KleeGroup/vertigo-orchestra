@@ -9,9 +9,8 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
         			round(extract('epoch' from avg(pre.END_TIME-pre.BEGIN_TIME) over w )) as AVERAGE_EXECUTION_TIME,
         			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,
         			sum(case when pre.est_cd='ERROR' then 1 else 0 end) over w as ERRORS_COUNT,
-        			max(pre.begin_time) over w as LAST_EXECUTION_TIME,
         			(select max(pre2.begin_time) from o_process_execution pre2 join o_process p2 on p2.pro_id=pre2.pro_id group by p2.name )
-        				as NEXT_EXECUTION_TIME,
+        				as LAST_EXECUTION_TIME,
         			(select sum(case when prp.pst_cd='MISFIRED' then 1 else 0 end) 
         					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where prp.expected_time between #DATE_MIN# and #DATE_MAX# group by p2.name)
 			  			as MISFIRED_COUNT,
@@ -38,9 +37,8 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
         			round(extract('epoch' from avg(pre.END_TIME-pre.BEGIN_TIME) over w)) as AVERAGE_EXECUTION_TIME,
         			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,
         			sum(case when pre.est_cd='ERROR' then 1 else 0 end) over w as ERRORS_COUNT,
-        			max(pre.begin_time) over w as LAST_EXECUTION_TIME,
         			(select max(pre2.begin_time) from o_process_execution pre2 join o_process p2 on p2.pro_id=pre2.pro_id group by p2.name )
-        				as NEXT_EXECUTION_TIME,
+        				as LAST_EXECUTION_TIME,
         			(select sum(case when prp.pst_cd='MISFIRED' then 1 else 0 end) 
         					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where prp.expected_time between #DATE_MIN# and #DATE_MAX# group by p2.name)
 			  			as MISFIRED_COUNT,
