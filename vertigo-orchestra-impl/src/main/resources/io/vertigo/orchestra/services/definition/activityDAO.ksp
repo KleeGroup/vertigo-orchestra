@@ -20,7 +20,7 @@ create Task TK_GET_FIRST_ACTIVITY_BY_PROCESS {
                  where 1=1
         	
 			"
-	attribute PRO_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+	attribute PRO_ID	 	{domain : DO_O_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 	attribute DT_O_ACTIVITY	 	{domain : DO_DT_O_ACTIVITY_DTO 		notNull:"true" 	inOut :"out"}
 }
 
@@ -44,7 +44,7 @@ create Task TK_GET_NEXT_ACTIVITY_BY_ACT_ID {
         	
         	
 			"
-		attribute ACT_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+		attribute ACT_ID	 	{domain : DO_O_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 		attribute DT_O_ACTIVITY	 	{domain : DO_DT_O_ACTIVITY_DTO		notNull:"false" 	inOut :"out"}
 }
 
@@ -58,7 +58,7 @@ create Task TK_GET_ACTIVITIES_BY_PRO_ID {
                 where act.PRO_ID = #PRO_ID#
         	
 			"
-	attribute PRO_ID	 	{domain : DO_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+	attribute PRO_ID	 	{domain : DO_O_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 	attribute DT_O_ACTIVITIES	 	{domain : DO_DT_O_ACTIVITY_DTC 		notNull:"true" 	inOut :"out"}
 }
 

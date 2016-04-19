@@ -65,6 +65,7 @@
 		<component class="io.vertigo.orchestra.dao.execution.ExecutionPAO"/>
 		<component class="io.vertigo.orchestra.dao.planification.PlanificationPAO"/>
 		<component class="io.vertigo.orchestra.dao.execution.ONodeDAO"/>
+		<component class="io.vertigo.orchestra.dao.definition.DefinitionPAO"/>
 	</module>
 	<module name="orchestra">
 		<definitions>

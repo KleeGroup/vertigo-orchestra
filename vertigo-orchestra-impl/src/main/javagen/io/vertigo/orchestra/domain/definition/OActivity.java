@@ -28,7 +28,7 @@ public final class OActivity implements DtObject {
 	 * Récupère la valeur de la propriété 'Id Activité'. 
 	 * @return Long actId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id Activité")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id Activité")
 	public Long getActId() {
 		return actId;
 	}
@@ -47,7 +47,7 @@ public final class OActivity implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom de l'activité'. 
 	 * @return String name 
 	 */
-	@Field(domain = "DO_LIBELLE", label = "Nom de l'activité")
+	@Field(domain = "DO_O_LIBELLE", label = "Nom de l'activité")
 	public String getName() {
 		return name;
 	}
@@ -66,7 +66,7 @@ public final class OActivity implements DtObject {
 	 * Récupère la valeur de la propriété 'Libellé de l'activité'. 
 	 * @return String label 
 	 */
-	@Field(domain = "DO_LIBELLE", label = "Libellé de l'activité")
+	@Field(domain = "DO_O_LIBELLE", label = "Libellé de l'activité")
 	public String getLabel() {
 		return label;
 	}
@@ -85,7 +85,7 @@ public final class OActivity implements DtObject {
 	 * Récupère la valeur de la propriété 'Numéro de l'activité'. 
 	 * @return Long number 
 	 */
-	@Field(domain = "DO_NOMBRE", label = "Numéro de l'activité")
+	@Field(domain = "DO_O_NOMBRE", label = "Numéro de l'activité")
 	public Long getNumber() {
 		return number;
 	}
@@ -104,7 +104,7 @@ public final class OActivity implements DtObject {
 	 * Récupère la valeur de la propriété 'Jalon'. 
 	 * @return Boolean milestone 
 	 */
-	@Field(domain = "DO_BOOLEEN", label = "Jalon")
+	@Field(domain = "DO_O_BOOLEEN", label = "Jalon")
 	public Boolean getMilestone() {
 		return milestone;
 	}
@@ -123,7 +123,7 @@ public final class OActivity implements DtObject {
 	 * Récupère la valeur de la propriété 'Implémentation de l'activité'. 
 	 * @return String engine 
 	 */
-	@Field(domain = "DO_CLASSE", label = "Implémentation de l'activité")
+	@Field(domain = "DO_O_CLASSE", label = "Implémentation de l'activité")
 	public String getEngine() {
 		return engine;
 	}
@@ -142,7 +142,7 @@ public final class OActivity implements DtObject {
 	 * Récupère la valeur de la propriété 'Processus'. 
 	 * @return Long proId 
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getProId() {
 		return proId;
 	}

@@ -53,6 +53,22 @@ public final class OActivityExecutionDAO extends DAOBroker<OActivityExecution, j
 	}
 
 	/**
+	 * Execute la tache TK_GET_ACTIVITY_EXECUTION_BY_TOKEN.
+	 * @param aceId Long 
+	 * @param token String 
+	 * @return io.vertigo.orchestra.domain.execution.OActivityExecution dtActivityExecution
+	*/
+	public io.vertigo.orchestra.domain.execution.OActivityExecution getActivityExecutionByToken(final Long aceId, final String token) {
+		final Task task = createTaskBuilder("TK_GET_ACTIVITY_EXECUTION_BY_TOKEN")
+				.addValue("ACE_ID", aceId)
+				.addValue("TOKEN", token)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
 	 * Execute la tache TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID.
 	 * @param preId Long 
 	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OActivityExecution> dtcOActivityExecution

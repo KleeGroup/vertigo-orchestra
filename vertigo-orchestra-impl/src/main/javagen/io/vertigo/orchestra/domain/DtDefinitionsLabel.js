@@ -19,6 +19,7 @@ module.exports = {
         beginTime: "Date de début",
         endTime: "Date de fin",
         engine: "Implémentation effective de l'execution",
+        token: "Token d'identification",
         actId: "Activity",
         preId: "Processus",
         nodId: "Node",

@@ -21,6 +21,8 @@ public enum ExecutionState {
 
 	CANCELED,
 
-	ABORTED;
+	ABORTED,
+
+	PENDING;
 
 }

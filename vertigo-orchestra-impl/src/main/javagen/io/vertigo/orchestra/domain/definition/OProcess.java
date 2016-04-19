@@ -32,7 +32,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'Id de la definition du processus'. 
 	 * @return Long proId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id de la definition du processus")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id de la definition du processus")
 	public Long getProId() {
 		return proId;
 	}
@@ -51,7 +51,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du processus'. 
 	 * @return String name 
 	 */
-	@Field(domain = "DO_LIBELLE", label = "Nom du processus")
+	@Field(domain = "DO_O_LIBELLE", label = "Nom du processus")
 	public String getName() {
 		return name;
 	}
@@ -70,7 +70,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'Libellé du processus'. 
 	 * @return String label 
 	 */
-	@Field(domain = "DO_LIBELLE", label = "Libellé du processus")
+	@Field(domain = "DO_O_LIBELLE", label = "Libellé du processus")
 	public String getLabel() {
 		return label;
 	}
@@ -89,7 +89,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'Expression récurrence du processus'. 
 	 * @return String cronExpression 
 	 */
-	@Field(domain = "DO_LIBELLE", label = "Expression récurrence du processus")
+	@Field(domain = "DO_O_LIBELLE", label = "Expression récurrence du processus")
 	public String getCronExpression() {
 		return cronExpression;
 	}
@@ -108,7 +108,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'. 
 	 * @return String initialParams 
 	 */
-	@Field(domain = "DO_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
+	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
 	public String getInitialParams() {
 		return initialParams;
 	}
@@ -127,7 +127,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'Accepte la multi-execution'. 
 	 * @return Boolean multiexecution 
 	 */
-	@Field(domain = "DO_BOOLEEN", label = "Accepte la multi-execution")
+	@Field(domain = "DO_O_BOOLEEN", label = "Accepte la multi-execution")
 	public Boolean getMultiexecution() {
 		return multiexecution;
 	}
@@ -146,7 +146,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'Version active'. 
 	 * @return Boolean active <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_BOOLEEN", required = true, label = "Version active")
+	@Field(domain = "DO_O_BOOLEEN", required = true, label = "Version active")
 	public Boolean getActive() {
 		return active;
 	}
@@ -165,7 +165,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'Temps de validité d'une planification'. 
 	 * @return Long rescuePeriod <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_NOMBRE", required = true, label = "Temps de validité d'une planification")
+	@Field(domain = "DO_O_NOMBRE", required = true, label = "Temps de validité d'une planification")
 	public Long getRescuePeriod() {
 		return rescuePeriod;
 	}
@@ -184,7 +184,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'TriggerType'. 
 	 * @return String trtCd 
 	 */
-	@Field(domain = "DO_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "TriggerType")
+	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "TriggerType")
 	public String getTrtCd() {
 		return trtCd;
 	}
@@ -203,7 +203,7 @@ public final class OProcess implements DtObject {
 	 * Récupère la valeur de la propriété 'ProcessType'. 
 	 * @return String prtCd 
 	 */
-	@Field(domain = "DO_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ProcessType")
+	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ProcessType")
 	public String getPrtCd() {
 		return prtCd;
 	}

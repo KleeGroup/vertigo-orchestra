@@ -29,7 +29,7 @@ public final class OProcessPlanification implements DtObject {
 	 * Récupère la valeur de la propriété 'Id Planification'. 
 	 * @return Long prpId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id Planification")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id Planification")
 	public Long getPrpId() {
 		return prpId;
 	}
@@ -48,7 +48,7 @@ public final class OProcessPlanification implements DtObject {
 	 * Récupère la valeur de la propriété 'Date d'execution prévue'. 
 	 * @return java.util.Date expectedTime 
 	 */
-	@Field(domain = "DO_TIMESTAMP", label = "Date d'execution prévue")
+	@Field(domain = "DO_O_TIMESTAMP", label = "Date d'execution prévue")
 	public java.util.Date getExpectedTime() {
 		return expectedTime;
 	}
@@ -67,7 +67,7 @@ public final class OProcessPlanification implements DtObject {
 	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'. 
 	 * @return String initialParams 
 	 */
-	@Field(domain = "DO_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
+	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
 	public String getInitialParams() {
 		return initialParams;
 	}
@@ -86,7 +86,7 @@ public final class OProcessPlanification implements DtObject {
 	 * Récupère la valeur de la propriété 'Processus'. 
 	 * @return Long proId 
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getProId() {
 		return proId;
 	}
@@ -105,7 +105,7 @@ public final class OProcessPlanification implements DtObject {
 	 * Récupère la valeur de la propriété 'Node'. 
 	 * @return Long nodId 
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
 	public Long getNodId() {
 		return nodId;
 	}
@@ -124,7 +124,7 @@ public final class OProcessPlanification implements DtObject {
 	 * Récupère la valeur de la propriété 'PlanificationState'. 
 	 * @return String pstCd 
 	 */
-	@Field(domain = "DO_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "PlanificationState")
+	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "PlanificationState")
 	public String getPstCd() {
 		return pstCd;
 	}

@@ -6,6 +6,7 @@ insert into o_execution_state(est_cd, label) values ('RUNNING', 'Running');
 insert into o_execution_state(est_cd, label) values ('ERROR', 'Error');
 insert into o_execution_state(est_cd, label) values ('CANCELED', 'Canceled');
 insert into o_execution_state(est_cd, label) values ('ABORTED', 'Aborted');
+insert into o_execution_state(est_cd, label) values ('PENDING', 'Pending');
 
 insert into o_planification_state(pst_cd, label) values ('WAITING', 'Waiting');
 insert into o_planification_state(pst_cd, label) values ('RESERVED', 'Reserved');

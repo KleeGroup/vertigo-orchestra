@@ -128,7 +128,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				}
 
 			}
-		}, timerDelay / 2, timerDelay, TimeUnit.MILLISECONDS);
+		}, 0, timerDelay, TimeUnit.MILLISECONDS);
 
 	}
 
@@ -159,13 +159,27 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				doChangeExecutionState(activityExecution, ExecutionState.ERROR);
 			} else {
 				if (workspaceOut.isSuccess()) {
-					endActivityExecutionAndInitNext(activityExecution);
+					endActivityExecution(activityExecution, ExecutionState.DONE);
+				} else if (workspaceOut.isPending()) {
+					endActivityExecution(activityExecution, ExecutionState.PENDING);
 				} else {
-					doChangeExecutionState(activityExecution, ExecutionState.ERROR);
+					endActivityExecution(activityExecution, ExecutionState.ERROR);
 				}
 			}
 			transaction.commit();
 		}
+
+	}
+
+	void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState executionState) {
+		Assertion.checkNotNull(activityExecutionId);
+		Assertion.checkNotNull(token);
+		// ---
+		final OActivityExecution activityExecution = activityExecutionDAO.getActivityExecutionByToken(activityExecutionId, token);
+		// ---
+		Assertion.checkNotNull(activityExecution, "Activity token and id are not compatible");
+		Assertion.checkState(ExecutionState.PENDING.name().equals(activityExecution.getEstCd()), "Only pending executions can be ended remotly");
+		endActivityExecution(activityExecution, executionState);
 
 	}
 
@@ -232,8 +246,12 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			} catch (final Exception e) {
 				// In case of failure we keep the current workspace
 				resultWorkspace.setFailure();
+				logError(activityExecution, e);
+				// we call the posttreament
+				resultWorkspace = activityEngine.errorPostTreatment(resultWorkspace, e);
 
 			} finally {
+
 				try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 					// We save the workspace which is the minimal state
 					saveActivityExecutionWorkspace(activityExecution.getAceId(), resultWorkspace, false);
@@ -243,6 +261,9 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 					}
 					transaction.commit();
 				}
+
+				// we call the posttreament
+				resultWorkspace = activityEngine.successfulPostTreatment(resultWorkspace);
 			}
 
 		} catch (final Exception e) {
@@ -298,6 +319,12 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			initialWorkspace = new ActivityExecutionWorkspace(processExecution.getProcess().getInitialParams());
 
 		}
+		// We set in the workspace essentials params
+		initialWorkspace.setProcessName(processExecution.getProcess().getName());
+		initialWorkspace.setProcessExecutionId(processExecution.getPreId());
+		initialWorkspace.setActivityExecutionId(firstActivityExecution.getAceId());
+		initialWorkspace.setToken(firstActivityExecution.getToken());
+		// ---
 		saveActivityExecutionWorkspace(firstActivityExecution.getAceId(), initialWorkspace, true);
 
 	}
@@ -314,6 +341,26 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		return newProcessExecution;
 	}
 
+	private void endActivityExecution(final OActivityExecution activityExecution, final ExecutionState executionState) {
+		Assertion.checkNotNull(activityExecution);
+		Assertion.checkNotNull(executionState);
+		// ---
+		switch (executionState) {
+			case DONE:
+				endActivityExecutionAndInitNext(activityExecution);
+				break;
+			case ERROR:
+				doChangeExecutionState(activityExecution, ExecutionState.ERROR);
+				break;
+			case PENDING:
+				doChangeExecutionState(activityExecution, ExecutionState.PENDING);
+				break;
+			default:
+				throw new RuntimeException("Unknwon case for ending activity execution :  " + executionState.name());
+		}
+
+	}
+
 	private void endActivityExecutionAndInitNext(final OActivityExecution activityExecution) {
 		endActivity(activityExecution);
 
@@ -325,8 +372,11 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			activityExecutionDAO.save(nextActivityExecution);
 			// We keep the old workspace for the nextTask
 			final ActivityExecutionWorkspace previousWorkspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
-			// We remove the status
+			// We remove the status and update the activityExecutionId and token
 			previousWorkspace.resetStatus();
+			previousWorkspace.setActivityExecutionId(nextActivityExecution.getAceId());
+			previousWorkspace.setToken(nextActivityExecution.getToken());
+			// ---
 			saveActivityExecutionWorkspace(nextActivityExecution.getAceId(), previousWorkspace, true);
 
 		} else {
@@ -365,6 +415,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		newActivityExecution.setCreationTime(new Date());
 		newActivityExecution.setEngine(activity.getEngine());
 		newActivityExecution.setEstCd(ExecutionState.WAITING.name());
+		newActivityExecution.setToken(ActivityTokenGenerator.getToken());
 
 		return newActivityExecution;
 

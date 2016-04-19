@@ -24,7 +24,7 @@ public final class OActivityLog implements DtObject {
 	 * Récupère la valeur de la propriété 'Id du log'. 
 	 * @return Long aclId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id du log")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id du log")
 	public Long getAclId() {
 		return aclId;
 	}
@@ -43,7 +43,7 @@ public final class OActivityLog implements DtObject {
 	 * Récupère la valeur de la propriété 'Contenu du log'. 
 	 * @return String log 
 	 */
-	@Field(domain = "DO_TEXT", label = "Contenu du log")
+	@Field(domain = "DO_O_TEXT", label = "Contenu du log")
 	public String getLog() {
 		return log;
 	}
@@ -62,7 +62,7 @@ public final class OActivityLog implements DtObject {
 	 * Récupère la valeur de la propriété 'ActivityExecution'. 
 	 * @return Long aceId 
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "FOREIGN_KEY", label = "ActivityExecution")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "ActivityExecution")
 	public Long getAceId() {
 		return aceId;
 	}

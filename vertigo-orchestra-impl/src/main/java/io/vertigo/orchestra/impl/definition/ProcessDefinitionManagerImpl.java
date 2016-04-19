@@ -10,6 +10,7 @@ import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
+import io.vertigo.orchestra.dao.definition.DefinitionPAO;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.definition.ActivityDefinition;
@@ -31,12 +32,15 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	@Inject
 	private OProcessDAO processDao;
 	@Inject
+	private DefinitionPAO definitionPAO;
+	@Inject
 	private OActivityDAO activityDAO;
 
 	/** {@inheritDoc} */
 	@Override
 	public void createDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
+		Assertion.checkNotNull(processDefinition.getName());
 		//-----
 		final OProcess process = new OProcess();
 
@@ -148,6 +152,33 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	public boolean processDefinitionExist(final String processName) {
 		Assertion.checkNotNull(processName);
 		// ---
-		return processDao.getActiveProcessByName(processName).isDefined();
+		return 0 != definitionPAO.getProcessesByName(processName);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void createOrUpdateDefinition(final ProcessDefinition processDefinition) {
+		Assertion.checkNotNull(processDefinition);
+		Assertion.checkNotNull(processDefinition.getName());
+		// ---
+		final String processName = processDefinition.getName();
+		if (processDefinitionExist(processName)) {
+			updateDefinition(processDefinition);
+		} else {
+			createDefinition(processDefinition);
+		}
+
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void updateDefinition(final ProcessDefinition processDefinition) {
+		Assertion.checkNotNull(processDefinition);
+		Assertion.checkNotNull(processDefinition.getName());
+		// ---
+		final String processName = processDefinition.getName();
+		definitionPAO.disableOldProcessDefinitions(processName);
+		createDefinition(processDefinition);
+
 	}
 }

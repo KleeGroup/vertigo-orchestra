@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.execution.engine;
 
-import io.vertigo.orchestra.execution.ActivityEngine;
 import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
+import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
 
 /**
  * TODO : Description de la classe.
@@ -9,7 +9,7 @@ import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
  * @author mlaroche.
  * @version $Id$
  */
-public class DumbErrorActivityEngine implements ActivityEngine {
+public class DumbErrorActivityEngine extends AbstractActivityEngine {
 
 	/** {@inheritDoc} */
 	@Override

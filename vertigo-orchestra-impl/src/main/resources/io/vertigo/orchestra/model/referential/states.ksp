@@ -2,15 +2,15 @@ package io.vertigo.orchestra.domain.referential
 
 create DtDefinition DT_O_EXECUTION_STATE {
 	persistent: "true",
-	key EST_CD	{domain : DO_CODE_IDENTIFIANT, label :"Code", notNull:"true",},
-	field LABEL   	{domain : DO_LIBELLE, label :"Libellé", notNull:"false",},
+	key EST_CD	{domain : DO_O_CODE_IDENTIFIANT, label :"Code", notNull:"true",},
+	field LABEL   	{domain : DO_O_LIBELLE, label :"Libellé", notNull:"false",},
   
 },
 
 
 create DtDefinition DT_O_PLANIFICATION_STATE {
 	persistent: "true",
-	key PST_CD	{domain : DO_CODE_IDENTIFIANT, label :"Code", notNull:"true",},
-	field LABEL   	{domain : DO_LIBELLE, label :"Libellé", notNull:"false",},
+	key PST_CD	{domain : DO_O_CODE_IDENTIFIANT, label :"Code", notNull:"true",},
+	field LABEL   	{domain : DO_O_LIBELLE, label :"Libellé", notNull:"false",},
   
 },

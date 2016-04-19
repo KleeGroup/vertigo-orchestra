@@ -10,4 +10,6 @@ import io.vertigo.lang.Manager;
  */
 public interface ProcessExecutionManager extends Manager {
 	// Nothing
+
+	void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState state);
 }

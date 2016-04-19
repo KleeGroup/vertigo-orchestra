@@ -29,7 +29,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Id du processus'. 
 	 * @return Long proId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", required = true, persistent = false, label = "Id du processus")
+	@Field(domain = "DO_O_IDENTIFIANT", required = true, persistent = false, label = "Id du processus")
 	public Long getProId() {
 		return proId;
 	}
@@ -48,7 +48,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du processus'. 
 	 * @return String processName <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_LIBELLE", required = true, persistent = false, label = "Nom du processus")
+	@Field(domain = "DO_O_LIBELLE", required = true, persistent = false, label = "Nom du processus")
 	public String getProcessName() {
 		return processName;
 	}
@@ -67,7 +67,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du processus'. 
 	 * @return String processLabel <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_LIBELLE", required = true, persistent = false, label = "Nom du processus")
+	@Field(domain = "DO_O_LIBELLE", required = true, persistent = false, label = "Nom du processus")
 	public String getProcessLabel() {
 		return processLabel;
 	}
@@ -86,7 +86,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Dernière exécution le'. 
 	 * @return java.util.Date lastExecutionTime 
 	 */
-	@Field(domain = "DO_TIMESTAMP", persistent = false, label = "Dernière exécution le")
+	@Field(domain = "DO_O_TIMESTAMP", persistent = false, label = "Dernière exécution le")
 	public java.util.Date getLastExecutionTime() {
 		return lastExecutionTime;
 	}
@@ -105,7 +105,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Prochaine exécution le'. 
 	 * @return java.util.Date nextExecutionTime 
 	 */
-	@Field(domain = "DO_TIMESTAMP", persistent = false, label = "Prochaine exécution le")
+	@Field(domain = "DO_O_TIMESTAMP", persistent = false, label = "Prochaine exécution le")
 	public java.util.Date getNextExecutionTime() {
 		return nextExecutionTime;
 	}
@@ -124,7 +124,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du noeud'. 
 	 * @return Long errorsCount 
 	 */
-	@Field(domain = "DO_NOMBRE", persistent = false, label = "Nom du noeud")
+	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nom du noeud")
 	public Long getErrorsCount() {
 		return errorsCount;
 	}
@@ -143,7 +143,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du noeud'. 
 	 * @return Long misfiredCount 
 	 */
-	@Field(domain = "DO_NOMBRE", persistent = false, label = "Nom du noeud")
+	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nom du noeud")
 	public Long getMisfiredCount() {
 		return misfiredCount;
 	}
@@ -162,7 +162,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du noeud'. 
 	 * @return Long successfulCount 
 	 */
-	@Field(domain = "DO_NOMBRE", persistent = false, label = "Nom du noeud")
+	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nom du noeud")
 	public Long getSuccessfulCount() {
 		return successfulCount;
 	}
@@ -181,7 +181,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Durée moyenne d'exécution'. 
 	 * @return Long averageExecutionTime 
 	 */
-	@Field(domain = "DO_NOMBRE", persistent = false, label = "Durée moyenne d'exécution")
+	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Durée moyenne d'exécution")
 	public Long getAverageExecutionTime() {
 		return averageExecutionTime;
 	}

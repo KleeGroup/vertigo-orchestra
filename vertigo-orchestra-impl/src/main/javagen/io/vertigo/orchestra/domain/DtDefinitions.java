@@ -87,6 +87,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		END_TIME,
 		/** Propriété 'Implémentation effective de l'execution'. */
 		ENGINE,
+		/** Propriété 'Token d'identification'. */
+		TOKEN,
 		/** Propriété 'Activity'. */
 		ACT_ID,
 		/** Propriété 'Processus'. */

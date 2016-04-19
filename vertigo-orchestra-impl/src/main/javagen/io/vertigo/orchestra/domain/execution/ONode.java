@@ -23,7 +23,7 @@ public final class ONode implements DtObject {
 	 * Récupère la valeur de la propriété 'Id du noeud'. 
 	 * @return Long nodId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id du noeud")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id du noeud")
 	public Long getNodId() {
 		return nodId;
 	}
@@ -42,7 +42,7 @@ public final class ONode implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du noeud'. 
 	 * @return String name <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_LIBELLE", required = true, label = "Nom du noeud")
+	@Field(domain = "DO_O_LIBELLE", required = true, label = "Nom du noeud")
 	public String getName() {
 		return name;
 	}
@@ -59,9 +59,9 @@ public final class ONode implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Date de dernière activité'. 
-	 * @return java.util.Date heartbeat <b>Obligatoire</b>
+	 * @return java.util.Date heartbeat 
 	 */
-	@Field(domain = "DO_TIMESTAMP", required = true, label = "Date de dernière activité")
+	@Field(domain = "DO_O_TIMESTAMP", label = "Date de dernière activité")
 	public java.util.Date getHeartbeat() {
 		return heartbeat;
 	}
@@ -69,7 +69,7 @@ public final class ONode implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de dernière activité'.
-	 * @param heartbeat java.util.Date <b>Obligatoire</b>
+	 * @param heartbeat java.util.Date 
 	 */
 	public void setHeartbeat(final java.util.Date heartbeat) {
 		this.heartbeat = heartbeat;

@@ -14,6 +14,10 @@ public interface ProcessDefinitionManager extends Component {
 
 	void createDefinition(ProcessDefinition processDefinition);
 
+	void createOrUpdateDefinition(ProcessDefinition processDefinition);
+
+	void updateDefinition(ProcessDefinition processDefinition);
+
 	ProcessDefinition getProcessDefinition(String processName);
 
 	List<ProcessDefinition> getAllProcessDefinitions();

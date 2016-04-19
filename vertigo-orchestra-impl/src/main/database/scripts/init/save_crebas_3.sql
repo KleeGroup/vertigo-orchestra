@@ -108,6 +108,7 @@ create table O_ACTIVITY_EXECUTION
     BEGIN_TIME  	 TIMESTAMP   	,
     END_TIME    	 TIMESTAMP   	,
     ENGINE      	 VARCHAR(200)	,
+    TOKEN       	 VARCHAR(100)	,
     ACT_ID      	 NUMERIC     	,
     PRE_ID      	 NUMERIC     	,
     NOD_ID      	 NUMERIC     	,
@@ -215,7 +216,7 @@ create table O_NODE
 (
     NOD_ID      	 NUMERIC     	not null,
     NAME        	 VARCHAR(100)	not null,
-    HEARTBEAT   	 TIMESTAMP   	not null,
+    HEARTBEAT   	 TIMESTAMP,
     constraint PK_O_NODE primary key (NOD_ID),
    	UNIQUE (NAME) 
 );

@@ -28,7 +28,7 @@ public final class OProcessExecution implements DtObject {
 	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
 	 * @return Long preId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
 	public Long getPreId() {
 		return preId;
 	}
@@ -47,7 +47,7 @@ public final class OProcessExecution implements DtObject {
 	 * Récupère la valeur de la propriété 'Date de début'. 
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_TIMESTAMP", required = true, label = "Date de début")
+	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Date de début")
 	public java.util.Date getBeginTime() {
 		return beginTime;
 	}
@@ -66,7 +66,7 @@ public final class OProcessExecution implements DtObject {
 	 * Récupère la valeur de la propriété 'Date de fin'. 
 	 * @return java.util.Date endTime 
 	 */
-	@Field(domain = "DO_TIMESTAMP", label = "Date de fin")
+	@Field(domain = "DO_O_TIMESTAMP", label = "Date de fin")
 	public java.util.Date getEndTime() {
 		return endTime;
 	}
@@ -85,7 +85,7 @@ public final class OProcessExecution implements DtObject {
 	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'. 
 	 * @return String engine 
 	 */
-	@Field(domain = "DO_CLASSE", label = "Implémentation effective de l'execution")
+	@Field(domain = "DO_O_CLASSE", label = "Implémentation effective de l'execution")
 	public String getEngine() {
 		return engine;
 	}
@@ -104,7 +104,7 @@ public final class OProcessExecution implements DtObject {
 	 * Récupère la valeur de la propriété 'Processus'. 
 	 * @return Long proId 
 	 */
-	@Field(domain = "DO_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
+	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getProId() {
 		return proId;
 	}
@@ -123,7 +123,7 @@ public final class OProcessExecution implements DtObject {
 	 * Récupère la valeur de la propriété 'ExecutionState'. 
 	 * @return String estCd 
 	 */
-	@Field(domain = "DO_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ExecutionState")
+	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ExecutionState")
 	public String getEstCd() {
 		return estCd;
 	}

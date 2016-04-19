@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  Apr 10, 2016  12:40:58 PM                     
+--   Date de création :  19 avr. 2016  16:18:07                     
 -- ============================================================
 
 -- ============================================================
@@ -107,6 +107,7 @@ create table O_ACTIVITY_EXECUTION
     BEGIN_TIME  	 TIMESTAMP   	,
     END_TIME    	 TIMESTAMP   	,
     ENGINE      	 VARCHAR(200)	,
+    TOKEN       	 VARCHAR(100)	,
     ACT_ID      	 NUMERIC     	,
     PRE_ID      	 NUMERIC     	,
     NOD_ID      	 NUMERIC     	,
@@ -127,6 +128,9 @@ comment on column O_ACTIVITY_EXECUTION.END_TIME is
 
 comment on column O_ACTIVITY_EXECUTION.ENGINE is
 'Implémentation effective de l''execution';
+
+comment on column O_ACTIVITY_EXECUTION.TOKEN is
+'Token d''identification';
 
 comment on column O_ACTIVITY_EXECUTION.ACT_ID is
 'Activity';
@@ -210,7 +214,7 @@ create table O_NODE
 (
     NOD_ID      	 NUMERIC     	not null,
     NAME        	 VARCHAR(100)	not null,
-    HEARTBEAT   	 TIMESTAMP   	not null,
+    HEARTBEAT   	 TIMESTAMP   	,
 );
 
 comment on column O_NODE.NOD_ID is

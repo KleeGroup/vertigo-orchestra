@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.impl.execution;
 
 import io.vertigo.orchestra.execution.ActivityEngine;
+import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.execution.ActivityLogger;
 
 /**
@@ -19,6 +20,20 @@ public abstract class AbstractActivityEngine implements ActivityEngine {
 	 */
 	public ActivityLogger getLogger() {
 		return activityLogger;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public ActivityExecutionWorkspace successfulPostTreatment(final ActivityExecutionWorkspace workspace) {
+		//nothing
+		return workspace;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public ActivityExecutionWorkspace errorPostTreatment(final ActivityExecutionWorkspace workspace, final Exception e) {
+		//nothing
+		return workspace;
 	}
 
 }

@@ -1,6 +1,7 @@
 package io.vertigo.orchestra;
 
 import io.vertigo.app.config.Features;
+import io.vertigo.orchestra.dao.definition.DefinitionPAO;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
@@ -67,6 +68,7 @@ public final class OrchestraFeatures extends Features {
 				.addComponent(OActivityLogDAO.class)
 				.addComponent(ONodeDAO.class)
 				//----PAO
+				.addComponent(DefinitionPAO.class)
 				.addComponent(ExecutionPAO.class)
 				.addComponent(PlanificationPAO.class)
 				//----Definitions

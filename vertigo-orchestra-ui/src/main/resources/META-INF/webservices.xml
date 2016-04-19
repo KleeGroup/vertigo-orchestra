@@ -12,5 +12,7 @@
 		<component class="io.vertigo.vega.impl.webservice.catalog.SwaggerWebServices" />
 		<component class="io.vertigo.orchestra.webapi.ws.definition.WsDefinition" />
 		<component class="io.vertigo.orchestra.webapi.ws.execution.WsExecution" />
+		<component class="io.vertigo.orchestra.webapi.ws.execution.WsExecutionControl" />
+		
 	</module>
 </config>

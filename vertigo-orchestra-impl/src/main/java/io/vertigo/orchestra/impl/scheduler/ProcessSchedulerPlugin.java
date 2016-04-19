@@ -90,7 +90,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 				}
 
 			}
-		}, 0, timerDelay, TimeUnit.MILLISECONDS);
+		}, timerDelay / 2, timerDelay, TimeUnit.MILLISECONDS);
 		// We clean the planification
 		cleanPastPlanification();
 	}

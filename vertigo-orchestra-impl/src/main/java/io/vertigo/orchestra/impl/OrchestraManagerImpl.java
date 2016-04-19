@@ -10,6 +10,7 @@ import io.vertigo.lang.Option;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
@@ -23,6 +24,7 @@ public class OrchestraManagerImpl implements OrchestraManager {
 
 	private final ProcessDefinitionManager processDefinitionManager;
 	private final ProcessSchedulerManager processSchedulerManager;
+	private final ProcessExecutionManager processExecutionManager;
 
 	@Inject
 	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager, final ProcessExecutionManager processExecutionManager, final ProcessSchedulerManager processSchedulerManager) {
@@ -32,6 +34,7 @@ public class OrchestraManagerImpl implements OrchestraManager {
 		// ---
 		this.processDefinitionManager = processDefinitionManager;
 		this.processSchedulerManager = processSchedulerManager;
+		this.processExecutionManager = processExecutionManager;
 	}
 
 	@Override
@@ -76,6 +79,16 @@ public class OrchestraManagerImpl implements OrchestraManager {
 		Assertion.checkNotNull(processDefintion);
 		// ---
 		processSchedulerManager.scheduleAt(processDefintion.getId(), expectedTime, initialParams);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState state) {
+		Assertion.checkNotNull(activityExecutionId);
+		Assertion.checkNotNull(token);
+		Assertion.checkNotNull(state);
+		// ---
+		processExecutionManager.endPendingActivityExecution(activityExecutionId, token, state);
 	}
 
 }

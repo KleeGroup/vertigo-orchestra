@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.ui;
 
-import io.vertigo.orchestra.execution.ActivityEngine;
 import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
+import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
 
 /**
  * TODO : Description de la classe.
@@ -9,12 +9,12 @@ import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
  * @author mlaroche.
  * @version $Id$
  */
-public class EmptyActivityEngine implements ActivityEngine {
+public class EmptyActivityEngine extends AbstractActivityEngine {
 
 	/** {@inheritDoc} */
 	@Override
 	public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
-		workspace.setSucess();
+		workspace.setSuccess();
 		try {
 			Thread.sleep(1000 * 10);
 		} catch (final InterruptedException e) {
