@@ -242,7 +242,8 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			try {
 				// We try the execution and we keep the result
 				resultWorkspace = activityEngine.execute(workspace);
-
+				// we call the posttreament
+				resultWorkspace = activityEngine.successfulPostTreatment(resultWorkspace);
 			} catch (final Exception e) {
 				// In case of failure we keep the current workspace
 				resultWorkspace.setFailure();
@@ -262,8 +263,6 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 					transaction.commit();
 				}
 
-				// we call the posttreament
-				resultWorkspace = activityEngine.successfulPostTreatment(resultWorkspace);
 			}
 
 		} catch (final Exception e) {
