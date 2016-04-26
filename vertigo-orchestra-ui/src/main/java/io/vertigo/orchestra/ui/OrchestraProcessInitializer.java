@@ -3,7 +3,6 @@ package io.vertigo.orchestra.ui;
 import javax.inject.Inject;
 
 import io.vertigo.core.spaces.component.ComponentInitializer;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
@@ -40,7 +39,6 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 
 		if (!orchestraManager.processDefinitionExist(TEST_PROCESS_NAME_2)) {
 			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder(TEST_PROCESS_NAME_2, TEST_PROCESS_LABEL_2)
-					.withCron("0 */1 * * * ?")
 					.addActivity("DUMB ACTIVITY 1 1", "Activité vide", EmptyActivityEngine.class.getName())
 					.addActivity("DUMB ACTIVITY 1 2", "Activité vide 2", CallAlphaActivity.class.getName())
 					.build();
@@ -48,7 +46,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 			orchestraManager.createDefinition(processDefinition);
 		}
 
-		orchestraManager.scheduleNow(TEST_PROCESS_NAME_2, Option.<String> none());
+		//		orchestraManager.scheduleNow(TEST_PROCESS_NAME_2, Option.<String> none());
 
 	}
 

@@ -52,11 +52,10 @@ public class WsExecutionControl implements WebServices {
 	 */
 	@POST("/execute")
 	@AnonymousAccessAllowed
-	public void endExecution(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final String initialParams) {
+	public void endExecution(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final Option<String> initialParams) {
 		Assertion.checkNotNull(processName);
 		// ---
-		final Option<String> initialParamsOption = Option.<String> option(initialParams);
-		orchestraManager.scheduleNow(processName, initialParamsOption);
+		orchestraManager.scheduleNow(processName, initialParams);
 	}
 
 }

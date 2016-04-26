@@ -5,8 +5,9 @@ import {CoreStore} from 'focus-core/store';
 * @type {focus}
 */
 const processExecutionStore = new CoreStore({
-    executions: {
-        processSummary: 'processSummary'
+    definition: {
+        processSummary: 'processSummary',
+        processSummaries: 'processSummaries'
     }
 });
 

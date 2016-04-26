@@ -21,7 +21,7 @@ export default React.createClass({
         const {title} = this.state;
         return (
             <div data-demo='header-content-summary'>
-                <h4>{this.textFor('name')}</h4>
+                <h4>{this.textFor('label')}</h4>
             </div>
         );
     }

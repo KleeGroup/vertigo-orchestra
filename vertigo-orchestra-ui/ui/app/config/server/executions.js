@@ -4,5 +4,6 @@ import {apiRoot} from './index';
 const executionsRoot = `${apiRoot}executions/`;
 
 export default {
-    loadSummary: builder(executionsRoot+'summary/' + '${id}', 'GET')
+    loadSummary: builder(executionsRoot+'summary/' + '${id}', 'GET'),
+    loadSummaries: builder(executionsRoot+'summaries', 'GET'),
 };

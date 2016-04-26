@@ -1,22 +1,22 @@
-import DO_IDENTIFIANT from './do-identifiant';
-import DO_CODE_IDENTIFIANT from './do-code-identifiant';
-import DO_LIBELLE from './do-libelle';
-import DO_CLASSE from './do-classe';
-import DO_BOOLEEN from './do-booleen';
-import DO_TIMESTAMP from './do-timestamp';
-import DO_NOMBRE from './do-nombre';
-import DO_JSON_TEXT from './do-json-text';
-import DO_TEXT from './do-text';
+import DO_O_IDENTIFIANT from './do-o-identifiant';
+import DO_O_CODE_IDENTIFIANT from './do-o-code-identifiant';
+import DO_O_LIBELLE from './do-o-libelle';
+import DO_O_CLASSE from './do-o-classe';
+import DO_O_BOOLEEN from './do-o-booleen';
+import DO_O_TIMESTAMP from './do-o-timestamp';
+import DO_O_NOMBRE from './do-o-nombre';
+import DO_O_JSON_TEXT from './do-o-json-text';
+import DO_O_TEXT from './do-o-text';
 
 
 export default {
-    DO_IDENTIFIANT,
-    DO_CODE_IDENTIFIANT,
-    DO_LIBELLE,
-    DO_CLASSE,
-    DO_BOOLEEN,
-    DO_TIMESTAMP,
-    DO_NOMBRE,
-    DO_JSON_TEXT,
-    DO_TEXT
+    DO_O_IDENTIFIANT,
+    DO_O_CODE_IDENTIFIANT,
+    DO_O_LIBELLE,
+    DO_O_CLASSE,
+    DO_O_BOOLEEN,
+    DO_O_TIMESTAMP,
+    DO_O_NOMBRE,
+    DO_O_JSON_TEXT,
+    DO_O_TEXT
 };

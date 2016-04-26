@@ -1,9 +1,15 @@
 import React from 'react';
 
+
 // web components
 import {cartridgeBehaviour} from 'focus-components/page/mixin';
-import Rankings from './rankings';
+import {storeBehaviour} from 'focus-components/page/mixin';
 import OrchestraTitle from '../components/orchestra-title';
+import SummaryCardList from './components/summary-card-list'
+
+//stores & actions
+import summaryListStore from '../../stores/summary-list';
+import {loadSummaryList} from '../../action/process-executions';
 
 //cartridge configuration
 
@@ -32,11 +38,17 @@ export default React.createClass({
         };
     },
 
+
+
     /** @inheritDoc */
     render() {
         return (
             <div data-demo='homepage'>
-                <Rankings/>
+              <SummaryCardList
+                  action={loadSummaryList}
+                  columns={[]}
+                  store={summaryListStore}
+               />
             </div>
         );
     }

@@ -22,7 +22,7 @@ export default React.createClass({
         return (
             <div data-demo='header-content-expanded'>
                 <div data-demo='header-content-expanded__infos'>
-                    <h3>{this.textFor('name')}</h3>
+                    <h3>{this.textFor('label')}</h3>
                 </div>
             </div>
         );

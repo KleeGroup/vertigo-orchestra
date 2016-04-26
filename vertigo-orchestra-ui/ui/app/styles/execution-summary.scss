@@ -1,0 +1,24 @@
+@import "mixins";
+@import "variables";
+
+
+[data-orchestra='summary-line-content']{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      div[name='oExecutionSummary.processName']{
+          width: 20%;
+          text-align: left;
+      }
+      div[data-orchestra='summary-line-counts']{
+          width: 20%;
+      }
+      div[name='oExecutionSummary.lastExecutionTime']{
+          width: 30%;
+          text-align: left;
+      }
+      div[name='oExecutionSummary.nextExecutionTime']{
+          width: 30%;
+          text-align: left;
+      }
+}
