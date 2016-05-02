@@ -53,8 +53,8 @@
 
 	<module name="API">
 		<definitions>
-			<resource type ="kpr" path="file:./src/main/resources/io/vertigo/orchestra/generation.kpr"/>
-		    <resource type="security" path="file:./src/main/resources/mda/orchestra-auth-config.xml" />  
+			<resource type ="kpr" path="io/vertigo/orchestra/generation.kpr"/>
+		    <resource type="security" path="mda/orchestra-auth-config.xml" />  
 		</definitions>          
 	</module>  
   

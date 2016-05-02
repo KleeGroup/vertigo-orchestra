@@ -3,7 +3,33 @@
  * @type {Object}
  */
 module.exports = {
-        oExecutionSummary: {
+        oActivityExecutionUi: {
+        aceId: {
+            domain: "DO_O_IDENTIFIANT",
+            required: true
+        },
+        label: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        beginTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: true
+        },
+        endTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: true
+        },
+        executionTime: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
+        status: {
+            domain: "DO_O_CODE_IDENTIFIANT",
+            required: false
+        }
+    },
+    oExecutionSummary: {
         proId: {
             domain: "DO_O_IDENTIFIANT",
             required: true
@@ -38,6 +64,28 @@ module.exports = {
         },
         averageExecutionTime: {
             domain: "DO_O_NOMBRE",
+            required: false
+        }
+    },
+    oProcessExecutionUi: {
+        preId: {
+            domain: "DO_O_IDENTIFIANT",
+            required: true
+        },
+        beginTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: true
+        },
+        endTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: true
+        },
+        executionTime: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
+        status: {
+            domain: "DO_O_CODE_IDENTIFIANT",
             required: false
         }
     }

@@ -12,6 +12,9 @@ import {translate} from 'focus-core/translation';
 import processDefinitionStore from '../../../stores/process-definition';
 import {caracteristicsActions} from '../../../action/process-definition';
 
+//views
+import ProcessExecutions from '../../components/processExecutions';
+
 export default React.createClass({
     displayName: 'ProcessCaracteristics',
     propTypes: {
@@ -38,13 +41,14 @@ export default React.createClass({
     /** @inheritDoc */
     renderContent() {
         const {isProcessExecutionsModalOpen} = this.state;
+        const {id} = this.props;
         return (
             <Panel title='view.process.detail.executions'>
                 <Button label={translate('button.viewAllExecutions')} type='button' handleOnClick={this._onProcessExecutionsModalToggle} />
                 {isProcessExecutionsModalOpen &&
                     <div>
                         <Modal open={true} type='from-right' size="large" onPopinClose={this._onProcessExecutionsModalToggle}>
-
+                          <ProcessExecutions id={id}/>
                         </Modal>
                     </div>
                 }

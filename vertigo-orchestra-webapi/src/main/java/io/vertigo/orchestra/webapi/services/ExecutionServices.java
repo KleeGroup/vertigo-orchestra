@@ -4,9 +4,9 @@ import java.util.Date;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.store.StoreServices;
-import io.vertigo.orchestra.domain.execution.OActivityExecution;
-import io.vertigo.orchestra.domain.execution.OProcessExecution;
+import io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi;
 import io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary;
+import io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi;
 
 /**
  * Service for access to orchestra process executions.
@@ -16,13 +16,13 @@ import io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary;
  */
 public interface ExecutionServices extends StoreServices {
 
-	OProcessExecution getProcessExecutionById(Long preId);
+	OProcessExecutionUi getProcessExecutionById(Long preId);
 
-	OActivityExecution getActivityExecutionById(Long aceId);
+	OActivityExecutionUi getActivityExecutionById(Long aceId);
 
-	DtList<OProcessExecution> getProcessExecutionsByProId(Long proId);
+	DtList<OProcessExecutionUi> getProcessExecutionsByProId(Long proId);
 
-	DtList<OActivityExecution> getActivityExecutionsByPreId(Long preId);
+	DtList<OActivityExecutionUi> getActivityExecutionsByPreId(Long preId);
 
 	DtList<OExecutionSummary> getSummariesByDate(Date minDate, Date maxDate);
 

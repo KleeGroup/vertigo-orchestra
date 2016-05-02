@@ -4,10 +4,10 @@ import {CoreStore} from 'focus-core/store';
 * Store dealing with subjects about movies.
 * @type {focus}
 */
-const processExecutionStore = new CoreStore({
+const activityExecutionStore = new CoreStore({
     definition: {
-        processExecution: 'processExecution'
+        activityExecution: 'activityExecution'
     }
 });
 
-export default processExecutionStore;
+export default activityExecutionStore;

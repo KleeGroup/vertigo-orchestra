@@ -2,6 +2,7 @@
 <config>
 	<module name="orchestra-ui-dao" api="false">
 		<component class="io.vertigo.orchestra.webapi.dao.summary.SummaryPAO"/>
+		<component class="io.vertigo.orchestra.webapi.dao.uiexecutions.UiexecutionsPAO"/>
 	</module>
 	<module name="orchestra-ui-services">
 		<component api="DefinitionServices" class="io.vertigo.orchestra.webapi.services.impl.DefinitionServicesImpl" />

@@ -1,0 +1,32 @@
+@import "mixins";
+@import "variables";
+
+
+[data-orchestra='processExecutions-list']{
+      display: flex;
+      &> div[data-orchestra='timeline']{
+        width: 20%;
+        overflow-y: scroll;
+        height: 98vh;
+      }
+}
+
+[data-orchestra='processExecutions-list'] div[data-orchestra='item-detail'] {
+  min-width: 70%;
+}
+
+[data-orchestra='activityExecutions-list']{
+      display: flex;
+
+      &> div[data-orchestra='timeline']{
+        width: 50%;
+      }
+}
+
+[data-orchestra='timeline'] .timeline-panel {
+  cursor: pointer;
+}
+
+[data-orchestra='timeline'] li {
+  display: flex;
+}

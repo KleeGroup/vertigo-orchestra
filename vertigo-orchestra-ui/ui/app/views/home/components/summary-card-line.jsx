@@ -12,16 +12,24 @@ const SummaryLine = React.createClass({
     renderLineContent() {
         return (
             <div data-orchestra='summary-line-content'>
-                <div onClick={() => {history.navigate(`definitions/${this.props.data.proId}`, true); window.scrollTo(0, 0);}}>
+                <div data-orchestra='name' onClick={() => {history.navigate(`definitions/${this.props.data.proId}`, true); window.scrollTo(0, 0);}}>
                 {this.textFor('processName')}
                 </div>
-                <div data-orchestra='summary-line-counts'>
+                <div data-orchestra='counts'>
                 {this.textFor('successfulCount')}
                 {this.textFor('misfiredCount')}
                 {this.textFor('errorsCount')}
                 </div>
+                <div data-orchestra='last'>
+                <span>Dernière execution le</span>
+                <br/>
                 {this.textFor('lastExecutionTime')}
+                </div>
+                <div data-orchestra='next'>
+                <span>Prochaine execution le</span>
+                <br/>
                 {this.textFor('nextExecutionTime')}
+                </div>
             </div>
         );
     }

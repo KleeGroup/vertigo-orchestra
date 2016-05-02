@@ -30,4 +30,6 @@ import './quick-search.scss';
 import './scrollspy-container.scss';
 import './selection-list.scss';
 import './trailer.scss';
+
 import './execution-summary.scss'
+import './process-executions.scss'

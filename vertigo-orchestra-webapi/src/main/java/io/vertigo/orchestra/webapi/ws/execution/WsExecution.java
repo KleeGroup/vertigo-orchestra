@@ -8,9 +8,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.orchestra.domain.execution.OActivityExecution;
-import io.vertigo.orchestra.domain.execution.OProcessExecution;
+import io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi;
 import io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary;
+import io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi;
 import io.vertigo.orchestra.webapi.services.DefinitionServices;
 import io.vertigo.orchestra.webapi.services.ExecutionServices;
 import io.vertigo.vega.webservice.WebServices;
@@ -35,9 +35,9 @@ public class WsExecution implements WebServices {
 	/**
 	 * Get the processExecution by Id
 	 */
-	@GET("/{proId}")
+	@GET("{proId}")
 	@AnonymousAccessAllowed
-	public DtList<OProcessExecution> getProcessExecutionsByProId(@PathParam("proId") final Long proId) {
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId) {
 		return executionServices.getProcessExecutionsByProId(proId);
 	}
 
@@ -46,7 +46,7 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("processExecution/{preId}")
 	@AnonymousAccessAllowed
-	public OProcessExecution getProcessExecutionById(@PathParam("preId") final Long preId) {
+	public OProcessExecutionUi getProcessExecutionById(@PathParam("preId") final Long preId) {
 		return executionServices.getProcessExecutionById(preId);
 	}
 
@@ -55,7 +55,7 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("processExecution/{preId}/activities")
 	@AnonymousAccessAllowed
-	public DtList<OActivityExecution> getActivityExecutionsByPreId(@PathParam("preId") final Long preId) {
+	public DtList<OActivityExecutionUi> getActivityExecutionsByPreId(@PathParam("preId") final Long preId) {
 		return executionServices.getActivityExecutionsByPreId(preId);
 	}
 
@@ -64,7 +64,7 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("activityExecution/{aceId}")
 	@AnonymousAccessAllowed
-	public OActivityExecution getActivityExecutionById(@PathParam("aceId") final Long aceId) {
+	public OActivityExecutionUi getActivityExecutionById(@PathParam("aceId") final Long aceId) {
 		return executionServices.getActivityExecutionById(aceId);
 	}
 

@@ -7,12 +7,13 @@ import javax.inject.Inject;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.dao.execution.OActivityExecutionDAO;
-import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
-import io.vertigo.orchestra.domain.execution.OActivityExecution;
-import io.vertigo.orchestra.domain.execution.OProcessExecution;
+import io.vertigo.orchestra.dao.definition.OProcessDAO;
+import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.webapi.dao.summary.SummaryPAO;
+import io.vertigo.orchestra.webapi.dao.uiexecutions.UiexecutionsPAO;
+import io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi;
 import io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary;
+import io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi;
 import io.vertigo.orchestra.webapi.services.ExecutionServices;
 
 /**
@@ -25,43 +26,44 @@ import io.vertigo.orchestra.webapi.services.ExecutionServices;
 public class ExecutionServicesImpl implements ExecutionServices {
 
 	@Inject
-	private OProcessExecutionDAO processExecutionDAO;
+	private UiexecutionsPAO uiexecutionsPAO;
 	@Inject
-	private OActivityExecutionDAO activityExecutionDAO;
+	private OProcessDAO processDAO;
 	@Inject
 	private SummaryPAO summaryPAO;
 
 	/** {@inheritDoc} */
 	@Override
-	public OProcessExecution getProcessExecutionById(final Long preId) {
+	public OProcessExecutionUi getProcessExecutionById(final Long preId) {
 		Assertion.checkNotNull(preId);
 		// ---
-		return processExecutionDAO.get(preId);
+		return uiexecutionsPAO.getExecutionByPreId(preId);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public OActivityExecution getActivityExecutionById(final Long aceId) {
+	public OActivityExecutionUi getActivityExecutionById(final Long aceId) {
 		Assertion.checkNotNull(aceId);
 		// ---
-		return activityExecutionDAO.get(aceId);
+		return uiexecutionsPAO.getActivitiyByAceId(aceId);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OProcessExecution> getProcessExecutionsByProId(final Long proId) {
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProId(final Long proId) {
 		Assertion.checkNotNull(proId);
 		// ---
+		final OProcess process = processDAO.get(proId);
 		//TODO : Mettre un offset et un limit
-		return processExecutionDAO.getExecutionsByProId(proId);
+		return uiexecutionsPAO.getExecutionsByProcessName(process.getName());
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OActivityExecution> getActivityExecutionsByPreId(final Long preId) {
+	public DtList<OActivityExecutionUi> getActivityExecutionsByPreId(final Long preId) {
 		Assertion.checkNotNull(preId);
 		// ---
-		return activityExecutionDAO.getActivityExecutionsByPreId(preId);
+		return uiexecutionsPAO.getActivitiesByPreId(preId);
 	}
 
 	/** {@inheritDoc} */

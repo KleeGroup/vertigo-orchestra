@@ -1,5 +1,8 @@
 package io.vertigo.orchestra.execution;
 
+import java.util.Map.Entry;
+
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
@@ -25,18 +28,7 @@ public final class ActivityExecutionWorkspace {
 	private final JsonObject jsonValue;
 
 	public ActivityExecutionWorkspace(final String stringStoredValue) {
-		JsonObject tempJsonValue = new JsonObject();
-		if (stringStoredValue != null) {
-			try {
-				tempJsonValue = new JsonParser().parse(stringStoredValue).getAsJsonObject();
-			} catch (final JsonParseException e) {
-				tempJsonValue.addProperty(PARSING_ERROR_KEY, e.getMessage());
-			} finally {
-				jsonValue = tempJsonValue;
-			}
-		} else {
-			jsonValue = tempJsonValue;
-		}
+		jsonValue = parseStringValue(stringStoredValue);
 	}
 
 	public String getValue(final String key) {
@@ -58,6 +50,14 @@ public final class ActivityExecutionWorkspace {
 
 	public void removeKey(final String key) {
 		jsonValue.remove(key);
+	}
+
+	public void addExternalParams(final String jsonParams) {
+		final JsonObject jsonObject = parseStringValue(jsonParams);
+		for (final Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+			// we support only string params
+			setValue(entry.getKey(), entry.getValue().getAsString());
+		}
 	}
 
 	public String getStringForStorage() {
@@ -126,6 +126,18 @@ public final class ActivityExecutionWorkspace {
 
 	public void resetStatus() {
 		jsonValue.remove(STATUS_KEY);
+	}
+
+	private JsonObject parseStringValue(final String stringStoredValue) {
+		JsonObject tempJsonValue = new JsonObject();
+		if (stringStoredValue != null) {
+			try {
+				tempJsonValue = new JsonParser().parse(stringStoredValue).getAsJsonObject();
+			} catch (final JsonParseException e) {
+				tempJsonValue.addProperty(PARSING_ERROR_KEY, e.getMessage());
+			}
+		}
+		return tempJsonValue;
 	}
 
 }

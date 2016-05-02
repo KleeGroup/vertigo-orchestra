@@ -1,1 +1,2 @@
 services/summary/executionSummaryDAO.ksp
+services/executions/uiExecutionsDAO.ksp

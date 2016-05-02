@@ -35,6 +35,7 @@ create Task TK_GET_EXECUTIONS_BY_PRO_ID {
         	select pre.*
         	from o_process_execution pre
         	where pre.PRO_ID = #PRO_ID#
+        	order by pre.begin_time desc
         	
 			"
 	attribute PRO_ID	 	{domain : DO_O_IDENTIFIANT 		notNull:"true" 	inOut :"in"}

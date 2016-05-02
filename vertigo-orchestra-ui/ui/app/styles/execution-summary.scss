@@ -6,19 +6,24 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      div[name='oExecutionSummary.processName']{
-          width: 20%;
-          text-align: left;
+      >span{
+          font-style: italic;
       }
-      div[data-orchestra='summary-line-counts']{
-          width: 20%;
-      }
-      div[name='oExecutionSummary.lastExecutionTime']{
+      >div[data-orchestra='name']{
           width: 30%;
           text-align: left;
+          text-transform: uppercase;
+          font-weight: bold;
       }
-      div[name='oExecutionSummary.nextExecutionTime']{
+      >div[data-orchestra='counts']{
           width: 30%;
-          text-align: left;
+      }
+      >div[data-orchestra='last']{
+          width: 20%;
+          text-align: center;
+      }
+      >div[data-orchestra='next']{
+          width: 20%;
+          text-align: center;
       }
 }

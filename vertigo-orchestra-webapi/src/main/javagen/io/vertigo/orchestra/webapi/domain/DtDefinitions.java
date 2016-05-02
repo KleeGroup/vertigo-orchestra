@@ -13,8 +13,12 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	 * Enumération des DtDefinitions.
 	 */
 	public enum Definitions {
+			/** Objet de données OActivityExecutionUi. */
+			OActivityExecutionUi(io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi.class),
 			/** Objet de données OExecutionSummary. */
 			OExecutionSummary(io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary.class),
+			/** Objet de données OProcessExecutionUi. */
+			OProcessExecutionUi(io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi.class),
 		;
 		
 		private final Class<?> clazz;
@@ -30,6 +34,24 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			return clazz;
 		}
     }
+
+	/**
+	 * Enumération des champs de OActivityExecutionUi.
+	 */
+	public enum OActivityExecutionUiFields implements DtFieldName {
+		/** Propriété 'Id de l'activité'. */
+		ACE_ID,
+		/** Propriété 'Libellé'. */
+		LABEL,
+		/** Propriété 'Nom du processus'. */
+		BEGIN_TIME,
+		/** Propriété 'Nom du processus'. */
+		END_TIME,
+		/** Propriété 'Durée'. */
+		EXECUTION_TIME,
+		/** Propriété 'Statut'. */
+		STATUS,
+	}
 
 	/**
 	 * Enumération des champs de OExecutionSummary.
@@ -53,6 +75,22 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		SUCCESSFUL_COUNT,
 		/** Propriété 'Durée moyenne d'exécution'. */
 		AVERAGE_EXECUTION_TIME,
+	}
+
+	/**
+	 * Enumération des champs de OProcessExecutionUi.
+	 */
+	public enum OProcessExecutionUiFields implements DtFieldName {
+		/** Propriété 'Id de l'activité'. */
+		PRE_ID,
+		/** Propriété 'Nom du processus'. */
+		BEGIN_TIME,
+		/** Propriété 'Nom du processus'. */
+		END_TIME,
+		/** Propriété 'Durée'. */
+		EXECUTION_TIME,
+		/** Propriété 'Statut'. */
+		STATUS,
 	}
 
 	    

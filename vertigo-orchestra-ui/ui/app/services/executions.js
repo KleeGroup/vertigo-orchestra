@@ -12,5 +12,25 @@ export default {
         return fetch(executionsUrl.loadSummaries(), {isCORS: true}).then((data) => (
         {dataList: data, totalCount: data.length}
         ));
+    },
+    loadProcessExecutions({urlData,data}) {
+        console.log(`[PROCESS] call loadProcessExecutions() method with parameters :`);
+        return fetch(executionsUrl.loadProcessExecutions({urlData: {id:data.criteria.id}}), {isCORS: true}).then((filteredData) => (
+        {dataList: filteredData, totalCount: filteredData.length}
+        ));
+    },
+    loadActivityExecutions({urlData,data}) {
+        console.log(`[PROCESS] call loadActivityExecutions() method with parameters :`);
+        return fetch(executionsUrl.loadActivityExecutions({urlData: {id:data.criteria.id}}), {isCORS: true}).then((filteredData) => (
+        {dataList: filteredData, totalCount: filteredData.length}
+        ));
+    },
+    loadProcessExecution(id) {
+        console.log(`[PROCESS] call loadProcessExecution(${id}) method`);
+        return fetch(executionsUrl.loadProcessExecution({urlData: {id}}), {isCORS: true});
+    },
+    loadActivityExecution(id) {
+        console.log(`[PROCESS] call loadActivityExecution(${id}) method`);
+        return fetch(executionsUrl.loadActivityExecution({urlData: {id}}), {isCORS: true});
     }
 }

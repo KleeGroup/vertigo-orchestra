@@ -309,14 +309,10 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		final OActivityExecution firstActivityExecution = initActivityExecutionWithActivity(firstActivity, processExecution.getPreId());
 		activityExecutionDAO.save(firstActivityExecution);
 
-		final ActivityExecutionWorkspace initialWorkspace;
+		final ActivityExecutionWorkspace initialWorkspace = new ActivityExecutionWorkspace(processExecution.getProcess().getInitialParams());
 		if (!StringUtil.isEmpty(processPlanification.getInitialParams())) {
-			// If Plannification specifies initialParams we take them
-			initialWorkspace = new ActivityExecutionWorkspace(processPlanification.getInitialParams());
-		} else {
-			// Otherwise we take the process initial params for the firstWorkspace
-			initialWorkspace = new ActivityExecutionWorkspace(processExecution.getProcess().getInitialParams());
-
+			// If Plannification specifies initialParams we take them in addition
+			initialWorkspace.addExternalParams(processPlanification.getInitialParams());
 		}
 		// We set in the workspace essentials params
 		initialWorkspace.setProcessName(processExecution.getProcess().getName());

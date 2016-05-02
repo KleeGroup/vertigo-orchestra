@@ -283,7 +283,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.some("{\"filePath\" : \"tata/tutu\"}"));
+		processPlannerManager.scheduleAt(proId, new Date(), Option.some("{\"filePath\" : \"tata/tutu\", \"planifParam\" : \"titi\"}"));
 
 		// We check 3 secondes to be sure that execution is running
 		Thread.sleep(1000 * 3);

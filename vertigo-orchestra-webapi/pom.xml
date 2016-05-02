@@ -8,7 +8,7 @@
 		<artifactId>vertigo-orchestra-reactor</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<name>vertigo-orchestra-webapi</name>
 	<groupId>io.vertigo</groupId>
 	<version>0.1-SNAPSHOT</version>
@@ -82,46 +82,59 @@
 		</dependency>
 	</dependencies>
 	<build>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>2.6</version>
-					<executions>
-						<execution>
-							<id>copy-module-dependencies</id>
-							<phase>package</phase>
-							<goals>
-								<goal>single</goal>
-							</goals>
-							<configuration>
-								<finalName>lib</finalName>
-								<appendAssemblyId>false</appendAssemblyId>
-								<descriptors>
-									<descriptor>dependencies-assembly.xml</descriptor>
-								</descriptors>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>build-helper-maven-plugin</artifactId>
-					<version>1.7</version>
-					<executions>
-						<execution>
-							<phase>generate-sources</phase>
-							<goals>
-								<goal>add-source</goal>
-							</goals>
-							<configuration>
-								<sources>
-									<source>src/main/javagen</source>
-								</sources>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<!-- <version>1.4.0</version> -->
+				<executions>
+					<execution>
+						<id>java</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>io.vertigo.studio.tools.NameSpace2Java</mainClass>
+					<additionalClasspathElements>
+						<additionalClasspathElement>/src/main/resources</additionalClasspathElement>
+					</additionalClasspathElements>
+					<arguments>
+						<argument>/mda/build-mda-webapi.properties</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>src/main/javagen</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/javagen</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 </project>

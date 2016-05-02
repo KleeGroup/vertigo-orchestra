@@ -6,4 +6,8 @@ const executionsRoot = `${apiRoot}executions/`;
 export default {
     loadSummary: builder(executionsRoot+'summary/' + '${id}', 'GET'),
     loadSummaries: builder(executionsRoot+'summaries', 'GET'),
+    loadProcessExecutions: builder(executionsRoot + '${id}', 'GET'),
+    loadActivityExecutions: builder(executionsRoot+'processExecution/'+'${id}'+'/activities', 'GET'),
+    loadProcessExecution: builder(executionsRoot+'processExecution/'+'${id}', 'GET'),
+    loadActivityExecution: builder(executionsRoot+'activityExecution/'+'${id}', 'GET'),
 };
