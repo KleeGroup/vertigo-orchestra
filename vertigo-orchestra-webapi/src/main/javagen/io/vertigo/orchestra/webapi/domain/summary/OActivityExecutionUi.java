@@ -20,6 +20,8 @@ public final class OActivityExecutionUi implements DtObject {
 	private java.util.Date endTime;
 	private Long executionTime;
 	private String status;
+	private String workspaceIn;
+	private String workspaceOut;
 
 	/**
 	 * Champ : DATA.
@@ -133,6 +135,44 @@ public final class OActivityExecutionUi implements DtObject {
 	 */
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Paramètres entrants'. 
+	 * @return String workspaceIn 
+	 */
+	@Field(domain = "DO_O_JSON_TEXT", persistent = false, label = "Paramètres entrants")
+	public String getWorkspaceIn() {
+		return workspaceIn;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Paramètres entrants'.
+	 * @param workspaceIn String 
+	 */
+	public void setWorkspaceIn(final String workspaceIn) {
+		this.workspaceIn = workspaceIn;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Paramètres sortants'. 
+	 * @return String workspaceOut 
+	 */
+	@Field(domain = "DO_O_JSON_TEXT", persistent = false, label = "Paramètres sortants")
+	public String getWorkspaceOut() {
+		return workspaceOut;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Paramètres sortants'.
+	 * @param workspaceOut String 
+	 */
+	public void setWorkspaceOut(final String workspaceOut) {
+		this.workspaceOut = workspaceOut;
 	}
 
 	//Aucune Association déclarée

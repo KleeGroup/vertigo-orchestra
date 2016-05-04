@@ -16,7 +16,7 @@ public class EmptyActivityEngine extends AbstractActivityEngine {
 	public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
 		workspace.setSuccess();
 		try {
-			Thread.sleep(1000 * 10);
+			Thread.sleep(1000 * 1);
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}

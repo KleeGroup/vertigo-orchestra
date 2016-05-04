@@ -51,6 +51,10 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		EXECUTION_TIME,
 		/** Propriété 'Statut'. */
 		STATUS,
+		/** Propriété 'Paramètres entrants'. */
+		WORKSPACE_IN,
+		/** Propriété 'Paramètres sortants'. */
+		WORKSPACE_OUT,
 	}
 
 	/**

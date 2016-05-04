@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {component as SmartList} from 'focus-components/page/list';
-import  {component as ListComponent} from 'focus-components/list/selection/list'
+import  {component as ListComponent} from 'focus-components/list/timeline/list'
 import ActivityExecutionLine from './activity-line';
 
 const propTypes = {

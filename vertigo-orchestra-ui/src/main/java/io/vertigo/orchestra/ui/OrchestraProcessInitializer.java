@@ -29,7 +29,8 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 
 		if (!orchestraManager.processDefinitionExist(TEST_PROCESS_NAME)) {
 			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder(TEST_PROCESS_NAME, TEST_PROCESS_LABEL)
-					.withCron("0 */1 * * * ?")
+					.withCron("0 */5 * * * ?")
+					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 					.addActivity("DUMB ACTIVITY 1 1", "Activité vide", EmptyActivityEngine.class.getName())
 					.addActivity("DUMB ACTIVITY 1 2", "Activité vide 2", EmptyActivityEngine.class.getName())
 					.build();

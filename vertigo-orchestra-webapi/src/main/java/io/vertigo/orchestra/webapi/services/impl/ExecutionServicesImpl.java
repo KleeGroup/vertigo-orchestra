@@ -50,12 +50,12 @@ public class ExecutionServicesImpl implements ExecutionServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OProcessExecutionUi> getProcessExecutionsByProId(final Long proId) {
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProId(final Long proId, final Long limit, final Long offset) {
 		Assertion.checkNotNull(proId);
 		// ---
 		final OProcess process = processDAO.get(proId);
 		//TODO : Mettre un offset et un limit
-		return uiexecutionsPAO.getExecutionsByProcessName(process.getName());
+		return uiexecutionsPAO.getExecutionsByProcessName(process.getName(), limit, offset);
 	}
 
 	/** {@inheritDoc} */

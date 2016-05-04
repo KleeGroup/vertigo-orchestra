@@ -1,3 +1,4 @@
+import JsonStringViewComponent from '../../components/json-string-view';
 export default {
-    type: 'text'
+    DisplayComponent: JsonStringViewComponent
 };

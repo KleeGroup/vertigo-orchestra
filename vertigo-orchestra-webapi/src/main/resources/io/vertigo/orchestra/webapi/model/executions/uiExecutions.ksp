@@ -18,6 +18,8 @@ create DtDefinition DT_O_ACTIVITY_EXECUTION_UI {
 	field END_TIME   			{domain : DO_O_TIMESTAMP, label :"Nom du processus", notNull:"true",},
 	field EXECUTION_TIME   		{domain : DO_O_NOMBRE, label :"Durée", notNull:"false",},
 	field STATUS   				{domain : DO_O_CODE_IDENTIFIANT, label :"Statut", notNull:"false",},
+	field WORKSPACE_IN 			{domain : DO_O_JSON_TEXT, label :"Paramètres entrants", notNull:"false",},
+	field WORKSPACE_OUT 		{domain : DO_O_JSON_TEXT, label :"Paramètres sortants", notNull:"false",},
   
 },
 

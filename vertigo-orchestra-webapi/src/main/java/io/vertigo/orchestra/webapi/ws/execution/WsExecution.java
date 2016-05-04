@@ -8,6 +8,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.lang.Option;
 import io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi;
 import io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary;
 import io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi;
@@ -18,6 +19,7 @@ import io.vertigo.vega.webservice.stereotype.AnonymousAccessAllowed;
 import io.vertigo.vega.webservice.stereotype.GET;
 import io.vertigo.vega.webservice.stereotype.PathParam;
 import io.vertigo.vega.webservice.stereotype.PathPrefix;
+import io.vertigo.vega.webservice.stereotype.QueryParam;
 
 /**
  * WebService API for managing Executions
@@ -37,8 +39,8 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("{proId}")
 	@AnonymousAccessAllowed
-	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId) {
-		return executionServices.getProcessExecutionsByProId(proId);
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("limit") final Option<Long> limit, @QueryParam("offset") final Option<Long> offset) {
+		return executionServices.getProcessExecutionsByProId(proId, limit.getOrElse(50L), offset.getOrElse(0L));
 	}
 
 	/**

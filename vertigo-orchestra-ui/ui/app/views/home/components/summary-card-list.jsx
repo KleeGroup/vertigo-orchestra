@@ -11,14 +11,13 @@ const propTypes = {
     store: PropTypes.object
 };
 
-function SummaryList({handleLineClick, action, store, columns}) {
+function SummaryList({ action, store, columns}) {
     return (
         <SmartList
             ListComponent={ListComponent}
             LineComponent={SummaryLine}
             action={{load: action}}
             columns={columns}
-            onLineClick={handleLineClick}
             store={store}
             isSelection={false}
         />

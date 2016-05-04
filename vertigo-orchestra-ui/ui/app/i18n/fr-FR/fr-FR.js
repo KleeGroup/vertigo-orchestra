@@ -52,6 +52,9 @@ export default {
                 none: 'Aucun'
             },
             ungroup: 'Dégrouper'
+        },
+        button: {
+          showMore: 'Voir plus'
         }
     },
     result: {
@@ -98,5 +101,21 @@ export default {
                 parameters: 'Paramètres'
             }
         },
+        executions: {
+          title: 'Historique',
+          detail: {
+            title: 'Détail de l\'exécution',
+            activities: {
+              workspaceIn: 'Paramètres d\'entrée',
+              workspaceOut: 'Paramètres de sortie'
+            }
+          }
+        }
+    },
+    workspace: {
+        labels: {
+            processName: 'Nom du processus',
+            token: 'Token de sécurité'
+        }
     }
 };

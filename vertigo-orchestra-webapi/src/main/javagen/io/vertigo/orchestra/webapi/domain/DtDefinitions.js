@@ -27,6 +27,14 @@ module.exports = {
         status: {
             domain: "DO_O_CODE_IDENTIFIANT",
             required: false
+        },
+        workspaceIn: {
+            domain: "DO_O_JSON_TEXT",
+            required: false
+        },
+        workspaceOut: {
+            domain: "DO_O_JSON_TEXT",
+            required: false
         }
     },
     oExecutionSummary: {

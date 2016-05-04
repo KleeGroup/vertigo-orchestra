@@ -9,6 +9,7 @@ import {cartridgeBehaviour} from 'focus-components/page/mixin';
 //views
 import FunctionalCaracteristics from './functional-caracteristics';
 import TechnicalCaracteristics from './technical-caracteristics';
+import Parameters from './parameters';
 import ProcessExecutions from './process-executions';
 
 import HeaderExpanded from './header-content-expanded';
@@ -53,6 +54,7 @@ export default React.createClass({
                 <ProcessExecutions id={id} />
                 <FunctionalCaracteristics id={id} />
                 <TechnicalCaracteristics id={id} />
+                <Parameters id={id} />
             </ScrollspyContainer>
         );
     }

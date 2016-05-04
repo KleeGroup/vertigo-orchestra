@@ -14,14 +14,14 @@ export default {
         ));
     },
     loadProcessExecutions({urlData,data}) {
-        console.log(`[PROCESS] call loadProcessExecutions() method with parameters :`);
-        return fetch(executionsUrl.loadProcessExecutions({urlData: {id:data.criteria.id}}), {isCORS: true}).then((filteredData) => (
-        {dataList: filteredData, totalCount: filteredData.length}
+        console.log(`[PROCESS] call loadProcessExecutions() method with parameters :`, urlData);
+        return fetch(executionsUrl.loadProcessExecutions({urlData: {id:data.criteria.id, ...urlData}}), {isCORS: true}).then((filteredData) => (
+        {dataList: filteredData, totalCount: 500}
         ));
     },
     loadActivityExecutions({urlData,data}) {
         console.log(`[PROCESS] call loadActivityExecutions() method with parameters :`);
-        return fetch(executionsUrl.loadActivityExecutions({urlData: {id:data.criteria.id}}), {isCORS: true}).then((filteredData) => (
+        return fetch(executionsUrl.loadActivityExecutions({urlData: {id:data.criteria.id, ...urlData}}), {isCORS: true}).then((filteredData) => (
         {dataList: filteredData, totalCount: filteredData.length}
         ));
     },

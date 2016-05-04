@@ -1,5 +1,6 @@
 //librairies
 import React, {PropTypes} from 'react';
+import {translate} from 'focus-core/translation';
 
 // web components
 import builtInComponent from 'focus-components/common/mixin/built-in-components';
@@ -35,9 +36,14 @@ export default React.createClass({
     render() {
         return (
             <div>
-                {this.fieldFor('aceId')}
+                <h4>{this.textFor('label')}</h4>
                 {this.fieldFor('beginTime')}
                 {this.fieldFor('endTime')}
+                {this.fieldFor('executionTime')}
+                <h4>{translate('view.executions.detail.activities.workspaceIn')}</h4>
+                {this.fieldFor('workspaceIn', {hasLabel:false, contentSize:12})}
+                <h4>{translate('view.executions.detail.activities.workspaceOut')}</h4>
+                {this.fieldFor('workspaceOut', {hasLabel:false, contentSize:12})}
             </div>
         );
     }

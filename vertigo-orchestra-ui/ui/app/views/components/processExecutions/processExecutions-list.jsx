@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {component as SmartList} from 'focus-components/page/list';
-import  {component as ListComponent} from 'focus-components/list/selection/list'
+import  {component as ListComponent} from 'focus-components/list/timeline/list'
 import ProcessExecutionsLine from './processExecutions-line';
 
 const propTypes = {
@@ -22,6 +22,7 @@ function ProcessExecutionsList({handleLineClick, action, store, columns}) {
             onLineClick={handleLineClick}
             store={store}
             isSelection={false}
+            isManualFetch={true}
         />
     );
 };

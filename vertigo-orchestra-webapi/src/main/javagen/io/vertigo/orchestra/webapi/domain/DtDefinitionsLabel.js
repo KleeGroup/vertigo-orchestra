@@ -10,7 +10,9 @@ module.exports = {
         beginTime: "Nom du processus",
         endTime: "Nom du processus",
         executionTime: "Durée",
-        status: "Statut"
+        status: "Statut",
+        workspaceIn: "Paramètres entrants",
+        workspaceOut: "Paramètres sortants"
     },
     oExecutionSummary: {
         proId: "Id du processus",
