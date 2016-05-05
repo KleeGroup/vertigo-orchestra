@@ -8,7 +8,7 @@ import {mixin as lineMix} from 'focus-components/list/timeline/line';
 const ProcessExecutionsLine = React.createClass({
     displayName: 'ProcessExecutionsLine',
     mixins: [lineMix],
-    definitionPath: 'oProcessExecution',
+    definitionPath: 'oActivityExecutionUi',
 
     renderLineContent() {
         return (

@@ -41,9 +41,9 @@ public final class UiexecutionsPAO implements StoreServices {
 	/**
 	 * Execute la tache TK_GET_EXECUTION_BY_PRE_ID.
 	 * @param preId Long 
-	 * @return io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi dtOProcessExecutionUi
+	 * @return io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi dtOProcessExecutionUi
 	*/
-	public io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi getExecutionByPreId(final Long preId) {
+	public io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi getExecutionByPreId(final Long preId) {
 		final Task task = createTaskBuilder("TK_GET_EXECUTION_BY_PRE_ID")
 				.addValue("PRE_ID", preId)
 				.build();
@@ -57,9 +57,9 @@ public final class UiexecutionsPAO implements StoreServices {
 	 * @param name String 
 	 * @param limit Long 
 	 * @param offset Long 
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi> dtcOProcessExecutionUi
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi> dtcOProcessExecutionUi
 	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi> getExecutionsByProcessName(final String name, final Long limit, final Long offset) {
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi> getExecutionsByProcessName(final String name, final Long limit, final Long offset) {
 		final Task task = createTaskBuilder("TK_GET_EXECUTIONS_BY_PROCESS_NAME")
 				.addValue("NAME", name)
 				.addValue("LIMIT", limit)
@@ -73,9 +73,9 @@ public final class UiexecutionsPAO implements StoreServices {
 	/**
 	 * Execute la tache TK_GET_ACTIVITIY_BY_ACE_ID.
 	 * @param aceId Long 
-	 * @return io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi dtOActivityExecutionUi
+	 * @return io.vertigo.orchestra.webapi.domain.uiexecutions.OActivityExecutionUi dtOActivityExecutionUi
 	*/
-	public io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi getActivitiyByAceId(final Long aceId) {
+	public io.vertigo.orchestra.webapi.domain.uiexecutions.OActivityExecutionUi getActivitiyByAceId(final Long aceId) {
 		final Task task = createTaskBuilder("TK_GET_ACTIVITIY_BY_ACE_ID")
 				.addValue("ACE_ID", aceId)
 				.build();
@@ -87,9 +87,9 @@ public final class UiexecutionsPAO implements StoreServices {
 	/**
 	 * Execute la tache TK_GET_ACTIVITIES_BY_PRE_ID.
 	 * @param preId Long 
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi> dtcOActivityExecutionUi
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.uiexecutions.OActivityExecutionUi> dtcOActivityExecutionUi
 	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi> getActivitiesByPreId(final Long preId) {
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.uiexecutions.OActivityExecutionUi> getActivitiesByPreId(final Long preId) {
 		final Task task = createTaskBuilder("TK_GET_ACTIVITIES_BY_PRE_ID")
 				.addValue("PRE_ID", preId)
 				.build();

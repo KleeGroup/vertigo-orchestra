@@ -31,5 +31,15 @@ module.exports = {
         endTime: "Nom du processus",
         executionTime: "Durée",
         status: "Statut"
+    },
+    oProcessUi: {
+        proId: "Id du processus",
+        name: "Nom du processus",
+        label: "Libellé du processus",
+        cronExpression: "Expression récurrence du processus",
+        initialParams: "Paramètres initiaux sous forme de JSON",
+        multiexecution: "Accepte la multi-execution",
+        active: "Version active",
+        rescuePeriod: "Temps de validité d'une planification"
     }
 };

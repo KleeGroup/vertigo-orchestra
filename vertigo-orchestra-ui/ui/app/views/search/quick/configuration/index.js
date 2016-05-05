@@ -12,7 +12,6 @@ export const configuration = {
     onLineClick,
     service,
     lineComponentMapper: lineMapper,
-    groupComponent, //overload of group components, as we want to customize rendering
     groupMaxRows: 5, // ne fonctionne pas, n'est pas renvoyé dans la config du service search.
     scopesConfig: scopesConfig
 };

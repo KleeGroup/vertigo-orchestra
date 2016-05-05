@@ -5,20 +5,18 @@ import React, {PropTypes} from 'react';
 import {mixin as lineMixin} from 'focus-components/list/selection/line'
 
 export default React.createClass({
-    displayName: 'MovieLine',
+    displayName: 'ProcessLine',
     mixins: [lineMixin],
-    definitionPath: 'movie',
+    definitionPath: 'oProcessUi',
     propTypes: {
         data: PropTypes.object.isRequired
     },
     renderLineContent() {
         const {data} = this.props;
-        const {code} = data;
+        const {proId} = data;
         return (
-            <div key={code} data-demo='movie-line'>
-                <div className='level1'>{this.textFor('title')}</div>
-                <div className='level2'>{this.textFor('movieType')}</div>
-                <div className='level3'>{this.textFor('productionYear')}</div>
+            <div key={proId} data-demo='movie-line'>
+                <div className='level1'>{this.textFor('proId')}</div>
             </div>
         );
     }

@@ -11,9 +11,9 @@ import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.webapi.dao.summary.SummaryPAO;
 import io.vertigo.orchestra.webapi.dao.uiexecutions.UiexecutionsPAO;
-import io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi;
 import io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary;
-import io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi;
+import io.vertigo.orchestra.webapi.domain.uiexecutions.OActivityExecutionUi;
+import io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi;
 import io.vertigo.orchestra.webapi.services.ExecutionServices;
 
 /**

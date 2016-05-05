@@ -3,6 +3,7 @@ import fetch from 'focus-core/network/fetch';
 import commonUrl from '../config/server/common';
 import moviesUrl from '../config/server/movies';
 import personsUrl from '../config/server/persons';
+import definitionsUrl from '../config/server/definitions';
 
 import searchParser from './helpers/old-search-parser';
 
@@ -17,6 +18,10 @@ export default {
         return serverData;
     },
 
+    _nofacetServerResult(serverData) {
+        return {groups :{'nogroup' : serverData}};
+    },
+
     /**
      * Target search service call.
      * (This should the target : search service should be written this way.)
@@ -26,20 +31,9 @@ export default {
      * @return {object}        search response
      */
     _search(config, scope) {
-        switch (scope) {
-            case 'movie':
-                console.log(`[SEARCH MOVIE] config: ${JSON.stringify(config)}`);
-                return fetch(moviesUrl.search(config))
-                .then(this._legacyfyServerResult);
-            case 'person':
-                console.log(`[SEARCH PERSON] config: ${JSON.stringify(config)}`);
-                return fetch(personsUrl.search(config))
-                .then(this._legacyfyServerResult);
-            default:
-                console.log(`[SEARCH ALL] config: ${JSON.stringify(config)}`);
-                return fetch(commonUrl.search(config))
-                .then(this._legacyfyServerResult);
-        }
+            console.log(`[SEARCH PROCESSUS] config: ${JSON.stringify(config)}`);
+            return fetch(definitionsUrl.search(config))
+            .then(this._nofacetServerResult);
     },
 
     /**

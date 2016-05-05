@@ -15,7 +15,7 @@ export default React.createClass({
         id: PropTypes.number.isRequired
     },
     mixins: [formPreset],
-    definitionPath: 'oProcess',
+    definitionPath: 'oProcessUi',
     stores: [{store: processDefinitionStore, properties: ['processCaracteristics']}],
     action: caracteristicsActions,
 

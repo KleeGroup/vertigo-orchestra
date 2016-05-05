@@ -4,9 +4,9 @@ import java.util.Date;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.store.StoreServices;
-import io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi;
 import io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary;
-import io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi;
+import io.vertigo.orchestra.webapi.domain.uiexecutions.OActivityExecutionUi;
+import io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi;
 
 /**
  * Service for access to orchestra process executions.

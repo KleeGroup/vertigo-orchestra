@@ -13,7 +13,7 @@ import processDefinitionStore from '../../../stores/process-definition';
 export default React.createClass({
     displayName: 'MovieDetailHeaderExpanded',
     mixins: [formPreset],
-    definitionPath: 'oProcess',
+    definitionPath: 'oProcessUi',
     stores: [{store: processDefinitionStore, properties: ['processCaracteristics']}],
 
     /** @inheritDoc */

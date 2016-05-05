@@ -14,11 +14,13 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	 */
 	public enum Definitions {
 			/** Objet de données OActivityExecutionUi. */
-			OActivityExecutionUi(io.vertigo.orchestra.webapi.domain.summary.OActivityExecutionUi.class),
+			OActivityExecutionUi(io.vertigo.orchestra.webapi.domain.uiexecutions.OActivityExecutionUi.class),
 			/** Objet de données OExecutionSummary. */
 			OExecutionSummary(io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary.class),
 			/** Objet de données OProcessExecutionUi. */
-			OProcessExecutionUi(io.vertigo.orchestra.webapi.domain.summary.OProcessExecutionUi.class),
+			OProcessExecutionUi(io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi.class),
+			/** Objet de données OProcessUi. */
+			OProcessUi(io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi.class),
 		;
 		
 		private final Class<?> clazz;
@@ -95,6 +97,28 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		EXECUTION_TIME,
 		/** Propriété 'Statut'. */
 		STATUS,
+	}
+
+	/**
+	 * Enumération des champs de OProcessUi.
+	 */
+	public enum OProcessUiFields implements DtFieldName {
+		/** Propriété 'Id du processus'. */
+		PRO_ID,
+		/** Propriété 'Nom du processus'. */
+		NAME,
+		/** Propriété 'Libellé du processus'. */
+		LABEL,
+		/** Propriété 'Expression récurrence du processus'. */
+		CRON_EXPRESSION,
+		/** Propriété 'Paramètres initiaux sous forme de JSON'. */
+		INITIAL_PARAMS,
+		/** Propriété 'Accepte la multi-execution'. */
+		MULTIEXECUTION,
+		/** Propriété 'Version active'. */
+		ACTIVE,
+		/** Propriété 'Temps de validité d'une planification'. */
+		RESCUE_PERIOD,
 	}
 
 	    

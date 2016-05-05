@@ -96,5 +96,39 @@ module.exports = {
             domain: "DO_O_CODE_IDENTIFIANT",
             required: false
         }
+    },
+    oProcessUi: {
+        proId: {
+            domain: "DO_O_IDENTIFIANT",
+            required: true
+        },
+        name: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        label: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        cronExpression: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        initialParams: {
+            domain: "DO_O_JSON_TEXT",
+            required: false
+        },
+        multiexecution: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        },
+        active: {
+            domain: "DO_O_BOOLEEN",
+            required: true
+        },
+        rescuePeriod: {
+            domain: "DO_O_NOMBRE",
+            required: true
+        }
     }
 };

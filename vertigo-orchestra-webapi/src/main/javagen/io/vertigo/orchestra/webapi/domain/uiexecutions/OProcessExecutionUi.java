@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.webapi.domain.summary;
+package io.vertigo.orchestra.webapi.domain.uiexecutions;
 
 import io.vertigo.dynamo.domain.stereotype.DtDefinition;
 import io.vertigo.dynamo.domain.stereotype.Field;
@@ -6,59 +6,37 @@ import io.vertigo.dynamo.domain.model.DtObject;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
- * Objet de données OActivityExecutionUi
+ * Objet de données OProcessExecutionUi
  */
 @DtDefinition(persistent = false)
-public final class OActivityExecutionUi implements DtObject {
+public final class OProcessExecutionUi implements DtObject {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	private Long aceId;
-	private String label;
+	private Long preId;
 	private java.util.Date beginTime;
 	private java.util.Date endTime;
 	private Long executionTime;
 	private String status;
-	private String workspaceIn;
-	private String workspaceOut;
 
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Id de l'activité'. 
-	 * @return Long aceId <b>Obligatoire</b>
+	 * @return Long preId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", required = true, persistent = false, label = "Id de l'activité")
-	public Long getAceId() {
-		return aceId;
+	public Long getPreId() {
+		return preId;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Id de l'activité'.
-	 * @param aceId Long <b>Obligatoire</b>
+	 * @param preId Long <b>Obligatoire</b>
 	 */
-	public void setAceId(final Long aceId) {
-		this.aceId = aceId;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Libellé'. 
-	 * @return String label 
-	 */
-	@Field(domain = "DO_O_LIBELLE", persistent = false, label = "Libellé")
-	public String getLabel() {
-		return label;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Libellé'.
-	 * @param label String 
-	 */
-	public void setLabel(final String label) {
-		this.label = label;
+	public void setPreId(final Long preId) {
+		this.preId = preId;
 	}
 
 	/**
@@ -135,44 +113,6 @@ public final class OActivityExecutionUi implements DtObject {
 	 */
 	public void setStatus(final String status) {
 		this.status = status;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Paramètres entrants'. 
-	 * @return String workspaceIn 
-	 */
-	@Field(domain = "DO_O_JSON_TEXT", persistent = false, label = "Paramètres entrants")
-	public String getWorkspaceIn() {
-		return workspaceIn;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Paramètres entrants'.
-	 * @param workspaceIn String 
-	 */
-	public void setWorkspaceIn(final String workspaceIn) {
-		this.workspaceIn = workspaceIn;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Paramètres sortants'. 
-	 * @return String workspaceOut 
-	 */
-	@Field(domain = "DO_O_JSON_TEXT", persistent = false, label = "Paramètres sortants")
-	public String getWorkspaceOut() {
-		return workspaceOut;
-	}
-
-	/**
-	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Paramètres sortants'.
-	 * @param workspaceOut String 
-	 */
-	public void setWorkspaceOut(final String workspaceOut) {
-		this.workspaceOut = workspaceOut;
 	}
 
 	//Aucune Association déclarée

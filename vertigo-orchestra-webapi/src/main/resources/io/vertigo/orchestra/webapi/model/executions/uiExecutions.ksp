@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.webapi.domain.summary
+package io.vertigo.orchestra.webapi.domain.uiexecutions
 
 create DtDefinition DT_O_PROCESS_EXECUTION_UI {
 	persistent: "false",

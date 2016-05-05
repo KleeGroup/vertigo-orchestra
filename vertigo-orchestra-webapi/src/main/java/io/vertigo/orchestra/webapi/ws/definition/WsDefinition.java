@@ -4,11 +4,13 @@ import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.orchestra.domain.definition.OActivity;
-import io.vertigo.orchestra.domain.definition.OProcess;
+import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
 import io.vertigo.orchestra.webapi.services.DefinitionServices;
 import io.vertigo.vega.webservice.WebServices;
 import io.vertigo.vega.webservice.stereotype.AnonymousAccessAllowed;
 import io.vertigo.vega.webservice.stereotype.GET;
+import io.vertigo.vega.webservice.stereotype.InnerBodyParam;
+import io.vertigo.vega.webservice.stereotype.POST;
 import io.vertigo.vega.webservice.stereotype.PathParam;
 import io.vertigo.vega.webservice.stereotype.PathPrefix;
 
@@ -28,8 +30,17 @@ public class WsDefinition implements WebServices {
 	 */
 	@GET("{id}")
 	@AnonymousAccessAllowed
-	public OProcess getProcessById(@PathParam("id") final Long id) {
+	public OProcessUi getProcessById(@PathParam("id") final Long id) {
 		return definitionServices.getProcessDefinitionById(id);
+	}
+
+	/**
+	 * Get the processDefinition by Id
+	 */
+	@POST("search")
+	@AnonymousAccessAllowed
+	public DtList<OProcessUi> searchProcessByLabel(@InnerBodyParam("criteria") final String criteria) {
+		return definitionServices.searchProcess(criteria);
 	}
 
 	/**

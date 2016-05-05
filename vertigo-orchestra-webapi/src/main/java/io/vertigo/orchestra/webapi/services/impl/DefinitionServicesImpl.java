@@ -6,9 +6,9 @@ import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
-import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.domain.definition.OActivity;
-import io.vertigo.orchestra.domain.definition.OProcess;
+import io.vertigo.orchestra.webapi.dao.uidefinitions.UidefinitionsPAO;
+import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
 import io.vertigo.orchestra.webapi.services.DefinitionServices;
 
 /**
@@ -21,16 +21,22 @@ import io.vertigo.orchestra.webapi.services.DefinitionServices;
 public class DefinitionServicesImpl implements DefinitionServices {
 
 	@Inject
-	private OProcessDAO processDAO;
+	private UidefinitionsPAO uiDefinitionsPAO;
 	@Inject
 	private OActivityDAO activityDAO;
 
 	/** {@inheritDoc} */
 	@Override
-	public OProcess getProcessDefinitionById(final Long proId) {
+	public OProcessUi getProcessDefinitionById(final Long proId) {
 		Assertion.checkNotNull(proId);
 		// ---
-		return processDAO.get(proId);
+		return uiDefinitionsPAO.getProcessByProId(proId);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public DtList<OProcessUi> searchProcess(final String search) {
+		return uiDefinitionsPAO.searchProcessByLabel("%" + search + "%");
 	}
 
 	/** {@inheritDoc} */

@@ -4,5 +4,6 @@ import {apiRoot} from './index';
 const definitionsRoot = `${apiRoot}definitions/`;
 
 export default {
-    load: builder(definitionsRoot + '${id}', 'GET')
+    load: builder(definitionsRoot + '${id}', 'GET'),
+    search: builder(definitionsRoot + 'search', 'POST')
 };
