@@ -21,10 +21,15 @@ const defaultProps = {
 
 @Translation
 class QuickSearchGroup extends Component {
+
     render() {
+        const {children} = this.props;
         return (
-            <div data-focus="group-container">
-            </div>
+          <div data-focus="group-container">
+             <div data-focus="group-container-results">
+                 {children}
+             </div>
+         </div>
         );
     }
 }

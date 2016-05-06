@@ -16,7 +16,7 @@ export default React.createClass({
         const {proId} = data;
         return (
             <div key={proId} data-demo='movie-line'>
-                <div className='level1'>{this.textFor('proId')}</div>
+                <div className='level1'>{this.textFor('label')}</div>
             </div>
         );
     }

@@ -13,7 +13,7 @@ export default () => {
         //loading of advanced search scope store
         dispatcher.handleServerAction({
             data: {
-                scope: 'ALL'
+                scope: 'processus'
             },
             type: 'update',
             identifier: advancedSearchStore.identifier
@@ -21,7 +21,7 @@ export default () => {
         //loading of quick search scope store
         dispatcher.handleServerAction({
             data: {
-                scope: 'ALL'
+                scope: 'processus'
             },
             type: 'update',
             identifier: quickSearchStore.identifier

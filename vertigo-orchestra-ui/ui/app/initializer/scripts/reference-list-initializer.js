@@ -10,7 +10,7 @@ export default () => {
             return Promise.resolve(
                 //here call your webservice to get scope references
                 [
-                    {code: 'process', label: 'search.scope.process'}
+                    {code: 'processus', label: 'search.scope.processus'}
                 ]
             ).then(scopes => {
                 //here define application icons
@@ -23,8 +23,8 @@ export default () => {
 
 function _applyAdditionalScopeProperties(scope) {
     switch (scope.code) {
-        case 'process':
-            scope.icon = 'all_inclusive';
+        case 'processus':
+            scope.icon = 'swap_horiz';
             break;
         default:
             scope.icon = 'mood_bad'

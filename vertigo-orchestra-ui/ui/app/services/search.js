@@ -10,17 +10,16 @@ import searchParser from './helpers/old-search-parser';
 const ENABLE_NEW_SEARCH_API = false;
 
 export default {
-    _legacyfyServerResult(serverData) {
-        if (ENABLE_NEW_SEARCH_API) {
-            if (serverData.groups) serverData.groups = serverData.groups.map(group => ({[group.code]: group.list}));
-            serverData.facets = serverData.facets.map(facet => ({[facet.code]: facet.entries.map(entry => ({[entry.code]: entry.value}))}));
-        }
-        return serverData;
-    },
 
     _nofacetServerResult(serverData) {
-        return {groups :{'nogroup' : serverData}};
+        return {groups :{
+                        'processus' : serverData
+                      },
+                totalCount: serverData.length
+                };
     },
+
+
 
     /**
      * Target search service call.
@@ -42,10 +41,11 @@ export default {
     * @return {Promise}
     */
     scoped(config) {
-        const {criteria} = config.data;
-        const {scope} = criteria;
-        const serverConfig = searchParser.transformConfig(config);
-        return this._search(serverConfig, scope);
+        /*const {criteria} = config.data;
+        const {scope} = criteria;*/
+        // we only have one scope
+        const serverConfig = searchParser.transformConfig(config, false);
+        return this._search(serverConfig);
     },
     /**
     * Search without scope.

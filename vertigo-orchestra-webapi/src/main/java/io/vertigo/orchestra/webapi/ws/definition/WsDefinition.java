@@ -40,6 +40,10 @@ public class WsDefinition implements WebServices {
 	@POST("search")
 	@AnonymousAccessAllowed
 	public DtList<OProcessUi> searchProcessByLabel(@InnerBodyParam("criteria") final String criteria) {
+		//TODO voir comment faire autrement
+		if ("*".equals(criteria)) {
+			return definitionServices.searchProcess("");
+		}
 		return definitionServices.searchProcess(criteria);
 	}
 

@@ -4,5 +4,5 @@
 ////////////////////////////////////////////////////
 
 export const scopesConfig = {
-    process: 'process'
+    processus: 'processus'
 };

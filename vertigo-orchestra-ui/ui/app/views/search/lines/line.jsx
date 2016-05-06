@@ -7,7 +7,7 @@ import {mixin as lineMixin} from 'focus-components/list/selection/line'
 export default React.createClass({
     displayName: 'Line',
     mixins: [lineMixin],
-    definitionPath: 'movie',
+    definitionPath: 'oProcessUi',
     renderLineContent() {
         return (
             <div data-demo='line'>

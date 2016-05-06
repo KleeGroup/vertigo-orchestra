@@ -16,7 +16,7 @@ export default {
     loadProcessExecutions({urlData,data}) {
         console.log(`[PROCESS] call loadProcessExecutions() method with parameters :`, urlData);
         return fetch(executionsUrl.loadProcessExecutions({urlData: {id:data.criteria.id, ...urlData}}), {isCORS: true}).then((filteredData) => (
-        {dataList: filteredData, totalCount: 500}
+        {dataList: filteredData, totalCount: filteredData.length === 0 ? 0: 500}
         ));
     },
     loadActivityExecutions({urlData,data}) {

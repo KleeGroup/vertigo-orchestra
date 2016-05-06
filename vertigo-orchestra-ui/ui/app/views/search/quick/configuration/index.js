@@ -11,7 +11,9 @@ export const configuration = {
     scrollParentSelector:'[data-demo="quick-search-area"] [data-focus="popin-window"]', // selector for infinite scroll
     onLineClick,
     service,
+    renderSingleGroupDecoration: false,
     lineComponentMapper: lineMapper,
+    groupComponent,
     groupMaxRows: 5, // ne fonctionne pas, n'est pas renvoyé dans la config du service search.
     scopesConfig: scopesConfig
 };

@@ -6,20 +6,6 @@ export default {
         save: 'Enregistrer',
         viewAllExecutions: 'Voir toutes les exécutions'
     },
-    countryList:{
-        title: 'Administration de la liste des pays',
-        filter: 'Filtrez la liste'
-    },
-    country:{
-        detail:{
-            title: 'Detail du pays',
-            infos: 'Informations'
-        },
-        id: 'Id',
-        code: 'Code',
-        name: 'Nom',
-        maps: 'Carte'
-    },
     detail: {
         saved: 'Les modifications ont bien été sauvegardées.'
     },
@@ -29,20 +15,6 @@ export default {
     footer: {
         klee: {
             powered: 'Propulsé par'
-        }
-    },
-    live: {
-        filter: {
-            title: 'Filtres',
-            facets: {
-                FCT_MOVIE_TITLE: 'Titre',
-                FCT_MOVIE_TYPE: 'Type',
-                FCT_MOVIE_YEAR: 'Année',
-                FCT_PERSON_ACTIVITY: 'Activité',
-                FCT_PERSON_NAME: 'Nom',
-                FCT_PERSON_SEX: 'Sexe',
-                FCT_SCOPE: 'Thème'
-            }
         }
     },
     list: {
@@ -62,7 +34,7 @@ export default {
     },
     search: {
         bar: {
-            placeholder: 'Saisissez un nom de film, ou de personne...'
+            placeholder: 'Saisissez un nom de processus...'
         },
         cartridge: {
             title: 'Vous recherchez ?'
@@ -75,13 +47,11 @@ export default {
             more: 'Voir plus'
         },
         group: {
-            movie: 'Film',
+            processus: 'Processus',
             person: 'Personne'
         },
         scope: {
-            all: 'Tout',
-            movie: 'Film',
-            person: 'Personne'
+            processus: 'Processus'
         }
     },
     select: {
