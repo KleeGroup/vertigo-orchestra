@@ -48,7 +48,7 @@ export default React.createClass({
                 {isProcessExecutionsModalOpen &&
                     <div>
                         <Modal open={true} type='from-right' size="large" onPopinClose={this._onProcessExecutionsModalToggle}>
-                          <ProcessExecutions id={id}/>
+                          <ProcessExecutions id={id} />
                         </Modal>
                     </div>
                 }

@@ -55,13 +55,15 @@ public final class UiexecutionsPAO implements StoreServices {
 	/**
 	 * Execute la tache TK_GET_EXECUTIONS_BY_PROCESS_NAME.
 	 * @param name String 
+	 * @param status String 
 	 * @param limit Long 
 	 * @param offset Long 
 	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi> dtcOProcessExecutionUi
 	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi> getExecutionsByProcessName(final String name, final Long limit, final Long offset) {
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi> getExecutionsByProcessName(final String name, final String status, final Long limit, final Long offset) {
 		final Task task = createTaskBuilder("TK_GET_EXECUTIONS_BY_PROCESS_NAME")
 				.addValue("NAME", name)
+				.addValue("STATUS", status)
 				.addValue("LIMIT", limit)
 				.addValue("OFFSET", offset)
 				.build();

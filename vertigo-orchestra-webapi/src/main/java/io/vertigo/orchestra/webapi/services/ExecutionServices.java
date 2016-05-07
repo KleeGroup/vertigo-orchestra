@@ -20,7 +20,7 @@ public interface ExecutionServices extends StoreServices {
 
 	OActivityExecutionUi getActivityExecutionById(Long aceId);
 
-	DtList<OProcessExecutionUi> getProcessExecutionsByProId(Long proId, Long limit, Long offset);
+	DtList<OProcessExecutionUi> getProcessExecutionsByProId(Long proId, String status, Long limit, Long offset);
 
 	DtList<OActivityExecutionUi> getActivityExecutionsByPreId(Long preId);
 

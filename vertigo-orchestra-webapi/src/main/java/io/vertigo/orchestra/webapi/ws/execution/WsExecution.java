@@ -39,8 +39,8 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("{proId}")
 	@AnonymousAccessAllowed
-	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("limit") final Option<Long> limit, @QueryParam("offset") final Option<Long> offset) {
-		return executionServices.getProcessExecutionsByProId(proId, limit.getOrElse(50L), offset.getOrElse(0L));
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Option<String> status, @QueryParam("limit") final Option<Long> limit, @QueryParam("offset") final Option<Long> offset) {
+		return executionServices.getProcessExecutionsByProId(proId, status.getOrElse(""), limit.getOrElse(50L), offset.getOrElse(0L));
 	}
 
 	/**

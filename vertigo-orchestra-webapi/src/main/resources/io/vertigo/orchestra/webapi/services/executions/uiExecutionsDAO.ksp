@@ -28,12 +28,16 @@ create Task TK_GET_EXECUTIONS_BY_PROCESS_NAME {
         	from o_process pro
         	join o_process_execution pre on pro.PRO_ID = pre.PRO_ID
         	where pro.NAME = #NAME#
+        	<%if (status != \"\") {%>
+        		and pre.EST_CD = #STATUS#
+        	<%}%>
         	order by pre.begin_time desc
         	limit #LIMIT#
         	offset #OFFSET#
         	
 			"
 	attribute NAME	 	{domain : DO_O_LIBELLE		notNull:"true" 	inOut :"in"}
+	attribute STATUS	{domain : DO_O_CODE_IDENTIFIANT		notNull:"true" 	inOut :"in"}
 	attribute LIMIT	 	{domain : DO_O_NOMBRE		notNull:"true" 	inOut :"in"}
 	attribute OFFSET	 	{domain : DO_O_NOMBRE		notNull:"true" 	inOut :"in"}
 	attribute DTC_O_PROCESS_EXECUTION_UI	 	{domain : DO_DT_O_PROCESS_EXECUTION_UI_DTC		notNull:"true" 	inOut :"out"}
