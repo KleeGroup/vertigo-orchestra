@@ -15,6 +15,15 @@ export const caracteristicsActions = {
     })
 }
 
+export const summaryAction = {
+    load: actionBuilder({
+        node: 'summary',
+        service: executionsServices.loadProcessSummary,
+        shouldDumpStoreOnActionCall: true,
+        status: 'loaded'
+    })
+}
+
 export const activityCaracteristicsActions = {
     load: actionBuilder({
         node: 'activityExecution',

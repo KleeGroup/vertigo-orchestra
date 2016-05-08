@@ -9,11 +9,12 @@ import {component as Button} from 'focus-components/common/button/action';
 import {translate} from 'focus-core/translation';
 
 //stores & actions
-import processDefinitionStore from '../../../stores/process-definition';
-import {caracteristicsActions} from '../../../action/process-definition';
+import processExecutionStore from '../../../stores/process-execution';
+import {summaryAction} from '../../../action/process-executions';
 
 //views
 import ProcessExecutions from '../../components/processExecutions';
+import ProcessSummary from '../../components/processSummary'
 
 export default React.createClass({
     displayName: 'ProcessCaracteristics',
@@ -22,8 +23,8 @@ export default React.createClass({
     },
     mixins: [formPreset],
     definitionPath: 'oProcessUi',
-    stores: [{store: processDefinitionStore, properties: ['processCaracteristics']}],
-    action: caracteristicsActions,
+    stores: [{store: processExecutionStore, properties: ['summary']}],
+    action: summaryAction,
 
     getInitialState () {
         return {
@@ -38,17 +39,39 @@ export default React.createClass({
         });
     },
 
+    _onErrorClick() {
+        this.setState({
+            initialStatus: 'ERROR'
+        });
+        this._onProcessExecutionsModalToggle();
+    },
+
+    _onSuccessClick() {
+        this.setState({
+            initialStatus: 'DONE'
+        });
+        this._onProcessExecutionsModalToggle();
+    },
+
     /** @inheritDoc */
     renderContent() {
-        const {isProcessExecutionsModalOpen} = this.state;
+        const {isProcessExecutionsModalOpen, initialStatus} = this.state;
+        const {errorsCount, successfulCount, misfiredCount, averageExecutionTime} = this.state;
         const {id} = this.props;
         return (
             <Panel title='view.process.detail.executions'>
+                <ProcessSummary
+                  errorsCount={errorsCount}
+                  successfulCount={successfulCount}
+                  misfiredCount={misfiredCount}
+                  averageExecutionTime={averageExecutionTime}
+                  handleErrorClick={this._onErrorClick}
+                  handleSuccessClick={this._onSuccessClick} />
                 <Button label={translate('button.viewAllExecutions')} type='button' handleOnClick={this._onProcessExecutionsModalToggle} />
                 {isProcessExecutionsModalOpen &&
                     <div>
                         <Modal open={true} type='from-right' size="large" onPopinClose={this._onProcessExecutionsModalToggle}>
-                          <ProcessExecutions id={id} />
+                          <ProcessExecutions id={id} initialStatus={initialStatus} />
                         </Modal>
                     </div>
                 }

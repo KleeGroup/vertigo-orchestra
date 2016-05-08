@@ -9,10 +9,17 @@ const SummaryLine = React.createClass({
     displayName: 'SummaryLine',
     mixins: [LinePreset],
     definitionPath: 'oExecutionSummary',
+
+
+    _navigateToDetail(id, event) {
+      history.navigate(`#definitions/${id}`, true);
+      window.scrollTo(0, 0);
+    },
+
     renderLineContent() {
         return (
             <div data-orchestra='summary-line-content'>
-                <div data-orchestra='name' onClick={() => {history.navigate(`definitions/${this.props.data.proId}`, true); window.scrollTo(0, 0);}}>
+                <div data-orchestra='name' onClick={(event) => this._navigateToDetail(this.props.data.proId, event)}>
                 {this.textFor('processName')}
                 </div>
                 <div data-orchestra='counts'>

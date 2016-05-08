@@ -10,14 +10,16 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
         			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,
         			sum(case when pre.est_cd='ERROR' then 1 else 0 end) over w as ERRORS_COUNT,
         			max(pre.begin_time) over w as LAST_EXECUTION_TIME,
-        			(select count(prp.prp_Id)
-        					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='MISFIRED' and prp.expected_time between #DATE_MIN# and #DATE_MAX# group by p2.name)
-			  			as MISFIRED_COUNT,
-			  		(select min(prp.expected_time) 
-			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' group by p2.name)
-						as NEXT_EXECUTION_TIME
+        			mis_sub.MISFIRED_COUNT as MISFIRED_COUNT,
+					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME
 			from o_process pro
-			Join o_process_execution pre on pro.pro_id = pre.pro_id
+			Join o_process_execution pre on pro.pro_id = pre.pro_id,
+			LATERAL (select count(prp.prp_Id) as MISFIRED_COUNT
+        					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='MISFIRED' and prp.expected_time between #DATE_MIN# and #DATE_MAX# )
+			  			as mis_sub,
+			LATERAL (select min(prp.expected_time) as NEXT_EXECUTION_TIME
+			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' )
+						as next_sub	
 			where pre.begin_time between #DATE_MIN# and #DATE_MAX#
 			WINDOW w as (PARTITION by pro.name);
         	
@@ -37,14 +39,16 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
         			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,
         			sum(case when pre.est_cd='ERROR' then 1 else 0 end) over w as ERRORS_COUNT,
         			max(pre.begin_time) over w as LAST_EXECUTION_TIME,
-        			(select count(prp.prp_Id)
-        					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='MISFIRED' and prp.expected_time between #DATE_MIN# and #DATE_MAX# group by p2.name)
-			  			as MISFIRED_COUNT,
-			  		(select min(prp.expected_time) 
-			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' group by p2.name)
-						as NEXT_EXECUTION_TIME
+        			mis_sub.MISFIRED_COUNT as MISFIRED_COUNT,
+					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME
 			from o_process pro
-			Join o_process_execution pre on pro.pro_id = pre.pro_id
+			Join o_process_execution pre on pro.pro_id = pre.pro_id,
+			LATERAL (select count(prp.prp_Id) as MISFIRED_COUNT
+        					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='MISFIRED' and prp.expected_time between #DATE_MIN# and #DATE_MAX# )
+			  			as mis_sub,
+			LATERAL (select min(prp.expected_time) as NEXT_EXECUTION_TIME
+			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' )
+						as next_sub
 			where pre.begin_time between #DATE_MIN# and #DATE_MAX# and pro.NAME = #NAME#
 			WINDOW w as (PARTITION by pro.name);
         	
