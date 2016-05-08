@@ -11,7 +11,8 @@ create Task TK_GET_PROCESS_BY_PRO_ID {
         			pro.INITIAL_PARAMS as INITIAL_PARAMS,
         			pro.MULTIEXECUTION as MULTIEXECUTION,
         			pro.ACTIVE as ACTIVE,
-        			pro.RESCUE_PERIOD as RESCUE_PERIOD
+        			pro.RESCUE_PERIOD as RESCUE_PERIOD,
+        			pro.METADATAS as METADATAS
         	from o_process pro   
         	where pro.PRO_ID = #PRO_ID#     	
 			"
@@ -29,7 +30,8 @@ create Task TK_SEARCH_PROCESS_BY_LABEL {
         			pro.INITIAL_PARAMS as INITIAL_PARAMS,
         			pro.MULTIEXECUTION as MULTIEXECUTION,
         			pro.ACTIVE as ACTIVE,
-        			pro.RESCUE_PERIOD as RESCUE_PERIOD
+        			pro.RESCUE_PERIOD as RESCUE_PERIOD,
+        			pro.METADATAS as METADATAS
         	from o_process pro   
         	where lower(pro.LABEL) like #SEARCH#    	
 			"

@@ -28,13 +28,7 @@ export default React.createClass({
             summary: {
                 component: OrchestraTitle
             },
-            cartridge: {
-                component: OrchestraTitle
-            },
-            actions: {
-                primary: [],
-                secondary: []
-            }
+            canDeploy: false
         };
     },
 

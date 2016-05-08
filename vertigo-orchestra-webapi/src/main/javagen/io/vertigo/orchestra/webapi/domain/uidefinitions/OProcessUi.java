@@ -22,6 +22,7 @@ public final class OProcessUi implements DtObject {
 	private Boolean multiexecution;
 	private Boolean active;
 	private Long rescuePeriod;
+	private String metadatas;
 
 	/**
 	 * Champ : DATA.
@@ -173,6 +174,25 @@ public final class OProcessUi implements DtObject {
 	 */
 	public void setRescuePeriod(final Long rescuePeriod) {
 		this.rescuePeriod = rescuePeriod;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Métadonnées du processus'. 
+	 * @return String metadatas 
+	 */
+	@Field(domain = "DO_O_METADATAS", persistent = false, label = "Métadonnées du processus")
+	public String getMetadatas() {
+		return metadatas;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Métadonnées du processus'.
+	 * @param metadatas String 
+	 */
+	public void setMetadatas(final String metadatas) {
+		this.metadatas = metadatas;
 	}
 
 	//Aucune Association déclarée

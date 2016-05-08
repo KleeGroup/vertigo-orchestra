@@ -30,4 +30,6 @@ public interface ProcessDefinition {
 
 	Long getRescuePeriod();
 
+	Option<String> getMetadatas();
+
 }

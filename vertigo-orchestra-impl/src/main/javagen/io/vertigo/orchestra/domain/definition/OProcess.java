@@ -22,6 +22,7 @@ public final class OProcess implements DtObject {
 	private Boolean multiexecution;
 	private Boolean active;
 	private Long rescuePeriod;
+	private String metadatas;
 	private String trtCd;
 	private String prtCd;
 	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
@@ -177,6 +178,25 @@ public final class OProcess implements DtObject {
 	 */
 	public void setRescuePeriod(final Long rescuePeriod) {
 		this.rescuePeriod = rescuePeriod;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Meta-données du processus'. 
+	 * @return String metadatas 
+	 */
+	@Field(domain = "DO_O_METADATAS", label = "Meta-données du processus")
+	public String getMetadatas() {
+		return metadatas;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Meta-données du processus'.
+	 * @param metadatas String 
+	 */
+	public void setMetadatas(final String metadatas) {
+		this.metadatas = metadatas;
 	}
 
 	/**

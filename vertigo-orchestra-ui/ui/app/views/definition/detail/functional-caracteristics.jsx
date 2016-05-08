@@ -22,11 +22,8 @@ export default React.createClass({
     /** @inheritDoc */
     renderContent() {
         return (
-            <Panel actions={this._renderActions} title='view.process.detail.functionalCaracteristics'>
-                {this.fieldFor('trtCd')}
-                {this.fieldFor('cronExpression')}
-                {this.fieldFor('active')}
-                {this.fieldFor('multiexecution')}
+            <Panel title='view.process.detail.functionalCaracteristics'>
+              {this.fieldFor('metadatas',  {hasLabel:false, contentSize:12})}
             </Panel>
         );
     }

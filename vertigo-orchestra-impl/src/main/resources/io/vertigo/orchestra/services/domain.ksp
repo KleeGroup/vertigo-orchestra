@@ -64,6 +64,12 @@ create Domain DO_O_JSON_TEXT {
 	storeType : "TEXT"
 },
 
+create Domain DO_O_METADATAS {
+	dataType : String
+	formatter : FMT_O_DEFAULT
+	storeType : "TEXT"
+},
+
 
 create Domain DO_O_TEXT {
 	dataType : String

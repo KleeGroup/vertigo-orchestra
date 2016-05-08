@@ -50,6 +50,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		process.setInitialParams(processDefinition.getInitialParams().getOrElse(null));
 		process.setMultiexecution(processDefinition.getMultiexecution());
 		process.setRescuePeriod(processDefinition.getRescuePeriod());
+		process.setMetadatas(processDefinition.getMetadatas().getOrElse(null));
 		if (processDefinition.getCronExpression().isDefined()) {
 			process.setTrtCd("SCHEDULED");
 		} else {
@@ -124,6 +125,9 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		}
 		if (!StringUtil.isEmpty(process.getInitialParams())) {
 			definitionBuilder.withInitialParams(process.getInitialParams());
+		}
+		if (!StringUtil.isEmpty(process.getMetadatas())) {
+			definitionBuilder.withMetadatas(process.getMetadatas());
 		}
 		if (process.getMultiexecution()) {
 			definitionBuilder.withMultiExecution();

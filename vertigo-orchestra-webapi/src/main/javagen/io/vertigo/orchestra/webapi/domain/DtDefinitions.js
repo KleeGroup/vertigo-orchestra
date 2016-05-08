@@ -129,6 +129,10 @@ module.exports = {
         rescuePeriod: {
             domain: "DO_O_NOMBRE",
             required: true
+        },
+        metadatas: {
+            domain: "DO_O_METADATAS",
+            required: false
         }
     }
 };

@@ -58,6 +58,7 @@ module.exports = {
         multiexecution: "Accepte la multi-execution",
         active: "Version active",
         rescuePeriod: "Temps de validité d'une planification",
+        metadatas: "Meta-données du processus",
         trtCd: "TriggerType",
         prtCd: "ProcessType"
     },

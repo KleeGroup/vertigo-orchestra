@@ -43,7 +43,7 @@ const listActions = listActionBuilder({
 export const listProcessExecutionsActions = (id, status) =>  listActionBuilder({
     service: executionsServices.loadProcessExecutions,
     identifier: 'processExecutionsList',
-    getListOptions: () =>  { return { criteria: {id, status}, ...processExecutionsListStore.getValue()}} } // Binding the store in the function call
+    getListOptions: () =>  { return { criteria: {id:id , status:status}, ...processExecutionsListStore.getValue()}} } // Binding the store in the function call
 );
 
 export const loadActivityExecutionsActions = (id) =>  listActionBuilder({

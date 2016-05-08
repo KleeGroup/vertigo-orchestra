@@ -177,6 +177,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		ACTIVE,
 		/** Propriété 'Temps de validité d'une planification'. */
 		RESCUE_PERIOD,
+		/** Propriété 'Meta-données du processus'. */
+		METADATAS,
 		/** Propriété 'TriggerType'. */
 		TRT_CD,
 		/** Propriété 'ProcessType'. */

@@ -10,6 +10,7 @@ create DtDefinition DT_O_PROCESS_UI {
 	field MULTIEXECUTION   	{domain : DO_O_BOOLEEN, label :"Accepte la multi-execution", notNull:"false",},
 	field ACTIVE   			{domain : DO_O_BOOLEEN, label :"Version active", notNull:"true",},
 	field RESCUE_PERIOD	{domain : DO_O_NOMBRE, label :"Temps de validité d'une planification", notNull:"true",},
+	field METADATAS	{domain : DO_O_METADATAS, label :"Métadonnées du processus", notNull:"false",},
   
 },
 

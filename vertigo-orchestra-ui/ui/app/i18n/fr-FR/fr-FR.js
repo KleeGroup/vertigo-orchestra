@@ -87,5 +87,10 @@ export default {
             processName: 'Nom du processus',
             token: 'Token de sécurité'
         }
+    },
+    metadatas: {
+        labels: {
+            functionalDomain: 'Domaine fonctionnel'
+        }
     }
 };

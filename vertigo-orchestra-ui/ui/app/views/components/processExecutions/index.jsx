@@ -24,6 +24,15 @@ export default React.createClass({
         initialStatus: PropTypes.string
     },
 
+    componentWillReceiveProps(nextProps){
+      this.setState({
+                    preId: nextProps.id,
+                    status: nextProps.initialStatus
+                  }
+      );
+    },
+
+
     getInitialState () {
         return {
             preId: null,
@@ -33,7 +42,6 @@ export default React.createClass({
 
     componentWillMount(){
         this.setState({status: this.props.initialStatus});
-        console.log('initialStatus', this.props.initialStatus);
     },
 
 

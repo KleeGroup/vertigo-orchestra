@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  2 mai 2016  11:26:15                     
+--   Date de création :  8 mai 2016  18:53:14                     
 -- ============================================================
 
 -- ============================================================
@@ -254,6 +254,7 @@ create table O_PROCESS
     MULTIEXECUTION	 BOOL        	,
     ACTIVE      	 BOOL        	not null,
     RESCUE_PERIOD	 NUMERIC     	not null,
+    METADATAS   	 TEXT        	,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
 );
@@ -281,6 +282,9 @@ comment on column O_PROCESS.ACTIVE is
 
 comment on column O_PROCESS.RESCUE_PERIOD is
 'Temps de validité d''une planification';
+
+comment on column O_PROCESS.METADATAS is
+'Meta-données du processus';
 
 comment on column O_PROCESS.TRT_CD is
 'TriggerType';

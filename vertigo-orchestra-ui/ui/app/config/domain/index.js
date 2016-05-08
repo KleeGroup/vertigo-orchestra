@@ -7,6 +7,7 @@ import DO_O_TIMESTAMP from './do-o-timestamp';
 import DO_O_NOMBRE from './do-o-nombre';
 import DO_O_JSON_TEXT from './do-o-json-text';
 import DO_O_TEXT from './do-o-text';
+import DO_O_METADATAS from './do-o-metadatas';
 
 
 export default {
@@ -18,5 +19,6 @@ export default {
     DO_O_TIMESTAMP,
     DO_O_NOMBRE,
     DO_O_JSON_TEXT,
-    DO_O_TEXT
+    DO_O_TEXT,
+    DO_O_METADATAS
 };

@@ -23,8 +23,10 @@ export default React.createClass({
     renderContent() {
         return (
             <Panel actions={this._renderActions} title='view.process.detail.technicalCaracteristics'>
-                {this.fieldFor('proId')}
-                {this.fieldFor('name')}
+              {this.fieldFor('trtCd')}
+              {this.fieldFor('cronExpression')}
+              {this.fieldFor('active')}
+              {this.fieldFor('multiexecution')}
             </Panel>
         );
     }

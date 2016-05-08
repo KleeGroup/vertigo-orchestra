@@ -23,6 +23,8 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	private Long rescuePeriod = 0L;
 	private final ListBuilder<ActivityDefinition> activitiesBuilder = new ListBuilder<>();
 
+	private Option<String> metadata = Option.<String> none();
+
 	/**
 	 * Constructeur.
 	 */
@@ -88,10 +90,22 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 		return this;
 	}
 
+	/**
+	 * Définit le informations du process.
+	 * @param processMetadata les métadonnées sous format JSON
+	 * @return this
+	 */
+	public ProcessDefinitionBuilder withMetadatas(final String processMetadata) {
+		Assertion.checkNotNull(processMetadata);
+		// ---
+		metadata = Option.<String> some(processMetadata);
+		return this;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessImpl(name, label, cronExpression, initialParams, multiExecution, rescuePeriod, activitiesBuilder.unmodifiable().build());
+		return new ProcessImpl(name, label, cronExpression, initialParams, multiExecution, rescuePeriod, metadata, activitiesBuilder.unmodifiable().build());
 	}
 
 }

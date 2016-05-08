@@ -131,6 +131,9 @@ comment on column O_ACTIVITY_EXECUTION.END_TIME is
 comment on column O_ACTIVITY_EXECUTION.ENGINE is
 'Implémentation effective de l''execution';
 
+comment on column O_ACTIVITY_EXECUTION.TOKEN is
+'Token d''identification';
+
 comment on column O_ACTIVITY_EXECUTION.ACT_ID is
 'Activity';
 
@@ -260,6 +263,7 @@ create table O_PROCESS
     MULTIEXECUTION	 BOOL        	,
     ACTIVE      	 BOOL        	not null,
     RESCUE_PERIOD	 NUMERIC     	not null,
+    METADATAS   	 TEXT        	,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
     constraint PK_O_PROCESS primary key (PRO_ID)
@@ -288,6 +292,9 @@ comment on column O_PROCESS.ACTIVE is
 
 comment on column O_PROCESS.RESCUE_PERIOD is
 'Temps de validité d''une planification';
+
+comment on column O_PROCESS.METADATAS is
+'Meta-données du processus';
 
 comment on column O_PROCESS.TRT_CD is
 'TriggerType';

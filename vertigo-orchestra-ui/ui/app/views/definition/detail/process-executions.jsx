@@ -28,8 +28,17 @@ export default React.createClass({
 
     getInitialState () {
         return {
-            isProcessExecutionsModalOpen: false
+            isProcessExecutionsModalOpen: false,
+            proId: this.props.id,
+            initialStatus: null
         };
+    },
+
+    componentWillReceiveProps(nextProps){
+      this.setState({
+          proId: nextProps.id,
+          initialStatus: null
+      });
     },
 
     _onProcessExecutionsModalToggle() {
@@ -37,16 +46,21 @@ export default React.createClass({
         this.setState({
             isProcessExecutionsModalOpen: !isProcessExecutionsModalOpen
         });
+        if (isProcessExecutionsModalOpen){
+          this.setState({
+              initialStatus: null
+          });
+        }
     },
 
-    _onErrorClick() {
+    _onSummaryErrorClick() {
         this.setState({
             initialStatus: 'ERROR'
         });
         this._onProcessExecutionsModalToggle();
     },
 
-    _onSuccessClick() {
+    _onSummarySuccessClick() {
         this.setState({
             initialStatus: 'DONE'
         });
@@ -55,9 +69,8 @@ export default React.createClass({
 
     /** @inheritDoc */
     renderContent() {
-        const {isProcessExecutionsModalOpen, initialStatus} = this.state;
+        const {isProcessExecutionsModalOpen, initialStatus, proId} = this.state;
         const {errorsCount, successfulCount, misfiredCount, averageExecutionTime} = this.state;
-        const {id} = this.props;
         return (
             <Panel title='view.process.detail.executions'>
                 <ProcessSummary
@@ -65,13 +78,13 @@ export default React.createClass({
                   successfulCount={successfulCount}
                   misfiredCount={misfiredCount}
                   averageExecutionTime={averageExecutionTime}
-                  handleErrorClick={this._onErrorClick}
-                  handleSuccessClick={this._onSuccessClick} />
+                  handleErrorClick={this._onSummaryErrorClick}
+                  handleSuccessClick={this._onSummarySuccessClick} />
                 <Button label={translate('button.viewAllExecutions')} type='button' handleOnClick={this._onProcessExecutionsModalToggle} />
                 {isProcessExecutionsModalOpen &&
                     <div>
                         <Modal open={true} type='from-right' size="large" onPopinClose={this._onProcessExecutionsModalToggle}>
-                          <ProcessExecutions id={id} initialStatus={initialStatus} />
+                          <ProcessExecutions id={proId} initialStatus={initialStatus} />
                         </Modal>
                     </div>
                 }

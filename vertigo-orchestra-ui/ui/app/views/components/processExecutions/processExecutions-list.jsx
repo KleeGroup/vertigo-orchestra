@@ -23,11 +23,17 @@ export default React.createClass({
     this.action=listProcessExecutionsActions(this.props.id, this.props.status);
   },
 
-  componentWillUpdate(nextProps, nextState) {
-      this.action.updateProperties({criteria : {status:nextProps.status, id:nextProps.id}});
+  componentWillReceiveProps(nextProps){
+    //this.action=listProcessExecutionsActions(nextProps.id, nextProps.status);
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
+  componentWillUpdate(nextProps, nextState) {
+      this.action=listProcessExecutionsActions(nextProps.id, nextProps.status);
+      this.action.load();
+      //this.action.updateProperties({criteria : {status:nextProps.status, id:nextProps.id}});
+  },
+
+  shouldComponentUpdate(nextProps, nextState) {
     let differentId = nextProps.id !== this.props.id;
     let differentStatus = nextProps.status !== this.props.status;
     return differentId || differentStatus;

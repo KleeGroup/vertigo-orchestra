@@ -13,7 +13,7 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
         			mis_sub.MISFIRED_COUNT as MISFIRED_COUNT,
 					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME
 			from o_process pro
-			Join o_process_execution pre on pro.pro_id = pre.pro_id,
+			left join o_process_execution pre on pro.pro_id = pre.pro_id,
 			LATERAL (select count(prp.prp_Id) as MISFIRED_COUNT
         					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='MISFIRED' and prp.expected_time between #DATE_MIN# and #DATE_MAX# )
 			  			as mis_sub,
@@ -42,14 +42,15 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
         			mis_sub.MISFIRED_COUNT as MISFIRED_COUNT,
 					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME
 			from o_process pro
-			Join o_process_execution pre on pro.pro_id = pre.pro_id,
+			left join o_process_execution pre on pro.pro_id = pre.pro_id,
 			LATERAL (select count(prp.prp_Id) as MISFIRED_COUNT
         					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='MISFIRED' and prp.expected_time between #DATE_MIN# and #DATE_MAX# )
 			  			as mis_sub,
 			LATERAL (select min(prp.expected_time) as NEXT_EXECUTION_TIME
 			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' )
 						as next_sub
-			where pre.begin_time between #DATE_MIN# and #DATE_MAX# and pro.NAME = #NAME#
+			where case when pre.begin_time is not null then pre.begin_time between #DATE_MIN# and #DATE_MAX# else 1=1 end
+			and pro.NAME = #NAME#
 			WINDOW w as (PARTITION by pro.name);
         	
 			"

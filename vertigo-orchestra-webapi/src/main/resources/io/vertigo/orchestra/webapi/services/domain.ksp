@@ -23,6 +23,13 @@ create Domain DO_O_LIBELLE {
 	storeType : "VARCHAR(100)"
 },
 
+create Domain DO_O_TOKEN {
+	dataType : String
+	formatter : FMT_O_DEFAULT
+	constraint : [CK_O_MAX_LENGTH_100]
+	storeType : "VARCHAR(100)"
+},
+
 create Domain DO_O_CLASSE {
 	dataType : String
 	formatter : FMT_O_DEFAULT
@@ -52,6 +59,12 @@ create Domain DO_O_NOMBRE {
 },
 
 create Domain DO_O_JSON_TEXT {
+	dataType : String
+	formatter : FMT_O_DEFAULT
+	storeType : "TEXT"
+},
+
+create Domain DO_O_METADATAS {
 	dataType : String
 	formatter : FMT_O_DEFAULT
 	storeType : "TEXT"
