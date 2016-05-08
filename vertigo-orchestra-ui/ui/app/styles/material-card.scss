@@ -1,6 +1,0 @@
-@import "variables";
-@import "mixins";
-
-[data-demo="material-card"] {
-    @include card('../images/unknown-person.gif', $concept-card-height, $concept-card-width);
-}

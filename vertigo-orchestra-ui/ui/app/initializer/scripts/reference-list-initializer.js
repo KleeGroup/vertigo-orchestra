@@ -1,10 +1,8 @@
 import {config} from 'focus-core/reference';
-import masterdataServices from '../../services/masterdata';
 
 // load here all your reference lists
 export default () => {
     console.info('|--- REFERENCES');
-    config.set({genders: masterdataServices.loadGenders});
     config.set({
         scopes: () => {
             return Promise.resolve(

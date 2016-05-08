@@ -1,8 +1,5 @@
 import fetch from 'focus-core/network/fetch';
 
-import commonUrl from '../config/server/common';
-import moviesUrl from '../config/server/movies';
-import personsUrl from '../config/server/persons';
 import definitionsUrl from '../config/server/definitions';
 
 import searchParser from './helpers/old-search-parser';
