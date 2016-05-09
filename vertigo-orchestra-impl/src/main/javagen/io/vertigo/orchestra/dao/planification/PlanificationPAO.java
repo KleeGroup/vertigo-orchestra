@@ -64,6 +64,17 @@ public final class PlanificationPAO implements StoreServices {
 		getTaskManager().execute(task);
 	}
 
+	/**
+	 * Execute la tache TK_CLEAN_FUTURE_PLANIFICATIONS.
+	 * @param proId Long 
+	*/
+	public void cleanFuturePlanifications(final Long proId) {
+		final Task task = createTaskBuilder("TK_CLEAN_FUTURE_PLANIFICATIONS")
+				.addValue("PRO_ID", proId)
+				.build();
+		getTaskManager().execute(task);
+	}
+
     
     private TaskManager getTaskManager(){
     	return taskManager;

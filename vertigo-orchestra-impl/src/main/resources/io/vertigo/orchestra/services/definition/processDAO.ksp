@@ -23,7 +23,7 @@ create Task TK_GET_ACTIVE_PROCESS_BY_NAME {
         		pro.*
         	from o_process pro
         	where pro.NAME = #NAME#
-	        	and pro.ACTIVE is true
+	        	and pro.ACTIVE_VERSION is true
         	
 			"
 	attribute NAME			 	{domain : DO_O_LIBELLE 				notNull:"true" 		inOut :"in"}
@@ -50,7 +50,7 @@ create Task TK_GET_ALL_ACTIVE_PROCESSES {
         	select 
         		pro.*
         	from o_process pro
-        	where pro.ACTIVE is true
+        	where pro.ACTIVE_VERSION is true
         	
 			"
 	attribute DTC_PROCESSES	 	{domain : DO_DT_O_PROCESS_DTC 		notNull:"true" 	inOut :"out"}
@@ -61,7 +61,7 @@ create Task TK_DISABLE_OLD_PROCESS_DEFINITIONS {
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update o_process 
-        	set ACTIVE = false 
+        	set ACTIVE_VERSION = false 
         	where NAME = #NAME#
         	
 			"

@@ -2,6 +2,7 @@ import builder from 'focus-core/util/url/builder';
 import {apiRoot} from './index';
 
 const executionsRoot = `${apiRoot}executions/`;
+const executionControlRoot = `${apiRoot}executionsControl/`;
 
 export default {
     loadSummary: builder(executionsRoot+'summary/' + '${id}', 'GET'),
@@ -10,4 +11,5 @@ export default {
     loadActivityExecutions: builder(executionsRoot+'processExecution/'+'${id}'+'/activities', 'GET'),
     loadProcessExecution: builder(executionsRoot+'processExecution/'+'${id}', 'GET'),
     loadActivityExecution: builder(executionsRoot+'activityExecution/'+'${id}', 'GET'),
+    executeProcess: builder(executionControlRoot+'executeNowWithId', 'POST'),
 };

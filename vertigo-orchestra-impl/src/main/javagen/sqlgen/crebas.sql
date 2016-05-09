@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  8 mai 2016  18:53:14                     
+--   Date de création :  9 mai 2016  23:09:16                     
 -- ============================================================
 
 -- ============================================================
@@ -252,6 +252,7 @@ create table O_PROCESS
     CRON_EXPRESSION	 VARCHAR(100)	,
     INITIAL_PARAMS	 TEXT        	,
     MULTIEXECUTION	 BOOL        	,
+    ACTIVE_VERSION	 BOOL        	not null,
     ACTIVE      	 BOOL        	not null,
     RESCUE_PERIOD	 NUMERIC     	not null,
     METADATAS   	 TEXT        	,
@@ -277,8 +278,11 @@ comment on column O_PROCESS.INITIAL_PARAMS is
 comment on column O_PROCESS.MULTIEXECUTION is
 'Accepte la multi-execution';
 
-comment on column O_PROCESS.ACTIVE is
+comment on column O_PROCESS.ACTIVE_VERSION is
 'Version active';
+
+comment on column O_PROCESS.ACTIVE is
+'Processus actif';
 
 comment on column O_PROCESS.RESCUE_PERIOD is
 'Temps de validité d''une planification';

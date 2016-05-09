@@ -55,4 +55,22 @@ public class WsDefinition implements WebServices {
 	public DtList<OActivity> getActivitiesByProcessId(@PathParam("id") final Long id) {
 		return definitionServices.getActivitiesByProId(id);
 	}
+
+	/**
+	 * Update the process properties
+	 */
+	@POST("{id}/updateProperties")
+	@AnonymousAccessAllowed
+	public void updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("cronExpression") final String cronExpression, @InnerBodyParam("multiExecution") final boolean multiExecution, @InnerBodyParam("rescuePeriod") final Long rescuePerdiod, @InnerBodyParam("active") final boolean active) {
+		definitionServices.updateProcessProperties(id, cronExpression, multiExecution, rescuePerdiod, active);
+	}
+
+	/**
+	 * Update the process properties
+	 */
+	@POST("{id}/updateInitialParams")
+	@AnonymousAccessAllowed
+	public void updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final String initialParams) {
+		definitionServices.updateProcessInitialParams(id, initialParams);
+	}
 }

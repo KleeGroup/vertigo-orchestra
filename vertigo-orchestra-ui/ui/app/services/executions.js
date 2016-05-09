@@ -33,5 +33,9 @@ export default {
     loadActivityExecution(id) {
         console.log(`[PROCESS] call loadActivityExecution(${id}) method`);
         return fetch(executionsUrl.loadActivityExecution({urlData: {id}}), {isCORS: true});
+    },
+
+    executeProcess(id){
+        return fetch(executionsUrl.executeProcess({ data : {proId:id}}), {isCORS: true});
     }
 }

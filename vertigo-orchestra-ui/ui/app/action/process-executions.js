@@ -33,6 +33,15 @@ export const activityCaracteristicsActions = {
     })
 }
 
+export const executeProcessActions = {
+    executeProcess: actionBuilder({
+        node: 'executeProcess',
+        service: executionsServices.executeProcess,
+        shouldDumpStoreOnActionCall: true,
+        status: 'saved'
+    })
+}
+
 const listActions = listActionBuilder({
     service: executionsServices.loadSummaries,
     identifier: 'summaryList',

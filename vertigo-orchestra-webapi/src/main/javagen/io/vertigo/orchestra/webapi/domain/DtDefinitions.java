@@ -115,7 +115,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		INITIAL_PARAMS,
 		/** Propriété 'Accepte la multi-execution'. */
 		MULTIEXECUTION,
-		/** Propriété 'Version active'. */
+		/** Propriété 'Processus actif'. */
 		ACTIVE,
 		/** Propriété 'Temps de validité d'une planification'. */
 		RESCUE_PERIOD,

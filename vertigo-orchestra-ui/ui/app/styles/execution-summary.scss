@@ -27,3 +27,48 @@
           text-align: center;
       }
 }
+
+[data-orchestra='execution-summary']{
+    & > [data-orchestra='execution-summary-counts']{
+        display: flex;
+        text-align: center;
+        & > div {
+          display: flex;
+          margin-left: auto;
+          margin-right: auto;
+          & > div {
+            width: 32px;
+            height: 32px;
+            border-radius: 100%;
+            margin: 5px 10px;
+            border: 1px solid grey;
+            &.successfulCount {
+              background-color: green;
+              cursor: pointer;
+            }
+            &.errorsCount {
+              background-color: red;
+              cursor: pointer;
+            }
+            &.misfiredCount {
+              background-color: grey;
+              cursor: default;
+            }
+            & > span {
+              vertical-align: middle;
+              font-weight: bold;
+              line-height: 32px;
+              color: white;
+            }
+          }
+        }
+    }
+
+    & > [data-orchestra='execution-summary-average']{
+        text-align: center;
+          & > span {
+            vertical-align: middle;
+            font-weight: bold;
+          }
+    }
+}

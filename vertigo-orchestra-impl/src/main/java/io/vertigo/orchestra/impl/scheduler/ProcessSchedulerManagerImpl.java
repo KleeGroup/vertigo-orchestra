@@ -94,4 +94,18 @@ public class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
 		}
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public void resetFuturePlanificationOfProcess(final Long proId) {
+		if (transactionManager.hasCurrentTransaction()) {
+			processScheduler.resetFuturePlanificationOfProcess(proId);
+		} else {
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+				processScheduler.resetFuturePlanificationOfProcess(proId);
+				transaction.commit();
+			}
+		}
+
+	}
+
 }

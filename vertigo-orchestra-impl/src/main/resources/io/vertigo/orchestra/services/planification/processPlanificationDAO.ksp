@@ -78,6 +78,15 @@ create Task TK_CLEAN_PLANIFICATIONS_ON_BOOT {
 }
 
 
+create Task TK_CLEAN_FUTURE_PLANIFICATIONS {
+    className : "io.vertigo.dynamox.task.TaskEngineProc"
+        request : "
+        	delete from o_process_planification
+        	where PST_CD = 'WAITING' and expected_time > current_timestamp and PRO_ID = #PRO_ID#
+			"
+	 attribute PRO_ID	 	{domain : DO_O_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
+}
+
 
 
 

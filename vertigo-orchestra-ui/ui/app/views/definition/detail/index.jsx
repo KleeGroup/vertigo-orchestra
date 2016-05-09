@@ -6,6 +6,8 @@ import ScrollspyContainer from 'focus-components/components/scrollspy-container'
 import {component as BackButton} from 'focus-components/common/button/back';
 import {cartridgeBehaviour} from 'focus-components/page/mixin';
 
+//stores & actions
+import {executeProcessActions} from '../../../action/process-executions';
 //views
 import FunctionalCaracteristics from './functional-caracteristics';
 import TechnicalCaracteristics from './technical-caracteristics';
@@ -19,9 +21,11 @@ import HeaderSummary from './header-content-summary';
 export default React.createClass({
     displayName: 'ProcessDetailView',
     propTypes: {
-        id: PropTypes.number.isRequired
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired
     },
     mixins: [cartridgeBehaviour],
+
     /**
     * Related to the CartridgeBehaviour.
     * Define the cartridge configuration.
@@ -33,6 +37,7 @@ export default React.createClass({
             barLeft: { component: BackButton },
             cartridge: { component: HeaderExpanded, props },
             summary: { component: HeaderSummary, props },
+            canDeploy:false,
             actions: {
                 primary: this._getGlobalPrimaryActions() || [],
                 secondary: []
@@ -42,7 +47,7 @@ export default React.createClass({
 
     _getGlobalPrimaryActions() {
         const actions = [];
-        actions.push({label: 'Imprimer', icon: 'print', action: () => { alert('todo print')}});
+        actions.push( {label: '', icon: 'input', action:  () => { executeProcessActions.executeProcess(this.props.id)}});
         return actions;
     },
 

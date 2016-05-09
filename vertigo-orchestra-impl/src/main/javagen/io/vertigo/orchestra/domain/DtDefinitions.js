@@ -166,6 +166,10 @@ module.exports = {
             domain: "DO_O_BOOLEEN",
             required: false
         },
+        activeVersion: {
+            domain: "DO_O_BOOLEEN",
+            required: true
+        },
         active: {
             domain: "DO_O_BOOLEEN",
             required: true

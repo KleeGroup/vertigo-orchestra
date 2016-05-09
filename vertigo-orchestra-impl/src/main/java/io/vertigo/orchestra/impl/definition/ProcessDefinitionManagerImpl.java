@@ -18,6 +18,7 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
+import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 import io.vertigo.util.StringUtil;
 
 /**
@@ -35,6 +36,9 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	private DefinitionPAO definitionPAO;
 	@Inject
 	private OActivityDAO activityDAO;
+
+	@Inject
+	private ProcessSchedulerManager processSchedulerManager;
 
 	/** {@inheritDoc} */
 	@Override
@@ -60,6 +64,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		final List<ActivityDefinition> activities = processDefinition.getActivities();
 
 		process.setActive(Boolean.TRUE);
+		process.setActiveVersion(Boolean.TRUE);
 		processDao.save(process);
 
 		// We update the id
@@ -83,11 +88,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	public ProcessDefinition getProcessDefinition(final String processName) {
 		Assertion.checkNotNull(processName);
 		// ---
-		final Option<OProcess> processOption = processDao.getActiveProcessByName(processName);
-		// ---
-		Assertion.checkState(processOption.isDefined(), "Cannot find process with name {0}", processName);
-		// ---
-		final OProcess process = processOption.get();
+		final OProcess process = getOProcessByName(processName);
 		final DtList<OActivity> activities = activityDAO.getActivitiesByProId(process.getProId());
 
 		return decodeProcessDefinition(process, activities);
@@ -184,5 +185,49 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		definitionPAO.disableOldProcessDefinitions(processName);
 		createDefinition(processDefinition);
 
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void updateProcessDefinitionProperties(final String processName, final Option<String> cronExpression, final boolean multiExecution, final Long rescuePeriod, final boolean active) {
+		Assertion.checkNotNull(processName);
+		Assertion.checkNotNull(cronExpression);
+		Assertion.checkNotNull(rescuePeriod);
+		// ---
+		final OProcess process = getOProcessByName(processName);
+		if (cronExpression.isDefined()) {
+			process.setTrtCd("SCHEDULED");
+		} else {
+			process.setTrtCd("MANUAL");
+		}
+		process.setCronExpression(cronExpression.getOrElse(null));
+		process.setMultiexecution(multiExecution);
+		process.setRescuePeriod(rescuePeriod);
+		process.setActive(active);
+		processDao.save(process);
+		// on supprime toute la planification existante
+		processSchedulerManager.resetFuturePlanificationOfProcess(process.getProId());
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void updateProcessDefinitionInitialParams(final String processName, final Option<String> initialParams) {
+		Assertion.checkNotNull(processName);
+		Assertion.checkNotNull(initialParams);
+		// ---
+		final OProcess process = getOProcessByName(processName);
+		process.setInitialParams(initialParams.getOrElse(null));
+		processDao.save(process);
+
+	}
+
+	private OProcess getOProcessByName(final String processName) {
+		Assertion.checkNotNull(processName);
+		// ---
+		final Option<OProcess> processOption = processDao.getActiveProcessByName(processName);
+		// ---
+		Assertion.checkState(processOption.isDefined(), "Cannot find process with name {0}", processName);
+		// ---
+		return processOption.get();
 	}
 }

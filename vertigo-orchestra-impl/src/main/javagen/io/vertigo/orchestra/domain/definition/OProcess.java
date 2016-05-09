@@ -20,6 +20,7 @@ public final class OProcess implements DtObject {
 	private String cronExpression;
 	private String initialParams;
 	private Boolean multiexecution;
+	private Boolean activeVersion;
 	private Boolean active;
 	private Long rescuePeriod;
 	private String metadatas;
@@ -145,16 +146,35 @@ public final class OProcess implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Version active'. 
-	 * @return Boolean active <b>Obligatoire</b>
+	 * @return Boolean activeVersion <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_BOOLEEN", required = true, label = "Version active")
+	public Boolean getActiveVersion() {
+		return activeVersion;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Version active'.
+	 * @param activeVersion Boolean <b>Obligatoire</b>
+	 */
+	public void setActiveVersion(final Boolean activeVersion) {
+		this.activeVersion = activeVersion;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Processus actif'. 
+	 * @return Boolean active <b>Obligatoire</b>
+	 */
+	@Field(domain = "DO_O_BOOLEEN", required = true, label = "Processus actif")
 	public Boolean getActive() {
 		return active;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Version active'.
+	 * Définit la valeur de la propriété 'Processus actif'.
 	 * @param active Boolean <b>Obligatoire</b>
 	 */
 	public void setActive(final Boolean active) {

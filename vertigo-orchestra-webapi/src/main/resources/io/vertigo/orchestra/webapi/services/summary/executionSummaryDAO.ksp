@@ -4,7 +4,7 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 	distinct 
-        			(select pro1.PRO_ID from o_process pro1 where pro1.name = pro.name and pro1.active is true) as PRO_ID,
+        			(select pro1.PRO_ID from o_process pro1 where pro1.name = pro.name and pro1.active_version is true) as PRO_ID,
         			pro.NAME as PROCESS_NAME,
         			round(extract('epoch' from avg(pre.END_TIME-pre.BEGIN_TIME) over w )) as AVERAGE_EXECUTION_TIME,
         			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,
@@ -33,7 +33,7 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 	distinct 
-        			(select pro1.PRO_ID from o_process pro1 where pro1.name = pro.name and pro1.active is true) as PRO_ID,
+        			(select pro1.PRO_ID from o_process pro1 where pro1.name = pro.name and pro1.active_version is true) as PRO_ID,
         			pro.NAME as PROCESS_NAME,
         			round(extract('epoch' from avg(pre.END_TIME-pre.BEGIN_TIME) over w)) as AVERAGE_EXECUTION_TIME,
         			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,

@@ -39,7 +39,7 @@ module.exports = {
         cronExpression: "Expression récurrence du processus",
         initialParams: "Paramètres initiaux sous forme de JSON",
         multiexecution: "Accepte la multi-execution",
-        active: "Version active",
+        active: "Processus actif",
         rescuePeriod: "Temps de validité d'une planification",
         metadatas: "Métadonnées du processus"
     }

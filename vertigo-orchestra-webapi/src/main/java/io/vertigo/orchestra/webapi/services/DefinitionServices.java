@@ -19,4 +19,8 @@ public interface DefinitionServices extends StoreServices {
 
 	DtList<OProcessUi> searchProcess(String search);
 
+	void updateProcessProperties(Long id, String cronExpression, boolean multiExecution, Long rescuePerdiod, boolean active);
+
+	void updateProcessInitialParams(Long id, String initialParams);
+
 }

@@ -140,17 +140,17 @@ public final class OProcessUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Version active'. 
+	 * Récupère la valeur de la propriété 'Processus actif'. 
 	 * @return Boolean active <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_BOOLEEN", required = true, persistent = false, label = "Version active")
+	@Field(domain = "DO_O_BOOLEEN", required = true, persistent = false, label = "Processus actif")
 	public Boolean getActive() {
 		return active;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Version active'.
+	 * Définit la valeur de la propriété 'Processus actif'.
 	 * @param active Boolean <b>Obligatoire</b>
 	 */
 	public void setActive(final Boolean active) {
