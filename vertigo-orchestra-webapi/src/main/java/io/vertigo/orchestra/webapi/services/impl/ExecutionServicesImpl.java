@@ -68,8 +68,8 @@ public class ExecutionServicesImpl implements ExecutionServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OExecutionSummary> getSummariesByDate(final Date minDate, final Date maxDate) {
-		return summaryPAO.getExecutionSummariesByDate(minDate, maxDate);
+	public DtList<OExecutionSummary> getSummariesByDate(final Date minDate, final Date maxDate, final String status) {
+		return summaryPAO.getExecutionSummariesByDate(minDate, maxDate, status);
 	}
 
 	/** {@inheritDoc} */

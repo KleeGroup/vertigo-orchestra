@@ -43,6 +43,10 @@
             margin-left: -170px;
         }
       }
+      &> div[data-orchestra='detail']{
+        min-width: 70%;
+        padding: 0px 20px;
+      }
 }
 
 [data-orchestra='timeline'] .timeline-panel {

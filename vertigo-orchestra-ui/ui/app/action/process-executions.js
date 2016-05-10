@@ -45,7 +45,7 @@ export const executeProcessActions = {
 const listActions = listActionBuilder({
     service: executionsServices.loadSummaries,
     identifier: 'summaryList',
-    getListOptions: () => summarylistStore.getValue() } // Binding the store in the function call
+    getListOptions: () => { return { criteria: {offset:0 , status:''}, ...summarylistStore.getValue()}} } // Binding the store in the function call
 );
 
 
@@ -63,5 +63,5 @@ export const loadActivityExecutionsActions = (id) =>  listActionBuilder({
     } // Binding the store in the function call
 });
 
-export const loadSummaryList =listActions.load;
+export const loadSummaryList =listActions;
 export const loadProcessExecutionsList = (id) => {return listProcessExecutionsActions(id).load};

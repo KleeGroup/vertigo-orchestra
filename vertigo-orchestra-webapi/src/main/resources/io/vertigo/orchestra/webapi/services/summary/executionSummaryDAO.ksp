@@ -3,7 +3,7 @@ package io.vertigo.orchestra.webapi.dao.summary
 create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select 	distinct 
+        	select * from (select distinct 
         			(select pro1.PRO_ID from o_process pro1 where pro1.name = pro.name and pro1.active_version is true) as PRO_ID,
         			pro.NAME as PROCESS_NAME,
         			round(extract('epoch' from avg(pre.END_TIME-pre.BEGIN_TIME) over w )) as AVERAGE_EXECUTION_TIME,
@@ -21,12 +21,24 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
 			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' )
 						as next_sub	
 			where pre.begin_time between #DATE_MIN# and #DATE_MAX#
-			WINDOW w as (PARTITION by pro.name);
+			WINDOW w as (PARTITION by pro.name)) as s
+			where 1=1
+			<%if (\"ERROR\".equals(status)) {%>
+				and s.ERRORS_COUNT > 0
+			<%}%>
+			<%if (\"DONE\".equals(status)) {%>
+				and s.SUCCESSFUL_COUNT > 0
+			<%}%>
+			<%if (\"MISFIRED\".equals(status)) {%>
+				and s.MISFIRED_COUNT > 0
+			<%}%>
+			;
         	
 			"
 	attribute DTC_EXECUTION_SUMMARY	 	{domain : DO_DT_O_EXECUTION_SUMMARY_DTC 		notNull:"true" 	inOut :"out"}
 	attribute DATE_MIN	 	{domain : DO_O_TIMESTAMP 		notNull:"true" 	inOut :"in"}
 	attribute DATE_MAX	 	{domain : DO_O_TIMESTAMP 		notNull:"true" 	inOut :"in"}
+	attribute STATUS	 	{domain : DO_O_CODE_IDENTIFIANT		notNull:"true" 	inOut :"in"}
 },
 
 create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {

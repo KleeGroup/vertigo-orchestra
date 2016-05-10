@@ -13,6 +13,9 @@ export default React.createClass({
       switch (key) {
         case 'processExecutionId':
         case 'activityExecutionId':
+        case 'token':
+        case 'processName':
+        case 'status':
           return false;
         default:
           return true;

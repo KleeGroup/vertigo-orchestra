@@ -12,7 +12,6 @@ import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.webapi.dao.uidefinitions.UidefinitionsPAO;
 import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
 import io.vertigo.orchestra.webapi.services.DefinitionServices;
-import io.vertigo.util.StringUtil;
 
 /**
  * Implementation of access to orchestra process definitions.
@@ -54,19 +53,17 @@ public class DefinitionServicesImpl implements DefinitionServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessProperties(final Long id, final String cronExpression, final boolean multiExecution, final Long rescuePerdiod, final boolean active) {
+	public void updateProcessProperties(final Long id, final Option<String> cronExpression, final boolean multiExecution, final Long rescuePerdiod, final boolean active) {
 		final String processName = getProcessDefinitionById(id).getName();
-		final Option<String> cronExpressionOption = StringUtil.isEmpty(cronExpression) ? Option.<String> none() : Option.<String> some(cronExpression);
-		processDefinitionManager.updateProcessDefinitionProperties(processName, cronExpressionOption, multiExecution, rescuePerdiod, active);
+		processDefinitionManager.updateProcessDefinitionProperties(processName, cronExpression, multiExecution, rescuePerdiod, active);
 
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessInitialParams(final Long id, final String initialParams) {
+	public void updateProcessInitialParams(final Long id, final Option<String> initialParams) {
 		final String processName = getProcessDefinitionById(id).getName();
-		final Option<String> initialParamsOption = StringUtil.isEmpty(initialParams) ? Option.<String> none() : Option.<String> some(initialParams);
-		processDefinitionManager.updateProcessDefinitionInitialParams(processName, initialParamsOption);
+		processDefinitionManager.updateProcessDefinitionInitialParams(processName, initialParams);
 
 	}
 

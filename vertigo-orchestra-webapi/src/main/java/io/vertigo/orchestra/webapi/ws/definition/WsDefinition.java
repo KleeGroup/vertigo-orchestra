@@ -3,6 +3,7 @@ package io.vertigo.orchestra.webapi.ws.definition;
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
 import io.vertigo.orchestra.webapi.services.DefinitionServices;
@@ -61,7 +62,7 @@ public class WsDefinition implements WebServices {
 	 */
 	@POST("{id}/updateProperties")
 	@AnonymousAccessAllowed
-	public void updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("cronExpression") final String cronExpression, @InnerBodyParam("multiExecution") final boolean multiExecution, @InnerBodyParam("rescuePeriod") final Long rescuePerdiod, @InnerBodyParam("active") final boolean active) {
+	public void updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("cronExpression") final Option<String> cronExpression, @InnerBodyParam("multiexecution") final boolean multiExecution, @InnerBodyParam("rescuePeriod") final Long rescuePerdiod, @InnerBodyParam("active") final boolean active) {
 		definitionServices.updateProcessProperties(id, cronExpression, multiExecution, rescuePerdiod, active);
 	}
 
@@ -70,7 +71,7 @@ public class WsDefinition implements WebServices {
 	 */
 	@POST("{id}/updateInitialParams")
 	@AnonymousAccessAllowed
-	public void updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final String initialParams) {
+	public void updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final Option<String> initialParams) {
 		definitionServices.updateProcessInitialParams(id, initialParams);
 	}
 }

@@ -77,7 +77,8 @@ public class WsExecution implements WebServices {
 	@AnonymousAccessAllowed
 	public OExecutionSummary getWeekSummaryByProId(@PathParam("proId") final Long proId) {
 		final String processName = definitionServices.getProcessDefinitionById(proId).getName();
-		return executionServices.getSummaryByDateAndName(processName, getFirstDayOfWeekDate(), getFirstDayOfNextWeekDate());
+		final Calendar firstDayOfWeek = getFirstDayOfWeek();
+		return executionServices.getSummaryByDateAndName(processName, firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek));
 	}
 
 	/**
@@ -85,16 +86,16 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("summaries")
 	@AnonymousAccessAllowed
-	public DtList<OExecutionSummary> getWeekSummaries() {
-		return executionServices.getSummariesByDate(getFirstDayOfWeekDate(), getFirstDayOfNextWeekDate());
+	public DtList<OExecutionSummary> getWeekSummaries(@QueryParam("status") final String status, @QueryParam("offset") final int offset) {
+		// We take the first day of the current week
+		final Calendar firstDayOfWeek = getFirstDayOfWeek();
+		// We deal with the offset
+		firstDayOfWeek.add(Calendar.DAY_OF_YEAR, offset * 7);
+		// We make the call with the proper week dates
+		return executionServices.getSummariesByDate(firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek), status);
 	}
 
-	private static Date getFirstDayOfWeekDate() {
-		return getFirstDayOfWeek().getTime();
-	}
-
-	private static Date getFirstDayOfNextWeekDate() {
-		final Calendar first = getFirstDayOfWeek();
+	private static Date getFirstDayOfNextWeekDate(final Calendar first) {
 		// and add seven days to the end date
 		final Calendar last = (Calendar) first.clone();
 		last.add(Calendar.DAY_OF_YEAR, 7);

@@ -7,7 +7,7 @@ import {mixin as formPreset} from 'focus-components/common/form';
 
 //stores & actions
 import processDefinitionStore from '../../../stores/process-definition';
-import {caracteristicsActions} from '../../../action/process-definition';
+import {initialParamsActions} from '../../../action/process-definition';
 
 export default React.createClass({
     displayName: 'ProcessTehnicalCaracteristics',
@@ -17,7 +17,7 @@ export default React.createClass({
     mixins: [formPreset],
     definitionPath: 'oProcessUi',
     stores: [{store: processDefinitionStore, properties: ['processCaracteristics']}],
-    action: caracteristicsActions,
+    action: initialParamsActions,
 
     /** @inheritDoc */
     renderContent() {

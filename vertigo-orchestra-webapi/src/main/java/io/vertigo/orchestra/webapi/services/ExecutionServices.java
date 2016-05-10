@@ -24,7 +24,7 @@ public interface ExecutionServices extends StoreServices {
 
 	DtList<OActivityExecutionUi> getActivityExecutionsByPreId(Long preId);
 
-	DtList<OExecutionSummary> getSummariesByDate(Date minDate, Date maxDate);
+	DtList<OExecutionSummary> getSummariesByDate(Date minDate, Date maxDate, String status);
 
 	OExecutionSummary getSummaryByDateAndName(String processName, Date minDate, Date maxDate);
 

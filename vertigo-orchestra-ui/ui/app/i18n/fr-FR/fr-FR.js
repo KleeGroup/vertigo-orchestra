@@ -85,7 +85,8 @@ export default {
     workspace: {
         labels: {
             processName: 'Nom du processus',
-            token: 'Token de sécurité'
+            token: 'Token de sécurité',
+            filePath: 'Chemin du fichier'
         }
     },
     metadatas: {

@@ -1,5 +1,5 @@
 import merge from 'lodash/object/merge';
-import frTraductionGenerated from '../generated/fr-FR.generated';
+import frTraductionDefinitions from './definitions-fr-FR';
 import frTraduction from './fr-FR';
 
-export default merge(frTraductionGenerated, frTraduction);
+export default merge(frTraductionDefinitions, frTraduction);

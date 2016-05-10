@@ -7,9 +7,11 @@ export default {
         console.log(`[PROCESS] call loadProcessSummary(${id}) method`);
         return fetch(executionsUrl.loadSummary({urlData: {id}}), {isCORS: true});
     },
-    loadSummaries() {
+    loadSummaries({urlData,data}) {
         console.log(`[PROCESS] call loadSummaries() method`);
-        return fetch(executionsUrl.loadSummaries(), {isCORS: true}).then((data) => (
+        let status = data.criteria.status ? data.criteria.status : '';
+        let offset = data.criteria.offset ? data.criteria.offset : 0;
+        return fetch(executionsUrl.loadSummaries({urlData: {status:status, offset: offset ,  ...urlData}}), {isCORS: true}).then((data) => (
         {dataList: data, totalCount: data.length}
         ));
     },
