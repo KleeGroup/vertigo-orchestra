@@ -1,6 +1,7 @@
 import fetch from 'focus-core/network/fetch';
 import executionsUrl from '../config/server/executions';
 import omit from 'lodash/object/omit';
+import message from 'focus-core/message';
 
 export default {
     loadProcessSummary(id) {
@@ -38,6 +39,12 @@ export default {
     },
 
     executeProcess(id){
-        return fetch(executionsUrl.executeProcess({ data : {proId:id}}), {isCORS: true});
+        return fetch(executionsUrl.executeProcess({ data : {proId:id}}), {isCORS: true}).then(
+          (success) => {
+              message.addSuccessMessage('view.process.action.executeNow.success');
+          }, (failure) => {
+              message.addErrorMessage('view.process.action.executeNow.error');
+          }
+        );
     }
 }

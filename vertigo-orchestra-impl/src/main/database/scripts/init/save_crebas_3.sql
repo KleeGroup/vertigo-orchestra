@@ -17,6 +17,7 @@ drop table O_PROCESS cascade;
 drop table O_PROCESS_EXECUTION cascade;
 drop table O_PROCESS_PLANIFICATION cascade;
 drop table O_PROCESS_TYPE cascade;
+drop table O_USER cascade;
 drop table TRIGGER_TYPE cascade;
 
 
@@ -55,6 +56,9 @@ create sequence SEQ_O_PROCESS_PLANIFICATION
 	start with 1000 cache 20; 
 
 create sequence SEQ_O_PROCESS_TYPE
+	start with 1000 cache 20; 
+
+create sequence SEQ_O_USER
 	start with 1000 cache 20; 
 
 create sequence SEQ_TRIGGER_TYPE
@@ -317,8 +321,12 @@ create table O_PROCESS_EXECUTION
     BEGIN_TIME  	 TIMESTAMP   	not null,
     END_TIME    	 TIMESTAMP   	,
     ENGINE      	 VARCHAR(200)	,
+    CHECKED     	 BOOL        	,
+    CHECKING_DATE	 TIMESTAMP   	,
+    CHECKING_COMMENT	 TEXT       ,
     PRO_ID      	 NUMERIC     	,
     EST_CD      	 VARCHAR(20) 	,
+    USR_ID      	 NUMERIC     	,
     constraint PK_O_PROCESS_EXECUTION primary key (PRE_ID)
 );
 
@@ -334,14 +342,29 @@ comment on column O_PROCESS_EXECUTION.END_TIME is
 comment on column O_PROCESS_EXECUTION.ENGINE is
 'Implémentation effective de l''execution';
 
+comment on column O_PROCESS_EXECUTION.CHECKED is
+'Pris en charge';
+
+comment on column O_PROCESS_EXECUTION.CHECKING_DATE is
+'Date de prise en charge';
+
+comment on column O_PROCESS_EXECUTION.CHECKING_COMMENT is
+'Commentaire';
+
 comment on column O_PROCESS_EXECUTION.PRO_ID is
 'Processus';
 
-create index O_PROCESS_EXECUTION_PRO_ID_FK on O_PROCESS_EXECUTION (PRO_ID asc);
+comment on column O_PROCESS_EXECUTION.USR_ID is
+'User';
+
 comment on column O_PROCESS_EXECUTION.EST_CD is
 'ExecutionState';
 
+create index O_PROCESS_EXECUTION_PRO_ID_FK on O_PROCESS_EXECUTION (PRO_ID asc);
+
 create index O_PROCESS_EXECUTION_EST_CD_FK on O_PROCESS_EXECUTION (EST_CD asc);
+
+create index O_PROCESS_EXECUTION_USR_ID_FK on O_PROCESS_EXECUTION (USR_ID asc);
 -- ============================================================
 --   Table : O_PROCESS_PLANIFICATION                                        
 -- ============================================================
@@ -394,6 +417,43 @@ comment on column O_PROCESS_TYPE.LABEL is
 'Libellé';
 
 -- ============================================================
+--   Table : O_USER                                        
+-- ============================================================
+create table O_USER
+(
+    USR_ID      	 NUMERIC     	not null,
+    FIRST_NAME  	 VARCHAR(100)	,
+    LAST_NAME   	 VARCHAR(100)	,
+    EMAIL       	 VARCHAR(100)	,
+    PASSWORD    	 VARCHAR(100)	,
+    MAIL_ALERT  	 BOOL        	,
+    ACTIVE      	 BOOL        	,
+    constraint PK_O_USER primary key (USR_ID)
+);
+
+comment on column O_USER.USR_ID is
+'Id';
+
+comment on column O_USER.FIRST_NAME is
+'Nom';
+
+comment on column O_USER.LAST_NAME is
+'Prénom';
+
+comment on column O_USER.EMAIL is
+'Email';
+
+comment on column O_USER.PASSWORD is
+'Mot de passe';
+
+comment on column O_USER.MAIL_ALERT is
+'Alerté en cas d''erreur';
+
+comment on column O_USER.ACTIVE is
+'Compte Actif';
+
+
+-- ============================================================
 --   Table : TRIGGER_TYPE                                        
 -- ============================================================
 create table TRIGGER_TYPE
@@ -442,6 +502,10 @@ alter table O_PROCESS_EXECUTION
 alter table O_PROCESS_EXECUTION
 	add constraint FK_PRE_PRO foreign key (PRO_ID)
 	references O_PROCESS (PRO_ID);
+
+alter table O_PROCESS_EXECUTION
+	add constraint FK_PRE_USR foreign key (USR_ID)
+	references O_USER (USR_ID);
 
 alter table O_PROCESS
 	add constraint FK_PRO_PRT foreign key (PRT_CD)

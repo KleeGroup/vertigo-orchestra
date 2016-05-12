@@ -22,7 +22,9 @@ public final class OExecutionSummary implements DtObject {
 	private Long errorsCount;
 	private Long misfiredCount;
 	private Long successfulCount;
+	private Long runningCount;
 	private Long averageExecutionTime;
+	private String health;
 
 	/**
 	 * Champ : DATA.
@@ -64,17 +66,17 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Libellé du processus'. 
 	 * @return String processLabel <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_LIBELLE", required = true, persistent = false, label = "Nom du processus")
+	@Field(domain = "DO_O_LIBELLE", required = true, persistent = false, label = "Libellé du processus")
 	public String getProcessLabel() {
 		return processLabel;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Nom du processus'.
+	 * Définit la valeur de la propriété 'Libellé du processus'.
 	 * @param processLabel String <b>Obligatoire</b>
 	 */
 	public void setProcessLabel(final String processLabel) {
@@ -121,17 +123,17 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du noeud'. 
+	 * Récupère la valeur de la propriété 'Nombre en erreur'. 
 	 * @return Long errorsCount 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nom du noeud")
+	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre en erreur")
 	public Long getErrorsCount() {
 		return errorsCount;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Nom du noeud'.
+	 * Définit la valeur de la propriété 'Nombre en erreur'.
 	 * @param errorsCount Long 
 	 */
 	public void setErrorsCount(final Long errorsCount) {
@@ -140,17 +142,17 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du noeud'. 
+	 * Récupère la valeur de la propriété 'Nombre non executés'. 
 	 * @return Long misfiredCount 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nom du noeud")
+	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre non executés")
 	public Long getMisfiredCount() {
 		return misfiredCount;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Nom du noeud'.
+	 * Définit la valeur de la propriété 'Nombre non executés'.
 	 * @param misfiredCount Long 
 	 */
 	public void setMisfiredCount(final Long misfiredCount) {
@@ -159,21 +161,40 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du noeud'. 
+	 * Récupère la valeur de la propriété 'Nombre en succès'. 
 	 * @return Long successfulCount 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nom du noeud")
+	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre en succès")
 	public Long getSuccessfulCount() {
 		return successfulCount;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Nom du noeud'.
+	 * Définit la valeur de la propriété 'Nombre en succès'.
 	 * @param successfulCount Long 
 	 */
 	public void setSuccessfulCount(final Long successfulCount) {
 		this.successfulCount = successfulCount;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Nombre en cours'. 
+	 * @return Long runningCount 
+	 */
+	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre en cours")
+	public Long getRunningCount() {
+		return runningCount;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Nombre en cours'.
+	 * @param runningCount Long 
+	 */
+	public void setRunningCount(final Long runningCount) {
+		this.runningCount = runningCount;
 	}
 
 	/**
@@ -193,6 +214,25 @@ public final class OExecutionSummary implements DtObject {
 	 */
 	public void setAverageExecutionTime(final Long averageExecutionTime) {
 		this.averageExecutionTime = averageExecutionTime;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Santé du processus'. 
+	 * @return String health <b>Obligatoire</b>
+	 */
+	@Field(domain = "DO_O_CODE_IDENTIFIANT", required = true, persistent = false, label = "Santé du processus")
+	public String getHealth() {
+		return health;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Santé du processus'.
+	 * @param health String <b>Obligatoire</b>
+	 */
+	public void setHealth(final String health) {
+		this.health = health;
 	}
 
 	//Aucune Association déclarée

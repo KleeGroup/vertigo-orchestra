@@ -12,4 +12,6 @@ public interface ProcessExecutionManager extends Manager {
 	// Nothing
 
 	void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState state);
+
+	void setActivityExecutionPending(final Long activityExecutionId);
 }

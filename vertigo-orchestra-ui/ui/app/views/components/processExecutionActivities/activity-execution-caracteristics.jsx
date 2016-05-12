@@ -6,6 +6,7 @@ import {translate} from 'focus-core/translation';
 import builtInComponent from 'focus-components/common/mixin/built-in-components';
 import storeBehaviour  from 'focus-components/common/mixin/store-behaviour';
 import definitionMixin  from 'focus-components/common/mixin/definition';
+import Panel from 'focus-components/components/panel';
 
 //stores & actions
 import activityExecutionStore from '../../../stores/activity-execution';
@@ -36,14 +37,15 @@ export default React.createClass({
     render() {
         return (
             <div>
-                <h4>{this.textFor('label')}</h4>
-                {this.fieldFor('beginTime')}
-                {this.fieldFor('endTime')}
-                {this.fieldFor('executionTime')}
-                <h4>{translate('view.executions.detail.activities.workspaceIn')}</h4>
-                {this.fieldFor('workspaceIn', {hasLabel:false, contentSize:12})}
-                <h4>{translate('view.executions.detail.activities.workspaceOut')}</h4>
-                {this.fieldFor('workspaceOut', {hasLabel:false, contentSize:12})}
+                <Panel title={this.state.label}>
+                  {this.fieldFor('beginTime')}
+                  {this.fieldFor('endTime')}
+                  {this.fieldFor('executionTime')}
+                  <h6>{translate('view.executions.detail.activities.workspaceIn')}</h6>
+                  {this.fieldFor('workspaceIn', {hasLabel:false, contentSize:12})}
+                  <h6>{translate('view.executions.detail.activities.workspaceOut')}</h6>
+                  {this.fieldFor('workspaceOut', {hasLabel:false, contentSize:12})}
+                </Panel>
             </div>
         );
     }

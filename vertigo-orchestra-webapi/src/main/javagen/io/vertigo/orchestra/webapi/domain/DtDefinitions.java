@@ -67,20 +67,24 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		PRO_ID,
 		/** Propriété 'Nom du processus'. */
 		PROCESS_NAME,
-		/** Propriété 'Nom du processus'. */
+		/** Propriété 'Libellé du processus'. */
 		PROCESS_LABEL,
 		/** Propriété 'Dernière exécution le'. */
 		LAST_EXECUTION_TIME,
 		/** Propriété 'Prochaine exécution le'. */
 		NEXT_EXECUTION_TIME,
-		/** Propriété 'Nom du noeud'. */
+		/** Propriété 'Nombre en erreur'. */
 		ERRORS_COUNT,
-		/** Propriété 'Nom du noeud'. */
+		/** Propriété 'Nombre non executés'. */
 		MISFIRED_COUNT,
-		/** Propriété 'Nom du noeud'. */
+		/** Propriété 'Nombre en succès'. */
 		SUCCESSFUL_COUNT,
+		/** Propriété 'Nombre en cours'. */
+		RUNNING_COUNT,
 		/** Propriété 'Durée moyenne d'exécution'. */
 		AVERAGE_EXECUTION_TIME,
+		/** Propriété 'Santé du processus'. */
+		HEALTH,
 	}
 
 	/**
@@ -97,6 +101,12 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		EXECUTION_TIME,
 		/** Propriété 'Statut'. */
 		STATUS,
+		/** Propriété 'Pris en charge'. */
+		CHECKED,
+		/** Propriété 'Date de prise en charge'. */
+		CHECKING_DATE,
+		/** Propriété 'Commentaire'. */
+		CHECKING_COMMENT,
 	}
 
 	/**

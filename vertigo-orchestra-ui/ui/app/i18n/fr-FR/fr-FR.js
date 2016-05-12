@@ -60,13 +60,26 @@ export default {
         non: 'Non'
     },
     view: {
+        home: {
+          timetitlefrom: 'Exécutions du ',
+          timetitleto: ' au ',
+          previousWeek: 'Semaine précédente',
+          nextWeek: 'Semaine suivante',
+          line: {
+            lastExecutionTime: 'Dernière exécution',
+            nextExecutionTime: 'Prochaine exécution'
+          }
+        },
         process: {
             action: {
-
+              executeNow :{
+                  success: 'Youpi',
+                  error: 'Bad!!!'
+              }
             },
             detail: {
                 executions: 'Exécutions de la semaine',
-                functionalCaracteristics: 'Identification fonctionelle',
+                functionalCaracteristics: 'Identification fonctionnelle',
                 technicalCaracteristics: 'Identification technique',
                 parameters: 'Paramètres'
             }

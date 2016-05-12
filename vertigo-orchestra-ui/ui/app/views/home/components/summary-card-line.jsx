@@ -1,7 +1,6 @@
 //librairies
 import React from 'react';
 import {translate} from 'focus-core/translation';
-import history from 'focus-core/history';
 import {mixin as LinePreset} from 'focus-components/list/selection/line'
 
 import ProcessSummary from '../../components/processSummary'
@@ -12,18 +11,28 @@ const SummaryLine = React.createClass({
     mixins: [LinePreset],
     definitionPath: 'oExecutionSummary',
 
+    getClassFromHeath(health){
+      switch (health) {
+        case 'SUCCESS':
+            return 'health-success';
+        case 'WARNING':
+            return 'health-warning';
+        case 'ERROR':
+            return 'health-error';
+        default:
+            return '';
 
-    _navigateToDetail(id, event) {
-      history.navigate(`#definitions/${id}`, true);
-      window.scrollTo(0, 0);
+      }
     },
 
     renderLineContent() {
-        const {errorsCount, successfulCount, misfiredCount, averageExecutionTime} = this.props.data;
+        const {errorsCount, successfulCount, misfiredCount, averageExecutionTime, health} = this.props.data;
         return (
-            <div data-orchestra='summary-line-content'>
-                <div data-orchestra='name' onClick={(event) => this._navigateToDetail(this.props.data.proId, event)}>
-                {this.textFor('processName')}
+            <div data-orchestra='summary-line-content' >
+                <div data-orchestra='health' className={this.getClassFromHeath(health)}>
+                </div>
+                <div data-orchestra='name' >
+                {this.textFor('processLabel')}
                 </div>
                 <div data-orchestra='counts'>
                   <ProcessSummary
@@ -35,12 +44,12 @@ const SummaryLine = React.createClass({
                     handleSuccessClick={() => {}} />
                 </div>
                 <div data-orchestra='last'>
-                <span>Dernière execution le</span>
+                <span>{translate('view.home.line.lastExecutionTime')}</span>
                 <br/>
                 {this.textFor('lastExecutionTime')}
                 </div>
                 <div data-orchestra='next'>
-                <span>Prochaine execution le</span>
+                <span>{translate('view.home.line.nextExecutionTime')}</span>
                 <br/>
                 {this.textFor('nextExecutionTime')}
                 </div>

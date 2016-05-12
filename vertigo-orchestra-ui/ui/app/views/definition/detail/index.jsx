@@ -21,8 +21,7 @@ import HeaderSummary from './header-content-summary';
 export default React.createClass({
     displayName: 'ProcessDetailView',
     propTypes: {
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired
+        id: PropTypes.number.isRequired
     },
     mixins: [cartridgeBehaviour],
 
@@ -47,7 +46,7 @@ export default React.createClass({
 
     _getGlobalPrimaryActions() {
         const actions = [];
-        actions.push( {label: '', icon: 'input', action:  () => { executeProcessActions.executeProcess(this.props.id)}});
+        actions.push( {label: '', icon: 'play_circle_outline', action:  () => { executeProcessActions.executeProcess(this.props.id)}});
         return actions;
     },
 

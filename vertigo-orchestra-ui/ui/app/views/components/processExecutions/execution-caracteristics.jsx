@@ -5,6 +5,7 @@ import React, {PropTypes} from 'react';
 import builtInComponent from 'focus-components/common/mixin/built-in-components';
 import storeBehaviour  from 'focus-components/common/mixin/store-behaviour';
 import definitionMixin  from 'focus-components/common/mixin/definition';
+import Panel from 'focus-components/components/panel';
 //stores & actions
 import processExecutionStore from '../../../stores/process-execution';
 import {caracteristicsActions} from '../../../action/process-executions';
@@ -33,11 +34,11 @@ export default React.createClass({
     /** @inheritDoc */
     render() {
         return (
-            <div>
+            <Panel title='view.executions.detail.title' data-orchestra='item-detail'>
                 {this.fieldFor('beginTime')}
                 {this.fieldFor('endTime')}
                 {this.fieldFor('executionTime')}
-            </div>
+            </Panel>
         );
     }
 });

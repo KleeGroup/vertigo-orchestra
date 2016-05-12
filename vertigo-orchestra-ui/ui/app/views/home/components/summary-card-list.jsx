@@ -11,7 +11,7 @@ const propTypes = {
     store: PropTypes.object
 };
 
-function SummaryList({ action, store, columns}) {
+function SummaryList({ action, store, columns, handleLineClick}) {
     return (
         <SmartList
             ListComponent={ListComponent}
@@ -20,6 +20,8 @@ function SummaryList({ action, store, columns}) {
             columns={columns}
             store={store}
             isSelection={false}
+            onLineClick={handleLineClick}
+
         />
     );
 };

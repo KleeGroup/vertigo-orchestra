@@ -1,12 +1,14 @@
 import React from 'react';
-
+import moment from 'moment';
 
 // web components
+import history from 'focus-core/history';
 import {cartridgeBehaviour} from 'focus-components/page/mixin';
 import {storeBehaviour} from 'focus-components/page/mixin';
 import OrchestraTitle from '../components/orchestra-title';
 import SummaryCardList from './components/summary-card-list'
 import {component as Button} from 'focus-components/common/button/action';
+import {translate} from 'focus-core/translation';
 
 //stores & actions
 import summaryListStore from '../../stores/summary-list';
@@ -68,6 +70,15 @@ export default React.createClass({
       loadSummaryList.updateProperties({criteria : {status:status, offset:offset}});
     },
 
+    _formatTitleDate(date){
+      return moment(date).format('DD/MM/YYYY');
+    },
+
+    _navigateToDetail(data) {
+      history.navigate(`#definitions/${data.proId}`, true);
+      window.scrollTo(0, 0);
+    },
+
     /** @inheritDoc */
     render() {
       let {offset} =  this.state
@@ -80,24 +91,27 @@ export default React.createClass({
 
         return (
             <div data-demo='homepage'>
-            <div>
-                fisrt : {firstday}
-                last : {lastday}
-            </div>
-            <div data-orchestra='filter'>
-              <Button label='Tout' type='button' handleOnClick={this._onAllClick} />
-              <Button label='Err' type='button' handleOnClick={this._onErrorClick} />
-              <Button label='Succ' type='button' handleOnClick={this._onSuccessClick} />
-            </div>
-            <div data-orchestra='time-filter'>
-              <Button label='Prev' type='button' handleOnClick={this._onPreviousClick} />
-              <Button label='Curr' type='button' handleOnClick={this._onCurrentClick} />
-              <Button label='Suiv' type='button' handleOnClick={this._onNextClick} />
-            </div>
+              <div data-orchestra='header' >
+                <div>
+                  <h1>{translate('view.home.timetitlefrom')}{this._formatTitleDate(firstday)}{translate('view.home.timetitleto')}{this._formatTitleDate(lastday)}</h1>
+                </div>
+
+                <div data-orchestra='filter'>
+                  <Button label='Tout' type='button' shape='fab' icon='done_all' color='accent' handleOnClick={this._onAllClick} />
+                  <Button label='Err' type='button' shape='fab' icon='report_problem' color='accent' handleOnClick={this._onErrorClick} />
+                  <Button label='Succ' type='button'  shape='fab' icon='verified_user' color='accent' handleOnClick={this._onSuccessClick} />
+                </div>
+                <div data-orchestra='time-filter'>
+                  <Button label={translate('view.home.previousWeek')} type='button' handleOnClick={this._onPreviousClick}  color='accent' data-orchestra='previous' />
+                  <Button type='button' shape='fab' icon='today' color='accent' handleOnClick={this._onCurrentClick} />
+                  <Button label={translate('view.home.nextWeek')} type='button' handleOnClick={this._onNextClick} color='accent' data-orchestra='next' />
+                </div>
+              </div>
               <SummaryCardList
                   action={loadSummaryList.load}
                   columns={[]}
                   store={summaryListStore}
+                  handleLineClick={this._navigateToDetail}
                />
             </div>
         );

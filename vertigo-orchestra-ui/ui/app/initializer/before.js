@@ -12,9 +12,9 @@ import numeralInitializer from './scripts/numeral-initializer';
  */
 export const initialize = () => {
     console.info('[INITIALIZER - BEFORE CONTENT LOADED]');
+    translationInitializer();
     definitionInitializer();
     domainInitializer();
     referenceListInitializer();
-    translationInitializer();
     numeralInitializer();
 };

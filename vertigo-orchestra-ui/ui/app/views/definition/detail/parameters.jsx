@@ -10,7 +10,7 @@ import processDefinitionStore from '../../../stores/process-definition';
 import {initialParamsActions} from '../../../action/process-definition';
 
 export default React.createClass({
-    displayName: 'ProcessTehnicalCaracteristics',
+    displayName: 'ProcessParamaters',
     propTypes: {
         id: PropTypes.number.isRequired
     },

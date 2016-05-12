@@ -17,20 +17,25 @@ module.exports = {
     oExecutionSummary: {
         proId: "Id du processus",
         processName: "Nom du processus",
-        processLabel: "Nom du processus",
+        processLabel: "Libellé du processus",
         lastExecutionTime: "Dernière exécution le",
         nextExecutionTime: "Prochaine exécution le",
-        errorsCount: "Nom du noeud",
-        misfiredCount: "Nom du noeud",
-        successfulCount: "Nom du noeud",
-        averageExecutionTime: "Durée moyenne d'exécution"
+        errorsCount: "Nombre en erreur",
+        misfiredCount: "Nombre non executés",
+        successfulCount: "Nombre en succès",
+        runningCount: "Nombre en cours",
+        averageExecutionTime: "Durée moyenne d'exécution",
+        health: "Santé du processus"
     },
     oProcessExecutionUi: {
         preId: "Id de l'activité",
         beginTime: "Nom du processus",
         endTime: "Nom du processus",
         executionTime: "Durée",
-        status: "Statut"
+        status: "Statut",
+        checked: "Pris en charge",
+        checkingDate: "Date de prise en charge",
+        checkingComment: "Commentaire"
     },
     oProcessUi: {
         proId: "Id du processus",

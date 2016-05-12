@@ -59,19 +59,23 @@ public class WsDefinition implements WebServices {
 
 	/**
 	 * Update the process properties
+	 * @return
 	 */
 	@POST("{id}/updateProperties")
 	@AnonymousAccessAllowed
-	public void updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("cronExpression") final Option<String> cronExpression, @InnerBodyParam("multiexecution") final boolean multiExecution, @InnerBodyParam("rescuePeriod") final Long rescuePerdiod, @InnerBodyParam("active") final boolean active) {
+	public OProcessUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("cronExpression") final Option<String> cronExpression, @InnerBodyParam("multiexecution") final boolean multiExecution, @InnerBodyParam("rescuePeriod") final Long rescuePerdiod, @InnerBodyParam("active") final boolean active) {
 		definitionServices.updateProcessProperties(id, cronExpression, multiExecution, rescuePerdiod, active);
+		return definitionServices.getProcessDefinitionById(id);
 	}
 
 	/**
 	 * Update the process properties
+	 * @return
 	 */
 	@POST("{id}/updateInitialParams")
 	@AnonymousAccessAllowed
-	public void updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final Option<String> initialParams) {
+	public OProcessUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final Option<String> initialParams) {
 		definitionServices.updateProcessInitialParams(id, initialParams);
+		return definitionServices.getProcessDefinitionById(id);
 	}
 }

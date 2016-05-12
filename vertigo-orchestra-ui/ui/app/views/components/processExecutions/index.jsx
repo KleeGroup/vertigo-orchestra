@@ -74,9 +74,9 @@ export default React.createClass({
               <div data-orchestra='header'>
                 <h3>{translate('view.executions.title')}</h3>
                 <div data-orchestra='filter'>
-                  <Button label='Tout' type='button' handleOnClick={this._onAllClick} />
-                  <Button label='Err' type='button' handleOnClick={this._onErrorClick} />
-                  <Button label='Succ' type='button' handleOnClick={this._onSuccessClick} />
+                  <Button label='Tout' type='button' shape='fab' icon='done_all' handleOnClick={this._onAllClick} />
+                  <Button label='Err' type='button' shape='fab' icon='report_problem'  handleOnClick={this._onErrorClick} />
+                  <Button label='Succ' type='button' shape='fab' icon='verified_user' handleOnClick={this._onSuccessClick} />
                 </div>
               </div>
               <div data-orchestra='timeline'>
@@ -93,11 +93,16 @@ export default React.createClass({
                {preId !== null &&
                  <div>
                   <div>
-                    <h3>{translate('view.executions.detail.title')}</h3>
                     <ExecutionCaracteristics id={preId} />
                   </div>
-                  <div>
-                    <ProcessExecutionsActivities id={preId} />
+                  <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
+                    <div className="mdl-tabs__tab-bar">
+                        <a className="mdl-tabs__tab is-active">Activités</a>
+                        <a className="mdl-tabs__tab">Prise en charge</a>
+                    </div>
+                    <div class="mdl-tabs__panel is-active">
+                      <ProcessExecutionsActivities id={preId} />
+                    </div>
                   </div>
                 </div>
                }

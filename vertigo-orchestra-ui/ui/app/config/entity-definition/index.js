@@ -70,9 +70,17 @@ module.exports = {
             domain: "DO_O_NOMBRE",
             required: false
         },
+        runningCount: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
         averageExecutionTime: {
             domain: "DO_O_NOMBRE",
             required: false
+        },
+        health: {
+            domain: "DO_O_CODE_IDENTIFIANT",
+            required: true
         }
     },
     oProcessExecutionUi: {

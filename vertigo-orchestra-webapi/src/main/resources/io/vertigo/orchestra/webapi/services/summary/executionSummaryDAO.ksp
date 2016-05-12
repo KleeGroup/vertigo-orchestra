@@ -6,12 +6,18 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
         	select * from (select distinct 
         			(select pro1.PRO_ID from o_process pro1 where pro1.name = pro.name and pro1.active_version is true) as PRO_ID,
         			pro.NAME as PROCESS_NAME,
+        			pro.LABEL as PROCESS_LABEL,
         			round(extract('epoch' from avg(pre.END_TIME-pre.BEGIN_TIME) over w )) as AVERAGE_EXECUTION_TIME,
         			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,
         			sum(case when pre.est_cd='ERROR' then 1 else 0 end) over w as ERRORS_COUNT,
+        			sum(case when pre.est_cd='RUNNING' then 1 else 0 end) over w as RUNNING_COUNT,
         			max(pre.begin_time) over w as LAST_EXECUTION_TIME,
         			mis_sub.MISFIRED_COUNT as MISFIRED_COUNT,
-					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME
+					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME,
+					case when status_sub.ERRORS_IN_LAST = 0 then 'SUCCESS'
+				     when status_sub.ERRORS_IN_LAST > 0 and last_status_sub.LAST_STATUS = 'DONE' then 'WARNING'
+				     when status_sub.ERRORS_IN_LAST > 0 and last_status_sub.LAST_STATUS = 'ERROR' then 'ERROR'
+				     else 'SUCCESS' end as HEALTH
 			from o_process pro
 			left join o_process_execution pre on pro.pro_id = pre.pro_id,
 			LATERAL (select count(prp.prp_Id) as MISFIRED_COUNT
@@ -19,7 +25,14 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
 			  			as mis_sub,
 			LATERAL (select min(prp.expected_time) as NEXT_EXECUTION_TIME
 			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' )
-						as next_sub	
+						as next_sub,
+			LATERAL (select pre.begin_time,  
+					sum(case when pre.est_cd='ERROR' then 1 else 0 end) as ERRORS_IN_LAST
+  				from o_process_execution pre join o_process p3 on p3.pro_id=pre.pro_id  where p3.name=pro.name and pre.EST_CD != 'RUNNING' group by pre.pre_id order by pre.begin_time desc limit 5 )
+			as status_sub,
+			LATERAL (select pre.EST_CD as LAST_STATUS
+  				from o_process_execution pre join o_process p3 on p3.pro_id=pre.pro_id  where p3.name=pro.name and pre.EST_CD != 'RUNNING' group by pre.pre_id order by pre.begin_time desc limit 1 )
+			as last_status_sub	
 			where pre.begin_time between #DATE_MIN# and #DATE_MAX#
 			WINDOW w as (PARTITION by pro.name)) as s
 			where 1=1
@@ -47,12 +60,18 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
         	select 	distinct 
         			(select pro1.PRO_ID from o_process pro1 where pro1.name = pro.name and pro1.active_version is true) as PRO_ID,
         			pro.NAME as PROCESS_NAME,
+        			pro.LABEL as PROCESS_LABEL,
         			round(extract('epoch' from avg(pre.END_TIME-pre.BEGIN_TIME) over w)) as AVERAGE_EXECUTION_TIME,
         			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,
         			sum(case when pre.est_cd='ERROR' then 1 else 0 end) over w as ERRORS_COUNT,
+        			sum(case when pre.est_cd='RUNNING' then 1 else 0 end) over w as RUNNING_COUNT,
         			max(pre.begin_time) over w as LAST_EXECUTION_TIME,
         			mis_sub.MISFIRED_COUNT as MISFIRED_COUNT,
-					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME
+					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME,
+					case when status_sub.ERRORS_IN_LAST = 0 then 'SUCCESS'
+				     when status_sub.ERRORS_IN_LAST > 0 and last_status_sub.LAST_STATUS = 'DONE' then 'WARNING'
+				     when status_sub.ERRORS_IN_LAST > 0 and last_status_sub.LAST_STATUS = 'ERROR' then 'ERROR'
+				     else 'SUCCESS' end as HEALTH
 			from o_process pro
 			left join o_process_execution pre on pro.pro_id = pre.pro_id,
 			LATERAL (select count(prp.prp_Id) as MISFIRED_COUNT
@@ -60,7 +79,14 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
 			  			as mis_sub,
 			LATERAL (select min(prp.expected_time) as NEXT_EXECUTION_TIME
 			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' )
-						as next_sub
+						as next_sub,
+			LATERAL (select pre.begin_time,  
+					sum(case when pre.est_cd='ERROR' then 1 else 0 end) as ERRORS_IN_LAST
+  				from o_process_execution pre join o_process p3 on p3.pro_id=pre.pro_id  where p3.name=pro.name and pre.EST_CD != 'RUNNING' group by pre.pre_id order by pre.begin_time desc limit 5 )
+			as status_sub,
+			LATERAL (select pre.EST_CD as LAST_STATUS
+  				from o_process_execution pre join o_process p3 on p3.pro_id=pre.pro_id  where p3.name=pro.name and pre.EST_CD != 'RUNNING' group by pre.pre_id order by pre.begin_time desc limit 1 )
+			as last_status_sub
 			where case when pre.begin_time is not null then pre.begin_time between #DATE_MIN# and #DATE_MAX# else 1=1 end
 			and pro.NAME = #NAME#
 			WINDOW w as (PARTITION by pro.name);

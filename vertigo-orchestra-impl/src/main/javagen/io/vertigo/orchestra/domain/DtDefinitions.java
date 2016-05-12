@@ -35,6 +35,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			OProcessPlanification(io.vertigo.orchestra.domain.planification.OProcessPlanification.class),
 			/** Objet de données OProcessType. */
 			OProcessType(io.vertigo.orchestra.domain.referential.OProcessType.class),
+			/** Objet de données OUser. */
+			OUser(io.vertigo.orchestra.domain.referential.OUser.class),
 			/** Objet de données TriggerType. */
 			TriggerType(io.vertigo.orchestra.domain.referential.TriggerType.class),
 		;
@@ -199,10 +201,18 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		END_TIME,
 		/** Propriété 'Implémentation effective de l'execution'. */
 		ENGINE,
+		/** Propriété 'Pris en charge'. */
+		CHECKED,
+		/** Propriété 'Date de prise en charge'. */
+		CHECKING_DATE,
+		/** Propriété 'Commentaire'. */
+		CHECKING_COMMENT,
 		/** Propriété 'Processus'. */
 		PRO_ID,
 		/** Propriété 'ExecutionState'. */
 		EST_CD,
+		/** Propriété 'User'. */
+		USR_ID,
 	}
 
 	/**
@@ -231,6 +241,26 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		PRT_CD,
 		/** Propriété 'Libellé'. */
 		LABEL,
+	}
+
+	/**
+	 * Enumération des champs de OUser.
+	 */
+	public enum OUserFields implements DtFieldName {
+		/** Propriété 'Id'. */
+		USR_ID,
+		/** Propriété 'Nom'. */
+		FIRST_NAME,
+		/** Propriété 'Prénom'. */
+		LAST_NAME,
+		/** Propriété 'Email'. */
+		EMAIL,
+		/** Propriété 'Mot de passe'. */
+		PASSWORD,
+		/** Propriété 'Alerté en cas d'erreur'. */
+		MAIL_ALERT,
+		/** Propriété 'Compte Actif'. */
+		ACTIVE,
 	}
 
 	/**

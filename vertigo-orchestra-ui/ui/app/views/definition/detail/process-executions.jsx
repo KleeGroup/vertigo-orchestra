@@ -17,7 +17,7 @@ import ProcessExecutions from '../../components/processExecutions';
 import ProcessSummary from '../../components/processSummary'
 
 export default React.createClass({
-    displayName: 'ProcessCaracteristics',
+    displayName: 'ProcessExecutions',
     propTypes: {
         id: PropTypes.number.isRequired
     },

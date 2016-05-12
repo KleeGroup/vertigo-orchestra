@@ -1,6 +1,6 @@
 export default {
     oProcessUi: {
-        cronExpression: 'Expression de récurrence',
+        cronExpression: 'Expression cron',
         active: 'Actif',
         multiexecution: 'Autorise la multi-exécution',
         rescuePeriod: 'Temps de validité d\'une planification'

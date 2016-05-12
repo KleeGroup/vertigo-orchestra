@@ -41,4 +41,22 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 			}
 		}
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setActivityExecutionPending(final Long activityExecutionId) {
+		// We need to be as short as possible for the commit
+		if (transactionManager.hasCurrentTransaction()) {
+			try (final VTransactionWritable transaction = transactionManager.createAutonomousTransaction()) {
+				sequentialExecutorPlugin.setActivityExecutionPending(activityExecutionId);
+				transaction.commit();
+			}
+		} else {
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+				sequentialExecutorPlugin.setActivityExecutionPending(activityExecutionId);
+				transaction.commit();
+			}
+		}
+
+	}
 }

@@ -19,6 +19,9 @@ public final class OProcessExecutionUi implements DtObject {
 	private java.util.Date endTime;
 	private Long executionTime;
 	private String status;
+	private Boolean checked;
+	private java.util.Date checkingDate;
+	private String checkingComment;
 
 	/**
 	 * Champ : DATA.
@@ -113,6 +116,63 @@ public final class OProcessExecutionUi implements DtObject {
 	 */
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Pris en charge'. 
+	 * @return Boolean checked 
+	 */
+	@Field(domain = "DO_O_BOOLEEN", persistent = false, label = "Pris en charge")
+	public Boolean getChecked() {
+		return checked;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Pris en charge'.
+	 * @param checked Boolean 
+	 */
+	public void setChecked(final Boolean checked) {
+		this.checked = checked;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Date de prise en charge'. 
+	 * @return java.util.Date checkingDate 
+	 */
+	@Field(domain = "DO_O_TIMESTAMP", persistent = false, label = "Date de prise en charge")
+	public java.util.Date getCheckingDate() {
+		return checkingDate;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Date de prise en charge'.
+	 * @param checkingDate java.util.Date 
+	 */
+	public void setCheckingDate(final java.util.Date checkingDate) {
+		this.checkingDate = checkingDate;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Commentaire'. 
+	 * @return String checkingComment 
+	 */
+	@Field(domain = "DO_O_TEXT", persistent = false, label = "Commentaire")
+	public String getCheckingComment() {
+		return checkingComment;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Commentaire'.
+	 * @param checkingComment String 
+	 */
+	public void setCheckingComment(final String checkingComment) {
+		this.checkingComment = checkingComment;
 	}
 
 	//Aucune Association déclarée

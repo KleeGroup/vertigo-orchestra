@@ -68,8 +68,12 @@ module.exports = {
         beginTime: "Date de début",
         endTime: "Date de fin",
         engine: "Implémentation effective de l'execution",
+        checked: "Pris en charge",
+        checkingDate: "Date de prise en charge",
+        checkingComment: "Commentaire",
         proId: "Processus",
-        estCd: "ExecutionState"
+        estCd: "ExecutionState",
+        usrId: "User"
     },
     oProcessPlanification: {
         prpId: "Id Planification",
@@ -82,6 +86,15 @@ module.exports = {
     oProcessType: {
         prtCd: "Code",
         label: "Libellé"
+    },
+    oUser: {
+        usrId: "Id",
+        firstName: "Nom",
+        lastName: "Prénom",
+        email: "Email",
+        password: "Mot de passe",
+        mailAlert: "Alerté en cas d'erreur",
+        active: "Compte Actif"
     },
     triggerType: {
         trtCd: "Code",

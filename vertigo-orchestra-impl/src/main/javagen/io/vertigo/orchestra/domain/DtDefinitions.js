@@ -208,12 +208,28 @@ module.exports = {
             domain: "DO_O_CLASSE",
             required: false
         },
+        checked: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        },
+        checkingDate: {
+            domain: "DO_O_TIMESTAMP",
+            required: false
+        },
+        checkingComment: {
+            domain: "DO_O_TEXT",
+            required: false
+        },
         proId: {
             domain: "DO_O_IDENTIFIANT",
             required: false
         },
         estCd: {
             domain: "DO_O_CODE_IDENTIFIANT",
+            required: false
+        },
+        usrId: {
+            domain: "DO_O_IDENTIFIANT",
             required: false
         }
     },
@@ -250,6 +266,36 @@ module.exports = {
         },
         label: {
             domain: "DO_O_LIBELLE",
+            required: false
+        }
+    },
+    oUser: {
+        usrId: {
+            domain: "DO_O_IDENTIFIANT",
+            required: true
+        },
+        firstName: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        lastName: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        email: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        password: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        mailAlert: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        },
+        active: {
+            domain: "DO_O_BOOLEEN",
             required: false
         }
     },

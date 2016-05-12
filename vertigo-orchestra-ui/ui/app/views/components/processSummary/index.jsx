@@ -12,23 +12,22 @@ const propTypes = {
 function ProcessSummary({ errorsCount, successfulCount, misfiredCount, averageExecutionTime, handleErrorClick, handleSuccessClick}) {
     return (
           <div  data-orchestra='execution-summary'>
-            <div data-orchestra='execution-summary-counts'>
-              <div>
-                <div className='errorsCount' onClick={handleErrorClick} >
+                <div data-orchestra='execution-summary-icon' className='errorsCount' onClick={handleErrorClick} >
+                  <i className="material-icons">report_problem</i><br/>
                   <span>{errorsCount}</span>
                 </div>
-                <div className='successfulCount'onClick={handleSuccessClick} >
+                <div data-orchestra='execution-summary-icon' className='successfulCount' onClick={handleSuccessClick} >
+                  <i className="material-icons">verified_user</i><br/>
                   <span>{successfulCount}</span>
                 </div>
-                <div className='misfiredCount' >
+                <div data-orchestra='execution-summary-icon' className='misfiredCount' >
+                  <i className="material-icons">alarm_off</i><br/>
                   <span>{misfiredCount}</span>
                 </div>
-              </div>
-            </div>
-            <div data-orchestra='execution-summary-average'>
-              <i className="material-icons">timer</i>
-              <span>{averageExecutionTime}s</span>
-            </div>
+                <div data-orchestra='execution-summary-icon'>
+                  <i className="material-icons">timer</i><br/>
+                  <span>{averageExecutionTime}s</span>
+                </div>
           </div>
     );
 };

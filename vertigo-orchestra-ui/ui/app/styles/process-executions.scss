@@ -9,6 +9,12 @@
         height: 98vh;
         &>div[data-orchestra='header']{
           height: 15%;
+          &>div[data-orchestra='filter']{
+            text-align: center;
+            &> button{
+              margin: 0 5px;
+            }
+          }
         }
         &>div[data-orchestra='timeline']{
           overflow-y: scroll;
@@ -24,15 +30,15 @@
 }
 
 [data-orchestra='processExecutions-list'] div[data-orchestra='item-detail'] {
-  min-width: 100%;
-  background-color: #ECF1F8;
+  min-width: 80%;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 [data-orchestra='activityExecutions-list']{
       display: flex;
-      background-color: #DCE6F2;
       &> div[data-orchestra='timeline']{
-        width: 30%;
+        width: 40%;
         &> ul {
           padding-left: 150px;
         }
@@ -44,8 +50,9 @@
         }
       }
       &> div[data-orchestra='detail']{
-        min-width: 70%;
-        padding: 0px 20px;
+        min-width: 60%;
+        height: 100%;
+        padding: 0px 0px;
       }
 }
 

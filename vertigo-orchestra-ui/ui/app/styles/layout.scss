@@ -1,61 +1,10 @@
 @import "variables";
 @import "mixins";
 
-.demo-app {
-    background-color: #FAFAFA;
-    width: 100%;
-    min-height: 100%;
-    margin: 0;
-    //font-family: Roboto, Helvetica, Arial, sans-serif;
-    color: $primary-text-color;
-    position: relative;
+.orchestra-app {
 
     [data-focus='layout'] {
-        background-color: transparent;
+        background-color: #EEEEEE;
         min-height: 100%;
     }
-
-    a {
-        color: $accent-color;
-        cursor: pointer;
-    }
-
-    @include headings {
-        padding: 0;
-        margin: 0;
-        margin-bottom: 8px;
-        color: $primary-color;
-    }
-
-    h1 {
-        font-size: 112px;
-        line-height: 98px;
-        font-weight: 300;
-    }
-    h2 {
-        font-size: 56px;
-        line-height: 50px;
-        font-weight: 400;
-    }
-    h3 {
-        font-size: 45px;
-        line-height: 40px;
-        font-weight: 400;
-    }
-    h4 {
-        font-size: 34px;
-        line-height: 30px;
-        font-weight: 400;
-    }
-    h5 {
-        font-size: 24px;
-        line-height: 22px;
-        font-weight: 400;
-    }
-    h6 {
-        font-size: 20px;
-        line-height: 20px;
-        font-weight: 500;
-    }
-
 }

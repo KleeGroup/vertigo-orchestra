@@ -14,13 +14,7 @@ $panel-padding-sides:20px;
             color:$primary-color;
         }
     }
-    &[data-demo="overview"] {
-        background-color: $primary-color-light;
-        [data-focus="button-action"] {
-            background-color: $accent-color;
-            color: $primary-color-text;
-        }
-    }
+
     [data-focus="panel-content"] {
         position: relative;
         //padding-top: 80px;
@@ -33,13 +27,12 @@ $panel-padding-sides:20px;
             margin-top: -15px;
             margin-bottom: 20px;
             margin-left: -$panel-padding-sides;
-            [data-focus='button-action']{
-                color:$primary-color-text;
-                &[data-active="true"]{
-                    border-bottom: 3px solid $primary-color-text;
-                    background-color: rgba(255,255,255, 0.12);
-                }
-            }
+
+        }
+
+        [data-focus='button-action']{
+            color:$primary-color-text;
+            background-color: $primary-color-light;
         }
     }
 }

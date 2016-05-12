@@ -18,10 +18,15 @@ public final class OProcessExecution implements DtObject {
 	private java.util.Date beginTime;
 	private java.util.Date endTime;
 	private String engine;
+	private Boolean checked;
+	private java.util.Date checkingDate;
+	private String checkingComment;
 	private Long proId;
 	private String estCd;
+	private Long usrId;
 	private io.vertigo.orchestra.domain.definition.OProcess process;
 	private io.vertigo.orchestra.domain.referential.OExecutionState executionState;
+	private io.vertigo.orchestra.domain.referential.OUser user;
 
 	/**
 	 * Champ : ID.
@@ -100,6 +105,63 @@ public final class OProcessExecution implements DtObject {
 	}
 
 	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Pris en charge'. 
+	 * @return Boolean checked 
+	 */
+	@Field(domain = "DO_O_BOOLEEN", label = "Pris en charge")
+	public Boolean getChecked() {
+		return checked;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Pris en charge'.
+	 * @param checked Boolean 
+	 */
+	public void setChecked(final Boolean checked) {
+		this.checked = checked;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Date de prise en charge'. 
+	 * @return java.util.Date checkingDate 
+	 */
+	@Field(domain = "DO_O_TIMESTAMP", label = "Date de prise en charge")
+	public java.util.Date getCheckingDate() {
+		return checkingDate;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Date de prise en charge'.
+	 * @param checkingDate java.util.Date 
+	 */
+	public void setCheckingDate(final java.util.Date checkingDate) {
+		this.checkingDate = checkingDate;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Commentaire'. 
+	 * @return String checkingComment 
+	 */
+	@Field(domain = "DO_O_TEXT", label = "Commentaire")
+	public String getCheckingComment() {
+		return checkingComment;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Commentaire'.
+	 * @param checkingComment String 
+	 */
+	public void setCheckingComment(final String checkingComment) {
+		this.checkingComment = checkingComment;
+	}
+
+	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'Processus'. 
 	 * @return Long proId 
@@ -135,6 +197,25 @@ public final class OProcessExecution implements DtObject {
 	 */
 	public void setEstCd(final String estCd) {
 		this.estCd = estCd;
+	}
+
+	/**
+	 * Champ : FOREIGN_KEY.
+	 * Récupère la valeur de la propriété 'User'. 
+	 * @return Long usrId 
+	 */
+	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "User")
+	public Long getUsrId() {
+		return usrId;
+	}
+
+	/**
+	 * Champ : FOREIGN_KEY.
+	 * Définit la valeur de la propriété 'User'.
+	 * @param usrId Long 
+	 */
+	public void setUsrId(final Long usrId) {
+		this.usrId = usrId;
 	}
 
 	/**
@@ -256,6 +337,65 @@ public final class OProcessExecution implements DtObject {
     )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> getExecutionStateURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_EST", io.vertigo.orchestra.domain.referential.OExecutionState.class);
+	}
+	/**
+	 * Association : User.
+	 * @return io.vertigo.orchestra.domain.referential.OUser
+	 */
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRE_USR",
+    	fkFieldName = "USR_ID",
+    	primaryDtDefinitionName = "DT_O_USER",
+    	primaryIsNavigable = true,
+    	primaryRole = "User",
+    	primaryLabel = "User",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionProcess",
+    	foreignLabel = "ExecutionProcessus",
+    	foreignMultiplicity = "0..*"
+    )
+	public io.vertigo.orchestra.domain.referential.OUser getUser() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OUser> fkURI = getUserURI();
+		if (fkURI == null) {
+			return null;
+		}
+		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
+		if (user != null) {
+			// On s'assure que l'objet correspond à la bonne clé
+			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OUser> uri;
+			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(user), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(user));
+			if (!fkURI.toURN().equals(uri.toURN())) {
+				user = null;
+			}
+		}		
+		if (user == null) {
+			user = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+		}
+		return user;
+	}
+
+	/**
+	 * Retourne l'URI: User.
+	 * @return URI de l'association
+	 */
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRE_USR",
+    	fkFieldName = "USR_ID",
+    	primaryDtDefinitionName = "DT_O_USER",
+    	primaryIsNavigable = true,
+    	primaryRole = "User",
+    	primaryLabel = "User",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionProcess",
+    	foreignLabel = "ExecutionProcessus",
+    	foreignMultiplicity = "0..*"
+    )
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OUser> getUserURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_USR", io.vertigo.orchestra.domain.referential.OUser.class);
 	}
 
 	/** {@inheritDoc} */

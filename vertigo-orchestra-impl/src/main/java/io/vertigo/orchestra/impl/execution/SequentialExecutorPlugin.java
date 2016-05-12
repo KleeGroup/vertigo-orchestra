@@ -161,7 +161,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				if (workspaceOut.isSuccess()) {
 					endActivityExecution(activityExecution, ExecutionState.DONE);
 				} else if (workspaceOut.isPending()) {
-					endActivityExecution(activityExecution, ExecutionState.PENDING);
+					// We do nothing because we already delegated the change of status in the AbstractActivityEngine
 				} else {
 					endActivityExecution(activityExecution, ExecutionState.ERROR);
 				}
@@ -181,6 +181,13 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkState(ExecutionState.PENDING.name().equals(activityExecution.getEstCd()), "Only pending executions can be ended remotly");
 		endActivityExecution(activityExecution, executionState);
 
+	}
+
+	public void setActivityExecutionPending(final Long activityExecutionId) {
+		Assertion.checkNotNull(activityExecutionId);
+		// ---
+		final OActivityExecution activityExecution = activityExecutionDAO.get(activityExecutionId);
+		endActivityExecution(activityExecution, ExecutionState.PENDING);
 	}
 
 	void changeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {

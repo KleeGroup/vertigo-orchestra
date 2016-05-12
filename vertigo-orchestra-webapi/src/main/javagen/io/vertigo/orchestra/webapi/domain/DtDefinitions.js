@@ -70,9 +70,17 @@ module.exports = {
             domain: "DO_O_NOMBRE",
             required: false
         },
+        runningCount: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
         averageExecutionTime: {
             domain: "DO_O_NOMBRE",
             required: false
+        },
+        health: {
+            domain: "DO_O_CODE_IDENTIFIANT",
+            required: true
         }
     },
     oProcessExecutionUi: {
@@ -94,6 +102,18 @@ module.exports = {
         },
         status: {
             domain: "DO_O_CODE_IDENTIFIANT",
+            required: false
+        },
+        checked: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        },
+        checkingDate: {
+            domain: "DO_O_TIMESTAMP",
+            required: false
+        },
+        checkingComment: {
+            domain: "DO_O_TEXT",
             required: false
         }
     },

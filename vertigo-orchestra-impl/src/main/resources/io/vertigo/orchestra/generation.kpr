@@ -16,3 +16,4 @@ model/planification/process_planification.ksp
 
 model/referential/states.ksp
 model/referential/types.ksp
+model/referential/users.ksp
