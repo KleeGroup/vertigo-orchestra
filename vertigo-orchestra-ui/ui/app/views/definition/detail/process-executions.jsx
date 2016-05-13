@@ -70,7 +70,7 @@ export default React.createClass({
     /** @inheritDoc */
     renderContent() {
         const {isProcessExecutionsModalOpen, initialStatus, proId} = this.state;
-        const {errorsCount, successfulCount, misfiredCount, averageExecutionTime} = this.state;
+        const {errorsCount, successfulCount, misfiredCount, averageExecutionTime, health} = this.state;
         return (
             <Panel title='view.process.detail.executions'>
                 <ProcessSummary
@@ -78,6 +78,7 @@ export default React.createClass({
                   successfulCount={successfulCount}
                   misfiredCount={misfiredCount}
                   averageExecutionTime={averageExecutionTime}
+                  health={health}
                   handleErrorClick={this._onSummaryErrorClick}
                   handleSuccessClick={this._onSummarySuccessClick} />
                 <Button label={translate('button.viewAllExecutions')} type='button' handleOnClick={this._onProcessExecutionsModalToggle} />

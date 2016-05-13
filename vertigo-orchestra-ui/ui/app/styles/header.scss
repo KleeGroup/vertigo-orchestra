@@ -17,6 +17,10 @@ $header-content-summary-padding-top: 5px;
     [data-focus="header-actions"] {
         [data-focus="button-action"] {
             background-color: $accent-color;
+            &[shape='fab']{
+                color:$primary-color-text !important;
+                background-color: $primary-color-light !important;
+            }
         }
     }
 

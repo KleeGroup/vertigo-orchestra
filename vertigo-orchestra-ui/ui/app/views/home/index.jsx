@@ -52,6 +52,9 @@ export default React.createClass({
     _onSuccessClick(d) {
         this.setState({status:'DONE'});
     },
+    _onMisfiredClick(d) {
+        this.setState({status:'MISFIRED'});
+    },
 
     _onPreviousClick(d) {
         const {offset} = this.state;
@@ -100,6 +103,7 @@ export default React.createClass({
                   <Button label='Tout' type='button' shape='fab' icon='done_all' color='accent' handleOnClick={this._onAllClick} />
                   <Button label='Err' type='button' shape='fab' icon='report_problem' color='accent' handleOnClick={this._onErrorClick} />
                   <Button label='Succ' type='button'  shape='fab' icon='verified_user' color='accent' handleOnClick={this._onSuccessClick} />
+                  <Button label='Succ' type='button'  shape='fab' icon='alarm_off' color='accent' handleOnClick={this._onMisfiredClick} />
                 </div>
                 <div data-orchestra='time-filter'>
                   <Button label={translate('view.home.previousWeek')} type='button' handleOnClick={this._onPreviousClick}  color='accent' data-orchestra='previous' />

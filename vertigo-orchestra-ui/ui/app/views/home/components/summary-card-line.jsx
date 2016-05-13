@@ -11,26 +11,12 @@ const SummaryLine = React.createClass({
     mixins: [LinePreset],
     definitionPath: 'oExecutionSummary',
 
-    getClassFromHeath(health){
-      switch (health) {
-        case 'SUCCESS':
-            return 'health-success';
-        case 'WARNING':
-            return 'health-warning';
-        case 'ERROR':
-            return 'health-error';
-        default:
-            return '';
 
-      }
-    },
 
     renderLineContent() {
         const {errorsCount, successfulCount, misfiredCount, averageExecutionTime, health} = this.props.data;
         return (
             <div data-orchestra='summary-line-content' >
-                <div data-orchestra='health' className={this.getClassFromHeath(health)}>
-                </div>
                 <div data-orchestra='name' >
                 {this.textFor('processLabel')}
                 </div>
@@ -40,6 +26,7 @@ const SummaryLine = React.createClass({
                     successfulCount={successfulCount}
                     misfiredCount={misfiredCount}
                     averageExecutionTime={averageExecutionTime}
+                    health={health}
                     handleErrorClick={() => {}}
                     handleSuccessClick={() => {}} />
                 </div>

@@ -3,38 +3,55 @@ package io.vertigo.orchestra.webapi.dao.summary
 create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select * from (select distinct 
-        			(select pro1.PRO_ID from o_process pro1 where pro1.name = pro.name and pro1.active_version is true) as PRO_ID,
-        			pro.NAME as PROCESS_NAME,
-        			pro.LABEL as PROCESS_LABEL,
-        			round(extract('epoch' from avg(pre.END_TIME-pre.BEGIN_TIME) over w )) as AVERAGE_EXECUTION_TIME,
-        			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,
-        			sum(case when pre.est_cd='ERROR' then 1 else 0 end) over w as ERRORS_COUNT,
-        			sum(case when pre.est_cd='RUNNING' then 1 else 0 end) over w as RUNNING_COUNT,
-        			max(pre.begin_time) over w as LAST_EXECUTION_TIME,
-        			mis_sub.MISFIRED_COUNT as MISFIRED_COUNT,
-					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME,
-					case when status_sub.ERRORS_IN_LAST = 0 then 'SUCCESS'
-				     when status_sub.ERRORS_IN_LAST > 0 and last_status_sub.LAST_STATUS = 'DONE' then 'WARNING'
-				     when status_sub.ERRORS_IN_LAST > 0 and last_status_sub.LAST_STATUS = 'ERROR' then 'ERROR'
-				     else 'SUCCESS' end as HEALTH
-			from o_process pro
-			left join o_process_execution pre on pro.pro_id = pre.pro_id,
-			LATERAL (select count(prp.prp_Id) as MISFIRED_COUNT
-        					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='MISFIRED' and prp.expected_time between #DATE_MIN# and #DATE_MAX# )
-			  			as mis_sub,
-			LATERAL (select min(prp.expected_time) as NEXT_EXECUTION_TIME
-			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' )
-						as next_sub,
-			LATERAL (select pre.begin_time,  
-					sum(case when pre.est_cd='ERROR' then 1 else 0 end) as ERRORS_IN_LAST
-  				from o_process_execution pre join o_process p3 on p3.pro_id=pre.pro_id  where p3.name=pro.name and pre.EST_CD != 'RUNNING' group by pre.pre_id order by pre.begin_time desc limit 5 )
-			as status_sub,
-			LATERAL (select pre.EST_CD as LAST_STATUS
-  				from o_process_execution pre join o_process p3 on p3.pro_id=pre.pro_id  where p3.name=pro.name and pre.EST_CD != 'RUNNING' group by pre.pre_id order by pre.begin_time desc limit 1 )
-			as last_status_sub	
-			where pre.begin_time between #DATE_MIN# and #DATE_MAX#
-			WINDOW w as (PARTITION by pro.name)) as s
+        	select * from (select *
+				from (
+					select (select pro1.PRO_ID from o_process pro1 where pro1.name = exec.name and pro1.active_version is true) as PRO_ID,
+						exec.name as PROCESS_NAME,
+						exec.label as PROCESS_LABEL,
+						sum(exec.SI_SUCCESS) as SUCCESSFUL_COUNT,
+						sum(exec.SI_ERREUR) as ERRORS_COUNT,
+						sum(exec.SI_RUNNING) as RUNNING_COUNT,
+						round(extract('epoch' from avg(exec.execution_time))) as AVERAGE_EXECUTION_TIME,
+						max(begin_time) as LAST_EXECUTION_TIME,
+						case when min(exec.ERROR_RANK) = 1 then 'ERROR'
+							when min(exec.ERROR_RANK) < 6 then 'WARNING'
+							else 'SUCCESS' end as HEALTH
+						
+					from (
+						select 	pro.pro_id,
+							pro.name,
+							pro.label,
+							pre.END_TIME-pre.BEGIN_TIME as execution_time,
+							case when pre.est_cd='DONE' then 1 else 0 end as SI_SUCCESS,
+							case when pre.est_cd='ERROR' then 1 else 0 end as SI_ERREUR,
+							case when pre.est_cd='RUNNING' then 1 else 0 end as SI_RUNNING,
+							pre.begin_time,
+							pre.EST_CD,
+							case when pre.est_cd='ERROR' then
+								rank() over(PARTITION by pro.name order by pre.begin_time desc)
+								else null
+							end as ERROR_RANK
+						from o_process pro 
+						join o_process_execution pre on pre.pro_id = pro.pro_id
+						where pre.begin_time between #DATE_MIN# and #DATE_MAX#
+						
+					) exec
+					group by exec.name, exec.label
+				) as from_exec
+				
+				join ( 	select 	planif.name,
+								min(planif.waitingexpected_time) as NEXT_EXECUTION_TIME,
+								sum(case when planif.pst_cd='MISFIRED' and planif.expected_time between #DATE_MIN# and #DATE_MAX# then 1 else 0 end) as MISFIRED_COUNT
+						from (
+							select p2.name,
+								prp.expected_time as expected_time,
+								case when prp.PST_CD = 'WAITING' then prp.expected_time else null end as waitingexpected_time,
+								prp.PST_CD
+							from o_process_planification prp
+							join o_process p2 on p2.pro_id=prp.pro_id) as planif 
+						group by planif.name
+					) lat_planif  on lat_planif.name = from_exec.PROCESS_NAME) as s
+        
 			where 1=1
 			<%if (\"ERROR\".equals(status)) {%>
 				and s.ERRORS_COUNT > 0
@@ -57,39 +74,56 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
 create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select 	distinct 
-        			(select pro1.PRO_ID from o_process pro1 where pro1.name = pro.name and pro1.active_version is true) as PRO_ID,
-        			pro.NAME as PROCESS_NAME,
-        			pro.LABEL as PROCESS_LABEL,
-        			round(extract('epoch' from avg(pre.END_TIME-pre.BEGIN_TIME) over w)) as AVERAGE_EXECUTION_TIME,
-        			sum(case when pre.est_cd='DONE' then 1 else 0 end) over w as SUCCESSFUL_COUNT,
-        			sum(case when pre.est_cd='ERROR' then 1 else 0 end) over w as ERRORS_COUNT,
-        			sum(case when pre.est_cd='RUNNING' then 1 else 0 end) over w as RUNNING_COUNT,
-        			max(pre.begin_time) over w as LAST_EXECUTION_TIME,
-        			mis_sub.MISFIRED_COUNT as MISFIRED_COUNT,
-					next_sub.NEXT_EXECUTION_TIME as NEXT_EXECUTION_TIME,
-					case when status_sub.ERRORS_IN_LAST = 0 then 'SUCCESS'
-				     when status_sub.ERRORS_IN_LAST > 0 and last_status_sub.LAST_STATUS = 'DONE' then 'WARNING'
-				     when status_sub.ERRORS_IN_LAST > 0 and last_status_sub.LAST_STATUS = 'ERROR' then 'ERROR'
-				     else 'SUCCESS' end as HEALTH
-			from o_process pro
-			left join o_process_execution pre on pro.pro_id = pre.pro_id,
-			LATERAL (select count(prp.prp_Id) as MISFIRED_COUNT
-        					from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='MISFIRED' and prp.expected_time between #DATE_MIN# and #DATE_MAX# )
-			  			as mis_sub,
-			LATERAL (select min(prp.expected_time) as NEXT_EXECUTION_TIME
-			  				from o_process_planification prp join o_process p2 on p2.pro_id=prp.pro_id where p2.name=pro.name and prp.pst_cd='WAITING' )
-						as next_sub,
-			LATERAL (select pre.begin_time,  
-					sum(case when pre.est_cd='ERROR' then 1 else 0 end) as ERRORS_IN_LAST
-  				from o_process_execution pre join o_process p3 on p3.pro_id=pre.pro_id  where p3.name=pro.name and pre.EST_CD != 'RUNNING' group by pre.pre_id order by pre.begin_time desc limit 5 )
-			as status_sub,
-			LATERAL (select pre.EST_CD as LAST_STATUS
-  				from o_process_execution pre join o_process p3 on p3.pro_id=pre.pro_id  where p3.name=pro.name and pre.EST_CD != 'RUNNING' group by pre.pre_id order by pre.begin_time desc limit 1 )
-			as last_status_sub
-			where case when pre.begin_time is not null then pre.begin_time between #DATE_MIN# and #DATE_MAX# else 1=1 end
-			and pro.NAME = #NAME#
-			WINDOW w as (PARTITION by pro.name);
+        	select *
+				from (
+					select (select pro1.PRO_ID from o_process pro1 where pro1.name = exec.name and pro1.active_version is true) as PRO_ID,
+						exec.name as PROCESS_NAME,
+						exec.label as PROCESS_LABEL,
+						sum(exec.SI_SUCCESS) as SUCCESSFUL_COUNT,
+						sum(exec.SI_ERREUR) as ERRORS_COUNT,
+						sum(exec.SI_RUNNING) as RUNNING_COUNT,
+						round(extract('epoch' from avg(exec.execution_time))) as AVERAGE_EXECUTION_TIME,
+						max(begin_time) as LAST_EXECUTION_TIME,
+						case when min(exec.ERROR_RANK) = 1 then 'ERROR'
+							when min(exec.ERROR_RANK) < 6 then 'WARNING'
+							else 'SUCCESS' end as HEALTH
+						
+					from (
+						select 	pro.pro_id,
+							pro.name,
+							pro.label,
+							pre.END_TIME-pre.BEGIN_TIME as execution_time,
+							case when pre.est_cd='DONE' then 1 else 0 end as SI_SUCCESS,
+							case when pre.est_cd='ERROR' then 1 else 0 end as SI_ERREUR,
+							case when pre.est_cd='RUNNING' then 1 else 0 end as SI_RUNNING,
+							pre.begin_time,
+							pre.EST_CD,
+							case when pre.est_cd='ERROR' then
+								rank() over(PARTITION by pro.name order by pre.begin_time desc)
+								else null
+							end as ERROR_RANK
+						from o_process pro 
+						join o_process_execution pre on pre.pro_id = pro.pro_id
+						where pre.begin_time between #DATE_MIN# and #DATE_MAX# and pro.name = #NAME#
+						
+					) exec
+					group by exec.name, exec.label
+				) as from_exec,
+				
+				LATERAL ( 	select 	
+								min(planif.waitingexpected_time) as NEXT_EXECUTION_TIME,
+								sum(case when planif.pst_cd='MISFIRED' and planif.expected_time between #DATE_MIN# and #DATE_MAX# then 1 else 0 end) as MISFIRED_COUNT
+						from (
+							select p2.name,
+								prp.expected_time as expected_time,
+								case when prp.PST_CD = 'WAITING' then prp.expected_time else null end as waitingexpected_time,
+								prp.PST_CD
+							from o_process_planification prp
+							join o_process p2 on p2.pro_id=prp.pro_id
+							where p2.name = #NAME#) as planif 
+						where planif.name = from_exec.PROCESS_NAME
+						group by planif.name
+					) lat_planif;
         	
 			"
 	attribute DT_EXECUTION_SUMMARY	 	{domain : DO_DT_O_EXECUTION_SUMMARY_DTO 		notNull:"true" 	inOut :"out"}

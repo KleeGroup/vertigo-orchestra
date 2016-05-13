@@ -25,9 +25,40 @@
           & .timeline-panel{
               width: auto;
           }
+
+
         }
       }
 }
+
+[data-orchestra='status-indicator']{
+  width: 5px;
+  height: 100%;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  border-radius: 0px 2px 2px 0px;
+
+  &.error{
+    background-color: red;
+  }
+  &.done{
+    background-color: green;
+  }
+  &.running{
+    animation:runningAnimation 2s infinite;
+  }
+}
+
+@keyframes runningAnimation
+{
+0%   {background:$primary-color;}
+10%   {background:$primary-color;}
+50%  {background:$primary-color-text;}
+90% {background:$primary-color;}
+100% {background:$primary-color;}
+}
+
 
 [data-orchestra='processExecutions-list'] div[data-orchestra='item-detail'] {
   min-width: 80%;

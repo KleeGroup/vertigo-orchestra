@@ -53,6 +53,15 @@
             color: grey;
             cursor: default;
           }
+          &.health-success {
+            color: green;
+          }
+          &.health-warning {
+            color: orange;
+          }
+          &.health-error {
+            color: red;
+          }
           & > span {
             vertical-align: middle;
             font-weight: bold;

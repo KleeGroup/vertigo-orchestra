@@ -17,9 +17,9 @@ mvn-release.txt
 #ui
 
 api/target
-ui/node_modules
-ui/bower_components
-ui/.npmrc
+**/ui/node_modules
+**/ui/bower_components
+**/ui/.npmrc
 .idea
 
 **/*.log

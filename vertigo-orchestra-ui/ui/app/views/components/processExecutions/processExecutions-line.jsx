@@ -10,10 +10,25 @@ const ProcessExecutionsLine = React.createClass({
     mixins: [lineMix],
     definitionPath: 'oProcessExecutionUi',
 
+    getClassFromStatus(status){
+      switch (status) {
+        case 'DONE':
+            return 'done';
+        case 'ERROR':
+            return 'error';
+        case 'RUNNING':
+            return 'running';
+        default:
+            return '';
+
+      }
+    },
+
     renderLineContent() {
         return (
             <div >
                 {this.textFor('beginTime')}
+                <div data-orchestra="status-indicator" className={this.getClassFromStatus(this.props.data.status)}></div>
             </div>
         );
     }

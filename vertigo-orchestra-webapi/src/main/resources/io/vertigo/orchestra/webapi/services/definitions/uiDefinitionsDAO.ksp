@@ -33,7 +33,7 @@ create Task TK_SEARCH_PROCESS_BY_LABEL {
         			pro.RESCUE_PERIOD as RESCUE_PERIOD,
         			pro.METADATAS as METADATAS
         	from o_process pro   
-        	where lower(pro.LABEL) like #SEARCH#  and pro.ACTIVE_VERSION is true
+        	where lower(pro.LABEL) like lower(#SEARCH#)  and pro.ACTIVE_VERSION is true
 			"
 	attribute SEARCH	 	{domain : DO_O_LIBELLE		notNull:"true" 	inOut :"in"}
 	attribute DTC_O_PROCESS_UI	 	{domain : DO_DT_O_PROCESS_UI_DTC		notNull:"true" 	inOut :"out"}
