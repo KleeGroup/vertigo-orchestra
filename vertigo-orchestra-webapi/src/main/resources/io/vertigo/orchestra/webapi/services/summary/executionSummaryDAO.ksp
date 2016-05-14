@@ -3,7 +3,19 @@ package io.vertigo.orchestra.webapi.dao.summary
 create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select * from (select *
+        	select 	* from (select 
+        		from_exec.PRO_ID,
+        		from_exec.PROCESS_NAME,
+        		from_exec.PROCESS_LABEL,
+        		from_exec.SUCCESSFUL_COUNT,
+        		from_exec.ERRORS_COUNT,
+        		from_exec.RUNNING_COUNT,
+        		from_exec.AVERAGE_EXECUTION_TIME,
+        		from_exec.LAST_EXECUTION_TIME,
+        		from_exec.HEALTH,
+        		
+        		lat_planif.NEXT_EXECUTION_TIME,
+        		lat_planif.MISFIRED_COUNT
 				from (
 					select (select pro1.PRO_ID from o_process pro1 where pro1.name = exec.name and pro1.active_version is true) as PRO_ID,
 						exec.name as PROCESS_NAME,
@@ -74,7 +86,19 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
 create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
-        	select *
+        	select 
+        		from_exec.PRO_ID,
+        		from_exec.PROCESS_NAME,
+        		from_exec.PROCESS_LABEL,
+        		from_exec.SUCCESSFUL_COUNT,
+        		from_exec.ERRORS_COUNT,
+        		from_exec.RUNNING_COUNT,
+        		from_exec.AVERAGE_EXECUTION_TIME,
+        		from_exec.LAST_EXECUTION_TIME,
+        		from_exec.HEALTH,
+        		
+        		lat_planif.NEXT_EXECUTION_TIME,
+        		lat_planif.MISFIRED_COUNT
 				from (
 					select (select pro1.PRO_ID from o_process pro1 where pro1.name = exec.name and pro1.active_version is true) as PRO_ID,
 						exec.name as PROCESS_NAME,

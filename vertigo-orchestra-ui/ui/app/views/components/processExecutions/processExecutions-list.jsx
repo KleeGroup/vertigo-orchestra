@@ -20,17 +20,17 @@ export default React.createClass({
   },
 
   componentWillMount() {
-    this.action=listProcessExecutionsActions(this.props.id, this.props.status);
+    if(this.action){
+      this.action.updateProperties({criteria : {status:this.props.status, id:this.props.id}});
+    } else {
+      this.action=listProcessExecutionsActions(this.props.id, this.props.status);
+    }
   },
 
-  componentWillReceiveProps(nextProps){
-    //this.action=listProcessExecutionsActions(nextProps.id, nextProps.status);
-  },
 
   componentWillUpdate(nextProps, nextState) {
       this.action=listProcessExecutionsActions(nextProps.id, nextProps.status);
       this.action.load();
-      //this.action.updateProperties({criteria : {status:nextProps.status, id:nextProps.id}});
   },
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -40,7 +40,7 @@ export default React.createClass({
   },
 
   render() {
-    const {handleLineClick, store, columns} = this.props;
+    const {handleLineClick, store, columns, id} = this.props;
     return (
         <SmartList
             ListComponent={ListComponent}

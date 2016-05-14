@@ -24,17 +24,12 @@ export default React.createClass({
         initialStatus: PropTypes.string
     },
 
-    componentWillReceiveProps(nextProps){
-      this.setState({
-                    preId: nextProps.id,
-                    status: nextProps.initialStatus
-                  }
-      );
-    },
+
 
 
     getInitialState () {
         return {
+            proId: this.props.id,
             preId: null,
             status: null
         };
@@ -66,8 +61,8 @@ export default React.createClass({
 
     /** @inheritDoc */
     render() {
-        const {id} = this.props;
-        const {status, preId} = this.state;
+        //const {id} = this.props;
+        const {proId, status, preId} = this.state;
         return (
           <div data-orchestra='processExecutions-list'>
             <div data-orchestra='panel-left'>
@@ -81,7 +76,7 @@ export default React.createClass({
               </div>
               <div data-orchestra='timeline'>
                 <ProcessExecutionsList
-                    id = {id}
+                    id = {proId}
                     status = {status}
                     columns={[]}
                     store={processExecutionListStore}
