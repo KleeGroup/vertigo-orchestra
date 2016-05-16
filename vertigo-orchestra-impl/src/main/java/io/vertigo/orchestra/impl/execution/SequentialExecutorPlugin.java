@@ -153,20 +153,17 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(workspaceOut.getValue("status"), "Le status est obligatoire dans le résultat");
 		// ---
 		// 2. We manage the execution workflow
-		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			if (error != null) {
-				error.printStackTrace();
-				doChangeExecutionState(activityExecution, ExecutionState.ERROR);
+		if (error != null) {
+			error.printStackTrace();
+			endActivityExecution(activityExecution, ExecutionState.ERROR);
+		} else {
+			if (workspaceOut.isSuccess()) {
+				endActivityExecution(activityExecution, ExecutionState.DONE);
+			} else if (workspaceOut.isPending()) {
+				// We do nothing because we already delegated the change of status in the AbstractActivityEngine
 			} else {
-				if (workspaceOut.isSuccess()) {
-					endActivityExecution(activityExecution, ExecutionState.DONE);
-				} else if (workspaceOut.isPending()) {
-					// We do nothing because we already delegated the change of status in the AbstractActivityEngine
-				} else {
-					endActivityExecution(activityExecution, ExecutionState.ERROR);
-				}
+				endActivityExecution(activityExecution, ExecutionState.ERROR);
 			}
-			transaction.commit();
 		}
 
 	}
@@ -296,13 +293,18 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			transaction.commit();
 		}
 		for (final OActivityExecution activityExecution : activitiesToLaunch) { //We submit only the process we can handle, no queue
+			ActivityExecutionWorkspace workspace;
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				final ActivityExecutionWorkspace workspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), true);
+				workspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), true);
 				doChangeExecutionState(activityExecution, ExecutionState.SUBMITTED);
 				// We set the beginning time of the activity
 				activityExecution.setBeginTime(new Date());
-				workers.submit(new OWorker(activityExecution, workspace, this));
 				transaction.commit();
+			}
+			if (workspace != null) {
+				workers.submit(new OWorker(activityExecution, workspace, this));
+			} else {
+				endActivityExecution(activityExecution, ExecutionState.ERROR);
 			}
 		}
 
@@ -347,15 +349,16 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(activityExecution);
 		Assertion.checkNotNull(executionState);
 		// ---
+		
 		switch (executionState) {
 			case DONE:
 				endActivityExecutionAndInitNext(activityExecution);
 				break;
 			case ERROR:
-				doChangeExecutionState(activityExecution, ExecutionState.ERROR);
+				changeExecutionState(activityExecution, ExecutionState.ERROR);
 				break;
 			case PENDING:
-				doChangeExecutionState(activityExecution, ExecutionState.PENDING);
+				changeExecutionState(activityExecution, ExecutionState.PENDING);
 				break;
 			default:
 				throw new RuntimeException("Unknwon case for ending activity execution :  " + executionState.name());
@@ -364,25 +367,42 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	}
 
 	private void endActivityExecutionAndInitNext(final OActivityExecution activityExecution) {
-		endActivity(activityExecution);
-
-		final Option<OActivity> nextActivity = getNextActivityByActId(activityExecution.getActId());
-		if (nextActivity.isDefined()) {
-			final OActivityExecution nextActivityExecution = initActivityExecutionWithActivity(nextActivity.get(), activityExecution.getPreId());
-			// We keep the previous worker (Not the same but the slot) for the next Activity Execution
-			reserveActivityExecution(nextActivityExecution);
-			activityExecutionDAO.save(nextActivityExecution);
-			// We keep the old workspace for the nextTask
-			final ActivityExecutionWorkspace previousWorkspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
-			// We remove the status and update the activityExecutionId and token
-			previousWorkspace.resetStatus();
-			previousWorkspace.setActivityExecutionId(nextActivityExecution.getAceId());
-			previousWorkspace.setToken(nextActivityExecution.getToken());
+		OActivityExecution nextActivityExecution = null;
+		ActivityExecutionWorkspace nextWorkspace = null;
+		boolean hasNext = false;
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			endActivity(activityExecution);
+	
+			final Option<OActivity> nextActivity = getNextActivityByActId(activityExecution.getActId());
+			if (nextActivity.isDefined()) {
+				hasNext = true;
+				nextActivityExecution = initActivityExecutionWithActivity(nextActivity.get(), activityExecution.getPreId());
+				// We keep the previous worker (Not the same but the slot) for the next Activity Execution
+				reserveActivityExecution(nextActivityExecution);
+				activityExecutionDAO.save(nextActivityExecution);
+				
+				// We keep the old workspace for the nextTask
+				final ActivityExecutionWorkspace previousWorkspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
+				// We remove the status and update the activityExecutionId and token
+				previousWorkspace.resetStatus();
+				previousWorkspace.setActivityExecutionId(nextActivityExecution.getAceId());
+				previousWorkspace.setToken(nextActivityExecution.getToken());
+				// ---
+				saveActivityExecutionWorkspace(nextActivityExecution.getAceId(), previousWorkspace, true);
+				nextActivityExecution.setBeginTime(new Date());
+				nextWorkspace = previousWorkspace;
+				
+			} else {
+				endSuccessfulProcessExecution(activityExecution.getPreId());
+			}
+			transaction.commit();
+			
+		}
+		if (hasNext) {
+			Assertion.checkNotNull(nextActivityExecution);
+			Assertion.checkNotNull(nextWorkspace);
 			// ---
-			saveActivityExecutionWorkspace(nextActivityExecution.getAceId(), previousWorkspace, true);
-
-		} else {
-			endSuccessfulProcessExecution(activityExecution.getPreId());
+			workers.submit(new OWorker(nextActivityExecution, nextWorkspace, this));
 		}
 	}
 
@@ -424,7 +444,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	}
 
 	private void reserveActivityExecution(final OActivityExecution activityExecution) {
-		activityExecution.setEstCd(ExecutionState.RESERVED.name());
+		activityExecution.setEstCd(ExecutionState.SUBMITTED.name());
 		activityExecution.setNodId(nodId);
 	}
 
@@ -500,6 +520,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			return workersCount - workersPool.getActiveCount();
 		}
 		return workersCount;
+		//return workersCount - activeWorkersCount;
 	}
 
 	private static void logError(final OActivityExecution activityExecution, final Throwable e) {

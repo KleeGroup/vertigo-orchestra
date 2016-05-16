@@ -37,16 +37,16 @@ public class OWorker implements Runnable {
 	}
 
 	private void doRun() {
-		final ExecutorService localExecutor = Executors.newSingleThreadExecutor();
-		final Future<ActivityExecutionWorkspace> futureResult = localExecutor.submit(new OLocalWorker(sequentialExecutor, activityExecution, params));
+		//final ExecutorService localExecutor = Executors.newSingleThreadExecutor();
+		//final Future<ActivityExecutionWorkspace> futureResult = localExecutor.submit(new OLocalWorker(sequentialExecutor, activityExecution, params));
 		ActivityExecutionWorkspace result;
 		try {
-			result = futureResult.get();
+			result = new OLocalWorker(sequentialExecutor, activityExecution, params).call();
 			sequentialExecutor.putResult(activityExecution, result, null);
-		} catch (final ExecutionException | RuntimeException | InterruptedException e) {
+		} catch (final Exception e) {
 			sequentialExecutor.putResult(activityExecution, null, e.getCause());
 		} finally {
-			localExecutor.shutdown();
+			//localExecutor.shutdown();
 		}
 
 	}
