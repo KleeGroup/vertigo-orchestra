@@ -55,6 +55,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		process.setMultiexecution(processDefinition.getMultiexecution());
 		process.setRescuePeriod(processDefinition.getRescuePeriod());
 		process.setMetadatas(processDefinition.getMetadatas().getOrElse(null));
+		process.setNeedUpdate(processDefinition.getNeedUpdate());
 		if (processDefinition.getCronExpression().isDefined()) {
 			process.setTrtCd("SCHEDULED");
 		} else {
@@ -127,6 +128,9 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		if (!StringUtil.isEmpty(process.getInitialParams())) {
 			definitionBuilder.withInitialParams(process.getInitialParams());
 		}
+		if (process.getNeedUpdate() != null && process.getNeedUpdate()) {
+			definitionBuilder.withNeedUpdate();
+		}
 		if (!StringUtil.isEmpty(process.getMetadatas())) {
 			definitionBuilder.withMetadatas(process.getMetadatas());
 		}
@@ -162,13 +166,16 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void createOrUpdateDefinition(final ProcessDefinition processDefinition) {
+	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		Assertion.checkNotNull(processDefinition.getName());
 		// ---
 		final String processName = processDefinition.getName();
 		if (processDefinitionExist(processName)) {
-			updateDefinition(processDefinition);
+			final ProcessDefinition existingDefinition = getProcessDefinition(processName);
+			if (existingDefinition.getNeedUpdate()) {
+				updateDefinition(processDefinition);
+			}
 		} else {
 			createDefinition(processDefinition);
 		}
@@ -183,6 +190,8 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		// ---
 		final String processName = processDefinition.getName();
 		definitionPAO.disableOldProcessDefinitions(processName);
+		// on supprime toute la planification existante
+		processSchedulerManager.resetFuturePlanificationOfProcess(processName);
 		createDefinition(processDefinition);
 
 	}
@@ -206,7 +215,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		process.setActive(active);
 		processDao.save(process);
 		// on supprime toute la planification existante
-		processSchedulerManager.resetFuturePlanificationOfProcess(process.getProId());
+		processSchedulerManager.resetFuturePlanificationOfProcess(processName);
 	}
 
 	/** {@inheritDoc} */
@@ -230,4 +239,5 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		// ---
 		return processOption.get();
 	}
+
 }

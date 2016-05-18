@@ -24,6 +24,7 @@ public final class OProcess implements DtObject {
 	private Boolean active;
 	private Long rescuePeriod;
 	private String metadatas;
+	private Boolean needUpdate;
 	private String trtCd;
 	private String prtCd;
 	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
@@ -217,6 +218,25 @@ public final class OProcess implements DtObject {
 	 */
 	public void setMetadatas(final String metadatas) {
 		this.metadatas = metadatas;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Doit être mise à jour lors du démarrage'. 
+	 * @return Boolean needUpdate <b>Obligatoire</b>
+	 */
+	@Field(domain = "DO_O_BOOLEEN", required = true, label = "Doit être mise à jour lors du démarrage")
+	public Boolean getNeedUpdate() {
+		return needUpdate;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Doit être mise à jour lors du démarrage'.
+	 * @param needUpdate Boolean <b>Obligatoire</b>
+	 */
+	public void setNeedUpdate(final Boolean needUpdate) {
+		this.needUpdate = needUpdate;
 	}
 
 	/**

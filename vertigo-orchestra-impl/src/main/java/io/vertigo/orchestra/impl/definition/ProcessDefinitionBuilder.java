@@ -20,6 +20,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	private Option<String> cronExpression = Option.<String> none();
 	private Option<String> initialParams = Option.<String> none();
 	private boolean multiExecution = false;
+	private boolean needUpdate = false;
 	private Long rescuePeriod = 0L;
 	private final ListBuilder<ActivityDefinition> activitiesBuilder = new ListBuilder<>();
 
@@ -102,10 +103,20 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 		return this;
 	}
 
+	/**
+	 * Définit le informations du process.
+	 * @param processMetadata les métadonnées sous format JSON
+	 * @return this
+	 */
+	public ProcessDefinitionBuilder withNeedUpdate() {
+		needUpdate = true;
+		return this;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessImpl(name, label, cronExpression, initialParams, multiExecution, rescuePeriod, metadata, activitiesBuilder.unmodifiable().build());
+		return new ProcessImpl(name, label, cronExpression, initialParams, multiExecution, rescuePeriod, metadata, needUpdate, activitiesBuilder.unmodifiable().build());
 	}
 
 }

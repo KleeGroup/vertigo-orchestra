@@ -159,8 +159,8 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 		processPlanificationDAO.save(processPlanification);
 	}
 
-	void resetFuturePlanificationOfProcess(final Long proId) {
-		planificationPAO.cleanFuturePlanifications(proId);
+	void resetFuturePlanificationOfProcess(final String processName) {
+		planificationPAO.cleanFuturePlanifications(processName);
 	}
 
 	//--------------------------------------------------------------------------------------------------

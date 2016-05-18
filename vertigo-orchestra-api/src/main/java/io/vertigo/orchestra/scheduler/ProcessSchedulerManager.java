@@ -21,6 +21,6 @@ public interface ProcessSchedulerManager extends Manager {
 
 	void misfirePlanification(final Long prpId);
 
-	void resetFuturePlanificationOfProcess(final Long proId);
+	void resetFuturePlanificationOfProcess(final String processName);
 
 }

@@ -7,6 +7,7 @@ import {component as Button} from 'focus-components/common/button/action';
 import ProcessExecutionsList from './processExecutions-list'
 import ProcessExecutionsActivities from '../processExecutionActivities'
 import ExecutionCaracteristics from './execution-caracteristics';
+import ExecutionTreatment from './execution-treatment';
 
 //stores & actions
 import processExecutionListStore from '../../../stores/process-executions-list';
@@ -31,7 +32,8 @@ export default React.createClass({
         return {
             proId: this.props.id,
             preId: null,
-            status: null
+            status: null,
+            activeTab: 'ACTIVITIES'
         };
     },
 
@@ -59,15 +61,25 @@ export default React.createClass({
 
     },
 
+    _onActivitiesClick(d) {
+        this.setState({activeTab:'ACTIVITIES'});
+
+    },
+
+    _onTreatmentClick(d) {
+        this.setState({activeTab:'TREATMENT'});
+
+    },
+
+
     /** @inheritDoc */
     render() {
         //const {id} = this.props;
-        const {proId, status, preId} = this.state;
+        const {proId, status, preId, activeTab} = this.state;
         return (
           <div data-orchestra='processExecutions-list'>
             <div data-orchestra='panel-left'>
               <div data-orchestra='header'>
-                <h3>{translate('view.executions.title')}</h3>
                 <div data-orchestra='filter'>
                   <Button label='Tout' type='button' shape='fab' icon='done_all' handleOnClick={this._onAllClick} />
                   <Button label='Err' type='button' shape='fab' icon='report_problem'  handleOnClick={this._onErrorClick} />
@@ -92,12 +104,19 @@ export default React.createClass({
                   </div>
                   <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
                     <div className="mdl-tabs__tab-bar">
-                        <a className="mdl-tabs__tab is-active">Activités</a>
-                        <a className="mdl-tabs__tab">Prise en charge</a>
+                        <Button label={translate('view.executions.detail.tabs.activities')} type='button' handleOnClick={this._onActivitiesClick} className={activeTab === 'ACTIVITIES' ? 'active' : 'inactive'} />
+                        <Button label={translate('view.executions.detail.tabs.treatment')} type='button' handleOnClick={this._onTreatmentClick} className={activeTab === 'TREATMENT' ? 'active' : 'inactive'}/>
                     </div>
-                    <div class="mdl-tabs__panel is-active">
+                    { activeTab === 'ACTIVITIES' &&
+                    <div className="mdl-tabs__panel is-active">
                       <ProcessExecutionsActivities id={preId} />
                     </div>
+                    }
+                    { activeTab === 'TREATMENT' &&
+                    <div className="mdl-tabs__panel is-active">
+                      <ExecutionTreatment id={preId} />
+                    </div>
+                    }
                   </div>
                 </div>
                }

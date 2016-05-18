@@ -15,7 +15,6 @@ const propTypes = {
 function ActivitiesExecutionsList({handleLineClick, action, store, columns}) {
     return (
         <SmartList
-            dateField='beginTime'
             ListComponent={ListComponent}
             LineComponent={ActivityExecutionLine}
             action={{load: action}}

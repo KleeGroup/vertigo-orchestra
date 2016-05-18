@@ -35,6 +35,10 @@ module.exports = {
         workspaceOut: {
             domain: "DO_O_JSON_TEXT",
             required: false
+        },
+        hasLogFile: {
+            domain: "DO_O_BOOLEEN",
+            required: false
         }
     },
     oExecutionSummary: {
@@ -102,6 +106,22 @@ module.exports = {
         },
         status: {
             domain: "DO_O_CODE_IDENTIFIANT",
+            required: false
+        },
+        checked: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        },
+        checkingDate: {
+            domain: "DO_O_TIMESTAMP",
+            required: false
+        },
+        checkingComment: {
+            domain: "DO_O_TEXT",
+            required: false
+        },
+        hasLogFile: {
+            domain: "DO_O_BOOLEEN",
             required: false
         }
     },

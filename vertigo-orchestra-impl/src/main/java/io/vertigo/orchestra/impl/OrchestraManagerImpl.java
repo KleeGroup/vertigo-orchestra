@@ -60,6 +60,14 @@ public class OrchestraManagerImpl implements OrchestraManager {
 		return processDefinitionManager.processDefinitionExist(processName);
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
+		Assertion.checkNotNull(processDefinition);
+		// ---
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
+	}
+
 	@Override
 	public List<ProcessDefinition> getAllProcesses() {
 		return processDefinitionManager.getAllProcessDefinitions();

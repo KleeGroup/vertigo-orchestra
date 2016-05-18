@@ -16,6 +16,7 @@ export default React.createClass({
         case 'token':
         case 'processName':
         case 'status':
+        case 'logFile':
           return false;
         default:
           return true;

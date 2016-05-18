@@ -22,186 +22,160 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 	@Override
 	public void init() {
 
-		if (!orchestraManager.processDefinitionExist("CHORUS_CENTRE_FIN")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("CHORUS_CENTRE_FIN", "CHORUS - Centre financiers")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("CHORUS_CENTRE_FIN", "CHORUS - Centre financiers")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
-		if (!orchestraManager.processDefinitionExist("CHORUS_DOMAINES_FONC")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("CHORUS_DOMAINES_FONC", "CHORUS - Domaines fonctionnels")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition2 = new ProcessDefinitionBuilder("CHORUS_DOMAINES_FONC", "CHORUS - Domaines fonctionnels")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition2);
 
-		if (!orchestraManager.processDefinitionExist("CHORUS_CENTRE_COUT")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("CHORUS_CENTRE_COUT", "CHORUS - Centres de couts")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition3 = new ProcessDefinitionBuilder("CHORUS_CENTRE_COUT", "CHORUS - Centres de couts")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition3);
 
-		if (!orchestraManager.processDefinitionExist("CHORUS_REF_ACT")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("CHORUS_REF_ACT", "CHORUS - Référentiels d'activités")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition4 = new ProcessDefinitionBuilder("CHORUS_REF_ACT", "CHORUS - Référentiels d'activités")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition4);
 
-		if (!orchestraManager.processDefinitionExist("CHORUS_EOTP")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("CHORUS_EOTP", "CHORUS - éOTP")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition5 = new ProcessDefinitionBuilder("CHORUS_EOTP", "CHORUS - éOTP")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition5);
 
-		if (!orchestraManager.processDefinitionExist("CHORUS_TRANCHES_FONC")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("CHORUS_TRANCHES_FONC", "CHORUS - Tranches fonctionnelles")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition6 = new ProcessDefinitionBuilder("CHORUS_TRANCHES_FONC", "CHORUS - Tranches fonctionnelles")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition6);
 
-		if (!orchestraManager.processDefinitionExist("CHORUS_OPERATEURS_ECO")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("CHORUS_OPERATEURS_ECO", "CHORUS - Opérateurs économiques")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Opérateurs économiques\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition7 = new ProcessDefinitionBuilder("CHORUS_OPERATEURS_ECO", "CHORUS - Opérateurs économiques")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Opérateurs économiques\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition7);
 
-		if (!orchestraManager.processDefinitionExist("INFODAF_SERVICES")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("INFODAF_SERVICES", "INFODAF - Service fait")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Suivi des données financières\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition8 = new ProcessDefinitionBuilder("INFODAF_SERVICES", "INFODAF - Service fait")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Suivi des données financières\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition8);
 
-		if (!orchestraManager.processDefinitionExist("INFODAF_BDC")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("INFODAF_BDC", "INFODAF - Bons de commande")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Suivi des données financières\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition9 = new ProcessDefinitionBuilder("INFODAF_BDC", "INFODAF - Bons de commande")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Suivi des données financières\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition9);
 
-		if (!orchestraManager.processDefinitionExist("PLACE_CREATION")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("PLACE_CREATION", "PLACE - Création des consultations")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Consultation\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition10 = new ProcessDefinitionBuilder("PLACE_CREATION", "PLACE - Création des consultations")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Consultation\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition10);
 
-		if (!orchestraManager.processDefinitionExist("PLACE_DCE")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("PLACE_DCE", "PLACE - Récupération du DCE")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Consultation\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition11 = new ProcessDefinitionBuilder("PLACE_DCE", "PLACE - Récupération du DCE")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Consultation\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition11);
 
-		if (!orchestraManager.processDefinitionExist("DECLIC_PPAA")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("DECLIC_PPAA", "DECLIC - Plans de charge")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Expression des besoins\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition12 = new ProcessDefinitionBuilder("DECLIC_PPAA", "DECLIC - Plans de charge")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Expression des besoins\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition12);
 
-		if (!orchestraManager.processDefinitionExist("DECLIC_FEB")) {
-			final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("DECLIC_FEB", "DECLIC - Fiche d'expression de besoins")
-					.withCron("0 */5 * * * ?")
-					.withInitialParams("{\"filePath\" : \"toto/titi\"}")
-					.withMetadatas("{\"functionalDomain\" : \"Expression des besoins\"}")
-					.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-					.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
-					.build();
+		final ProcessDefinition processDefinition13 = new ProcessDefinitionBuilder("DECLIC_FEB", "DECLIC - Fiche d'expression de besoins")
+				.withCron("0 */1 * * * ?")
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Expression des besoins\"}")
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.build();
 
-			orchestraManager.createDefinition(processDefinition);
-		}
+		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition13);
 
 	}
 

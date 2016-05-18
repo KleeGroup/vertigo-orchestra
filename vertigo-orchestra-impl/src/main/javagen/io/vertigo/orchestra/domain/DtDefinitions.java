@@ -109,6 +109,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		ACL_ID,
 		/** Propriété 'Contenu du log'. */
 		LOG,
+		/** Propriété 'Fichier de log'. */
+		LOG_FILE,
 		/** Propriété 'ActivityExecution'. */
 		ACE_ID,
 	}
@@ -183,6 +185,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		RESCUE_PERIOD,
 		/** Propriété 'Meta-données du processus'. */
 		METADATAS,
+		/** Propriété 'Doit être mise à jour lors du démarrage'. */
+		NEED_UPDATE,
 		/** Propriété 'TriggerType'. */
 		TRT_CD,
 		/** Propriété 'ProcessType'. */

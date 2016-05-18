@@ -15,6 +15,7 @@ public class EmptyActivityEngine extends AbstractActivityEngine {
 	@Override
 	public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
 		workspace.setSuccess();
+		workspace.setLogFile("/test/fichiertest.log");
 		try {
 			Thread.sleep(1000 * 1);
 		} catch (final InterruptedException e) {

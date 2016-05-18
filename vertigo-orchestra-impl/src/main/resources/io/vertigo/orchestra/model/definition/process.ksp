@@ -12,7 +12,7 @@ create DtDefinition DT_O_PROCESS{
 	field ACTIVE   				{domain : DO_O_BOOLEEN, label :"Processus actif", notNull:"true",},
 	field RESCUE_PERIOD			{domain : DO_O_NOMBRE, label :"Temps de validité d'une planification", notNull:"true",},
 	field METADATAS				{domain : DO_O_METADATAS, label :"Meta-données du processus", notNull:"false",},
-  
+  	field NEED_UPDATE  			{domain : DO_O_BOOLEEN, label :"Doit être mise à jour lors du démarrage", notNull:"true",},
 },
 
 

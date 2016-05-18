@@ -28,6 +28,7 @@ module.exports = {
     oActivityLog: {
         aclId: "Id du log",
         log: "Contenu du log",
+        logFile: "Fichier de log",
         aceId: "ActivityExecution"
     },
     oActivityWorkspace: {
@@ -60,6 +61,7 @@ module.exports = {
         active: "Processus actif",
         rescuePeriod: "Temps de validité d'une planification",
         metadatas: "Meta-données du processus",
+        needUpdate: "Doit être mise à jour lors du démarrage",
         trtCd: "TriggerType",
         prtCd: "ProcessType"
     },

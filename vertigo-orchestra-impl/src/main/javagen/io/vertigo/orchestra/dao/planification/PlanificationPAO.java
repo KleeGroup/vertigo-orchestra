@@ -66,11 +66,11 @@ public final class PlanificationPAO implements StoreServices {
 
 	/**
 	 * Execute la tache TK_CLEAN_FUTURE_PLANIFICATIONS.
-	 * @param proId Long 
+	 * @param processName String 
 	*/
-	public void cleanFuturePlanifications(final Long proId) {
+	public void cleanFuturePlanifications(final String processName) {
 		final Task task = createTaskBuilder("TK_CLEAN_FUTURE_PLANIFICATIONS")
-				.addValue("PRO_ID", proId)
+				.addValue("PROCESS_NAME", processName)
 				.build();
 		getTaskManager().execute(task);
 	}

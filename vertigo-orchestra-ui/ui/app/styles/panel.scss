@@ -14,6 +14,13 @@ $panel-padding-sides:20px;
             color:$primary-color;
         }
     }
+    a[data-orchestra="download-link"] {
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: bold;
+      line-height: 18px;
+      color: $primary-color-light;
+    }
 
     [data-focus="panel-content"] {
         position: relative;
@@ -30,7 +37,7 @@ $panel-padding-sides:20px;
 
         }
 
-        [data-focus='button-action']{
+        & > [data-focus='button-action']{
             color:$primary-color-text;
             background-color: $primary-color-light;
         }

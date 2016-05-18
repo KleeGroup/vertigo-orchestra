@@ -73,8 +73,8 @@ export default {
         process: {
             action: {
               executeNow :{
-                  success: 'Youpi',
-                  error: 'Bad!!!'
+                  success: 'Exécution planifiée',
+                  error: 'L\'exécution n\'à pas pu être planifiée'
               }
             },
             detail: {
@@ -86,7 +86,15 @@ export default {
         },
         executions: {
           title: 'Historique',
+          reportFile:{
+            label: 'Rapport d\'exécution',
+            linkTitle: 'Télécharger'
+          },
           detail: {
+            tabs:{
+              activities: 'Activités',
+              treatment: 'Prise en charge'
+            },
             title: 'Détail de l\'exécution',
             activities: {
               workspaceIn: 'Paramètres d\'entrée',

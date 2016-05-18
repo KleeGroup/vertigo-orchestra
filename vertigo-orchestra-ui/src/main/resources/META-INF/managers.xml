@@ -12,6 +12,7 @@
 		<plugin class="io.vertigo.core.plugins.param.xml.XmlParamPlugin">
 			<param name="url" value="/META-INF/application-config.xml" />
 		</plugin>
+		<plugin class="io.vertigo.vega.plugins.webservice.servlet.WebAppContextParamPlugin" />
 	</boot>
 	<module name="vertigo-commons">
 		<component api="AnalyticsManager" class="io.vertigo.commons.impl.analytics.AnalyticsManagerImpl" />

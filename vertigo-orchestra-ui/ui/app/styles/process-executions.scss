@@ -1,6 +1,12 @@
 @import "mixins";
 @import "variables";
 
+[data-orchestra='process-executions-panel']{
+   [data-orchestra='execution-summary'] {
+     float: left;
+     margin-right: 50px;
+   }
+}
 
 [data-orchestra='processExecutions-list']{
       display: flex;
@@ -8,9 +14,11 @@
         min-width: 20%;
         height: 98vh;
         &>div[data-orchestra='header']{
-          height: 15%;
+          height: 10%;
           &>div[data-orchestra='filter']{
             text-align: center;
+            padding-top: 20px;
+            margin-left: -25px;
             &> button{
               margin: 0 5px;
             }
@@ -18,16 +26,31 @@
         }
         &>div[data-orchestra='timeline']{
           overflow-y: scroll;
-          height: 82%;
+          height: 90%;
           &> ul {
             padding-left: 10px;
           }
           & .timeline-panel{
               width: auto;
           }
-
-
         }
+        [data-focus='button-action']{
+            color:$primary-color-text;
+            background-color: $primary-color-light;
+        }
+      }
+      & > div[data-orchestra="item-detail"]{
+        .mdl-tabs__tab-bar{
+           height: auto;
+           [data-focus='button-action']{
+               color:$primary-color-text;
+               background-color: $primary-color-light;
+               margin: 0px 10px;
+               &.active{
+                 border-bottom: 2px solid white;
+               }
+           }
+         }
       }
 }
 
@@ -69,9 +92,9 @@
 [data-orchestra='activityExecutions-list']{
       display: flex;
       &> div[data-orchestra='timeline']{
-        width: 40%;
+        width: 35%;
         &> ul {
-          padding-left: 150px;
+          padding-left: 50px;
         }
         & .timeline-panel{
             width: 150px;
@@ -81,7 +104,7 @@
         }
       }
       &> div[data-orchestra='detail']{
-        min-width: 60%;
+        min-width: 65%;
         height: 100%;
         padding: 0px 0px;
       }

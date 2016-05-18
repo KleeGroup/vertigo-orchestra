@@ -22,6 +22,7 @@ public final class OActivityExecutionUi implements DtObject {
 	private String status;
 	private String workspaceIn;
 	private String workspaceOut;
+	private Boolean hasLogFile;
 
 	/**
 	 * Champ : DATA.
@@ -173,6 +174,25 @@ public final class OActivityExecutionUi implements DtObject {
 	 */
 	public void setWorkspaceOut(final String workspaceOut) {
 		this.workspaceOut = workspaceOut;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Fichier de log'. 
+	 * @return Boolean hasLogFile 
+	 */
+	@Field(domain = "DO_O_BOOLEEN", persistent = false, label = "Fichier de log")
+	public Boolean getHasLogFile() {
+		return hasLogFile;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Fichier de log'.
+	 * @param hasLogFile Boolean 
+	 */
+	public void setHasLogFile(final Boolean hasLogFile) {
+		this.hasLogFile = hasLogFile;
 	}
 
 	//Aucune Association déclarée

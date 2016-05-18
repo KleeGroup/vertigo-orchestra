@@ -23,6 +23,7 @@ public final class ActivityExecutionWorkspace {
 	public static final String PRE_ID_KEY = "processExecutionId";
 	public static final String PROCESS_NAME_KEY = "processName";
 	public static final String TOKEN_KEY = "token";
+	public static final String LOG_FILE_KEY = "logFile";
 	public static final String PARSING_ERROR_KEY = "parsingError";
 
 	private final JsonObject jsonValue;
@@ -96,6 +97,18 @@ public final class ActivityExecutionWorkspace {
 
 	public String getToken() {
 		return getValue(TOKEN_KEY);
+	}
+
+	public void setLogFile(final String logFile) {
+		jsonValue.addProperty(LOG_FILE_KEY, logFile);
+	}
+
+	public String getLogFile() {
+		return getValue(LOG_FILE_KEY);
+	}
+
+	public void resetLogFile() {
+		jsonValue.remove(LOG_FILE_KEY);
 	}
 
 	// --- Execution State in workspace

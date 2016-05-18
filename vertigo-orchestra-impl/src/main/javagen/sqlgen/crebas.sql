@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  13 mai 2016  09:16:30                     
+--   Date de création :  18 mai 2016  22:09:59                     
 -- ============================================================
 
 -- ============================================================
@@ -159,6 +159,7 @@ create table O_ACTIVITY_LOG
 (
     ACL_ID      	 NUMERIC     	not null,
     LOG         	 TEXT        	,
+    LOG_FILE    	 TEXT        	,
     ACE_ID      	 NUMERIC     	,
 );
 
@@ -167,6 +168,9 @@ comment on column O_ACTIVITY_LOG.ACL_ID is
 
 comment on column O_ACTIVITY_LOG.LOG is
 'Contenu du log';
+
+comment on column O_ACTIVITY_LOG.LOG_FILE is
+'Fichier de log';
 
 comment on column O_ACTIVITY_LOG.ACE_ID is
 'ActivityExecution';
@@ -260,6 +264,7 @@ create table O_PROCESS
     ACTIVE      	 BOOL        	not null,
     RESCUE_PERIOD	 NUMERIC     	not null,
     METADATAS   	 TEXT        	,
+    NEED_UPDATE 	 BOOL        	not null,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
 );
@@ -293,6 +298,9 @@ comment on column O_PROCESS.RESCUE_PERIOD is
 
 comment on column O_PROCESS.METADATAS is
 'Meta-données du processus';
+
+comment on column O_PROCESS.NEED_UPDATE is
+'Doit être mise à jour lors du démarrage';
 
 comment on column O_PROCESS.TRT_CD is
 'TriggerType';

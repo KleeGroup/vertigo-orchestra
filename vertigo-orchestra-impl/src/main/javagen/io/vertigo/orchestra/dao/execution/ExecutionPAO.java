@@ -52,6 +52,23 @@ public final class ExecutionPAO implements StoreServices {
 	}
 
 	/**
+	 * Execute la tache TK_UPDATE_PROCESS_EXECUTION_TREATMENT.
+	 * @param preId Long 
+	 * @param checked Boolean 
+	 * @param checkingDate java.util.Date 
+	 * @param checkingComment String 
+	*/
+	public void updateProcessExecutionTreatment(final Long preId, final Boolean checked, final java.util.Date checkingDate, final String checkingComment) {
+		final Task task = createTaskBuilder("TK_UPDATE_PROCESS_EXECUTION_TREATMENT")
+				.addValue("PRE_ID", preId)
+				.addValue("CHECKED", checked)
+				.addValue("CHECKING_DATE", checkingDate)
+				.addValue("CHECKING_COMMENT", checkingComment)
+				.build();
+		getTaskManager().execute(task);
+	}
+
+	/**
 	 * Execute la tache TK_HANDLE_PROCESSES_OF_DEAD_NODES.
 	 * @param maxDate java.util.Date 
 	*/

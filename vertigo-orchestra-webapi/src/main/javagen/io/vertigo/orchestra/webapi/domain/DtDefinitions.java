@@ -57,6 +57,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		WORKSPACE_IN,
 		/** Propriété 'Paramètres sortants'. */
 		WORKSPACE_OUT,
+		/** Propriété 'Fichier de log'. */
+		HAS_LOG_FILE,
 	}
 
 	/**
@@ -107,6 +109,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		CHECKING_DATE,
 		/** Propriété 'Commentaire'. */
 		CHECKING_COMMENT,
+		/** Propriété 'Fichier de log'. */
+		HAS_LOG_FILE,
 	}
 
 	/**

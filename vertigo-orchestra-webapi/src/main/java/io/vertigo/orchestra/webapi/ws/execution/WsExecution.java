@@ -8,6 +8,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
+import io.vertigo.dynamo.file.model.VFile;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary;
 import io.vertigo.orchestra.webapi.domain.uiexecutions.OActivityExecutionUi;
@@ -17,6 +18,8 @@ import io.vertigo.orchestra.webapi.services.ExecutionServices;
 import io.vertigo.vega.webservice.WebServices;
 import io.vertigo.vega.webservice.stereotype.AnonymousAccessAllowed;
 import io.vertigo.vega.webservice.stereotype.GET;
+import io.vertigo.vega.webservice.stereotype.InnerBodyParam;
+import io.vertigo.vega.webservice.stereotype.POST;
 import io.vertigo.vega.webservice.stereotype.PathParam;
 import io.vertigo.vega.webservice.stereotype.PathPrefix;
 import io.vertigo.vega.webservice.stereotype.QueryParam;
@@ -64,10 +67,39 @@ public class WsExecution implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
+	@GET("processExecution/{preId}/logFile")
+	@AnonymousAccessAllowed
+	public VFile getLogFileByPreId(@PathParam("preId") final Long preId) {
+		return executionServices.getLogFileByPreId(preId);
+	}
+
+	/**
+	 * Update the process properties
+	 * @return
+	 */
+	@POST("{id}/updateTreatment")
+	@AnonymousAccessAllowed
+	public OProcessExecutionUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Option<Boolean> checked, @InnerBodyParam("checkingComment") final Option<String> checkingComment) {
+		executionServices.updateProcessExecutionTreatment(id, checked.getOrElse(null), checkingComment.getOrElse(null));
+		return executionServices.getProcessExecutionById(id);
+	}
+
+	/**
+	 * Get the processDefinition by Id
+	 */
 	@GET("activityExecution/{aceId}")
 	@AnonymousAccessAllowed
 	public OActivityExecutionUi getActivityExecutionById(@PathParam("aceId") final Long aceId) {
 		return executionServices.getActivityExecutionById(aceId);
+	}
+
+	/**
+	 * Get the processDefinition by Id
+	 */
+	@GET("activityExecution/{aceId}/logFile")
+	@AnonymousAccessAllowed
+	public VFile getLogFileByAceId(@PathParam("aceId") final Long aceId) {
+		return executionServices.getLogFileByAceId(aceId);
 	}
 
 	/**

@@ -8,7 +8,10 @@ export default {
     oProcessExecutionUi: {
         beginTime: 'Date de début',
         endTime: 'Date de fin',
-        executionTime: 'Durée (s)'
+        executionTime: 'Durée (s)',
+        checked: 'Prise en charge',
+        checkingDate: 'Date de prise en charge',
+        checkingComment: 'Commentaire'
     },
     oActivityExecutionUi: {
         beginTime: 'Date de début',

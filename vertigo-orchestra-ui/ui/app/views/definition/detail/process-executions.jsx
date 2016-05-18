@@ -72,7 +72,7 @@ export default React.createClass({
         const {isProcessExecutionsModalOpen, initialStatus, proId} = this.state;
         const {errorsCount, successfulCount, misfiredCount, averageExecutionTime, health} = this.state;
         return (
-            <Panel title='view.process.detail.executions'>
+            <Panel title='view.process.detail.executions' data-orchestra="process-executions-panel">
                 <ProcessSummary
                   errorsCount={errorsCount}
                   successfulCount={successfulCount}

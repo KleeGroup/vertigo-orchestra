@@ -262,7 +262,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 					saveActivityExecutionWorkspace(activityExecution.getAceId(), resultWorkspace, false);
 					if (activityEngine instanceof AbstractActivityEngine) {
 						// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...)
-						saveActivityLogs(activityExecution.getAceId(), ((AbstractActivityEngine) activityEngine).getLogger());
+						saveActivityLogs(activityExecution.getAceId(), ((AbstractActivityEngine) activityEngine).getLogger(), resultWorkspace);
 					}
 					transaction.commit();
 				}
@@ -349,7 +349,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(activityExecution);
 		Assertion.checkNotNull(executionState);
 		// ---
-		
+
 		switch (executionState) {
 			case DONE:
 				endActivityExecutionAndInitNext(activityExecution);
@@ -372,7 +372,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		boolean hasNext = false;
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			endActivity(activityExecution);
-	
+
 			final Option<OActivity> nextActivity = getNextActivityByActId(activityExecution.getActId());
 			if (nextActivity.isDefined()) {
 				hasNext = true;
@@ -380,23 +380,24 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				// We keep the previous worker (Not the same but the slot) for the next Activity Execution
 				reserveActivityExecution(nextActivityExecution);
 				activityExecutionDAO.save(nextActivityExecution);
-				
+
 				// We keep the old workspace for the nextTask
 				final ActivityExecutionWorkspace previousWorkspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
 				// We remove the status and update the activityExecutionId and token
 				previousWorkspace.resetStatus();
+				previousWorkspace.resetLogFile();
 				previousWorkspace.setActivityExecutionId(nextActivityExecution.getAceId());
 				previousWorkspace.setToken(nextActivityExecution.getToken());
 				// ---
 				saveActivityExecutionWorkspace(nextActivityExecution.getAceId(), previousWorkspace, true);
 				nextActivityExecution.setBeginTime(new Date());
 				nextWorkspace = previousWorkspace;
-				
+
 			} else {
 				endSuccessfulProcessExecution(activityExecution.getPreId());
 			}
 			transaction.commit();
-			
+
 		}
 		if (hasNext) {
 			Assertion.checkNotNull(nextActivityExecution);
@@ -487,28 +488,31 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	}
 
-	private void saveActivityLogs(final Long aceId, final ActivityLogger activityLogger) {
+	private void saveActivityLogs(final Long aceId, final ActivityLogger activityLogger, final ActivityExecutionWorkspace resultWorkspace) {
 		Assertion.checkNotNull(aceId);
 		Assertion.checkNotNull(activityLogger);
-		//
+		// ---
 		if (transactionManager.hasCurrentTransaction()) {
-			doSaveActivityLogs(aceId, activityLogger);
+			doSaveActivityLogs(aceId, activityLogger, resultWorkspace);
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				doSaveActivityLogs(aceId, activityLogger);
+				doSaveActivityLogs(aceId, activityLogger, resultWorkspace);
 				transaction.commit();
 			}
 		}
 
 	}
 
-	private void doSaveActivityLogs(final Long aceId, final ActivityLogger activityLogger) {
+	private void doSaveActivityLogs(final Long aceId, final ActivityLogger activityLogger, final ActivityExecutionWorkspace resultWorkspace) {
 		Assertion.checkNotNull(aceId);
 		Assertion.checkNotNull(activityLogger);
-		//
+		// ---
 		final OActivityLog activityLog = new OActivityLog();
 		activityLog.setAceId(aceId);
 		activityLog.setLog(activityLogger.getLogAsString());
+		if (resultWorkspace.getLogFile() != null) {
+			activityLog.setLogFile(resultWorkspace.getLogFile());
+		}
 		activityLogDAO.save(activityLog);
 	}
 

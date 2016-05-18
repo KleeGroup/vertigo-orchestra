@@ -33,14 +33,27 @@ export default React.createClass({
     componentWillReceiveProps(newProps) {
       this.action.load(newProps.id)
     },
+
+    dlLogFile() {
+        window.location.href = './executions/activityExecution/'+this.props.id+'/logFile';
+    },
     /** @inheritDoc */
     render() {
+        const {hasLogFile} = this.state;
         return (
             <div>
                 <Panel title={this.state.label}>
-                  {this.fieldFor('beginTime')}
-                  {this.fieldFor('endTime')}
                   {this.fieldFor('executionTime')}
+                  { hasLogFile &&
+                    <div className="mdl-grid" data-focus="field" >
+                      <div className="mdl-cell mdl-cell--4-col" data-focus="field-label-container">
+                          <label data-focus="label">{translate('view.executions.reportFile.label')}</label>
+                      </div>
+                      <div className="mdl-cell mdl-cell--8-col" data-focus="field-value-container">
+                        <a data-orchestra="download-link" onClick={this.dlLogFile}>{translate('view.executions.reportFile.linkTitle')}</a>
+                      </div>
+                    </div>
+                  }
                   <h6>{translate('view.executions.detail.activities.workspaceIn')}</h6>
                   {this.fieldFor('workspaceIn', {hasLabel:false, contentSize:12})}
                   <h6>{translate('view.executions.detail.activities.workspaceOut')}</h6>

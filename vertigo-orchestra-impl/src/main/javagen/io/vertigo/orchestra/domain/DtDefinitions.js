@@ -84,6 +84,10 @@ module.exports = {
             domain: "DO_O_TEXT",
             required: false
         },
+        logFile: {
+            domain: "DO_O_TEXT",
+            required: false
+        },
         aceId: {
             domain: "DO_O_IDENTIFIANT",
             required: false
@@ -181,6 +185,10 @@ module.exports = {
         metadatas: {
             domain: "DO_O_METADATAS",
             required: false
+        },
+        needUpdate: {
+            domain: "DO_O_BOOLEEN",
+            required: true
         },
         trtCd: {
             domain: "DO_O_CODE_IDENTIFIANT",

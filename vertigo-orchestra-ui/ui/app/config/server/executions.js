@@ -12,4 +12,5 @@ export default {
     loadProcessExecution: builder(executionsRoot+'processExecution/'+'${id}', 'GET'),
     loadActivityExecution: builder(executionsRoot+'activityExecution/'+'${id}', 'GET'),
     executeProcess: builder(executionControlRoot+'executeNowWithId', 'POST'),
+    saveProcessExecution : builder(executionsRoot + '${id}/updateTreatment', 'POST'),
 };

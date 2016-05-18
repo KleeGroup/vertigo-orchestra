@@ -8,7 +8,7 @@ create Task TK_GET_ALL_SCHEDULED_PROCESSES {
         	select 
         		pro.*
         	from o_process pro
-        	where pro.trt_cd = 'SCHEDULED' and pro.active is true
+        	where pro.trt_cd = 'SCHEDULED' and pro.active is true and pro.active_version is true
         	for update
         	
 			"
@@ -61,7 +61,8 @@ create Task TK_DISABLE_OLD_PROCESS_DEFINITIONS {
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update o_process 
-        	set ACTIVE_VERSION = false 
+        	set ACTIVE_VERSION = false,
+        		NEED_UPDATE = false
         	where NAME = #NAME#
         	
 			"

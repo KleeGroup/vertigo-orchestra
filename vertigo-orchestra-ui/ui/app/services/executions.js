@@ -46,5 +46,10 @@ export default {
               message.addErrorMessage('view.process.action.executeNow.error');
           }
         );
+    },
+
+    saveProcessExecution(data) {
+        console.log(`[PROCESS] call saveProcessExecution(${data.id}) method`);
+        return fetch(executionsUrl.saveProcessExecution({urlData: {id: data.id}, data: data}), {isCORS: true});
     }
 }

@@ -12,7 +12,8 @@ module.exports = {
         executionTime: "Durée",
         status: "Statut",
         workspaceIn: "Paramètres entrants",
-        workspaceOut: "Paramètres sortants"
+        workspaceOut: "Paramètres sortants",
+        hasLogFile: "Fichier de log"
     },
     oExecutionSummary: {
         proId: "Id du processus",
@@ -35,7 +36,8 @@ module.exports = {
         status: "Statut",
         checked: "Pris en charge",
         checkingDate: "Date de prise en charge",
-        checkingComment: "Commentaire"
+        checkingComment: "Commentaire",
+        hasLogFile: "Fichier de log"
     },
     oProcessUi: {
         proId: "Id du processus",

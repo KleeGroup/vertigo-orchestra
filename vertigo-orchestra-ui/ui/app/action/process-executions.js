@@ -12,6 +12,12 @@ export const caracteristicsActions = {
         service: executionsServices.loadProcessExecution,
         shouldDumpStoreOnActionCall: true,
         status: 'loaded'
+    }),
+    save: actionBuilder({
+        node: 'processExecution',
+        service: executionsServices.saveProcessExecution,
+        shouldDumpStoreOnActionCall: true,
+        status: 'saved'
     })
 }
 

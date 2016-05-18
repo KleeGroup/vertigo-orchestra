@@ -16,6 +16,7 @@ public final class OActivityLog implements DtObject {
 
 	private Long aclId;
 	private String log;
+	private String logFile;
 	private Long aceId;
 	private io.vertigo.orchestra.domain.execution.OActivityExecution activityExecution;
 
@@ -55,6 +56,25 @@ public final class OActivityLog implements DtObject {
 	 */
 	public void setLog(final String log) {
 		this.log = log;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Fichier de log'. 
+	 * @return String logFile 
+	 */
+	@Field(domain = "DO_O_TEXT", label = "Fichier de log")
+	public String getLogFile() {
+		return logFile;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Fichier de log'.
+	 * @param logFile String 
+	 */
+	public void setLogFile(final String logFile) {
+		this.logFile = logFile;
 	}
 
 	/**

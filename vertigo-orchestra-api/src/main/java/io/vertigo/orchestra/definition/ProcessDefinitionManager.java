@@ -15,7 +15,7 @@ public interface ProcessDefinitionManager extends Component {
 
 	void createDefinition(ProcessDefinition processDefinition);
 
-	void createOrUpdateDefinition(ProcessDefinition processDefinition);
+	void createOrUpdateDefinitionIfNeeded(ProcessDefinition processDefinition);
 
 	void updateProcessDefinitionProperties(String processName, Option<String> cronExpression, boolean multiExecution, Long rescuePeriod, boolean active);
 

@@ -32,4 +32,6 @@ public interface ProcessDefinition {
 
 	Option<String> getMetadatas();
 
+	boolean getNeedUpdate();
+
 }
