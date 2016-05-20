@@ -172,7 +172,11 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(activityExecutionId);
 		Assertion.checkNotNull(token);
 		// ---
-		final OActivityExecution activityExecution = activityExecutionDAO.getActivityExecutionByToken(activityExecutionId, token);
+		OActivityExecution activityExecution;
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			activityExecution = activityExecutionDAO.getActivityExecutionByToken(activityExecutionId, token);
+			transaction.commit();
+		}
 		// ---
 		Assertion.checkNotNull(activityExecution, "Activity token and id are not compatible");
 		Assertion.checkState(ExecutionState.PENDING.name().equals(activityExecution.getEstCd()), "Only pending executions can be ended remotly");

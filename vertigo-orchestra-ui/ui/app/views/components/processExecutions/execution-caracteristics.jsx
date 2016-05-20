@@ -42,19 +42,25 @@ export default React.createClass({
         const preId = this.props.id;
         return (
             <Panel title='view.executions.detail.title' data-orchestra='item-detail'>
-                {this.fieldFor('beginTime')}
-                {this.fieldFor('endTime')}
-                {this.fieldFor('executionTime')}
-                { hasLogFile &&
-                  <div className="mdl-grid" data-focus="field" >
-                    <div className="mdl-cell mdl-cell--4-col" data-focus="field-label-container">
-                        <label data-focus="label">{translate('view.executions.reportFile.label')}</label>
+            <div className="mdl-grid" >
+              <div className="mdl-cell mdl-cell--6-col">
+                  {this.fieldFor('beginTime')}
+                  {this.fieldFor('endTime')}
+              </div>
+              <div className="mdl-cell mdl-cell--6-col">
+                  {this.fieldFor('executionTime')}
+                  { hasLogFile &&
+                    <div className="mdl-grid" data-focus="field" >
+                      <div className="mdl-cell mdl-cell--4-col" data-focus="field-label-container">
+                          <label data-focus="label">{translate('view.executions.reportFile.label')}</label>
+                      </div>
+                      <div className="mdl-cell mdl-cell--8-col" data-focus="field-value-container">
+                        <a data-orchestra="download-link" onClick={this.dlLogFile}>{translate('view.executions.reportFile.linkTitle')}</a>
+                      </div>
                     </div>
-                    <div className="mdl-cell mdl-cell--8-col" data-focus="field-value-container">
-                      <a data-orchestra="download-link" onClick={this.dlLogFile}>{translate('view.executions.reportFile.linkTitle')}</a>
-                    </div>
-                  </div>
-                }
+                  }
+                </div>
+              </div>
             </Panel>
         );
     }

@@ -36,9 +36,10 @@
                 "BABELIFIED_PATH": "./app",
                 "ENTRY_FILE_PATH": "./app/index",
                 "PAGE_TITLE": "Orchestra",
-                "API_PORT": 8080,
                 "OUTPUT_DIR": "./public",
-                "LOCAL_FOCUS": false
+                "LOCAL_FOCUS": false,
+                "API_ROOT": "'./'",
+                "SOURCE_MAPS": false
             }
         },
         "profile": {

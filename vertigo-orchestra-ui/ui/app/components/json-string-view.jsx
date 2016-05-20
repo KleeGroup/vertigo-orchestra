@@ -30,11 +30,11 @@ export default React.createClass({
           return(<div>
                   {Object.keys(obj).map((o,i) => (
                     this._isDisplayed(o) &&
-                    <div className="mdl-grid" >
-                      <div className="mdl-cell mdl-cell--4-col" data-focus="field-label-container">
-                          <label data-focus="label">{translate('workspace.labels.'+o)}</label>
+                    <div className="mdl-grid" data-orchestra="json-field">
+                      <div className="mdl-cell mdl-cell--4-col" data-focus="field-label-container" data-orchestra="json-field-label">
+                          <label data-focus="label">{o}</label>
                       </div>
-                      <div className="mdl-cell mdl-cell--8-col" data-focus="field-value-container">
+                      <div className="mdl-cell mdl-cell--8-col" data-focus="field-value-container" data-orchestra="json-field-value">
                         {obj[o]}
                       </div>
                     </div>

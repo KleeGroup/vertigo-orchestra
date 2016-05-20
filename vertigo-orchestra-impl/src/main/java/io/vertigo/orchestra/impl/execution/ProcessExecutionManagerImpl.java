@@ -49,14 +49,8 @@ public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 	/** {@inheritDoc} */
 	@Override
 	public void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState state) {
-		if (transactionManager.hasCurrentTransaction()) {
-			sequentialExecutorPlugin.endPendingActivityExecution(activityExecutionId, token, state);
-		} else {
-			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				sequentialExecutorPlugin.endPendingActivityExecution(activityExecutionId, token, state);
-				transaction.commit();
-			}
-		}
+		// transaction is managed inside the plugin
+		sequentialExecutorPlugin.endPendingActivityExecution(activityExecutionId, token, state);
 	}
 
 	/** {@inheritDoc} */

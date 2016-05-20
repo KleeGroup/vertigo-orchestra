@@ -40,6 +40,10 @@
         }
       }
       & > div[data-orchestra="item-detail"]{
+        div[data-focus="panel"]{
+          min-height: inherit;
+        }
+
         .mdl-tabs__tab-bar{
            height: auto;
            [data-focus='button-action']{
@@ -50,6 +54,10 @@
                  border-bottom: 2px solid white;
                }
            }
+         }
+
+         div[data-focus="panel-title"]{
+           padding: 0px 16px;
          }
       }
 }
@@ -107,6 +115,19 @@
         min-width: 65%;
         height: 100%;
         padding: 0px 0px;
+      }
+
+
+      div[data-orchestra="json-field"] {
+        margin: 2px 8px;
+        padding: 0px;
+        & > div[data-orchestra="json-field-label"]{
+          margin: 0px 8px;
+        }
+        & > div[data-orchestra="json-field-value"]{
+          margin: 0px 8px;
+          word-wrap: break-word;
+        }
       }
 }
 
