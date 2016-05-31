@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.impl.definition;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -109,7 +110,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 					activitiesByProcess.add(activity);
 				}
 			}
-			activitiesByProcess.sort(new OActivityComparator());
+			Collections.sort(activitiesByProcess, new OActivityComparator());
 			processDefinitions.add(decodeProcessDefinition(process, activitiesByProcess));
 		}
 		return processDefinitions;
@@ -146,7 +147,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	}
 
-	class OActivityComparator implements Comparator<OActivity> {
+	public final class OActivityComparator implements Comparator<OActivity> {
 
 		/** {@inheritDoc} */
 		@Override

@@ -12,7 +12,7 @@ mvn-release.txt
 **/abak
 **/ubak
 **/eclipse/
-**/webapp/WEB-INF/lib/
+**/lib/
 
 #ui
 

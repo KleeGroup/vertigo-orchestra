@@ -17,17 +17,12 @@
 		<dependency>
 			<groupId>io.vertigo</groupId>
 			<artifactId>vertigo-orchestra-api</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.vertigo</groupId>
 			<artifactId>vertigo-dynamo-api</artifactId>
 			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>io.vertigo</groupId>
@@ -39,6 +34,9 @@
 			<artifactId>vertigo-studio</artifactId>
 			<version>${vertigo.version}</version>
 		</dependency>
+		
+		
+		<!--  Dependencies for tests -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -65,60 +63,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<!-- <version>1.4.0</version> -->
-				<executions>
-					<execution>
-						<id>java</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<mainClass>io.vertigo.studio.tools.NameSpace2Java</mainClass>
-					<additionalClasspathElements>
-						<additionalClasspathElement>/src/main/resources</additionalClasspathElement>
-					</additionalClasspathElements>
-					<arguments>
-						<argument>/mda/build-mda.properties</argument>
-					</arguments>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>src/main/javagen</directory>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/javagen</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

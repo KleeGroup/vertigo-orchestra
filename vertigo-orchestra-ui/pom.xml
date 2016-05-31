@@ -1,94 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>io.vertigo</groupId>
+		<artifactId>vertigo-orchestra-reactor</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
 	<artifactId>vertigo-orchestra-ui</artifactId>
 	<packaging>war</packaging>
-
-	<groupId>io.vertigo</groupId>
 	<name>vertigo-orchestra-ui</name>
-	<version>0.1-SNAPSHOT</version>
-
-	<properties>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<sonar.sources>src/main/java</sonar.sources>
-		<vertigo.version>0.9.1</vertigo.version>
-	</properties>
-
 
 	<dependencies>
 		<dependency>
 			<groupId>io.vertigo</groupId>
 			<artifactId>vertigo-orchestra-webapi</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.vertigo</groupId>
 			<artifactId>vertigo-orchestra-impl</artifactId>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-orchestra-api</artifactId>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-vega-impl</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-dynamo-impl</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-studio</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-commons-impl</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-studio</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.4-1202-jdbc41</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-core</artifactId>
-			<version>${vertigo.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.mchange</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.5.2</version>
-			<scope>test</scope>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>
