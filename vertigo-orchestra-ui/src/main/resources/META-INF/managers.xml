@@ -78,14 +78,14 @@
 		<component api="ProcessSchedulerManager" class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl">
 			<plugin class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin">
 				<param name="nodeName" value="${boot.nodeName}" />
-				<param name="planningPeriod" value="${boot.timerPeriod}" />
-				<param name="forecastDuration" value="${boot.forecastDuration}" />
+				<param name="planningPeriodSeconds" value="${boot.timerPeriod}" />
+				<param name="forecastDurationSeconds" value="${boot.forecastDuration}" />
 			</plugin>
 		</component>
 		<component api="ProcessExecutionManager" class="io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl">
 			<plugin class="io.vertigo.orchestra.impl.execution.SequentialExecutorPlugin">
 				<param name="nodeName" value="${boot.nodeName}" />
-				<param name="executionPeriod" value="${boot.timerPeriod}" />
+				<param name="executionPeriodSeconds" value="${boot.timerPeriod}" />
 				<param name="workersCount" value="${boot.workersCount}" />
 			</plugin>
 		</component>

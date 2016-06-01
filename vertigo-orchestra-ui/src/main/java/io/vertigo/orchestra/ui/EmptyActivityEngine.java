@@ -17,7 +17,7 @@ public class EmptyActivityEngine extends AbstractActivityEngine {
 		workspace.setSuccess();
 		workspace.setLogFile("/test/fichiertest.log");
 		try {
-			Thread.sleep(1000 * 1);
+			Thread.sleep(1 * 1000L);
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}

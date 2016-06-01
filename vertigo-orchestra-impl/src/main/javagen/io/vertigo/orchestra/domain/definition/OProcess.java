@@ -22,7 +22,7 @@ public final class OProcess implements DtObject {
 	private Boolean multiexecution;
 	private Boolean activeVersion;
 	private Boolean active;
-	private Long rescuePeriod;
+	private Integer rescuePeriod;
 	private String metadatas;
 	private Boolean needUpdate;
 	private String trtCd;
@@ -185,19 +185,19 @@ public final class OProcess implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Temps de validité d'une planification'. 
-	 * @return Long rescuePeriod <b>Obligatoire</b>
+	 * @return Integer rescuePeriod <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_NOMBRE", required = true, label = "Temps de validité d'une planification")
-	public Long getRescuePeriod() {
+	public Integer getRescuePeriod() {
 		return rescuePeriod;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Temps de validité d'une planification'.
-	 * @param rescuePeriod Long <b>Obligatoire</b>
+	 * @param rescuePeriod Integer <b>Obligatoire</b>
 	 */
-	public void setRescuePeriod(final Long rescuePeriod) {
+	public void setRescuePeriod(final Integer rescuePeriod) {
 		this.rescuePeriod = rescuePeriod;
 	}
 

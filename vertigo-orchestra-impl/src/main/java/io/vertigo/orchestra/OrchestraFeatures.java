@@ -48,14 +48,14 @@ public final class OrchestraFeatures extends Features {
 				.addComponent(ProcessSchedulerManager.class, ProcessSchedulerManagerImpl.class)
 				.beginPlugin(ProcessSchedulerPlugin.class)
 					.addParam("nodeName", nodeName)
-					.addParam("planningPeriod", period)// in seconds
-					.addParam("forecastDuration", "60")// in seconds
+					.addParam("planningPeriodSeconds", period)// in seconds
+					.addParam("forecastDurationSeconds", "60")// in seconds
 				.endPlugin()
 				.addComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
 				.beginPlugin(SequentialExecutorPlugin.class)
 					.addParam("nodeName", nodeName)
 					.addParam("workersCount", "3")
-					.addParam("executionPeriod", period)// in seconds
+					.addParam("executionPeriodSeconds", period)// in seconds
 				.endPlugin()
 				.addComponent(OrchestraManager.class, OrchestraManagerImpl.class)
 				//----DAO

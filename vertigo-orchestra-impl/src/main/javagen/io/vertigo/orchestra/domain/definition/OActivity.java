@@ -17,7 +17,7 @@ public final class OActivity implements DtObject {
 	private Long actId;
 	private String name;
 	private String label;
-	private Long number;
+	private Integer number;
 	private Boolean milestone;
 	private String engine;
 	private Long proId;
@@ -83,19 +83,19 @@ public final class OActivity implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Numéro de l'activité'. 
-	 * @return Long number 
+	 * @return Integer number 
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Numéro de l'activité")
-	public Long getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Numéro de l'activité'.
-	 * @param number Long 
+	 * @param number Integer 
 	 */
-	public void setNumber(final Long number) {
+	public void setNumber(final Integer number) {
 		this.number = number;
 	}
 

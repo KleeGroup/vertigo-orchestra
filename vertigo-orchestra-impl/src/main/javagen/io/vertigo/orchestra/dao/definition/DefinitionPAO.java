@@ -41,9 +41,9 @@ public final class DefinitionPAO implements StoreServices {
 	/**
 	 * Execute la tache TK_GET_PROCESSES_BY_NAME.
 	 * @param name String 
-	 * @return Long nombre
+	 * @return Integer nombre
 	*/
-	public Long getProcessesByName(final String name) {
+	public Integer getProcessesByName(final String name) {
 		final Task task = createTaskBuilder("TK_GET_PROCESSES_BY_NAME")
 				.addValue("NAME", name)
 				.build();

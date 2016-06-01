@@ -69,7 +69,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	@Inject
 	private OActivityDAO activityDAO;
 
-	private final Long workersCount;
+	private final int workersCount;
 	private final Long nodId;
 	private final ExecutorService workers;
 	private final ScheduledExecutorService localScheduledExecutor;
@@ -85,14 +85,12 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			final NodeManager nodeManager,
 			final VTransactionManager transactionManager,
 			@Named("nodeName") final String nodeName,
-			@Named("workersCount") final Long workersCount,
-			@Named("executionPeriod") final Integer executionPeriod) {
+			@Named("workersCount") final int workersCount,
+			@Named("executionPeriodSeconds") final int executionPeriodSeconds) {
 		Assertion.checkNotNull(nodeManager);
 		Assertion.checkNotNull(processSchedulerManager);
 		Assertion.checkNotNull(transactionManager);
 		Assertion.checkNotNull(nodeName);
-		Assertion.checkNotNull(workersCount);
-		Assertion.checkNotNull(executionPeriod);
 		// ---
 		Assertion.checkState(workersCount >= 1, "We need at least 1 worker");
 		// ---
@@ -104,9 +102,9 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		// ---
 		Assertion.checkNotNull(nodId);
 		// ---
-		this.workersCount = (long) workersCount;
-		timerDelay = 1000 * executionPeriod;
-		workers = Executors.newFixedThreadPool(workersCount.intValue());
+		this.workersCount = workersCount;
+		timerDelay = executionPeriodSeconds * 1000L;
+		workers = Executors.newFixedThreadPool(workersCount);
 		localScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 	}
 
@@ -425,8 +423,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	}
 
 	private DtList<OActivityExecution> getActivitiesToLaunch() {
-		final Long maxNumber = getUnusedWorkersCount();
-		Assertion.checkNotNull(maxNumber);
+		final int maxNumber = getUnusedWorkersCount();
 		// ---
 		executionPAO.reserveActivitiesToLaunch(nodId, maxNumber);
 		return activityExecutionDAO.getActivitiesToLaunch(nodId);
@@ -520,7 +517,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		activityLogDAO.save(activityLog);
 	}
 
-	private Long getUnusedWorkersCount() {
+	private int getUnusedWorkersCount() {
 		Assertion.checkNotNull(workers);
 		// ---
 		if (workers instanceof ThreadPoolExecutor) {

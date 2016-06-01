@@ -738,11 +738,11 @@ public final class CronExpression {
 					addToSet(val, end, v3, type);
 					i = vs.pos;
 					return i;
-				} 
+				}
 				addToSet(val, end, v2, type);
 				return i;
-				
-			} 
+
+			}
 			addToSet(val, end, 1, type);
 			return i;
 		}
@@ -763,7 +763,7 @@ public final class CronExpression {
 				addToSet(val, end, v3, type);
 				i = vs.pos;
 				return i;
-			} 
+			}
 			throw new ParseException("Unexpected character '" + c + "' after '/'", i);
 		}
 
@@ -803,7 +803,7 @@ public final class CronExpression {
 		final StringBuilder buf = new StringBuilder();
 
 		boolean first = true;
-		for (final Integer iVal :set){
+		for (final Integer iVal : set) {
 			if (!first) {
 				buf.append(",");
 			}
@@ -814,7 +814,7 @@ public final class CronExpression {
 	}
 
 	private static int skipWhiteSpace(final int i, final String s) {
-		int j =i;
+		int j = i;
 		for (; j < s.length() && (s.charAt(j) == ' ' || s.charAt(j) == '\t'); j++) {
 			//
 		}
@@ -823,7 +823,7 @@ public final class CronExpression {
 	}
 
 	private static int findNextWhiteSpace(final int i, final String s) {
-		int j =i;
+		int j = i;
 		for (; j < s.length() && (s.charAt(j) != ' ' || s.charAt(j) != '\t'); j++) {
 			//
 		}
@@ -835,39 +835,39 @@ public final class CronExpression {
 		int incr2 = incr;
 		final TreeSet<Integer> set = getSet(type);
 
-		switch(type){
+		switch (type) {
 			case SECOND:
 			case MINUTE:
-			if ((val < 0 || val > 59 || end > 59) && (val != ALL_SPEC_INT)) {
-				throw new ParseException(
-						"Minute and Second values must be between 0 and 59",
-						-1);
-			}
-			break;
+				if ((val < 0 || val > 59 || end > 59) && (val != ALL_SPEC_INT)) {
+					throw new ParseException(
+							"Minute and Second values must be between 0 and 59",
+							-1);
+				}
+				break;
 			case HOUR:
-			if ((val < 0 || val > 23 || end > 23) && (val != ALL_SPEC_INT)) {
-				throw new ParseException(
-						"Hour values must be between 0 and 23", -1);
-			}
-			break;
-			case DAY_OF_MONTH: 
-			if ((val < 1 || val > 31 || end > 31) && (val != ALL_SPEC_INT)
-					&& (val != NO_SPEC_INT)) {
-				throw new ParseException(
-						"Day of month values must be between 1 and 31", -1);
-			}
-			break;
-			case  MONTH:
-			if ((val < 1 || val > 12 || end > 12) && (val != ALL_SPEC_INT)) {
-				throw new ParseException("Month values must be between 1 and 12", -1);
-			}
-			break;
+				if ((val < 0 || val > 23 || end > 23) && (val != ALL_SPEC_INT)) {
+					throw new ParseException(
+							"Hour values must be between 0 and 23", -1);
+				}
+				break;
+			case DAY_OF_MONTH:
+				if ((val < 1 || val > 31 || end > 31) && (val != ALL_SPEC_INT)
+						&& (val != NO_SPEC_INT)) {
+					throw new ParseException(
+							"Day of month values must be between 1 and 31", -1);
+				}
+				break;
+			case MONTH:
+				if ((val < 1 || val > 12 || end > 12) && (val != ALL_SPEC_INT)) {
+					throw new ParseException("Month values must be between 1 and 12", -1);
+				}
+				break;
 			case DAY_OF_WEEK:
-			if ((val == 0 || val > 7 || end > 7) && (val != ALL_SPEC_INT)
-					&& (val != NO_SPEC_INT)) {
-				throw new ParseException("Day-of-Week values must be between 1 and 7", -1);
-			}
-			break;
+				if ((val == 0 || val > 7 || end > 7) && (val != ALL_SPEC_INT)
+						&& (val != NO_SPEC_INT)) {
+					throw new ParseException("Day-of-Week values must be between 1 and 7", -1);
+				}
+				break;
 			default:
 				break;
 		}
@@ -889,57 +889,57 @@ public final class CronExpression {
 			incr2 = 1;
 			set.add(ALL_SPEC); // put in a marker, but also fill values
 		}
-		
-		switch (type){
-			case  SECOND :
-			case  MINUTE:
-			if (stopAt == -1) {
-				stopAt = 59;
-			}
-			if (startAt == -1 || startAt == ALL_SPEC_INT) {
-				startAt = 0;
-			}
-			break;
-		case HOUR:
-			if (stopAt == -1) {
-				stopAt = 23;
-			}
-			if (startAt == -1 || startAt == ALL_SPEC_INT) {
-				startAt = 0;
-			}
-			break;
-		case DAY_OF_MONTH:
-			if (stopAt == -1) {
-				stopAt = 31;
-			}
-			if (startAt == -1 || startAt == ALL_SPEC_INT) {
-				startAt = 1;
-			}
-			break;
-		case  MONTH:
-			if (stopAt == -1) {
-				stopAt = 12;
-			}
-			if (startAt == -1 || startAt == ALL_SPEC_INT) {
-				startAt = 1;
-			}
-			break;
-		case DAY_OF_WEEK:
-			if (stopAt == -1) {
-				stopAt = 7;
-			}
-			if (startAt == -1 || startAt == ALL_SPEC_INT) {
-				startAt = 1;
-			}
-			break;
-		case  YEAR:
-			if (stopAt == -1) {
-				stopAt = MAX_YEAR;
-			}
-			if (startAt == -1 || startAt == ALL_SPEC_INT) {
-				startAt = 1970;
-			}
-			break;
+
+		switch (type) {
+			case SECOND:
+			case MINUTE:
+				if (stopAt == -1) {
+					stopAt = 59;
+				}
+				if (startAt == -1 || startAt == ALL_SPEC_INT) {
+					startAt = 0;
+				}
+				break;
+			case HOUR:
+				if (stopAt == -1) {
+					stopAt = 23;
+				}
+				if (startAt == -1 || startAt == ALL_SPEC_INT) {
+					startAt = 0;
+				}
+				break;
+			case DAY_OF_MONTH:
+				if (stopAt == -1) {
+					stopAt = 31;
+				}
+				if (startAt == -1 || startAt == ALL_SPEC_INT) {
+					startAt = 1;
+				}
+				break;
+			case MONTH:
+				if (stopAt == -1) {
+					stopAt = 12;
+				}
+				if (startAt == -1 || startAt == ALL_SPEC_INT) {
+					startAt = 1;
+				}
+				break;
+			case DAY_OF_WEEK:
+				if (stopAt == -1) {
+					stopAt = 7;
+				}
+				if (startAt == -1 || startAt == ALL_SPEC_INT) {
+					startAt = 1;
+				}
+				break;
+			case YEAR:
+				if (stopAt == -1) {
+					stopAt = MAX_YEAR;
+				}
+				if (startAt == -1 || startAt == ALL_SPEC_INT) {
+					startAt = 1970;
+				}
+				break;
 			default:
 				//On fait quoi
 		}
@@ -951,10 +951,10 @@ public final class CronExpression {
 		if (stopAt < startAt) {
 			switch (type) {
 				case SECOND:
-					max = 60;
+					max = 60; //max 60 seconds
 					break;
 				case MINUTE:
-					max = 60;
+					max = 60; //max 60 minutes
 					break;
 				case HOUR:
 					max = 24;
@@ -1015,7 +1015,7 @@ public final class CronExpression {
 		}
 	}
 
-	private static ValueSet getValue(final int v, final String s, int i) {
+	private static ValueSet getValue(final int v, final String s, final int i) {
 		int j = i;
 		char c = s.charAt(j);
 		final StringBuilder s1 = new StringBuilder(String.valueOf(v));
@@ -1046,7 +1046,7 @@ public final class CronExpression {
 	//
 	////////////////////////////////////////////////////////////////////////////
 
-	public Date getNextValidTimeAfter(Date afterTime) {
+	public Date getNextValidTimeAfter(final Date afterTime) {
 
 		// Computation is based on Gregorian year only.
 		final Calendar cl = new java.util.GregorianCalendar(getTimeZone());

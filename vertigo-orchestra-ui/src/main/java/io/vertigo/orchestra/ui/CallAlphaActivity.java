@@ -16,7 +16,7 @@ public class CallAlphaActivity extends AbstractActivityEngine {
 	public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
 
 		try {
-			Thread.sleep(1000 * 2);
+			Thread.sleep(2 * 1000L);
 			// we make the call to Alpha
 		} catch (final InterruptedException e) {
 			e.printStackTrace();

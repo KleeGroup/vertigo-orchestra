@@ -41,9 +41,9 @@ public final class ExecutionPAO implements StoreServices {
 	/**
 	 * Execute la tache TK_RESERVE_ACTIVITIES_TO_LAUNCH.
 	 * @param nodId Long 
-	 * @param maxNumber Long 
+	 * @param maxNumber Integer 
 	*/
-	public void reserveActivitiesToLaunch(final Long nodId, final Long maxNumber) {
+	public void reserveActivitiesToLaunch(final Long nodId, final Integer maxNumber) {
 		final Task task = createTaskBuilder("TK_RESERVE_ACTIVITIES_TO_LAUNCH")
 				.addValue("NOD_ID", nodId)
 				.addValue("MAX_NUMBER", maxNumber)

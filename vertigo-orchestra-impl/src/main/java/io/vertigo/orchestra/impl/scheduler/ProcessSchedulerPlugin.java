@@ -23,6 +23,7 @@ import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Option;
 import io.vertigo.lang.Plugin;
+import io.vertigo.lang.WrappedException;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
@@ -45,8 +46,8 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	private final Long nodId;
 	private final ScheduledExecutorService localScheduledExecutor;
-	private final Integer planningPeriod;
-	private final Integer forecastDuration;
+	private final int planningPeriodSeconds;
+	private final int forecastDurationSeconds;
 
 	@Inject
 	private VTransactionManager transactionManager;
@@ -59,20 +60,21 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	private OProcessDAO processDao;
 
 	@Inject
-	public ProcessSchedulerPlugin(final NodeManager nodeManager, @Named("nodeName") final String nodeName, @Named("planningPeriod") final Integer planningPeriod, @Named("forecastDuration") final Integer forecastDuration) {
+	public ProcessSchedulerPlugin(final NodeManager nodeManager, @Named("nodeName") final String nodeName,
+			@Named("planningPeriodSeconds") final int planningPeriodSeconds, @Named("forecastDurationSeconds") final int forecastDurationSeconds) {
 		Assertion.checkNotNull(nodeManager);
 		Assertion.checkNotNull(nodeName);
-		Assertion.checkNotNull(planningPeriod);
-		Assertion.checkNotNull(forecastDuration);
+		Assertion.checkNotNull(planningPeriodSeconds);
+		Assertion.checkNotNull(forecastDurationSeconds);
 		//-----
-		timerDelay = planningPeriod * 1000;
+		timerDelay = planningPeriodSeconds * 1000L;
 		// We register the node
 		nodId = nodeManager.registerNode(nodeName);
 		// ---
 		Assertion.checkNotNull(nodId);
 		// ---
-		this.planningPeriod = planningPeriod;
-		this.forecastDuration = forecastDuration;
+		this.planningPeriodSeconds = planningPeriodSeconds;
+		this.forecastDurationSeconds = forecastDurationSeconds;
 		localScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 	}
 
@@ -118,7 +120,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	}
 
-	private void plannRecurrentProcesses() {
+	void plannRecurrentProcesses() {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			for (final OProcess process : getAllScheduledProcesses()) {
 				final Option<Date> nextPlanification = findNextPlanificationTime(process);
@@ -133,7 +135,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 	List<Long> getProcessToExecute() {
 		final GregorianCalendar lowerLimit = new GregorianCalendar(Locale.FRANCE);
-		lowerLimit.add(Calendar.SECOND, -planningPeriod * 5 / 4); //Just to be sure that nothing will be lost
+		lowerLimit.add(Calendar.SECOND, -planningPeriodSeconds * 5 / 4); //Just to be sure that nothing will be lost
 
 		final GregorianCalendar upperLimit = new GregorianCalendar(Locale.FRANCE);
 
@@ -184,16 +186,16 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 
 			if (!lastPlanificationOption.isDefined()) {
 				final Date now = new Date();
-				final Date compatibleNow = new Date(now.getTime() + (planningPeriod / 2 * 1000));// Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
+				final Date compatibleNow = new Date(now.getTime() + (planningPeriodSeconds / 2 * 1000L));// Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
 				return Option.<Date> some(cronExpression.getNextValidTimeAfter(compatibleNow));
 			}
 			final OProcessPlanification lastPlanification = lastPlanificationOption.get();
 			final Date nextPotentialPlainification = cronExpression.getNextValidTimeAfter(lastPlanification.getExpectedTime());
-			if (nextPotentialPlainification.before(new Date(System.currentTimeMillis() + forecastDuration * 1000))) {
+			if (nextPotentialPlainification.before(new Date(System.currentTimeMillis() + forecastDurationSeconds * 1000L))) {
 				return Option.<Date> some(nextPotentialPlainification);
 			}
 		} catch (final ParseException e) {
-			throw new RuntimeException("Process' cron expression is not valid, process cannot be planned");
+			throw new WrappedException("Process' cron expression is not valid, process cannot be planned", e);
 		}
 
 		return Option.<Date> none();
@@ -220,7 +222,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 		for (final OProcessPlanification planification : processPlanificationDAO.getAllLastPastPlanifications(now)) {
 			// We check the process policy of validity
 			final OProcess process = planification.getProcessus();
-			final Long ageOfPlanification = (now.getTime() - planification.getExpectedTime().getTime()) / (60 * 1000);// in seconds
+			final long ageOfPlanification = (now.getTime() - planification.getExpectedTime().getTime()) / (60 * 1000L);// in seconds
 			if (ageOfPlanification < process.getRescuePeriod()) {
 				planification.setPstCd(PlanificationState.RESCUED.name());
 			} else {
