@@ -17,23 +17,23 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	private final String name;
 	private final String label;
-	private Option<String> cronExpression = Option.<String> none();
-	private Option<String> initialParams = Option.<String> none();
-	private boolean multiExecution = false;
-	private boolean needUpdate = false;
-	private int rescuePeriod = 0;
+	private Option<String> myCronExpression = Option.none();
+	private Option<String> myInitialParams = Option.none();
+	private boolean multiExecution;
+	private boolean needUpdate;
+	private int rescuePeriod;
 	private final ListBuilder<ActivityDefinition> activitiesBuilder = new ListBuilder<>();
 
-	private Option<String> metadata = Option.<String> none();
+	private Option<String> metadata = Option.none();
 
 	/**
-	 * Constructeur.
+	 * Constructor.
 	 */
-	public ProcessDefinitionBuilder(final String processName, final String processlabel) {
+	public ProcessDefinitionBuilder(final String processName, final String processLabel) {
 		Assertion.checkArgNotEmpty(processName);
 		//-----
 		name = processName;
-		label = processlabel;
+		label = processLabel;
 
 	}
 
@@ -60,10 +60,10 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * @param initialParams les paramètres initiaux sous format JSON
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withInitialParams(final String initialParameters) {
-		Assertion.checkNotNull(initialParameters);
+	public ProcessDefinitionBuilder withInitialParams(final String initialParams) {
+		Assertion.checkNotNull(initialParams);
 		// ---
-		initialParams = Option.<String> some(initialParameters);
+		myInitialParams = Option.some(initialParams);
 		return this;
 	}
 
@@ -71,10 +71,10 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * Définit l'expression cron du process.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withCron(final String scheduleExpression) {
-		Assertion.checkNotNull(scheduleExpression);
+	public ProcessDefinitionBuilder withCron(final String cronExpression) {
+		Assertion.checkNotNull(cronExpression);
 		// ---
-		cronExpression = Option.<String> some(scheduleExpression);
+		myCronExpression = Option.<String> some(cronExpression);
 		return this;
 	}
 
@@ -105,7 +105,6 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	/**
 	 * Définit le informations du process.
-	 * @param processMetadata les métadonnées sous format JSON
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withNeedUpdate() {
@@ -116,7 +115,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessImpl(name, label, cronExpression, initialParams, multiExecution, rescuePeriod, metadata, needUpdate, activitiesBuilder.unmodifiable().build());
+		return new ProcessImpl(name, label, myCronExpression, myInitialParams, multiExecution, rescuePeriod, metadata, needUpdate, activitiesBuilder.unmodifiable().build());
 	}
 
 }

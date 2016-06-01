@@ -235,7 +235,6 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	}
 
-	/** {@inheritDoc} */
 	ActivityExecutionWorkspace execute(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspace) {
 		ActivityExecutionWorkspace resultWorkspace = workspace;
 
