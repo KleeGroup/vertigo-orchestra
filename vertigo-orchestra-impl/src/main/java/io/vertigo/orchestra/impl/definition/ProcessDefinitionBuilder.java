@@ -21,7 +21,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	private Option<String> initialParams = Option.<String> none();
 	private boolean multiExecution = false;
 	private boolean needUpdate = false;
-	private Long rescuePeriod = 0L;
+	private int rescuePeriod = 0;
 	private final ListBuilder<ActivityDefinition> activitiesBuilder = new ListBuilder<>();
 
 	private Option<String> metadata = Option.<String> none();
@@ -50,7 +50,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * Processus a déclanchement automatique.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withRescuePeriod(final Long processRescuePeriod) {
+	public ProcessDefinitionBuilder withRescuePeriod(final int processRescuePeriod) {
 		rescuePeriod = processRescuePeriod;
 		return this;
 	}

@@ -72,7 +72,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		// We update the id
 		processDefinition.setId(process.getProId());
 
-		long activityNumber = 1L;
+		int activityNumber = 1;
 		for (final ActivityDefinition activity : activities) {
 			final OActivity oActivity = new OActivity();
 			oActivity.setName(activity.getName());
@@ -152,7 +152,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		/** {@inheritDoc} */
 		@Override
 		public int compare(final OActivity actikvity1, final OActivity activity2) {
-			return (int) (actikvity1.getNumber() - activity2.getNumber());
+			return actikvity1.getNumber() - activity2.getNumber();
 		}
 
 	}
@@ -199,7 +199,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessDefinitionProperties(final String processName, final Option<String> cronExpression, final boolean multiExecution, final Long rescuePeriod, final boolean active) {
+	public void updateProcessDefinitionProperties(final String processName, final Option<String> cronExpression, final boolean multiExecution, final int rescuePeriod, final boolean active) {
 		Assertion.checkNotNull(processName);
 		Assertion.checkNotNull(cronExpression);
 		Assertion.checkNotNull(rescuePeriod);

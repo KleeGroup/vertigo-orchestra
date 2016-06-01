@@ -53,9 +53,9 @@ public class DefinitionServicesImpl implements DefinitionServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessProperties(final Long id, final Option<String> cronExpression, final boolean multiExecution, final Long rescuePerdiod, final boolean active) {
+	public void updateProcessProperties(final Long id, final Option<String> cronExpression, final boolean multiExecution, final int rescuePeriod, final boolean active) {
 		final String processName = getProcessDefinitionById(id).getName();
-		processDefinitionManager.updateProcessDefinitionProperties(processName, cronExpression, multiExecution, rescuePerdiod, active);
+		processDefinitionManager.updateProcessDefinitionProperties(processName, cronExpression, multiExecution, rescuePeriod, active);
 
 	}
 

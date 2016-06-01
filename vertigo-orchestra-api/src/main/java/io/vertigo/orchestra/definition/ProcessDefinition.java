@@ -28,7 +28,7 @@ public interface ProcessDefinition {
 
 	List<ActivityDefinition> getActivities();
 
-	Long getRescuePeriod();
+	int getRescuePeriod();
 
 	Option<String> getMetadatas();
 

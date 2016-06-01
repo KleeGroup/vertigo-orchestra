@@ -20,7 +20,7 @@ public final class ProcessImpl implements ProcessDefinition {
 	private final Option<String> cronExpression;
 	private final Option<String> initialParams;
 	private final boolean multiExecution;
-	private final Long rescuePeriod;
+	private final int rescuePeriod;
 	private final List<ActivityDefinition> activities;
 	private final Option<String> metadatas;
 	private final boolean needUpdate;
@@ -35,7 +35,7 @@ public final class ProcessImpl implements ProcessDefinition {
 	 * @param multiExecution
 	 * @param activities
 	 */
-	ProcessImpl(final String name, final String label, final Option<String> cronExpression, final Option<String> initialParams, final boolean multiExecution, final Long rescuePeriod, final Option<String> metadatas, final boolean needUpdate, final List<ActivityDefinition> activities) {
+	ProcessImpl(final String name, final String label, final Option<String> cronExpression, final Option<String> initialParams, final boolean multiExecution, final int rescuePeriod, final Option<String> metadatas, final boolean needUpdate, final List<ActivityDefinition> activities) {
 		Assertion.checkNotNull(name);
 		Assertion.checkNotNull(activities);
 		//---
@@ -88,7 +88,7 @@ public final class ProcessImpl implements ProcessDefinition {
 
 	/** {@inheritDoc} */
 	@Override
-	public Long getRescuePeriod() {
+	public int getRescuePeriod() {
 		return rescuePeriod;
 	}
 
