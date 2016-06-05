@@ -38,7 +38,7 @@ public interface MonitoringServices extends Component {
 
 	/**
 	 * Récupère un workspace associé à une execution de tâche.
-	 * @param tkeId l'id d'execution de tâche
+	 * @param aceId l'id d'execution de tâche
 	 * @param isIn true : workspace entrant, false : workspace sortant
 	 * @return un workspace de tâche.
 	 */
@@ -46,7 +46,7 @@ public interface MonitoringServices extends Component {
 
 	/**
 	 * Récupère un log associé à une execution de tâche.
-	 * @param tkeId l'id d'execution de tâche
+	 * @param aceId l'id d'execution de tâche
 	 * @return un workspace de tâche.
 	 */
 	Option<OActivityLog> getActivityLogByAceId(Long aceId);

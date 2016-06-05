@@ -75,7 +75,6 @@ public class WsExecution implements WebServices {
 
 	/**
 	 * Update the process properties
-	 * @return
 	 */
 	@POST("{id}/updateTreatment")
 	@AnonymousAccessAllowed

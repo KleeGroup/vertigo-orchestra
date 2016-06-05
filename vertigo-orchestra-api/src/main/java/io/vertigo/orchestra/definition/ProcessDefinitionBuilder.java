@@ -1,10 +1,8 @@
-package io.vertigo.orchestra.impl.definition;
+package io.vertigo.orchestra.definition;
 
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Builder;
 import io.vertigo.lang.Option;
-import io.vertigo.orchestra.definition.ActivityDefinition;
-import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.util.ListBuilder;
 
 /**
@@ -71,10 +69,10 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * Définit l'expression cron du process.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withCron(final String cronExpression) {
+	public ProcessDefinitionBuilder withCronExpression(final String cronExpression) {
 		Assertion.checkNotNull(cronExpression);
 		// ---
-		myCronExpression = Option.<String> some(cronExpression);
+		myCronExpression = Option.some(cronExpression);
 		return this;
 	}
 
@@ -83,10 +81,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder addActivity(final String activityName, final String activityLabel, final String engine) {
-		Assertion.checkArgNotEmpty(activityName);
-		Assertion.checkArgNotEmpty(engine);
-		// ---
-		final ActivityDefinition activity = new ActivityImpl(activityName, activityLabel, engine);
+		final ActivityDefinition activity = new ActivityDefinition(activityName, activityLabel, engine);
 		activitiesBuilder.add(activity);
 		return this;
 	}
@@ -99,7 +94,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	public ProcessDefinitionBuilder withMetadatas(final String processMetadata) {
 		Assertion.checkNotNull(processMetadata);
 		// ---
-		metadata = Option.<String> some(processMetadata);
+		metadata = Option.some(processMetadata);
 		return this;
 	}
 
@@ -115,7 +110,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessImpl(name, label, myCronExpression, myInitialParams, multiExecution, rescuePeriod, metadata, needUpdate, activitiesBuilder.unmodifiable().build());
+		return new ProcessDefinition(name, label, myCronExpression, myInitialParams, multiExecution, rescuePeriod, metadata, needUpdate, activitiesBuilder.unmodifiable().build());
 	}
 
 }

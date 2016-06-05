@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import io.vertigo.core.spaces.component.ComponentInitializer;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
-import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
+import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 
 /**
  * Initialisation des processus gérés par Orchestra
@@ -23,7 +23,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 	public void init() {
 
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("CHORUS_CENTRE_FIN", "CHORUS - Centre financiers")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -35,7 +35,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final ProcessDefinition processDefinition2 = new ProcessDefinitionBuilder("CHORUS_DOMAINES_FONC", "CHORUS - Domaines fonctionnels")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -47,7 +47,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition2);
 
 		final ProcessDefinition processDefinition3 = new ProcessDefinitionBuilder("CHORUS_CENTRE_COUT", "CHORUS - Centres de couts")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -59,7 +59,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition3);
 
 		final ProcessDefinition processDefinition4 = new ProcessDefinitionBuilder("CHORUS_REF_ACT", "CHORUS - Référentiels d'activités")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -71,7 +71,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition4);
 
 		final ProcessDefinition processDefinition5 = new ProcessDefinitionBuilder("CHORUS_EOTP", "CHORUS - éOTP")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -83,7 +83,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition5);
 
 		final ProcessDefinition processDefinition6 = new ProcessDefinitionBuilder("CHORUS_TRANCHES_FONC", "CHORUS - Tranches fonctionnelles")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -95,7 +95,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition6);
 
 		final ProcessDefinition processDefinition7 = new ProcessDefinitionBuilder("CHORUS_OPERATEURS_ECO", "CHORUS - Opérateurs économiques")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Opérateurs économiques\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -107,7 +107,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition7);
 
 		final ProcessDefinition processDefinition8 = new ProcessDefinitionBuilder("INFODAF_SERVICES", "INFODAF - Service fait")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Suivi des données financières\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -119,7 +119,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition8);
 
 		final ProcessDefinition processDefinition9 = new ProcessDefinitionBuilder("INFODAF_BDC", "INFODAF - Bons de commande")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Suivi des données financières\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -131,7 +131,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition9);
 
 		final ProcessDefinition processDefinition10 = new ProcessDefinitionBuilder("PLACE_CREATION", "PLACE - Création des consultations")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Consultation\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -154,7 +154,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition11);
 
 		final ProcessDefinition processDefinition12 = new ProcessDefinitionBuilder("DECLIC_PPAA", "DECLIC - Plans de charge")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Expression des besoins\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
@@ -166,7 +166,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition12);
 
 		final ProcessDefinition processDefinition13 = new ProcessDefinitionBuilder("DECLIC_FEB", "DECLIC - Fiche d'expression de besoins")
-				.withCron("0 */1 * * * ?")
+				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Expression des besoins\"}")
 				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())

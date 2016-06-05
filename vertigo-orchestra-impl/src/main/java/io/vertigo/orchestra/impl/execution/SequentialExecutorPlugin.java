@@ -361,6 +361,9 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			case PENDING:
 				changeExecutionState(activityExecution, ExecutionState.PENDING);
 				break;
+			case RUNNING:
+			case SUBMITTED:
+			case WAITING:
 			default:
 				throw new RuntimeException("Unknwon case for ending activity execution :  " + executionState.name());
 		}
@@ -431,16 +434,16 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	private static OActivityExecution initActivityExecutionWithActivity(final OActivity activity, final Long preId) {
 		Assertion.checkNotNull(preId);
 		// ---
-		final OActivityExecution newActivityExecution = new OActivityExecution();
+		final OActivityExecution activityExecution = new OActivityExecution();
 
-		newActivityExecution.setPreId(preId);
-		newActivityExecution.setActId(activity.getActId());
-		newActivityExecution.setCreationTime(new Date());
-		newActivityExecution.setEngine(activity.getEngine());
-		newActivityExecution.setEstCd(ExecutionState.WAITING.name());
-		newActivityExecution.setToken(ActivityTokenGenerator.getToken());
+		activityExecution.setPreId(preId);
+		activityExecution.setActId(activity.getActId());
+		activityExecution.setCreationTime(new Date());
+		activityExecution.setEngine(activity.getEngine());
+		activityExecution.setEstCd(ExecutionState.WAITING.name());
+		activityExecution.setToken(ActivityTokenGenerator.getToken());
 
-		return newActivityExecution;
+		return activityExecution;
 
 	}
 

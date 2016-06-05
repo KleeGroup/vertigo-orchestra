@@ -20,13 +20,13 @@ import io.vertigo.dynamox.task.TaskEngineProc;
 import io.vertigo.lang.Option;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.execution.OActivityExecution;
 import io.vertigo.orchestra.domain.execution.OActivityLog;
 import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
-import io.vertigo.orchestra.impl.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.scheduler.PlanificationState;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
@@ -96,7 +96,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	public void recurrentExecution() throws InterruptedException {
 
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST SCHEDULED", "TEST SCHEDULED")
-				.withCron("*/15 * * * * ?")
+				.withCronExpression("*/15 * * * * ?")
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", "io.vertigo.orchestra.execution.engine.DumbActivityEngine")
 				.build();
 
@@ -413,6 +413,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 					break;
 				case CANCELED:
 				case RESERVED:
+				case RESCUED:
 				default:
 					break;
 			}
@@ -446,9 +447,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 					case ERROR:
 						countActivitiesError++;
 						break;
-					case CANCELED:
-					case RESERVED:
 					case SUBMITTED:
+					case PENDING:
 					default:
 						throw new UnsupportedOperationException("Unsupported state :" + activityExecution.getEstCd());
 				}
@@ -474,9 +474,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 					// --- We check that there is one and only one activity is ERROR
 					Assert.assertEquals(1, countActivitiesError);
 					break;
-				case CANCELED:
-				case RESERVED:
 				case SUBMITTED:
+				case PENDING:
 				default:
 					throw new UnsupportedOperationException("Unsupported state :" + processExecution.getEstCd());
 			}

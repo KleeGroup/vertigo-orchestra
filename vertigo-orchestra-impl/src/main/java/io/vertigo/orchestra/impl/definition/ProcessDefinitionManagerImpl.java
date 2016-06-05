@@ -16,6 +16,7 @@ import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.definition.ActivityDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
@@ -124,7 +125,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		final ProcessDefinitionBuilder definitionBuilder = new ProcessDefinitionBuilder(process.getName(), process.getLabel());
 		definitionBuilder.withRescuePeriod(process.getRescuePeriod());
 		if (!StringUtil.isEmpty(process.getCronExpression())) {
-			definitionBuilder.withCron(process.getCronExpression());
+			definitionBuilder.withCronExpression(process.getCronExpression());
 		}
 		if (!StringUtil.isEmpty(process.getInitialParams())) {
 			definitionBuilder.withInitialParams(process.getInitialParams());

@@ -59,7 +59,6 @@ public class WsDefinition implements WebServices {
 
 	/**
 	 * Update the process properties
-	 * @return
 	 */
 	@POST("{id}/updateProperties")
 	@AnonymousAccessAllowed
@@ -70,7 +69,6 @@ public class WsDefinition implements WebServices {
 
 	/**
 	 * Update the process properties
-	 * @return
 	 */
 	@POST("{id}/updateInitialParams")
 	@AnonymousAccessAllowed
