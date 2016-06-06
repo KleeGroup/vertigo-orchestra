@@ -10,7 +10,7 @@ import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
  * @author mlaroche.
  * @version $Id$
  */
-public class OWorker implements Runnable {
+public final class OWorker implements Runnable {
 
 	private final OActivityExecution activityExecution;
 	private final ActivityExecutionWorkspace params;

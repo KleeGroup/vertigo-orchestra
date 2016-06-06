@@ -77,7 +77,7 @@ public final class ProcessDefinition {
 		return rescuePeriod;
 	}
 
-	public boolean getMultiExecution() {
+	public boolean isMultiExecution() {
 		return multiExecution;
 	}
 

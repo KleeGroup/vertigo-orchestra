@@ -15,7 +15,7 @@ import io.vertigo.lang.Assertion;
  *
  * @author mlaroche.
  */
-public class ActivityLogger {
+public final class ActivityLogger {
 
 	private static final String LOG_FILE_EXTENSION = ".log";
 	private final StringBuilder log = new StringBuilder();

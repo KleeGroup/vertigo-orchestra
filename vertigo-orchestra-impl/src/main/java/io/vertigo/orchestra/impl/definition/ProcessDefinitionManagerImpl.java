@@ -32,7 +32,7 @@ import io.vertigo.util.StringUtil;
  * @version $Id$
  */
 @Transactional
-public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
+public final class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	@Inject
 	private OProcessDAO processDao;
@@ -56,7 +56,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		process.setLabel(processDefinition.getLabel());
 		process.setCronExpression(processDefinition.getCronExpression().getOrElse(null));
 		process.setInitialParams(processDefinition.getInitialParams().getOrElse(null));
-		process.setMultiexecution(processDefinition.getMultiExecution());
+		process.setMultiexecution(processDefinition.isMultiExecution());
 		process.setRescuePeriod(processDefinition.getRescuePeriod());
 		process.setMetadatas(processDefinition.getMetadatas().getOrElse(null));
 		process.setNeedUpdate(processDefinition.getNeedUpdate());

@@ -17,9 +17,8 @@ import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
  * @author mlaroche.
  * @version $Id$
  */
-public class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
+public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
 	private final VTransactionManager transactionManager;
-
 	private final ProcessSchedulerPlugin processScheduler;
 
 	@Inject
@@ -28,7 +27,7 @@ public class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
 			final ProcessSchedulerPlugin processScheduler) {
 		Assertion.checkNotNull(transactionManager);
 		Assertion.checkNotNull(processScheduler);
-		// ---
+		//---
 		this.transactionManager = transactionManager;
 		this.processScheduler = processScheduler;
 	}

@@ -18,7 +18,7 @@ import io.vertigo.orchestra.execution.NodeManager;
  * @version $Id$
  */
 @Transactional
-public class NodeManagerImpl implements NodeManager {
+public final class NodeManagerImpl implements NodeManager {
 
 	@Inject
 	private ONodeDAO nodeDAO;

@@ -8,8 +8,6 @@ package io.vertigo.orchestra.scheduler;
 public enum PlanificationState {
 	WAITING,
 
-	RESERVED,
-
 	TRIGGERED,
 
 	MISFIRED,
@@ -17,4 +15,7 @@ public enum PlanificationState {
 	CANCELED,
 
 	RESCUED;
+
+	//Todo : ?????
+	//RESERVED,
 }

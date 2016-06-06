@@ -22,7 +22,7 @@ import io.vertigo.orchestra.execution.ProcessExecutionManager;
  * @author mlaroche.
  * @version $Id$
  */
-public class ProcessExecutionManagerImpl implements ProcessExecutionManager {
+public final class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 	private static final String ROOT_DIRECTORY = "orchestra.root.directory";
 

@@ -9,7 +9,7 @@ import java.security.SecureRandom;
  * @author mlaroche.
  * @version $Id$
  */
-public class ActivityTokenGenerator {
+public final class ActivityTokenGenerator {
 
 	/**
 	 * Constructeur.

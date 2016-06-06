@@ -20,7 +20,7 @@ import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
  * @author matth
  *
  */
-public class OrchestraManagerImpl implements OrchestraManager {
+public final class OrchestraManagerImpl implements OrchestraManager {
 
 	private final ProcessDefinitionManager processDefinitionManager;
 	private final ProcessSchedulerManager processSchedulerManager;
