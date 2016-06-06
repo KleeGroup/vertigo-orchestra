@@ -68,7 +68,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 		// We check the save is ok
@@ -100,7 +100,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 		// We check the save is ok
@@ -151,7 +151,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbErrorActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 		// We check the save is ok
@@ -178,7 +178,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 
@@ -203,7 +203,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbErrorActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 
@@ -228,7 +228,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 
@@ -254,7 +254,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 
@@ -279,7 +279,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 
@@ -303,7 +303,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbExceptionActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 
@@ -327,7 +327,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 
@@ -352,7 +352,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbLoggedActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 
@@ -379,7 +379,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		processDefinitionManager.createDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final Long proId = processDefinition.getId();
 

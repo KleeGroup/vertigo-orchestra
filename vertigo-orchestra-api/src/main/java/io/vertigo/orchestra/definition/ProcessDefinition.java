@@ -34,8 +34,21 @@ public final class ProcessDefinition {
 	 * @param multiExecution
 	 * @param activities
 	 */
-	ProcessDefinition(final String name, final String label, final Option<String> cronExpression, final Option<String> initialParams, final boolean multiExecution, final int rescuePeriod, final Option<String> metadatas, final boolean needUpdate, final List<ActivityDefinition> activities) {
-		Assertion.checkNotNull(name);
+	ProcessDefinition(
+			final String name,
+			final String label,
+			final Option<String> cronExpression,
+			final Option<String> initialParams,
+			final boolean multiExecution,
+			final int rescuePeriod,
+			final Option<String> metadatas,
+			final boolean needUpdate,
+			final List<ActivityDefinition> activities) {
+		Assertion.checkArgNotEmpty(name);
+		Assertion.checkArgNotEmpty(label);
+		Assertion.checkNotNull(cronExpression);
+		Assertion.checkNotNull(initialParams);
+		Assertion.checkNotNull(metadatas);
 		Assertion.checkNotNull(activities);
 		//---
 		this.name = name;

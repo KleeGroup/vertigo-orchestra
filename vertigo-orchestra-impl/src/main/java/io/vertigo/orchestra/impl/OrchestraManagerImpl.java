@@ -38,14 +38,6 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 	}
 
 	@Override
-	public void createDefinition(final ProcessDefinition processDefinition) {
-		Assertion.checkNotNull(processDefinition);
-		// ---
-		processDefinitionManager.createDefinition(processDefinition);
-
-	}
-
-	@Override
 	public ProcessDefinition getProcessDefinition(final String processName) {
 		Assertion.checkNotNull(processName);
 		// ---

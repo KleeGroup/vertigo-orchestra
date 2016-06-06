@@ -16,13 +16,11 @@ import io.vertigo.orchestra.execution.ExecutionState;
  */
 public interface OrchestraManager extends Manager {
 
-	void createDefinition(ProcessDefinition processDefinition);
+	void createOrUpdateDefinitionIfNeeded(ProcessDefinition processDefinition);
 
 	ProcessDefinition getProcessDefinition(String processName);
 
 	boolean processDefinitionExist(String processName);
-
-	void createOrUpdateDefinitionIfNeeded(ProcessDefinition processDefinition);
 
 	List<ProcessDefinition> getAllProcesses();
 

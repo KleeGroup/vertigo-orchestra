@@ -44,11 +44,8 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 	@Inject
 	private ProcessSchedulerManager processSchedulerManager;
 
-	/** {@inheritDoc} */
-	@Override
-	public void createDefinition(final ProcessDefinition processDefinition) {
+	private void createDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
-		Assertion.checkNotNull(processDefinition.getName());
 		//-----
 		final OProcess process = new OProcess();
 
@@ -186,9 +183,7 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public void updateDefinition(final ProcessDefinition processDefinition) {
+	private void updateDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		Assertion.checkNotNull(processDefinition.getName());
 		// ---

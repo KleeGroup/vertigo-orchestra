@@ -12,16 +12,11 @@ import io.vertigo.lang.Option;
  * @version $Id$
  */
 public interface ProcessDefinitionManager extends Component {
-
-	void createDefinition(ProcessDefinition processDefinition);
-
 	void createOrUpdateDefinitionIfNeeded(ProcessDefinition processDefinition);
 
 	void updateProcessDefinitionProperties(String processName, Option<String> cronExpression, boolean multiExecution, int rescuePeriod, boolean active);
 
 	void updateProcessDefinitionInitialParams(String processName, Option<String> initialParams);
-
-	void updateDefinition(ProcessDefinition processDefinition);
 
 	ProcessDefinition getProcessDefinition(String processName);
 
