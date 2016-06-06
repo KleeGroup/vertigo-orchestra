@@ -33,16 +33,28 @@ import io.vertigo.util.StringUtil;
  */
 @Transactional
 public final class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
+	private final ProcessSchedulerManager processSchedulerManager;
+
+	private final OProcessDAO processDao;
+	private final DefinitionPAO definitionPAO;
+	private final OActivityDAO activityDAO;
 
 	@Inject
-	private OProcessDAO processDao;
-	@Inject
-	private DefinitionPAO definitionPAO;
-	@Inject
-	private OActivityDAO activityDAO;
-
-	@Inject
-	private ProcessSchedulerManager processSchedulerManager;
+	public ProcessDefinitionManagerImpl(
+			final ProcessSchedulerManager processSchedulerManager,
+			final OProcessDAO processDao,
+			final DefinitionPAO definitionPAO,
+			final OActivityDAO activityDAO) {
+		Assertion.checkNotNull(processSchedulerManager);
+		Assertion.checkNotNull(processDao);
+		Assertion.checkNotNull(definitionPAO);
+		Assertion.checkNotNull(activityDAO);
+		//---
+		this.processSchedulerManager = processSchedulerManager;
+		this.processDao = processDao;
+		this.definitionPAO = definitionPAO;
+		this.activityDAO = activityDAO;
+	}
 
 	private void createDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
@@ -88,7 +100,7 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 
 	@Override
 	public ProcessDefinition getProcessDefinition(final String processName) {
-		Assertion.checkNotNull(processName);
+		Assertion.checkArgNotEmpty(processName);
 		// ---
 		final OProcess process = getOProcessByName(processName);
 		final DtList<OActivity> activities = activityDAO.getActivitiesByProId(process.getProId());
@@ -160,7 +172,7 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 	/** {@inheritDoc} */
 	@Override
 	public boolean processDefinitionExist(final String processName) {
-		Assertion.checkNotNull(processName);
+		Assertion.checkArgNotEmpty(processName);
 		// ---
 		return 0 != definitionPAO.getProcessesByName(processName);
 	}
@@ -169,7 +181,6 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 	@Override
 	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
-		Assertion.checkNotNull(processDefinition.getName());
 		// ---
 		final String processName = processDefinition.getName();
 		if (processDefinitionExist(processName)) {
@@ -185,7 +196,6 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 
 	private void updateDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
-		Assertion.checkNotNull(processDefinition.getName());
 		// ---
 		final String processName = processDefinition.getName();
 		definitionPAO.disableOldProcessDefinitions(processName);
@@ -198,7 +208,7 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 	/** {@inheritDoc} */
 	@Override
 	public void updateProcessDefinitionProperties(final String processName, final Option<String> cronExpression, final boolean multiExecution, final int rescuePeriod, final boolean active) {
-		Assertion.checkNotNull(processName);
+		Assertion.checkArgNotEmpty(processName);
 		Assertion.checkNotNull(cronExpression);
 		Assertion.checkNotNull(rescuePeriod);
 		// ---
@@ -220,7 +230,7 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 	/** {@inheritDoc} */
 	@Override
 	public void updateProcessDefinitionInitialParams(final String processName, final Option<String> initialParams) {
-		Assertion.checkNotNull(processName);
+		Assertion.checkArgNotEmpty(processName);
 		Assertion.checkNotNull(initialParams);
 		// ---
 		final OProcess process = getOProcessByName(processName);
@@ -230,7 +240,7 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 	}
 
 	private OProcess getOProcessByName(final String processName) {
-		Assertion.checkNotNull(processName);
+		Assertion.checkArgNotEmpty(processName);
 		// ---
 		final Option<OProcess> processOption = processDao.getActiveProcessByName(processName);
 		// ---
