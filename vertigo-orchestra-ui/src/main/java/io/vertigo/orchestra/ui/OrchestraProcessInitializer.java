@@ -26,10 +26,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition);
@@ -38,10 +38,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition2);
@@ -50,10 +50,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition3);
@@ -62,10 +62,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition4);
@@ -74,10 +74,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition5);
@@ -86,10 +86,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Référentiels\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition6);
@@ -98,10 +98,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Opérateurs économiques\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition7);
@@ -110,10 +110,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Suivi des données financières\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition8);
@@ -122,10 +122,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Suivi des données financières\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition9);
@@ -134,10 +134,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Consultation\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition10);
@@ -145,10 +145,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 		final ProcessDefinition processDefinition11 = new ProcessDefinitionBuilder("PLACE_DCE", "PLACE - Récupération du DCE")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Consultation\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition11);
@@ -157,10 +157,10 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Expression des besoins\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition12);
@@ -169,14 +169,13 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.withCronExpression("0 */1 * * * ?")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
 				.withMetadatas("{\"functionalDomain\" : \"Expression des besoins\"}")
-				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class.getName())
-				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class.getName())
+				.addActivity("ACT_1", "Récupération du fichier", EmptyActivityEngine.class)
+				.addActivity("ACT_2", "Intégration des données", EmptyActivityEngine.class)
+				.addActivity("ACT_3", "Traitement sur les données", EmptyActivityEngine.class)
+				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
 		orchestraManager.createOrUpdateDefinitionIfNeeded(processDefinition13);
-
 	}
 
 }

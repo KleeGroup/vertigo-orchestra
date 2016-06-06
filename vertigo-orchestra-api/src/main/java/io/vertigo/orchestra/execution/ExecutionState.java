@@ -9,8 +9,6 @@ public enum ExecutionState {
 
 	WAITING,
 
-	//RESERVED,
-
 	SUBMITTED,
 
 	RUNNING,
@@ -19,10 +17,10 @@ public enum ExecutionState {
 
 	ERROR,
 
-	//CANCELED,
-
-	//ABORTED,
-
 	PENDING;
 
+	//Todo : ?????
+	//RESERVED,
+	//CANCELED,
+	//ABORTED,
 }

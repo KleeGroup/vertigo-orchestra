@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.definition;
 
 import io.vertigo.lang.Assertion;
+import io.vertigo.orchestra.execution.ActivityEngine;
 
 /**
  * TODO : Description de la classe.
@@ -12,21 +13,19 @@ public final class ActivityDefinition {
 	private final String name;
 	private final String label;
 	//TODO : mettre ActivityEngine
-	private final String engine;
+	private final Class<? extends ActivityEngine> engineClass;
 
 	/**
 	 * Constructor only used by its builder.
-	 * @param name
-	 * @param engine
 	 */
-	ActivityDefinition(final String name, final String label, final String engine) {
+	ActivityDefinition(final String name, final String label, final Class<? extends ActivityEngine> engineClass) {
 		Assertion.checkArgNotEmpty(name);
 		Assertion.checkArgNotEmpty(label);
-		Assertion.checkArgNotEmpty(engine);
+		Assertion.checkNotNull(engineClass);
 		//-----
 		this.name = name;
 		this.label = label;
-		this.engine = engine;
+		this.engineClass = engineClass;
 	}
 
 	public String getName() {
@@ -37,8 +36,8 @@ public final class ActivityDefinition {
 		return label;
 	}
 
-	public String getEngine() {
-		return engine;
+	public Class<? extends ActivityEngine> getEngineClass() {
+		return engineClass;
 	}
 
 }

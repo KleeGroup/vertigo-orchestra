@@ -3,6 +3,7 @@ package io.vertigo.orchestra.definition;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Builder;
 import io.vertigo.lang.Option;
+import io.vertigo.orchestra.execution.ActivityEngine;
 import io.vertigo.util.ListBuilder;
 
 /**
@@ -19,10 +20,10 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	private Option<String> myInitialParams = Option.none();
 	private boolean multiExecution;
 	private boolean needUpdate;
-	private int rescuePeriod;
+	private int myRescuePeriod;
 	private final ListBuilder<ActivityDefinition> activitiesBuilder = new ListBuilder<>();
 
-	private Option<String> metadata = Option.none();
+	private Option<String> myMetadatas = Option.none();
 
 	/**
 	 * Constructor.
@@ -48,8 +49,8 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * Processus a déclanchement automatique.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withRescuePeriod(final int processRescuePeriod) {
-		rescuePeriod = processRescuePeriod;
+	public ProcessDefinitionBuilder withRescuePeriod(final int rescuePeriod) {
+		myRescuePeriod = rescuePeriod;
 		return this;
 	}
 
@@ -80,21 +81,21 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * Ajoute un delai entre deux executions d'une tache récurrente.
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder addActivity(final String activityName, final String activityLabel, final String engine) {
-		final ActivityDefinition activity = new ActivityDefinition(activityName, activityLabel, engine);
+	public ProcessDefinitionBuilder addActivity(final String activityName, final String activityLabel, final Class<? extends ActivityEngine> engineClass) {
+		final ActivityDefinition activity = new ActivityDefinition(activityName, activityLabel, engineClass);
 		activitiesBuilder.add(activity);
 		return this;
 	}
 
 	/**
 	 * Définit le informations du process.
-	 * @param processMetadata les métadonnées sous format JSON
+	 * @param metadatas les métadonnées sous format JSON
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withMetadatas(final String processMetadata) {
-		Assertion.checkNotNull(processMetadata);
+	public ProcessDefinitionBuilder withMetadatas(final String metadatas) {
+		Assertion.checkNotNull(metadatas);
 		// ---
-		metadata = Option.some(processMetadata);
+		myMetadatas = Option.some(metadatas);
 		return this;
 	}
 
@@ -110,7 +111,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessDefinition(name, label, myCronExpression, myInitialParams, multiExecution, rescuePeriod, metadata, needUpdate, activitiesBuilder.unmodifiable().build());
+		return new ProcessDefinition(name, label, myCronExpression, myInitialParams, multiExecution, myRescuePeriod, myMetadatas, needUpdate, activitiesBuilder.unmodifiable().build());
 	}
 
 }

@@ -20,7 +20,9 @@ import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
+import io.vertigo.orchestra.execution.ActivityEngine;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
 
 /**
@@ -54,7 +56,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		process.setLabel(processDefinition.getLabel());
 		process.setCronExpression(processDefinition.getCronExpression().getOrElse(null));
 		process.setInitialParams(processDefinition.getInitialParams().getOrElse(null));
-		process.setMultiexecution(processDefinition.getMultiexecution());
+		process.setMultiexecution(processDefinition.getMultiExecution());
 		process.setRescuePeriod(processDefinition.getRescuePeriod());
 		process.setMetadatas(processDefinition.getMetadatas().getOrElse(null));
 		process.setNeedUpdate(processDefinition.getNeedUpdate());
@@ -78,7 +80,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 			final OActivity oActivity = new OActivity();
 			oActivity.setName(activity.getName());
 			oActivity.setLabel(activity.getLabel());
-			oActivity.setEngine(activity.getEngine());
+			oActivity.setEngine(activity.getEngineClass().getSimpleName());
 			oActivity.setProId(process.getProId());
 			oActivity.setNumber(activityNumber);
 			activityDAO.save(oActivity);// We have 10 activities max so we can iterate
@@ -140,7 +142,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 			definitionBuilder.withMultiExecution();
 		}
 		for (final OActivity activity : oActivities) {
-			definitionBuilder.addActivity(activity.getName(), activity.getLabel(), activity.getEngine());
+			definitionBuilder.addActivity(activity.getName(), activity.getLabel(), ClassUtil.classForName(activity.getEngine(), ActivityEngine.class));
 		}
 		final ProcessDefinition processDefinition = definitionBuilder.build();
 		processDefinition.setId(process.getProId());

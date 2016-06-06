@@ -12,7 +12,7 @@ import io.vertigo.lang.Option;
  * @version $Id$
  */
 public final class ProcessDefinition {
-	//TODO : ID doit être immuable!!
+	//TODO : ID doit être immutable!!
 	//---immutables
 	private long id;
 	private final String name;
@@ -77,7 +77,7 @@ public final class ProcessDefinition {
 		return rescuePeriod;
 	}
 
-	public boolean getMultiexecution() {
+	public boolean getMultiExecution() {
 		return multiExecution;
 	}
 
