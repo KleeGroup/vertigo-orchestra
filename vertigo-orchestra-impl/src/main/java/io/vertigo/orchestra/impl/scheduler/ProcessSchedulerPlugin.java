@@ -60,8 +60,11 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	private OProcessDAO processDao;
 
 	@Inject
-	public ProcessSchedulerPlugin(final NodeManager nodeManager, @Named("nodeName") final String nodeName,
-			@Named("planningPeriodSeconds") final int planningPeriodSeconds, @Named("forecastDurationSeconds") final int forecastDurationSeconds) {
+	public ProcessSchedulerPlugin(
+			final NodeManager nodeManager,
+			@Named("nodeName") final String nodeName,
+			@Named("planningPeriodSeconds") final int planningPeriodSeconds,
+			@Named("forecastDurationSeconds") final int forecastDurationSeconds) {
 		Assertion.checkNotNull(nodeManager);
 		Assertion.checkNotNull(nodeName);
 		Assertion.checkNotNull(planningPeriodSeconds);

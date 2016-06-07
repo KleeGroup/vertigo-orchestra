@@ -480,10 +480,10 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 			}
 		}
 		// --- We check the counts
-		Assert.assertEquals(waitingCount, waitingExecutionCount);
-		Assert.assertEquals(runningCount, runningExecutionCount);
-		Assert.assertEquals(doneCount, doneExecutionCount);
-		Assert.assertEquals(errorCount, errorExecutionCount);
+		Assert.assertEquals("waiting ", waitingCount, waitingExecutionCount);
+		Assert.assertEquals("running", runningCount, runningExecutionCount);
+		Assert.assertEquals("done", doneCount, doneExecutionCount);
+		Assert.assertEquals("error", errorCount, errorExecutionCount);
 	}
 
 	/**

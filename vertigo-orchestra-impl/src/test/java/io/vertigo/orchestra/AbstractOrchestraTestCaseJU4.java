@@ -17,14 +17,14 @@ public class AbstractOrchestraTestCaseJU4 {
 	private App app;
 
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() throws Exception {
 		app = new App(MyAppConfig.config());
 		Injector.injectMembers(this, Home.getApp().getComponentSpace());
 		doSetUp();
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() throws Exception {
 		if (app != null) {
 			doTearDown();
 			app.close();

@@ -20,8 +20,6 @@ public interface OrchestraManager extends Manager {
 
 	ProcessDefinition getProcessDefinition(String processName);
 
-	boolean processDefinitionExist(String processName);
-
 	List<ProcessDefinition> getAllProcesses();
 
 	void scheduleNow(String processName, Option<String> initialParams);

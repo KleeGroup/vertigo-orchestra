@@ -32,29 +32,32 @@ import io.vertigo.util.StringUtil;
  * @version $Id$
  */
 @Transactional
-public final class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
-	private final ProcessSchedulerManager processSchedulerManager;
-
-	private final OProcessDAO processDao;
-	private final DefinitionPAO definitionPAO;
-	private final OActivityDAO activityDAO;
-
+public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	@Inject
-	public ProcessDefinitionManagerImpl(
-			final ProcessSchedulerManager processSchedulerManager,
-			final OProcessDAO processDao,
-			final DefinitionPAO definitionPAO,
-			final OActivityDAO activityDAO) {
-		Assertion.checkNotNull(processSchedulerManager);
-		Assertion.checkNotNull(processDao);
-		Assertion.checkNotNull(definitionPAO);
-		Assertion.checkNotNull(activityDAO);
-		//---
-		this.processSchedulerManager = processSchedulerManager;
-		this.processDao = processDao;
-		this.definitionPAO = definitionPAO;
-		this.activityDAO = activityDAO;
-	}
+	private ProcessSchedulerManager processSchedulerManager;
+	@Inject
+	private OProcessDAO processDao;
+	@Inject
+	private DefinitionPAO definitionPAO;
+	@Inject
+	private OActivityDAO activityDAO;
+
+	//	@Inject
+	//	public ProcessDefinitionManagerImpl(
+	//			final ProcessSchedulerManager processSchedulerManager,
+	//			final OProcessDAO processDao,
+	//			final DefinitionPAO definitionPAO,
+	//			final OActivityDAO activityDAO) {
+	//		Assertion.checkNotNull(processSchedulerManager);
+	//		Assertion.checkNotNull(processDao);
+	//		Assertion.checkNotNull(definitionPAO);
+	//		Assertion.checkNotNull(activityDAO);
+	//		//---
+	//		this.processSchedulerManager = processSchedulerManager;
+	//		this.processDao = processDao;
+	//		this.definitionPAO = definitionPAO;
+	//		this.activityDAO = activityDAO;
+	//	}
 
 	private void createDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
@@ -89,7 +92,7 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 			final OActivity oActivity = new OActivity();
 			oActivity.setName(activity.getName());
 			oActivity.setLabel(activity.getLabel());
-			oActivity.setEngine(activity.getEngineClass().getSimpleName());
+			oActivity.setEngine(activity.getEngineClass().getName());
 			oActivity.setProId(process.getProId());
 			oActivity.setNumber(activityNumber);
 			activityDAO.save(oActivity);// We have 10 activities max so we can iterate
@@ -133,27 +136,27 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 		Assertion.checkNotNull(process);
 		Assertion.checkNotNull(oActivities);
 		// ---
-		final ProcessDefinitionBuilder definitionBuilder = new ProcessDefinitionBuilder(process.getName(), process.getLabel());
-		definitionBuilder.withRescuePeriod(process.getRescuePeriod());
+		final ProcessDefinitionBuilder processDefinitionBuilder = new ProcessDefinitionBuilder(process.getName(), process.getLabel());
+		processDefinitionBuilder.withRescuePeriod(process.getRescuePeriod());
 		if (!StringUtil.isEmpty(process.getCronExpression())) {
-			definitionBuilder.withCronExpression(process.getCronExpression());
+			processDefinitionBuilder.withCronExpression(process.getCronExpression());
 		}
 		if (!StringUtil.isEmpty(process.getInitialParams())) {
-			definitionBuilder.withInitialParams(process.getInitialParams());
+			processDefinitionBuilder.withInitialParams(process.getInitialParams());
 		}
 		if (process.getNeedUpdate() != null && process.getNeedUpdate()) {
-			definitionBuilder.withNeedUpdate();
+			processDefinitionBuilder.withNeedUpdate();
 		}
 		if (!StringUtil.isEmpty(process.getMetadatas())) {
-			definitionBuilder.withMetadatas(process.getMetadatas());
+			processDefinitionBuilder.withMetadatas(process.getMetadatas());
 		}
 		if (process.getMultiexecution()) {
-			definitionBuilder.withMultiExecution();
+			processDefinitionBuilder.withMultiExecution();
 		}
 		for (final OActivity activity : oActivities) {
-			definitionBuilder.addActivity(activity.getName(), activity.getLabel(), ClassUtil.classForName(activity.getEngine(), ActivityEngine.class));
+			processDefinitionBuilder.addActivity(activity.getName(), activity.getLabel(), ClassUtil.classForName(activity.getEngine(), ActivityEngine.class));
 		}
-		final ProcessDefinition processDefinition = definitionBuilder.build();
+		final ProcessDefinition processDefinition = processDefinitionBuilder.build();
 		processDefinition.setId(process.getProId());
 		return processDefinition;
 
@@ -171,19 +174,14 @@ public final class ProcessDefinitionManagerImpl implements ProcessDefinitionMana
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean processDefinitionExist(final String processName) {
-		Assertion.checkArgNotEmpty(processName);
-		// ---
-		return 0 != definitionPAO.getProcessesByName(processName);
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
 		final String processName = processDefinition.getName();
-		if (processDefinitionExist(processName)) {
+
+		final int count = definitionPAO.getProcessesByName(processName);
+		final boolean exists = count > 0;
+		if (exists) {
 			final ProcessDefinition existingDefinition = getProcessDefinition(processName);
 			if (existingDefinition.getNeedUpdate()) {
 				updateDefinition(processDefinition);

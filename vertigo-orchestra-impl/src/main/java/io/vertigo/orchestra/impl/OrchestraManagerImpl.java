@@ -46,14 +46,6 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean processDefinitionExist(final String processName) {
-		Assertion.checkNotNull(processName);
-		// ---
-		return processDefinitionManager.processDefinitionExist(processName);
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
