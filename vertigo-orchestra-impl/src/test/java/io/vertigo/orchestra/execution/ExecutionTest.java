@@ -411,7 +411,6 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				case MISFIRED:
 					misfiredPlanificationCount++;
 					break;
-				case CANCELED:
 				case RESCUED:
 				default:
 					break;

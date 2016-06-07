@@ -18,9 +18,4 @@ public enum ExecutionState {
 	ERROR,
 
 	PENDING;
-
-	//Todo : ?????
-	//RESERVED,
-	//CANCELED,
-	//ABORTED,
 }
