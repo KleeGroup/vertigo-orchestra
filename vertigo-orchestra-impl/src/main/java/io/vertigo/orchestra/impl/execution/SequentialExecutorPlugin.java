@@ -152,7 +152,8 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		// ---
 		// 2. We manage the execution workflow
 		if (error != null) {
-			error.printStackTrace();
+			// We log the error and we continue the timer
+			LOGGER.info("Error in activity " + activityExecution.getActId() + " execution", error);
 			endActivityExecution(activityExecution, ExecutionState.ERROR);
 		} else {
 			if (workspaceOut.isSuccess()) {
@@ -302,11 +303,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				activityExecution.setBeginTime(new Date());
 				transaction.commit();
 			}
-			if (workspace != null) {
-				workers.submit(new OWorker(activityExecution, workspace, this));
-			} else {
-				endActivityExecution(activityExecution, ExecutionState.ERROR);
-			}
+			workers.submit(new OWorker(activityExecution, workspace, this));
 		}
 
 	}

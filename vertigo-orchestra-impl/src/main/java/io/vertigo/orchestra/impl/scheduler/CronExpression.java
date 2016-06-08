@@ -1011,7 +1011,7 @@ public final class CronExpression {
 			case YEAR:
 				return years;
 			default:
-				return null;
+				return new TreeSet<>();
 		}
 	}
 
