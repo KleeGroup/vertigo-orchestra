@@ -184,12 +184,12 @@ public final class OActivity implements DtObject {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> uri;
 			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(process), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(process));
-			if (!fkURI.toURN().equals(uri.toURN())) {
+			if (!fkURI.urn().equals(uri.urn())) {
 				process = null;
 			}
 		}		
 		if (process == null) {
-			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().get(fkURI);
+			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return process;
 	}

@@ -66,13 +66,13 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 		process.setName(processDefinition.getName());
 		process.setLabel(processDefinition.getLabel());
-		process.setCronExpression(processDefinition.getCronExpression().getOrElse(null));
-		process.setInitialParams(processDefinition.getInitialParams().getOrElse(null));
+		process.setCronExpression(processDefinition.getCronExpression().orElse(null));
+		process.setInitialParams(processDefinition.getInitialParams().orElse(null));
 		process.setMultiexecution(processDefinition.isMultiExecution());
 		process.setRescuePeriod(processDefinition.getRescuePeriod());
-		process.setMetadatas(processDefinition.getMetadatas().getOrElse(null));
+		process.setMetadatas(processDefinition.getMetadatas().orElse(null));
 		process.setNeedUpdate(processDefinition.getNeedUpdate());
-		if (processDefinition.getCronExpression().isDefined()) {
+		if (processDefinition.getCronExpression().isPresent()) {
 			process.setTrtCd("SCHEDULED");
 		} else {
 			process.setTrtCd("MANUAL");
@@ -211,12 +211,12 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		Assertion.checkNotNull(rescuePeriod);
 		// ---
 		final OProcess process = getOProcessByName(processName);
-		if (cronExpression.isDefined()) {
+		if (cronExpression.isPresent()) {
 			process.setTrtCd("SCHEDULED");
 		} else {
 			process.setTrtCd("MANUAL");
 		}
-		process.setCronExpression(cronExpression.getOrElse(null));
+		process.setCronExpression(cronExpression.orElse(null));
 		process.setMultiexecution(multiExecution);
 		process.setRescuePeriod(rescuePeriod);
 		process.setActive(active);
@@ -232,7 +232,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		Assertion.checkNotNull(initialParams);
 		// ---
 		final OProcess process = getOProcessByName(processName);
-		process.setInitialParams(initialParams.getOrElse(null));
+		process.setInitialParams(initialParams.orElse(null));
 		processDao.save(process);
 
 	}
@@ -242,7 +242,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		// ---
 		final Option<OProcess> processOption = processDao.getActiveProcessByName(processName);
 		// ---
-		Assertion.checkState(processOption.isDefined(), "Cannot find process with name {0}", processName);
+		Assertion.checkState(processOption.isPresent(), "Cannot find process with name {0}", processName);
 		// ---
 		return processOption.get();
 	}

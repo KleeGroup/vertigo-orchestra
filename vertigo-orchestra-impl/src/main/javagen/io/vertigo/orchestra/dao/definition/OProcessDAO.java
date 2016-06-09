@@ -60,7 +60,7 @@ public final class OProcessDAO extends DAOBroker<OProcess, java.lang.Long> imple
 		final Task task = createTaskBuilder("TK_GET_ACTIVE_PROCESS_BY_NAME")
 				.addValue("NAME", name)
 				.build();
-		return Option.option((io.vertigo.orchestra.domain.definition.OProcess)getTaskManager()
+		return Option.of((io.vertigo.orchestra.domain.definition.OProcess)getTaskManager()
 				.execute(task)
 				.getResult());
 	}

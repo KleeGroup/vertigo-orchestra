@@ -92,13 +92,13 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 	private Option<VFile> getLogFileFromActivityLog(final Option<OActivityLog> activityLog) {
 		Assertion.checkNotNull(activityLog);
 		// ---
-		if (activityLog.isDefined()) {
+		if (activityLog.isPresent()) {
 			final File file = new File(paramManager.getStringValue(ROOT_DIRECTORY) + activityLog.get().getLogFile());
 			if (file.exists()) {
-				return Option.<VFile> some(fileManager.createFile(file));
+				return Option.of(fileManager.createFile(file));
 			}
 			throw new RuntimeException("Log File" + file.getAbsolutePath() + " not found");
 		}
-		return Option.<VFile> none();
+		return Option.empty();
 	}
 }

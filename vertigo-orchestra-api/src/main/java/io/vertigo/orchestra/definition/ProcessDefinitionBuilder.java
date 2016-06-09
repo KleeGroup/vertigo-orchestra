@@ -16,14 +16,14 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	private final String name;
 	private final String label;
-	private Option<String> myCronExpression = Option.none();
-	private Option<String> myInitialParams = Option.none();
+	private Option<String> myCronExpression = Option.empty();
+	private Option<String> myInitialParams = Option.empty();
 	private boolean multiExecution;
 	private boolean needUpdate;
 	private int myRescuePeriod;
 	private final ListBuilder<ActivityDefinition> activitiesBuilder = new ListBuilder<>();
 
-	private Option<String> myMetadatas = Option.none();
+	private Option<String> myMetadatas = Option.empty();
 
 	/**
 	 * Constructor.
@@ -62,7 +62,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	public ProcessDefinitionBuilder withInitialParams(final String initialParams) {
 		Assertion.checkNotNull(initialParams);
 		// ---
-		myInitialParams = Option.some(initialParams);
+		myInitialParams = Option.of(initialParams);
 		return this;
 	}
 
@@ -73,7 +73,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	public ProcessDefinitionBuilder withCronExpression(final String cronExpression) {
 		Assertion.checkNotNull(cronExpression);
 		// ---
-		myCronExpression = Option.some(cronExpression);
+		myCronExpression = Option.of(cronExpression);
 		return this;
 	}
 
@@ -95,7 +95,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	public ProcessDefinitionBuilder withMetadatas(final String metadatas) {
 		Assertion.checkNotNull(metadatas);
 		// ---
-		myMetadatas = Option.some(metadatas);
+		myMetadatas = Option.of(metadatas);
 		return this;
 	}
 

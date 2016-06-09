@@ -62,7 +62,7 @@ public final class OActivityDAO extends DAOBroker<OActivity, java.lang.Long> imp
 		final Task task = createTaskBuilder("TK_GET_NEXT_ACTIVITY_BY_ACT_ID")
 				.addValue("ACT_ID", actId)
 				.build();
-		return Option.option((io.vertigo.orchestra.domain.definition.OActivity)getTaskManager()
+		return Option.of((io.vertigo.orchestra.domain.definition.OActivity)getTaskManager()
 				.execute(task)
 				.getResult());
 	}

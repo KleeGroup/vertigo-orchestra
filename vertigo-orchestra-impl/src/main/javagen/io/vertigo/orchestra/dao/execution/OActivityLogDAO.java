@@ -48,7 +48,7 @@ public final class OActivityLogDAO extends DAOBroker<OActivityLog, java.lang.Lon
 		final Task task = createTaskBuilder("TK_GET_LOG_BY_PRE_ID")
 				.addValue("PRE_ID", preId)
 				.build();
-		return Option.option((io.vertigo.orchestra.domain.execution.OActivityLog)getTaskManager()
+		return Option.of((io.vertigo.orchestra.domain.execution.OActivityLog)getTaskManager()
 				.execute(task)
 				.getResult());
 	}
@@ -62,7 +62,7 @@ public final class OActivityLogDAO extends DAOBroker<OActivityLog, java.lang.Lon
 		final Task task = createTaskBuilder("TK_GET_ACTIVITY_LOG_BY_ACE_ID")
 				.addValue("ACE_ID", aceId)
 				.build();
-		return Option.option((io.vertigo.orchestra.domain.execution.OActivityLog)getTaskManager()
+		return Option.of((io.vertigo.orchestra.domain.execution.OActivityLog)getTaskManager()
 				.execute(task)
 				.getResult());
 	}

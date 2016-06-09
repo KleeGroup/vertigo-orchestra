@@ -28,8 +28,8 @@ public class NodeManagerImpl implements NodeManager {
 		Assertion.checkNotNull(nodeName);
 		// ---
 		final Option<ONode> existingNode = nodeDAO.getNodeByName(nodeName);
-		final ONode node = existingNode.getOrElse(new ONode());
-		if (existingNode.isDefined()) {
+		final ONode node = existingNode.orElse(new ONode());
+		if (existingNode.isPresent()) {
 			nodeDAO.update(node);
 		} else {
 			node.setName(nodeName);

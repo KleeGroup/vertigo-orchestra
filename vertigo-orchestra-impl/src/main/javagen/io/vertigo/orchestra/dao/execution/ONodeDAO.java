@@ -48,7 +48,7 @@ public final class ONodeDAO extends DAOBroker<ONode, java.lang.Long> implements 
 		final Task task = createTaskBuilder("TK_GET_NODE_BY_NAME")
 				.addValue("NODE_NAME", nodeName)
 				.build();
-		return Option.option((io.vertigo.orchestra.domain.execution.ONode)getTaskManager()
+		return Option.of((io.vertigo.orchestra.domain.execution.ONode)getTaskManager()
 				.execute(task)
 				.getResult());
 	}

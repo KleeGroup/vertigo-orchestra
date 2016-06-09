@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de SGBD      :  PostgreSql                     
---   Date de création :  20 mai 2016  17:13:03                     
+--   Date de création :  9 juin 2016  17:42:32                     
 -- ============================================================
 
 -- ============================================================
@@ -19,6 +19,7 @@ drop table O_PROCESS_PLANIFICATION cascade;
 drop table O_PROCESS_TYPE cascade;
 drop table O_USER cascade;
 drop table TRIGGER_TYPE cascade;
+
 
 
 
@@ -77,6 +78,7 @@ create table O_ACTIVITY
     MILESTONE   	 BOOL        	,
     ENGINE      	 VARCHAR(200)	,
     PRO_ID      	 NUMERIC     	,
+    constraint PK_O_ACTIVITY primary key (ACT_ID)
 );
 
 comment on column O_ACTIVITY.ACT_ID is
@@ -116,6 +118,7 @@ create table O_ACTIVITY_EXECUTION
     PRE_ID      	 NUMERIC     	,
     NOD_ID      	 NUMERIC     	,
     EST_CD      	 VARCHAR(20) 	,
+    constraint PK_O_ACTIVITY_EXECUTION primary key (ACE_ID)
 );
 
 comment on column O_ACTIVITY_EXECUTION.ACE_ID is
@@ -161,6 +164,7 @@ create table O_ACTIVITY_LOG
     LOG         	 TEXT        	,
     LOG_FILE    	 TEXT        	,
     ACE_ID      	 NUMERIC     	,
+    constraint PK_O_ACTIVITY_LOG primary key (ACL_ID)
 );
 
 comment on column O_ACTIVITY_LOG.ACL_ID is
@@ -185,6 +189,7 @@ create table O_ACTIVITY_WORKSPACE
     IS_IN       	 BOOL        	not null,
     WORKSPACE   	 TEXT        	,
     ACE_ID      	 NUMERIC     	,
+    constraint PK_O_ACTIVITY_WORKSPACE primary key (ACW_ID)
 );
 
 comment on column O_ACTIVITY_WORKSPACE.ACW_ID is
@@ -207,6 +212,7 @@ create table O_EXECUTION_STATE
 (
     EST_CD      	 VARCHAR(20) 	not null,
     LABEL       	 VARCHAR(100)	,
+    constraint PK_O_EXECUTION_STATE primary key (EST_CD)
 );
 
 comment on column O_EXECUTION_STATE.EST_CD is
@@ -223,6 +229,7 @@ create table O_NODE
     NOD_ID      	 NUMERIC     	not null,
     NAME        	 VARCHAR(100)	not null,
     HEARTBEAT   	 TIMESTAMP   	,
+    constraint PK_O_NODE primary key (NOD_ID)
 );
 
 comment on column O_NODE.NOD_ID is
@@ -241,6 +248,7 @@ create table O_PLANIFICATION_STATE
 (
     PST_CD      	 VARCHAR(20) 	not null,
     LABEL       	 VARCHAR(100)	,
+    constraint PK_O_PLANIFICATION_STATE primary key (PST_CD)
 );
 
 comment on column O_PLANIFICATION_STATE.PST_CD is
@@ -267,6 +275,7 @@ create table O_PROCESS
     NEED_UPDATE 	 BOOL        	not null,
     TRT_CD      	 VARCHAR(20) 	,
     PRT_CD      	 VARCHAR(20) 	,
+    constraint PK_O_PROCESS primary key (PRO_ID)
 );
 
 comment on column O_PROCESS.PRO_ID is
@@ -325,6 +334,7 @@ create table O_PROCESS_EXECUTION
     PRO_ID      	 NUMERIC     	,
     EST_CD      	 VARCHAR(20) 	,
     USR_ID      	 NUMERIC     	,
+    constraint PK_O_PROCESS_EXECUTION primary key (PRE_ID)
 );
 
 comment on column O_PROCESS_EXECUTION.PRE_ID is
@@ -371,6 +381,7 @@ create table O_PROCESS_PLANIFICATION
     PRO_ID      	 NUMERIC     	,
     NOD_ID      	 NUMERIC     	,
     PST_CD      	 VARCHAR(20) 	,
+    constraint PK_O_PROCESS_PLANIFICATION primary key (PRP_ID)
 );
 
 comment on column O_PROCESS_PLANIFICATION.PRP_ID is
@@ -401,6 +412,7 @@ create table O_PROCESS_TYPE
 (
     PRT_CD      	 VARCHAR(20) 	not null,
     LABEL       	 VARCHAR(100)	,
+    constraint PK_O_PROCESS_TYPE primary key (PRT_CD)
 );
 
 comment on column O_PROCESS_TYPE.PRT_CD is
@@ -421,6 +433,7 @@ create table O_USER
     PASSWORD    	 VARCHAR(100)	,
     MAIL_ALERT  	 BOOL        	,
     ACTIVE      	 BOOL        	,
+    constraint PK_O_USER primary key (USR_ID)
 );
 
 comment on column O_USER.USR_ID is
@@ -451,6 +464,7 @@ create table TRIGGER_TYPE
 (
     TRT_CD      	 VARCHAR(20) 	not null,
     LABEL       	 VARCHAR(100)	,
+    constraint PK_TRIGGER_TYPE primary key (TRT_CD)
 );
 
 comment on column TRIGGER_TYPE.TRT_CD is

@@ -116,7 +116,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 		processPlanification.setProId(proId);
 		processPlanification.setExpectedTime(planifiedTime);
 		processPlanification.setPstCd(PlanificationState.WAITING.name());
-		if (initialParamsOption.isDefined()) {
+		if (initialParamsOption.isPresent()) {
 			processPlanification.setInitialParams(initialParamsOption.get());
 		}
 		processPlanificationDAO.save(processPlanification);
@@ -127,8 +127,8 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			for (final OProcess process : getAllScheduledProcesses()) {
 				final Option<Date> nextPlanification = findNextPlanificationTime(process);
-				if (nextPlanification.isDefined()) {
-					scheduleAt(process.getProId(), nextPlanification.get(), Option.option(process.getInitialParams()));
+				if (nextPlanification.isPresent()) {
+					scheduleAt(process.getProId(), nextPlanification.get(), Option.ofNullable(process.getInitialParams()));
 				}
 			}
 			transaction.commit();
@@ -187,21 +187,21 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 		try {
 			final CronExpression cronExpression = new CronExpression(process.getCronExpression());
 
-			if (!lastPlanificationOption.isDefined()) {
+			if (!lastPlanificationOption.isPresent()) {
 				final Date now = new Date();
 				final Date compatibleNow = new Date(now.getTime() + (planningPeriodSeconds / 2 * 1000L));// Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
-				return Option.<Date> some(cronExpression.getNextValidTimeAfter(compatibleNow));
+				return Option.of(cronExpression.getNextValidTimeAfter(compatibleNow));
 			}
 			final OProcessPlanification lastPlanification = lastPlanificationOption.get();
 			final Date nextPotentialPlainification = cronExpression.getNextValidTimeAfter(lastPlanification.getExpectedTime());
 			if (nextPotentialPlainification.before(new Date(System.currentTimeMillis() + forecastDurationSeconds * 1000L))) {
-				return Option.<Date> some(nextPotentialPlainification);
+				return Option.of(nextPotentialPlainification);
 			}
 		} catch (final ParseException e) {
 			throw new WrappedException("Process' cron expression is not valid, process cannot be planned", e);
 		}
 
-		return Option.<Date> none();
+		return Option.<Date> empty();
 
 	}
 

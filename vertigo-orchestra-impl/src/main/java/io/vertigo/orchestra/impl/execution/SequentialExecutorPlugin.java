@@ -378,7 +378,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			endActivity(activityExecution);
 
 			final Option<OActivity> nextActivity = getNextActivityByActId(activityExecution.getActId());
-			if (nextActivity.isDefined()) {
+			if (nextActivity.isPresent()) {
 				hasNext = true;
 				nextActivityExecution = initActivityExecutionWithActivity(nextActivity.get(), activityExecution.getPreId());
 				// We keep the previous worker (Not the same but the slot) for the next Activity Execution
