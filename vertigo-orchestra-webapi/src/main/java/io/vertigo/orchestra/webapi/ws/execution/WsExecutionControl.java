@@ -71,7 +71,7 @@ public class WsExecutionControl implements WebServices {
 		Assertion.checkNotNull(proId);
 		// ---
 		final OProcessUi processUi = definitionServices.getProcessDefinitionById(proId);
-		orchestraManager.scheduleNow(processUi.getName(), Option.<String> none());
+		orchestraManager.scheduleNow(processUi.getName(), Option.<String> empty());
 	}
 
 }

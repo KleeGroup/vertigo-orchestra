@@ -43,7 +43,7 @@ public class WsExecution implements WebServices {
 	@GET("{proId}")
 	@AnonymousAccessAllowed
 	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Option<String> status, @QueryParam("limit") final Option<Long> limit, @QueryParam("offset") final Option<Long> offset) {
-		return executionServices.getProcessExecutionsByProId(proId, status.getOrElse(""), limit.getOrElse(50L), offset.getOrElse(0L));
+		return executionServices.getProcessExecutionsByProId(proId, status.orElse(""), limit.orElse(50L), offset.orElse(0L));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class WsExecution implements WebServices {
 	@POST("{id}/updateTreatment")
 	@AnonymousAccessAllowed
 	public OProcessExecutionUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Option<Boolean> checked, @InnerBodyParam("checkingComment") final Option<String> checkingComment) {
-		executionServices.updateProcessExecutionTreatment(id, checked.getOrElse(null), checkingComment.getOrElse(null));
+		executionServices.updateProcessExecutionTreatment(id, checked.orElse(null), checkingComment.orElse(null));
 		return executionServices.getProcessExecutionById(id);
 	}
 
