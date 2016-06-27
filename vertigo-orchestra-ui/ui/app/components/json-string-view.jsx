@@ -30,7 +30,7 @@ export default React.createClass({
           return(<div>
                   {Object.keys(obj).map((o,i) => (
                     this._isDisplayed(o) &&
-                    <div className="mdl-grid" data-orchestra="json-field">
+                    <div className="mdl-grid" data-orchestra="json-field" data-focus="field">
                       <div className="mdl-cell mdl-cell--4-col" data-focus="field-label-container" data-orchestra="json-field-label">
                           <label data-focus="label">{o}</label>
                       </div>
