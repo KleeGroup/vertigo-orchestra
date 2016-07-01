@@ -6,7 +6,7 @@ import io.vertigo.lang.Option;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.dynamo.impl.store.util.DAOBroker;
+import io.vertigo.dynamo.impl.store.util.DAO;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.store.StoreServices;
 import io.vertigo.dynamo.task.TaskManager;
@@ -16,7 +16,7 @@ import io.vertigo.orchestra.domain.definition.OProcess;
  * DAO : Accès à un object (DTO, DTC). 
  * OProcessDAO
  */
-public final class OProcessDAO extends DAOBroker<OProcess, java.lang.Long> implements StoreServices {
+public final class OProcessDAO extends DAO<OProcess, java.lang.Long> implements StoreServices {
 	 
 	/**
 	 * Contructeur.

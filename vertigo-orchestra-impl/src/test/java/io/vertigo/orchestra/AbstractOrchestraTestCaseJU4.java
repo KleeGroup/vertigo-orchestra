@@ -3,7 +3,7 @@ package io.vertigo.orchestra;
 import org.junit.After;
 import org.junit.Before;
 
-import io.vertigo.app.App;
+import io.vertigo.app.AutoCloseableApp;
 import io.vertigo.app.Home;
 import io.vertigo.core.component.di.injector.Injector;
 
@@ -14,11 +14,11 @@ import io.vertigo.core.component.di.injector.Injector;
  * @version $Id$
  */
 public class AbstractOrchestraTestCaseJU4 {
-	private App app;
+	private AutoCloseableApp app;
 
 	@Before
 	public final void setUp() throws Exception {
-		app = new App(MyAppConfig.config());
+		app = new AutoCloseableApp(MyAppConfig.config());
 		Injector.injectMembers(this, Home.getApp().getComponentSpace());
 		doSetUp();
 	}

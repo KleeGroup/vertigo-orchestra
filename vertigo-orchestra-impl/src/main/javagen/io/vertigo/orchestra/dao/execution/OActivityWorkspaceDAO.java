@@ -5,7 +5,7 @@ import io.vertigo.app.Home;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.dynamo.impl.store.util.DAOBroker;
+import io.vertigo.dynamo.impl.store.util.DAO;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.store.StoreServices;
 import io.vertigo.dynamo.task.TaskManager;
@@ -15,7 +15,7 @@ import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
  * DAO : Accès à un object (DTO, DTC). 
  * OActivityWorkspaceDAO
  */
-public final class OActivityWorkspaceDAO extends DAOBroker<OActivityWorkspace, java.lang.Long> implements StoreServices {
+public final class OActivityWorkspaceDAO extends DAO<OActivityWorkspace, java.lang.Long> implements StoreServices {
 	 
 	/**
 	 * Contructeur.

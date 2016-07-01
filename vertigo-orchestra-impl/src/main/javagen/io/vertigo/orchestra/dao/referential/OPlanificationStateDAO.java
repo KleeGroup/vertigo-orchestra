@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.dao.referential;
 
 import javax.inject.Inject;
-import io.vertigo.dynamo.impl.store.util.DAOBroker;
+import io.vertigo.dynamo.impl.store.util.DAO;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.store.StoreServices;
 import io.vertigo.dynamo.task.TaskManager;
@@ -11,7 +11,7 @@ import io.vertigo.orchestra.domain.referential.OPlanificationState;
  * DAO : Accès à un object (DTO, DTC). 
  * OPlanificationStateDAO
  */
-public final class OPlanificationStateDAO extends DAOBroker<OPlanificationState, java.lang.String> implements StoreServices {
+public final class OPlanificationStateDAO extends DAO<OPlanificationState, java.lang.String> implements StoreServices {
 	 
 	/**
 	 * Contructeur.
