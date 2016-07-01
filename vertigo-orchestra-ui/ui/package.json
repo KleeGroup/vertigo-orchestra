@@ -30,13 +30,15 @@
     },
     "betterScripts": {
         "bundle": {
-            "command": "webpack --progress",
+            "command": "webpack --optimize-minimize --optimize-occurrence-order --optimize-dedupe --progress",
             "env": {
+                "DEV": false,
+                "NODE_ENV" : "PRODUCTION",
                 "ANCHOR_CLASS": "orchestra-app",
                 "BABELIFIED_PATH": "./app",
                 "ENTRY_FILE_PATH": "./app/index",
                 "PAGE_TITLE": "Orchestra",
-                "OUTPUT_DIR": "./public",
+                "OUTPUT_DIR": "../src/main/webapp/static",
                 "LOCAL_FOCUS": false,
                 "API_ROOT": "'./'",
                 "SOURCE_MAPS": false

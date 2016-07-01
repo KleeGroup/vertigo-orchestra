@@ -15,7 +15,7 @@ export default React.createClass({
         if (obj != null) {
           return(<div>
                   {Object.keys(obj).map((o,i) => (
-                    <div className="mdl-grid" >
+                    <div className="mdl-grid" data-focus="field" >
                       <div className="mdl-cell mdl-cell--4-col" data-focus="field-label-container">
                           <label data-focus="label">{translate('metadatas.labels.'+o)}</label>
                       </div>
