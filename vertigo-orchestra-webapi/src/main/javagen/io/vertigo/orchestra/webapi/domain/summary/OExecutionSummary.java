@@ -19,11 +19,11 @@ public final class OExecutionSummary implements DtObject {
 	private String processLabel;
 	private java.util.Date lastExecutionTime;
 	private java.util.Date nextExecutionTime;
-	private Long errorsCount;
-	private Long misfiredCount;
-	private Long successfulCount;
-	private Long runningCount;
-	private Long averageExecutionTime;
+	private Integer errorsCount;
+	private Integer misfiredCount;
+	private Integer successfulCount;
+	private Integer runningCount;
+	private Integer averageExecutionTime;
 	private String health;
 
 	/**
@@ -124,95 +124,95 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre en erreur'. 
-	 * @return Long errorsCount 
+	 * @return Integer errorsCount 
 	 */
 	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre en erreur")
-	public Long getErrorsCount() {
+	public Integer getErrorsCount() {
 		return errorsCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre en erreur'.
-	 * @param errorsCount Long 
+	 * @param errorsCount Integer 
 	 */
-	public void setErrorsCount(final Long errorsCount) {
+	public void setErrorsCount(final Integer errorsCount) {
 		this.errorsCount = errorsCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre non executés'. 
-	 * @return Long misfiredCount 
+	 * @return Integer misfiredCount 
 	 */
 	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre non executés")
-	public Long getMisfiredCount() {
+	public Integer getMisfiredCount() {
 		return misfiredCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre non executés'.
-	 * @param misfiredCount Long 
+	 * @param misfiredCount Integer 
 	 */
-	public void setMisfiredCount(final Long misfiredCount) {
+	public void setMisfiredCount(final Integer misfiredCount) {
 		this.misfiredCount = misfiredCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre en succès'. 
-	 * @return Long successfulCount 
+	 * @return Integer successfulCount 
 	 */
 	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre en succès")
-	public Long getSuccessfulCount() {
+	public Integer getSuccessfulCount() {
 		return successfulCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre en succès'.
-	 * @param successfulCount Long 
+	 * @param successfulCount Integer 
 	 */
-	public void setSuccessfulCount(final Long successfulCount) {
+	public void setSuccessfulCount(final Integer successfulCount) {
 		this.successfulCount = successfulCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre en cours'. 
-	 * @return Long runningCount 
+	 * @return Integer runningCount 
 	 */
 	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre en cours")
-	public Long getRunningCount() {
+	public Integer getRunningCount() {
 		return runningCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre en cours'.
-	 * @param runningCount Long 
+	 * @param runningCount Integer 
 	 */
-	public void setRunningCount(final Long runningCount) {
+	public void setRunningCount(final Integer runningCount) {
 		this.runningCount = runningCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Durée moyenne d'exécution'. 
-	 * @return Long averageExecutionTime 
+	 * @return Integer averageExecutionTime 
 	 */
 	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Durée moyenne d'exécution")
-	public Long getAverageExecutionTime() {
+	public Integer getAverageExecutionTime() {
 		return averageExecutionTime;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Durée moyenne d'exécution'.
-	 * @param averageExecutionTime Long 
+	 * @param averageExecutionTime Integer 
 	 */
-	public void setAverageExecutionTime(final Long averageExecutionTime) {
+	public void setAverageExecutionTime(final Integer averageExecutionTime) {
 		this.averageExecutionTime = averageExecutionTime;
 	}
 

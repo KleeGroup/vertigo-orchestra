@@ -309,8 +309,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
 
-		// After 1 second the process is running
-		Thread.sleep(1000 * 1);
+		// After 2 second the process is running
+		Thread.sleep(1000 * 2);
 		checkExecutions(proId, 0, 1, 0, 0);
 		// After 5 seconds the process is in error because there is an exception after 3 seconds
 		Thread.sleep(1000 * 4);
@@ -392,6 +392,33 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		checkPlanifications(proId, 0, 2, 0);
 		// We should have two executions running
 		checkExecutions(proId, 0, 2, 0, 0);
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testFinishedExecution() throws InterruptedException {
+
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MULTI", "TEST MULTI")
+				.withMultiExecution()
+				.addActivity("DUMB ACTIVITY FINISHED", "DUMB ACTIVITY FINISHED", io.vertigo.orchestra.execution.engine.DumbFinishedActivityEngine.class)
+				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
+				.build();
+
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
+
+		final Long proId = processDefinition.getId();
+
+		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
+
+		// We wait 10 seconds
+		Thread.sleep(1000 * 10);
+		// we have one process_execution done
+		checkExecutions(proId, 0, 0, 1, 0);
+		// we have one and only one activity_execution done
+		checkActivityExecutions(proId, 0, 0, 1, 0);
+
 	}
 
 	private void checkPlanifications(final Long proId, final int waitingCount, final int triggeredCount, final int misfiredCount) {
@@ -483,6 +510,45 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Assert.assertEquals("running", runningCount, runningExecutionCount);
 		Assert.assertEquals("done", doneCount, doneExecutionCount);
 		Assert.assertEquals("error", errorCount, errorExecutionCount);
+	}
+
+	private void checkActivityExecutions(final Long proId, final int waitingCount, final int runningCount, final int doneCount, final int errorCount) {
+
+		for (final OProcessExecution processExecution : monitoringServices.getExecutionsByProId(proId)) {
+			// --- We check the execution state of the process
+			final DtList<OActivityExecution> activityExecutions = monitoringServices.getActivityExecutionsByPreId(processExecution.getPreId());
+			int waitingExecutionCount = 0;
+			int runningExecutionCount = 0;
+			int doneExecutionCount = 0;
+			int errorExecutionCount = 0;
+			for (final OActivityExecution activityExecution : activityExecutions) {
+				switch (ExecutionState.valueOf(activityExecution.getEstCd())) {
+					case WAITING:
+						waitingExecutionCount++;
+						break;
+					case RUNNING:
+						runningExecutionCount++;
+						break;
+					case DONE:
+						doneExecutionCount++;
+						break;
+					case ERROR:
+						errorExecutionCount++;
+						break;
+					case SUBMITTED:
+					case PENDING:
+					default:
+						throw new UnsupportedOperationException("Unsupported state :" + activityExecution.getEstCd());
+				}
+			}
+			// --- We check the counts
+			Assert.assertEquals("waiting ", waitingCount, waitingExecutionCount);
+			Assert.assertEquals("running", runningCount, runningExecutionCount);
+			Assert.assertEquals("done", doneCount, doneExecutionCount);
+			Assert.assertEquals("error", errorCount, errorExecutionCount);
+
+		}
+
 	}
 
 	/**

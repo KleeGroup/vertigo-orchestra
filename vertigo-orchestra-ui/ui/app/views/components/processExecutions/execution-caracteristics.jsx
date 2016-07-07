@@ -38,7 +38,7 @@ export default React.createClass({
     },
     /** @inheritDoc */
     render() {
-        const {hasLogFile} = this.state;
+        const {hasLogFile} = false; // pour l'instant c'est false tout le temps sinon recuperer dans le state
         const preId = this.props.id;
         return (
             <Panel title='view.executions.detail.title' data-orchestra='item-detail'>

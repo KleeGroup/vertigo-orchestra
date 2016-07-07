@@ -158,6 +158,9 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		} else {
 			if (workspaceOut.isSuccess()) {
 				endActivityExecution(activityExecution, ExecutionState.DONE);
+			} else if (workspaceOut.isFinished()) {
+				// If finished we tag the whole process as DONE and dont launch next activities
+				finishProcessExecution(activityExecution);
 			} else if (workspaceOut.isPending()) {
 				// We do nothing because we already delegated the change of status in the AbstractActivityEngine
 			} else {
@@ -172,22 +175,52 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(token);
 		// ---
 		OActivityExecution activityExecution;
+		ActivityExecutionWorkspace workspace;
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			activityExecution = activityExecutionDAO.getActivityExecutionByToken(activityExecutionId, token);
+			Assertion.checkNotNull(activityExecution, "Activity token and id are not compatible");
+			workspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
 			transaction.commit();
 		}
 		// ---
-		Assertion.checkNotNull(activityExecution, "Activity token and id are not compatible");
 		Assertion.checkState(ExecutionState.PENDING.name().equals(activityExecution.getEstCd()), "Only pending executions can be ended remotly");
+		Assertion.checkState(workspace != null, "Workspace for activityExecution not found");
+
+		// We execute the postTreatment of the pending activity when it's released
+		// ---
+		final ActivityEngine activityEngine = Injector.newInstance(
+				ClassUtil.classForName(activityExecution.getEngine(), ActivityEngine.class), Home.getApp().getComponentSpace());
+
+		try {
+			switch (executionState) {
+				case DONE:
+					workspace = activityEngine.successfulPostTreatment(workspace);
+					break;
+				case ERROR:
+					workspace = activityEngine.errorPostTreatment(workspace, new RuntimeException("ThirdPartyExeception"));
+					break;
+				default:
+					throw new UnsupportedOperationException();
+			}
+
+		} catch (final Exception e) {
+			endActivityExecution(activityExecution, ExecutionState.ERROR);
+
+		} finally {
+			handleOtherServices(activityEngine, activityExecution, workspace);
+		}
+
+		// we continue with the standard workflow for ending executions
 		endActivityExecution(activityExecution, executionState);
 
 	}
 
-	public void setActivityExecutionPending(final Long activityExecutionId) {
+	public void setActivityExecutionPending(final Long activityExecutionId, final ActivityExecutionWorkspace workspace) {
 		Assertion.checkNotNull(activityExecutionId);
 		// ---
 		final OActivityExecution activityExecution = activityExecutionDAO.get(activityExecutionId);
 		endActivityExecution(activityExecution, ExecutionState.PENDING);
+		saveActivityExecutionWorkspace(activityExecutionId, workspace, false);
 	}
 
 	void changeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {
@@ -214,11 +247,31 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	}
 
+	private void finishProcessExecution(final OActivityExecution activityExecution) {
+		if (transactionManager.hasCurrentTransaction()) {
+			doFinishProcessExecution(activityExecution);
+		} else {
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+				doFinishProcessExecution(activityExecution);
+				transaction.commit();
+			}
+		}
+	}
+
+	private void doFinishProcessExecution(final OActivityExecution activityExecution) {
+		Assertion.checkNotNull(activityExecution);
+		// ---
+		activityExecution.setEstCd(ExecutionState.DONE.name());
+		activityExecution.setEndTime(new Date());
+		activityExecutionDAO.save(activityExecution);
+		endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);
+	}
+
 	ActivityExecutionWorkspace getWorkspaceForActivityExecution(final Long aceId, final Boolean in) {
 		Assertion.checkNotNull(aceId);
 		Assertion.checkNotNull(in);
 		// ---
-		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in);
+		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in).get();
 		return new ActivityExecutionWorkspace(activityWorkspace.getWorkspace());
 	}
 
@@ -227,13 +280,26 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(in);
 		Assertion.checkNotNull(workspace);
 		// ---
-		final OActivityWorkspace activityWorkspace = new OActivityWorkspace();
+		// we need at most one workspace in and one workspace out
+		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in).getOrElse(new OActivityWorkspace());
 		activityWorkspace.setAceId(aceId);
 		activityWorkspace.setIsIn(in);
 		activityWorkspace.setWorkspace(workspace.getStringForStorage());
 
 		activityWorkspaceDAO.save(activityWorkspace);
 
+	}
+
+	private void handleOtherServices(final ActivityEngine activityEngine, final OActivityExecution activityExecution, final ActivityExecutionWorkspace resultWorkspace) {
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			// We save the workspace which is the minimal state
+			saveActivityExecutionWorkspace(activityExecution.getAceId(), resultWorkspace, false);
+			if (activityEngine instanceof AbstractActivityEngine) {
+				// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...)
+				saveActivityLogs(activityExecution.getAceId(), ((AbstractActivityEngine) activityEngine).getLogger(), resultWorkspace);
+			}
+			transaction.commit();
+		}
 	}
 
 	ActivityExecutionWorkspace execute(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspace) {
@@ -246,10 +312,22 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 					ClassUtil.classForName(activityExecution.getEngine(), ActivityEngine.class), Home.getApp().getComponentSpace());
 
 			try {
+
+				// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...) so we log the workspace
+				if (activityEngine instanceof AbstractActivityEngine) {
+					final String workspaceInLog = new StringBuilder("Workspace in :").append(workspace.getStringForStorage()).toString();
+					((AbstractActivityEngine) activityEngine).getLogger().info(workspaceInLog);
+				}
 				// We try the execution and we keep the result
 				resultWorkspace = activityEngine.execute(workspace);
-				// we call the posttreament
-				resultWorkspace = activityEngine.successfulPostTreatment(resultWorkspace);
+				Assertion.checkNotNull(resultWorkspace);
+				Assertion.checkNotNull(resultWorkspace.getValue("status"), "Le status est obligatoire dans le résultat");
+				// if pending we delegated the treatment to a third party so we are not sure that we are successful
+				if (!resultWorkspace.isPending()) {
+					// we call the posttreament
+					resultWorkspace = activityEngine.successfulPostTreatment(resultWorkspace);
+				}
+
 			} catch (final Exception e) {
 				// In case of failure we keep the current workspace
 				resultWorkspace.setFailure();
@@ -258,17 +336,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				resultWorkspace = activityEngine.errorPostTreatment(resultWorkspace, e);
 
 			} finally {
-
-				try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-					// We save the workspace which is the minimal state
-					saveActivityExecutionWorkspace(activityExecution.getAceId(), resultWorkspace, false);
-					if (activityEngine instanceof AbstractActivityEngine) {
-						// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...)
-						saveActivityLogs(activityExecution.getAceId(), ((AbstractActivityEngine) activityEngine).getLogger(), resultWorkspace);
-					}
-					transaction.commit();
-				}
-
+				handleOtherServices(activityEngine, activityExecution, resultWorkspace);
 			}
 
 		} catch (final Exception e) {
@@ -507,9 +575,13 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(aceId);
 		Assertion.checkNotNull(activityLogger);
 		// ---
-		final OActivityLog activityLog = new OActivityLog();
+		// we need at most on log per activityExecution
+		final OActivityLog activityLog = activityLogDAO.getActivityLogByAceId(aceId).getOrElse(new OActivityLog());
 		activityLog.setAceId(aceId);
-		activityLog.setLog(activityLogger.getLogAsString());
+		final String log = new StringBuilder(activityLog.getLog() == null ? "" : activityLog.getLog()).append(activityLogger.getLogAsString())//
+				.append("ResultWorkspace : ").append(resultWorkspace.getStringForStorage()).append("\n")//
+				.toString();
+		activityLog.setLog(log);
 		if (resultWorkspace.getLogFile() != null) {
 			activityLog.setLogFile(resultWorkspace.getLogFile());
 		}

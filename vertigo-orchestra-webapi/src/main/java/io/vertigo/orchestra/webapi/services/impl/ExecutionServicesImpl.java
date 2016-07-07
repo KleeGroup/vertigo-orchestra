@@ -59,7 +59,7 @@ public class ExecutionServicesImpl implements ExecutionServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OProcessExecutionUi> getProcessExecutionsByProId(final Long proId, final String status, final Long limit, final Long offset) {
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProId(final Long proId, final String status, final Integer limit, final Integer offset) {
 		Assertion.checkNotNull(proId);
 		// ---
 		final OProcess process = processDAO.get(proId);
@@ -101,6 +101,14 @@ public class ExecutionServicesImpl implements ExecutionServices {
 		Assertion.checkNotNull(aceId);
 		// ---
 		return processExecutionManager.getLogFileForActivity(aceId).get();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public VFile getTechnicalLogFileByAceId(final Long aceId) {
+		Assertion.checkNotNull(aceId);
+		// ---
+		return processExecutionManager.getTechnicalLogFileForActivity(aceId).get();
 	}
 
 	/** {@inheritDoc} */

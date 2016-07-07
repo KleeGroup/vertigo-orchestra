@@ -18,11 +18,12 @@ public final class OActivityExecutionUi implements DtObject {
 	private String label;
 	private java.util.Date beginTime;
 	private java.util.Date endTime;
-	private Long executionTime;
+	private Integer executionTime;
 	private String status;
 	private String workspaceIn;
 	private String workspaceOut;
 	private Boolean hasLogFile;
+	private Boolean hasTechnicalLog;
 
 	/**
 	 * Champ : DATA.
@@ -103,19 +104,19 @@ public final class OActivityExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Durée'. 
-	 * @return Long executionTime 
+	 * @return Integer executionTime 
 	 */
 	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Durée")
-	public Long getExecutionTime() {
+	public Integer getExecutionTime() {
 		return executionTime;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Durée'.
-	 * @param executionTime Long 
+	 * @param executionTime Integer 
 	 */
-	public void setExecutionTime(final Long executionTime) {
+	public void setExecutionTime(final Integer executionTime) {
 		this.executionTime = executionTime;
 	}
 
@@ -193,6 +194,25 @@ public final class OActivityExecutionUi implements DtObject {
 	 */
 	public void setHasLogFile(final Boolean hasLogFile) {
 		this.hasLogFile = hasLogFile;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Log technique'. 
+	 * @return Boolean hasTechnicalLog 
+	 */
+	@Field(domain = "DO_O_BOOLEEN", persistent = false, label = "Log technique")
+	public Boolean getHasTechnicalLog() {
+		return hasTechnicalLog;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Log technique'.
+	 * @param hasTechnicalLog Boolean 
+	 */
+	public void setHasTechnicalLog(final Boolean hasTechnicalLog) {
+		this.hasTechnicalLog = hasTechnicalLog;
 	}
 
 	//Aucune Association déclarée

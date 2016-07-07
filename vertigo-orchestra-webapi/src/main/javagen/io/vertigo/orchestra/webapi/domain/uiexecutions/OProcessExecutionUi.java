@@ -17,7 +17,7 @@ public final class OProcessExecutionUi implements DtObject {
 	private Long preId;
 	private java.util.Date beginTime;
 	private java.util.Date endTime;
-	private Long executionTime;
+	private Integer executionTime;
 	private String status;
 	private Boolean checked;
 	private java.util.Date checkingDate;
@@ -84,19 +84,19 @@ public final class OProcessExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Durée'. 
-	 * @return Long executionTime 
+	 * @return Integer executionTime 
 	 */
 	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Durée")
-	public Long getExecutionTime() {
+	public Integer getExecutionTime() {
 		return executionTime;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Durée'.
-	 * @param executionTime Long 
+	 * @param executionTime Integer 
 	 */
-	public void setExecutionTime(final Long executionTime) {
+	public void setExecutionTime(final Integer executionTime) {
 		this.executionTime = executionTime;
 	}
 

@@ -13,7 +13,8 @@ module.exports = {
         status: "Statut",
         workspaceIn: "Paramètres entrants",
         workspaceOut: "Paramètres sortants",
-        hasLogFile: "Fichier de log"
+        hasLogFile: "Fichier de log",
+        hasTechnicalLog: "Log technique"
     },
     oExecutionSummary: {
         proId: "Id du processus",

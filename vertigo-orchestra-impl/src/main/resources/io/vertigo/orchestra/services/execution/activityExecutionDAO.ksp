@@ -65,6 +65,6 @@ create Task TK_GET_ACTIVITY_WORKSPACE {
 			
 		attribute ACE_ID	{domain : DO_O_IDENTIFIANT 		notNull:"true" 	inOut :"in"}
 		attribute IN	 	{domain : DO_O_BOOLEEN 			notNull:"true" 	inOut :"in"}
-		attribute DT_O_ACTIVITY_WORKSPACE	 	{domain : DO_DT_O_ACTIVITY_WORKSPACE_DTO 		notNull:"true" 	inOut :"out"}
+		attribute DT_O_ACTIVITY_WORKSPACE	 	{domain : DO_DT_O_ACTIVITY_WORKSPACE_DTO 		notNull:"false" 	inOut :"out"}
 }
 

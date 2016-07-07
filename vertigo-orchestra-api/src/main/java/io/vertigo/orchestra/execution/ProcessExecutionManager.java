@@ -14,9 +14,11 @@ public interface ProcessExecutionManager extends Manager {
 
 	void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState state);
 
-	void setActivityExecutionPending(final Long activityExecutionId);
+	void setActivityExecutionPending(final Long activityExecutionId, final ActivityExecutionWorkspace workspace);
 
 	Option<VFile> getLogFileForProcess(final Long processExecutionId);
 
 	Option<VFile> getLogFileForActivity(Long actityExecutionId);
+
+	Option<VFile> getTechnicalLogFileForActivity(Long actityExecutionId);
 }

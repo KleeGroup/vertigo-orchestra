@@ -37,21 +37,31 @@ export default React.createClass({
     dlLogFile() {
         window.location.href = './executions/activityExecution/'+this.props.id+'/logFile';
     },
+    dlTechnicalLogFile() {
+        window.location.href = './executions/activityExecution/'+this.props.id+'/technicalLogFile';
+    },
     /** @inheritDoc */
     render() {
-        const {hasLogFile} = this.state;
+        const {hasLogFile, hasTechnicalLog} = this.state;
         return (
             <div>
                 <Panel title={this.state.label}>
                   {this.fieldFor('executionTime')}
-                  { hasLogFile &&
+                  { (hasLogFile || hasTechnicalLog) &&
                     <div className="mdl-grid" data-focus="field" >
                       <div className="mdl-cell mdl-cell--4-col" data-focus="field-label-container">
                           <label data-focus="label">{translate('view.executions.reportFile.label')}</label>
                       </div>
-                      <div className="mdl-cell mdl-cell--8-col" data-focus="field-value-container">
+                      { hasTechnicalLog &&
+                      <div className="mdl-cell mdl-cell--4-col" data-focus="field-value-container">
+                        <a data-orchestra="download-link" onClick={this.dlTechnicalLogFile}>{translate('view.executions.technicalReportFile.linkTitle')}</a>
+                      </div>
+                      }
+                      { hasLogFile &&
+                      <div className="mdl-cell mdl-cell--4-col" data-focus="field-value-container">
                         <a data-orchestra="download-link" onClick={this.dlLogFile}>{translate('view.executions.reportFile.linkTitle')}</a>
                       </div>
+                      }
                     </div>
                   }
                   <h6>{translate('view.executions.detail.activities.workspaceIn')}</h6>

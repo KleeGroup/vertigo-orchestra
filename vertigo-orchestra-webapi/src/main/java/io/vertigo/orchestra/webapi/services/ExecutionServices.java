@@ -21,7 +21,7 @@ public interface ExecutionServices extends StoreServices {
 
 	OActivityExecutionUi getActivityExecutionById(Long aceId);
 
-	DtList<OProcessExecutionUi> getProcessExecutionsByProId(Long proId, String status, Long limit, Long offset);
+	DtList<OProcessExecutionUi> getProcessExecutionsByProId(Long proId, String status, Integer limit, Integer offset);
 
 	DtList<OActivityExecutionUi> getActivityExecutionsByPreId(Long preId);
 
@@ -32,6 +32,8 @@ public interface ExecutionServices extends StoreServices {
 	VFile getLogFileByPreId(Long preId);
 
 	VFile getLogFileByAceId(Long aceId);
+
+	VFile getTechnicalLogFileByAceId(Long aceId);
 
 	void updateProcessExecutionTreatment(Long preId, Boolean checked, String checkingComment);
 

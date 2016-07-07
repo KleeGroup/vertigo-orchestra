@@ -53,7 +53,7 @@ create Domain DO_O_TIMESTAMP {
 
 
 create Domain DO_O_NOMBRE {
-	dataType : Long
+	dataType : Integer
 	formatter : FMT_O_DEFAULT
 	storeType : "NUMERIC"
 },

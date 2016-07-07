@@ -86,9 +86,12 @@ export default {
         },
         executions: {
           title: 'Historique',
+          technicalReportFile:{
+            linkTitle: 'Télécharger le rapport technique'
+          },
           reportFile:{
             label: 'Rapport d\'exécution',
-            linkTitle: 'Télécharger'
+            linkTitle: 'Télécharger le rapport fonctionnel'
           },
           detail: {
             tabs:{

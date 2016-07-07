@@ -42,8 +42,8 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("{proId}")
 	@AnonymousAccessAllowed
-	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Option<String> status, @QueryParam("limit") final Option<Long> limit, @QueryParam("offset") final Option<Long> offset) {
-		return executionServices.getProcessExecutionsByProId(proId, status.getOrElse(""), limit.getOrElse(50L), offset.getOrElse(0L));
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Option<String> status, @QueryParam("limit") final Option<Integer> limit, @QueryParam("offset") final Option<Integer> offset) {
+		return executionServices.getProcessExecutionsByProId(proId, status.getOrElse(""), limit.getOrElse(50), offset.getOrElse(0));
 	}
 
 	/**
@@ -99,6 +99,15 @@ public class WsExecution implements WebServices {
 	@AnonymousAccessAllowed
 	public VFile getLogFileByAceId(@PathParam("aceId") final Long aceId) {
 		return executionServices.getLogFileByAceId(aceId);
+	}
+
+	/**
+	 * Get the technicalLog by Id
+	 */
+	@GET("activityExecution/{aceId}/technicalLogFile")
+	@AnonymousAccessAllowed
+	public VFile getTechnicalLogFileByAceId(@PathParam("aceId") final Long aceId) {
+		return executionServices.getTechnicalLogFileByAceId(aceId);
 	}
 
 	/**
