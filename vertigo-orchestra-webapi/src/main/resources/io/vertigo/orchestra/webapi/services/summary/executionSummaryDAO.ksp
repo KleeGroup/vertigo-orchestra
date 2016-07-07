@@ -87,22 +87,26 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 
-        		from_exec.PRO_ID,
-        		from_exec.PROCESS_NAME,
-        		from_exec.PROCESS_LABEL,
-        		from_exec.SUCCESSFUL_COUNT,
-        		from_exec.ERRORS_COUNT,
-        		from_exec.RUNNING_COUNT,
+        		from_process.PRO_ID,
+        		from_process.PROCESS_NAME,
+        		from_process.PROCESS_LABEL,
+        		coalesce(from_exec.SUCCESSFUL_COUNT,0) as SUCCESSFUL_COUNT,
+        		coalesce(from_exec.ERRORS_COUNT,0) as ERRORS_COUNT,
+        		coalesce(from_exec.RUNNING_COUNT,0) as RUNNING_COUNT,
         		from_exec.AVERAGE_EXECUTION_TIME,
         		from_exec.LAST_EXECUTION_TIME,
         		from_exec.HEALTH,
         		
         		lat_planif.NEXT_EXECUTION_TIME,
-        		lat_planif.MISFIRED_COUNT
-				from (
-					select (select pro1.PRO_ID from o_process pro1 where pro1.name = exec.name and pro1.active_version is true) as PRO_ID,
-						exec.name as PROCESS_NAME,
-						exec.label as PROCESS_LABEL,
+        		coalesce(lat_planif.MISFIRED_COUNT, 0) as MISFIRED_COUNT
+				from ( select  
+						pro.PRO_ID as PRO_ID,
+						pro.name as PROCESS_NAME,
+						pro.label as PROCESS_LABEL
+						from o_process pro 
+						where pro.NAME = #NAME#) as from_process
+				left join lateral (
+					select 
 						sum(exec.SI_SUCCESS) as SUCCESSFUL_COUNT,
 						sum(exec.SI_ERREUR) as ERRORS_COUNT,
 						sum(exec.SI_RUNNING) as RUNNING_COUNT,
@@ -113,10 +117,7 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
 							else 'SUCCESS' end as HEALTH
 						
 					from (
-						select 	pro.pro_id,
-							pro.name,
-							pro.label,
-							pre.END_TIME-pre.BEGIN_TIME as execution_time,
+						select 	pre.END_TIME-pre.BEGIN_TIME as execution_time,
 							case when pre.est_cd='DONE' then 1 else 0 end as SI_SUCCESS,
 							case when pre.est_cd='ERROR' then 1 else 0 end as SI_ERREUR,
 							case when pre.est_cd='RUNNING' then 1 else 0 end as SI_RUNNING,
@@ -127,14 +128,16 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
 								else null
 							end as ERROR_RANK
 						from o_process pro 
-						join o_process_execution pre on pre.pro_id = pro.pro_id
+						left join o_process_execution pre on pre.pro_id = pro.pro_id
 						where pre.begin_time between #DATE_MIN# and #DATE_MAX# and pro.name = #NAME#
 						
 					) exec
-					group by exec.name, exec.label
-				) as from_exec,
+					
+				) as from_exec on true
+
+				left join lateral
 				
-				LATERAL ( 	select 	
+				 ( 	select 	
 								min(planif.waitingexpected_time) as NEXT_EXECUTION_TIME,
 								sum(case when planif.pst_cd='MISFIRED' and planif.expected_time between #DATE_MIN# and #DATE_MAX# then 1 else 0 end) as MISFIRED_COUNT
 						from (
@@ -145,9 +148,9 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
 							from o_process_planification prp
 							join o_process p2 on p2.pro_id=prp.pro_id
 							where p2.name = #NAME#) as planif 
-						where planif.name = from_exec.PROCESS_NAME
+						where planif.name = from_process.PROCESS_NAME
 						group by planif.name
-					) lat_planif;
+					) lat_planif on true;
         	
 			"
 	attribute DT_EXECUTION_SUMMARY	 	{domain : DO_DT_O_EXECUTION_SUMMARY_DTO 		notNull:"true" 	inOut :"out"}
