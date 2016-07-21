@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.impl.execution;
 
 import java.io.File;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -10,7 +11,6 @@ import io.vertigo.dynamo.file.model.VFile;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.domain.execution.OActivityLog;
 import io.vertigo.orchestra.execution.ExecutionState;
@@ -73,32 +73,32 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 
 	/** {@inheritDoc} */
 	@Override
-	public Option<VFile> getLogFileForProcess(final Long processExecutionId) {
+	public Optional<VFile> getLogFileForProcess(final Long processExecutionId) {
 		Assertion.checkNotNull(processExecutionId);
 		// ---
-		final Option<OActivityLog> activityLog = activityLogDAO.getLogByPreId(processExecutionId);
+		final Optional<OActivityLog> activityLog = activityLogDAO.getLogByPreId(processExecutionId);
 		return getLogFileFromActivityLog(activityLog);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Option<VFile> getLogFileForActivity(final Long actityExecutionId) {
+	public Optional<VFile> getLogFileForActivity(final Long actityExecutionId) {
 		Assertion.checkNotNull(actityExecutionId);
 		// ---
-		final Option<OActivityLog> activityLog = activityLogDAO.getActivityLogByAceId(actityExecutionId);
+		final Optional<OActivityLog> activityLog = activityLogDAO.getActivityLogByAceId(actityExecutionId);
 		return getLogFileFromActivityLog(activityLog);
 	}
 
-	private Option<VFile> getLogFileFromActivityLog(final Option<OActivityLog> activityLog) {
+	private Optional<VFile> getLogFileFromActivityLog(final Optional<OActivityLog> activityLog) {
 		Assertion.checkNotNull(activityLog);
 		// ---
 		if (activityLog.isPresent()) {
 			final File file = new File(paramManager.getStringValue(ROOT_DIRECTORY) + activityLog.get().getLogFile());
 			if (file.exists()) {
-				return Option.of(fileManager.createFile(file));
+				return Optional.of(fileManager.createFile(file));
 			}
 			throw new RuntimeException("Log File" + file.getAbsolutePath() + " not found");
 		}
-		return Option.empty();
+		return Optional.empty();
 	}
 }

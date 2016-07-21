@@ -1,8 +1,9 @@
 package io.vertigo.orchestra.monitoring;
 
+import java.util.Optional;
+
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.lang.Component;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.execution.OActivityExecution;
 import io.vertigo.orchestra.domain.execution.OActivityLog;
 import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
@@ -49,6 +50,6 @@ public interface MonitoringServices extends Component {
 	 * @param aceId l'id d'execution de tâche
 	 * @return un workspace de tâche.
 	 */
-	Option<OActivityLog> getActivityLogByAceId(Long aceId);
+	Optional<OActivityLog> getActivityLogByAceId(Long aceId);
 
 }

@@ -2,11 +2,11 @@ package io.vertigo.orchestra.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
@@ -58,12 +58,12 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 	}
 
 	@Override
-	public void scheduleNow(final String processName, final Option<String> initialParams) {
+	public void scheduleNow(final String processName, final Optional<String> initialParams) {
 		scheduleAt(processName, new Date(), initialParams);
 	}
 
 	@Override
-	public void scheduleAt(final String processName, final Date expectedTime, final Option<String> initialParams) {
+	public void scheduleAt(final String processName, final Date expectedTime, final Optional<String> initialParams) {
 		Assertion.checkNotNull(processName);
 		Assertion.checkNotNull(expectedTime);
 		// ---

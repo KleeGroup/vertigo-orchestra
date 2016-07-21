@@ -1,11 +1,12 @@
 package io.vertigo.orchestra.monitoring;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.execution.OActivityExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.dao.execution.OActivityWorkspaceDAO;
@@ -72,7 +73,7 @@ public class MonitoringServicesImpl implements MonitoringServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public Option<OActivityLog> getActivityLogByAceId(final Long aceId) {
+	public Optional<OActivityLog> getActivityLogByAceId(final Long aceId) {
 		Assertion.checkNotNull(aceId);
 		// ---
 		return activityLogDAO.getActivityLogByAceId(aceId);

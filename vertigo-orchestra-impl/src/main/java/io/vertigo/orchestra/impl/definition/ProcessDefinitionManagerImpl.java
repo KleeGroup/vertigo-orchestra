@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.definition.DefinitionPAO;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
@@ -205,7 +205,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessDefinitionProperties(final String processName, final Option<String> cronExpression, final boolean multiExecution, final int rescuePeriod, final boolean active) {
+	public void updateProcessDefinitionProperties(final String processName, final Optional<String> cronExpression, final boolean multiExecution, final int rescuePeriod, final boolean active) {
 		Assertion.checkArgNotEmpty(processName);
 		Assertion.checkNotNull(cronExpression);
 		Assertion.checkNotNull(rescuePeriod);
@@ -227,7 +227,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessDefinitionInitialParams(final String processName, final Option<String> initialParams) {
+	public void updateProcessDefinitionInitialParams(final String processName, final Optional<String> initialParams) {
 		Assertion.checkArgNotEmpty(processName);
 		Assertion.checkNotNull(initialParams);
 		// ---
@@ -240,7 +240,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	private OProcess getOProcessByName(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		// ---
-		final Option<OProcess> processOption = processDao.getActiveProcessByName(processName);
+		final Optional<OProcess> processOption = processDao.getActiveProcessByName(processName);
 		// ---
 		Assertion.checkState(processOption.isPresent(), "Cannot find process with name {0}", processName);
 		// ---

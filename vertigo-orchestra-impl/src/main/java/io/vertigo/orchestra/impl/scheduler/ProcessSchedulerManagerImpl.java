@@ -2,13 +2,13 @@ package io.vertigo.orchestra.impl.scheduler;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**
@@ -38,7 +38,7 @@ public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManage
 
 	/** {@inheritDoc} */
 	@Override
-	public void scheduleAt(final Long proId, final Date planifiedTime, final Option<String> initialParamsOption) {
+	public void scheduleAt(final Long proId, final Date planifiedTime, final Optional<String> initialParamsOption) {
 		Assertion.checkNotNull(proId);
 		// ---
 		if (transactionManager.hasCurrentTransaction()) {

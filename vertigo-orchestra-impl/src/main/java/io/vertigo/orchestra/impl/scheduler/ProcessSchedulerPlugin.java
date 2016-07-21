@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +22,6 @@ import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.lang.Plugin;
 import io.vertigo.lang.WrappedException;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
@@ -109,7 +109,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	//--- Package
 	//--------------------------------------------------------------------------------------------------
 
-	void scheduleAt(final Long proId, final Date planifiedTime, final Option<String> initialParamsOption) {
+	void scheduleAt(final Long proId, final Date planifiedTime, final Optional<String> initialParamsOption) {
 		Assertion.checkNotNull(proId);
 		// ---
 		final OProcessPlanification processPlanification = new OProcessPlanification();
@@ -126,9 +126,9 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	void plannRecurrentProcesses() {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			for (final OProcess process : getAllScheduledProcesses()) {
-				final Option<Date> nextPlanification = findNextPlanificationTime(process);
+				final Optional<Date> nextPlanification = findNextPlanificationTime(process);
 				if (nextPlanification.isPresent()) {
-					scheduleAt(process.getProId(), nextPlanification.get(), Option.ofNullable(process.getInitialParams()));
+					scheduleAt(process.getProId(), nextPlanification.get(), Optional.ofNullable(process.getInitialParams()));
 				}
 			}
 			transaction.commit();
@@ -172,7 +172,7 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	//--- Private
 	//--------------------------------------------------------------------------------------------------
 
-	private Option<OProcessPlanification> getLastPlanificationsByProcess(final Long proId) {
+	private Optional<OProcessPlanification> getLastPlanificationsByProcess(final Long proId) {
 		Assertion.checkNotNull(proId);
 		// ---
 		return processPlanificationDAO.getLastPlanificationByProId(proId);
@@ -181,8 +181,8 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	/**
 	 * TODO : Description de la méthode.
 	 */
-	private Option<Date> findNextPlanificationTime(final OProcess process) {
-		final Option<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(process.getProId());
+	private Optional<Date> findNextPlanificationTime(final OProcess process) {
+		final Optional<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(process.getProId());
 
 		try {
 			final CronExpression cronExpression = new CronExpression(process.getCronExpression());
@@ -190,18 +190,18 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 			if (!lastPlanificationOption.isPresent()) {
 				final Date now = new Date();
 				final Date compatibleNow = new Date(now.getTime() + (planningPeriodSeconds / 2 * 1000L));// Normalement ca doit être bon quelque soit la synchronisation entre les deux timers (même fréquence)
-				return Option.of(cronExpression.getNextValidTimeAfter(compatibleNow));
+				return Optional.of(cronExpression.getNextValidTimeAfter(compatibleNow));
 			}
 			final OProcessPlanification lastPlanification = lastPlanificationOption.get();
 			final Date nextPotentialPlainification = cronExpression.getNextValidTimeAfter(lastPlanification.getExpectedTime());
 			if (nextPotentialPlainification.before(new Date(System.currentTimeMillis() + forecastDurationSeconds * 1000L))) {
-				return Option.of(nextPotentialPlainification);
+				return Optional.of(nextPotentialPlainification);
 			}
 		} catch (final ParseException e) {
 			throw new WrappedException("Process' cron expression is not valid, process cannot be planned", e);
 		}
 
-		return Option.<Date> empty();
+		return Optional.<Date> empty();
 
 	}
 

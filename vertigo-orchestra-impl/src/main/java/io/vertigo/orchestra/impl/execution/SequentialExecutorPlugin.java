@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.impl.execution;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,7 +20,6 @@ import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.lang.Plugin;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
@@ -377,7 +377,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			endActivity(activityExecution);
 
-			final Option<OActivity> nextActivity = getNextActivityByActId(activityExecution.getActId());
+			final Optional<OActivity> nextActivity = getNextActivityByActId(activityExecution.getActId());
 			if (nextActivity.isPresent()) {
 				hasNext = true;
 				nextActivityExecution = initActivityExecutionWithActivity(nextActivity.get(), activityExecution.getPreId());
@@ -540,7 +540,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		return activityDAO.getFirstActivityByProcess(proId);
 	}
 
-	private Option<OActivity> getNextActivityByActId(final Long actId) {
+	private Optional<OActivity> getNextActivityByActId(final Long actId) {
 		Assertion.checkNotNull(actId);
 		// ---
 		return activityDAO.getNextActivityByActId(actId);

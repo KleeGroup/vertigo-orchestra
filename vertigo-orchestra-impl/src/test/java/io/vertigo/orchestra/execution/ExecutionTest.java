@@ -2,6 +2,7 @@ package io.vertigo.orchestra.execution;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -17,7 +18,6 @@ import io.vertigo.dynamo.task.model.TaskBuilder;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.dynamox.task.TaskEngineProc;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
@@ -75,7 +75,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Assert.assertNotNull(proId);
 
 		// We plan right now
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// The task takes 10 secondes to run we wait 12 secondes to check the final states
 		Thread.sleep(1000 * 12);
@@ -158,7 +158,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		Assert.assertNotNull(proId);
 
 		// We plan right now
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// Error is after 2 seconds
 		Thread.sleep(1000 * 5);
@@ -182,7 +182,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// After 15 seconds the process is still running
 		Thread.sleep(1000 * 15);
@@ -207,7 +207,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// After 5 seconds the process is still running
 		Thread.sleep(1000 * 5);
@@ -232,7 +232,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// We wait 5 secondes to be sure that execution is running
 		Thread.sleep(1000 * 5);
@@ -258,7 +258,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// We wait 5 secondes to be sure that execution is running
 		Thread.sleep(1000 * 5);
@@ -283,7 +283,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.of("{\"filePath\" : \"tata/tutu\", \"planifParam\" : \"titi\"}"));
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.of("{\"filePath\" : \"tata/tutu\", \"planifParam\" : \"titi\"}"));
 
 		// We check 3 secondes to be sure that execution is running
 		Thread.sleep(1000 * 3);
@@ -307,7 +307,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// After 1 second the process is running
 		Thread.sleep(1000 * 1);
@@ -331,8 +331,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// We wait 3 seconds
 		Thread.sleep(1000 * 3);
@@ -356,14 +356,14 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// We wait 10 seconds until it's finished
 		Thread.sleep(1000 * 10);
 
 		checkExecutions(proId, 0, 0, 1, 0); // We are sure that the process is done so we can continue the test safely
 
-		final Option<OActivityLog> activityLog = monitoringServices.getActivityLogByAceId(monitoringServices.getActivityExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getAceId());
+		final Optional<OActivityLog> activityLog = monitoringServices.getActivityLogByAceId(monitoringServices.getActivityExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getAceId());
 		Assert.assertTrue(activityLog.isPresent());
 
 	}
@@ -383,8 +383,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
+		processPlannerManager.scheduleAt(proId, new Date(), Optional.<String> empty());
 
 		// We wait 3 seconds
 		Thread.sleep(1000 * 3);

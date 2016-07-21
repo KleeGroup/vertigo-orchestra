@@ -1,12 +1,12 @@
 package io.vertigo.orchestra.impl.execution;
 
 import java.util.Date;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.execution.ONodeDAO;
 import io.vertigo.orchestra.domain.execution.ONode;
 import io.vertigo.orchestra.execution.NodeManager;
@@ -27,7 +27,7 @@ public class NodeManagerImpl implements NodeManager {
 	public Long registerNode(final String nodeName) {
 		Assertion.checkNotNull(nodeName);
 		// ---
-		final Option<ONode> existingNode = nodeDAO.getNodeByName(nodeName);
+		final Optional<ONode> existingNode = nodeDAO.getNodeByName(nodeName);
 		final ONode node = existingNode.orElse(new ONode());
 		if (existingNode.isPresent()) {
 			nodeDAO.update(node);
