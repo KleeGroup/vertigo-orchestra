@@ -2,9 +2,9 @@ package io.vertigo.orchestra;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import io.vertigo.lang.Manager;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.execution.ExecutionState;
 
@@ -22,9 +22,9 @@ public interface OrchestraManager extends Manager {
 
 	List<ProcessDefinition> getAllProcesses();
 
-	void scheduleNow(String processName, Option<String> initialParams);
+	void scheduleNow(String processName, Optional<String> initialParams);
 
-	void scheduleAt(String processName, Date expectedTime, Option<String> initialParams);
+	void scheduleAt(String processName, Date expectedTime, Optional<String> initialParams);
 
 	void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState state);
 }

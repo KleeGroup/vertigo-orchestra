@@ -1,9 +1,9 @@
 package io.vertigo.orchestra.definition;
 
 import java.util.List;
+import java.util.Optional;
 
 import io.vertigo.lang.Component;
-import io.vertigo.lang.Option;
 
 /**
  * TODO : Description de la classe.
@@ -16,9 +16,9 @@ public interface ProcessDefinitionManager extends Component {
 
 	ProcessDefinition getProcessDefinition(String processName);
 
-	void updateProcessDefinitionProperties(String processName, Option<String> cronExpression, boolean multiExecution, int rescuePeriod, boolean active);
+	void updateProcessDefinitionProperties(String processName, Optional<String> cronExpression, boolean multiExecution, int rescuePeriod, boolean active);
 
-	void updateProcessDefinitionInitialParams(String processName, Option<String> initialParams);
+	void updateProcessDefinitionInitialParams(String processName, Optional<String> initialParams);
 
 	List<ProcessDefinition> getAllProcessDefinitions();
 }

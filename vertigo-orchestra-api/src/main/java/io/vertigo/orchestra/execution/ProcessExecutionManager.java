@@ -1,8 +1,9 @@
 package io.vertigo.orchestra.execution;
 
+import java.util.Optional;
+
 import io.vertigo.dynamo.file.model.VFile;
 import io.vertigo.lang.Manager;
-import io.vertigo.lang.Option;
 
 /**
  * TODO : Description de la classe.
@@ -16,7 +17,7 @@ public interface ProcessExecutionManager extends Manager {
 
 	void setActivityExecutionPending(final Long activityExecutionId);
 
-	Option<VFile> getLogFileForProcess(final Long processExecutionId);
+	Optional<VFile> getLogFileForProcess(final Long processExecutionId);
 
-	Option<VFile> getLogFileForActivity(Long actityExecutionId);
+	Optional<VFile> getLogFileForActivity(Long actityExecutionId);
 }

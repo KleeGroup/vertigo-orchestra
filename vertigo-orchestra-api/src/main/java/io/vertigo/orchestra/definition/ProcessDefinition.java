@@ -1,9 +1,9 @@
 package io.vertigo.orchestra.definition;
 
 import java.util.List;
+import java.util.Optional;
 
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 
 /**
  * TODO : Description de la classe.
@@ -19,11 +19,11 @@ public final class ProcessDefinition {
 	private final List<ActivityDefinition> activities;
 	//---params dev / admin
 	private final String label;
-	private final Option<String> cronExpression;
-	private final Option<String> initialParams;
+	private final Optional<String> cronExpression;
+	private final Optional<String> initialParams;
 	private final boolean multiExecution;
 	private final int rescuePeriod;
-	private final Option<String> metadatas;
+	private final Optional<String> metadatas;
 	private final boolean needUpdate;
 
 	/**
@@ -37,11 +37,11 @@ public final class ProcessDefinition {
 	ProcessDefinition(
 			final String name,
 			final String label,
-			final Option<String> cronExpression,
-			final Option<String> initialParams,
+			final Optional<String> cronExpression,
+			final Optional<String> initialParams,
 			final boolean multiExecution,
 			final int rescuePeriod,
-			final Option<String> metadatas,
+			final Optional<String> metadatas,
 			final boolean needUpdate,
 			final List<ActivityDefinition> activities) {
 		Assertion.checkArgNotEmpty(name);
@@ -78,11 +78,11 @@ public final class ProcessDefinition {
 		return label;
 	}
 
-	public Option<String> getCronExpression() {
+	public Optional<String> getCronExpression() {
 		return cronExpression;
 	}
 
-	public Option<String> getInitialParams() {
+	public Optional<String> getInitialParams() {
 		return initialParams;
 	}
 
@@ -94,7 +94,7 @@ public final class ProcessDefinition {
 		return multiExecution;
 	}
 
-	public Option<String> getMetadatas() {
+	public Optional<String> getMetadatas() {
 		return metadatas;
 	}
 
