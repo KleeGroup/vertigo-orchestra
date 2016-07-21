@@ -1,8 +1,8 @@
 package io.vertigo.orchestra.dao.planification;
 
 import javax.inject.Inject;
+import java.util.Optional;
 import io.vertigo.app.Home;
-import io.vertigo.lang.Option;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
@@ -58,11 +58,11 @@ public final class OProcessPlanificationDAO extends DAO<OProcessPlanification, j
 	 * @param proId Long 
 	 * @return Option de io.vertigo.orchestra.domain.planification.OProcessPlanification dtOProcessPlanification
 	*/
-	public Option<io.vertigo.orchestra.domain.planification.OProcessPlanification> getLastPlanificationByProId(final Long proId) {
+	public Optional<io.vertigo.orchestra.domain.planification.OProcessPlanification> getLastPlanificationByProId(final Long proId) {
 		final Task task = createTaskBuilder("TK_GET_LAST_PLANIFICATION_BY_PRO_ID")
 				.addValue("PRO_ID", proId)
 				.build();
-		return Option.of((io.vertigo.orchestra.domain.planification.OProcessPlanification)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.planification.OProcessPlanification)getTaskManager()
 				.execute(task)
 				.getResult());
 	}

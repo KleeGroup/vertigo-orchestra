@@ -1,8 +1,8 @@
 package io.vertigo.orchestra.dao.execution;
 
 import javax.inject.Inject;
+import java.util.Optional;
 import io.vertigo.app.Home;
-import io.vertigo.lang.Option;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
@@ -44,11 +44,11 @@ public final class ONodeDAO extends DAO<ONode, java.lang.Long> implements StoreS
 	 * @param nodeName String 
 	 * @return Option de io.vertigo.orchestra.domain.execution.ONode dtoONode
 	*/
-	public Option<io.vertigo.orchestra.domain.execution.ONode> getNodeByName(final String nodeName) {
+	public Optional<io.vertigo.orchestra.domain.execution.ONode> getNodeByName(final String nodeName) {
 		final Task task = createTaskBuilder("TK_GET_NODE_BY_NAME")
 				.addValue("NODE_NAME", nodeName)
 				.build();
-		return Option.of((io.vertigo.orchestra.domain.execution.ONode)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.ONode)getTaskManager()
 				.execute(task)
 				.getResult());
 	}

@@ -1,8 +1,8 @@
 package io.vertigo.orchestra.dao.definition;
 
 import javax.inject.Inject;
+import java.util.Optional;
 import io.vertigo.app.Home;
-import io.vertigo.lang.Option;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
@@ -58,11 +58,11 @@ public final class OActivityDAO extends DAO<OActivity, java.lang.Long> implement
 	 * @param actId Long 
 	 * @return Option de io.vertigo.orchestra.domain.definition.OActivity dtOActivity
 	*/
-	public Option<io.vertigo.orchestra.domain.definition.OActivity> getNextActivityByActId(final Long actId) {
+	public Optional<io.vertigo.orchestra.domain.definition.OActivity> getNextActivityByActId(final Long actId) {
 		final Task task = createTaskBuilder("TK_GET_NEXT_ACTIVITY_BY_ACT_ID")
 				.addValue("ACT_ID", actId)
 				.build();
-		return Option.of((io.vertigo.orchestra.domain.definition.OActivity)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.definition.OActivity)getTaskManager()
 				.execute(task)
 				.getResult());
 	}
