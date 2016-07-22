@@ -3,7 +3,7 @@ package io.vertigo.orchestra.definition;
 import java.util.List;
 import java.util.Optional;
 
-import io.vertigo.lang.Component;
+import io.vertigo.lang.Manager;
 
 /**
  * TODO : Description de la classe.
@@ -11,7 +11,7 @@ import io.vertigo.lang.Component;
  * @author mlaroche.
  * @version $Id$
  */
-public interface ProcessDefinitionManager extends Component {
+public interface ProcessDefinitionManager extends Manager {
 	void createOrUpdateDefinitionIfNeeded(ProcessDefinition processDefinition);
 
 	ProcessDefinition getProcessDefinition(String processName);
