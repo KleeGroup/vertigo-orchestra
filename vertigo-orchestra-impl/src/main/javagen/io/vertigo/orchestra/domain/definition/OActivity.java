@@ -2,14 +2,14 @@ package io.vertigo.orchestra.domain.definition;
 
 import io.vertigo.dynamo.domain.stereotype.DtDefinition;
 import io.vertigo.dynamo.domain.stereotype.Field;
-import io.vertigo.dynamo.domain.model.DtObject;
+import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivity
  */
 @DtDefinition
-public final class OActivity implements DtObject {
+public final class OActivity implements Entity {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -183,7 +183,7 @@ public final class OActivity implements DtObject {
 		if (process != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(process), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(process));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(process);
 			if (!fkURI.urn().equals(uri.urn())) {
 				process = null;
 			}

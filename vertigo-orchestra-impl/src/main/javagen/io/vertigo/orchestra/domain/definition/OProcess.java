@@ -2,14 +2,14 @@ package io.vertigo.orchestra.domain.definition;
 
 import io.vertigo.dynamo.domain.stereotype.DtDefinition;
 import io.vertigo.dynamo.domain.stereotype.Field;
-import io.vertigo.dynamo.domain.model.DtObject;
+import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcess
  */
 @DtDefinition
-public final class OProcess implements DtObject {
+public final class OProcess implements Entity {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -310,7 +310,7 @@ public final class OProcess implements DtObject {
 		if (triggerType != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.TriggerType> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(triggerType), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(triggerType));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(triggerType);
 			if (!fkURI.urn().equals(uri.urn())) {
 				triggerType = null;
 			}
@@ -369,7 +369,7 @@ public final class OProcess implements DtObject {
 		if (processType != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OProcessType> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(processType), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(processType));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(processType);
 			if (!fkURI.urn().equals(uri.urn())) {
 				processType = null;
 			}

@@ -2,14 +2,14 @@ package io.vertigo.orchestra.domain.execution;
 
 import io.vertigo.dynamo.domain.stereotype.DtDefinition;
 import io.vertigo.dynamo.domain.stereotype.Field;
-import io.vertigo.dynamo.domain.model.DtObject;
+import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivityExecution
  */
 @DtDefinition
-public final class OActivityExecution implements DtObject {
+public final class OActivityExecution implements Entity {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -246,7 +246,7 @@ public final class OActivityExecution implements DtObject {
 		if (activity != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OActivity> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(activity), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(activity));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(activity);
 			if (!fkURI.urn().equals(uri.urn())) {
 				activity = null;
 			}
@@ -305,7 +305,7 @@ public final class OActivityExecution implements DtObject {
 		if (processusExecution != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OProcessExecution> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(processusExecution), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(processusExecution));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(processusExecution);
 			if (!fkURI.urn().equals(uri.urn())) {
 				processusExecution = null;
 			}
@@ -368,7 +368,7 @@ public final class OActivityExecution implements DtObject {
 		if (node != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(node), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(node));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(node);
 			if (!fkURI.urn().equals(uri.urn())) {
 				node = null;
 			}
@@ -427,7 +427,7 @@ public final class OActivityExecution implements DtObject {
 		if (executionState != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(executionState), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(executionState));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(executionState);
 			if (!fkURI.urn().equals(uri.urn())) {
 				executionState = null;
 			}

@@ -2,14 +2,14 @@ package io.vertigo.orchestra.domain.planification;
 
 import io.vertigo.dynamo.domain.stereotype.DtDefinition;
 import io.vertigo.dynamo.domain.stereotype.Field;
-import io.vertigo.dynamo.domain.model.DtObject;
+import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcessPlanification
  */
 @DtDefinition
-public final class OProcessPlanification implements DtObject {
+public final class OProcessPlanification implements Entity {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -165,7 +165,7 @@ public final class OProcessPlanification implements DtObject {
 		if (processus != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(processus), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(processus));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(processus);
 			if (!fkURI.urn().equals(uri.urn())) {
 				processus = null;
 			}
@@ -224,7 +224,7 @@ public final class OProcessPlanification implements DtObject {
 		if (node != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(node), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(node));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(node);
 			if (!fkURI.urn().equals(uri.urn())) {
 				node = null;
 			}
@@ -283,7 +283,7 @@ public final class OProcessPlanification implements DtObject {
 		if (planificationState != null) {
 			// On s'assure que l'objet correspond à la bonne clé
 			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> uri;
-			uri = new io.vertigo.dynamo.domain.model.URI<>(io.vertigo.dynamo.domain.util.DtObjectUtil.findDtDefinition(planificationState), io.vertigo.dynamo.domain.util.DtObjectUtil.getId(planificationState));
+			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(planificationState);
 			if (!fkURI.urn().equals(uri.urn())) {
 				planificationState = null;
 			}

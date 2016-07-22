@@ -2,14 +2,14 @@ package io.vertigo.orchestra.domain.execution;
 
 import io.vertigo.dynamo.domain.stereotype.DtDefinition;
 import io.vertigo.dynamo.domain.stereotype.Field;
-import io.vertigo.dynamo.domain.model.DtObject;
+import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données ONode
  */
 @DtDefinition
-public final class ONode implements DtObject {
+public final class ONode implements Entity {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
