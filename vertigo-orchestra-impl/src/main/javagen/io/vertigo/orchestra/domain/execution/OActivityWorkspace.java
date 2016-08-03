@@ -1,9 +1,8 @@
 package io.vertigo.orchestra.domain.execution;
 
-import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.stereotype.Field;
+import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
-
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivityWorkspace
@@ -21,7 +20,7 @@ public final class OActivityWorkspace implements Entity {
 
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'.
+	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
 	 * @return Long acwId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
@@ -40,7 +39,7 @@ public final class OActivityWorkspace implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Workspace in/out'.
+	 * Récupère la valeur de la propriété 'Workspace in/out'. 
 	 * @return Boolean isIn <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_BOOLEEN", required = true, label = "Workspace in/out")
@@ -59,8 +58,8 @@ public final class OActivityWorkspace implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Contenu du workspace'.
-	 * @return String workspace
+	 * Récupère la valeur de la propriété 'Contenu du workspace'. 
+	 * @return String workspace 
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Contenu du workspace")
 	public String getWorkspace() {
@@ -70,7 +69,7 @@ public final class OActivityWorkspace implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Contenu du workspace'.
-	 * @param workspace String
+	 * @param workspace String 
 	 */
 	public void setWorkspace(final String workspace) {
 		this.workspace = workspace;
@@ -78,8 +77,8 @@ public final class OActivityWorkspace implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'ActivityExecution'.
-	 * @return Long aceId
+	 * Récupère la valeur de la propriété 'ActivityExecution'. 
+	 * @return Long aceId 
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "ActivityExecution")
 	public Long getAceId() {
@@ -89,7 +88,7 @@ public final class OActivityWorkspace implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'ActivityExecution'.
-	 * @param aceId Long
+	 * @param aceId Long 
 	 */
 	public void setAceId(final Long aceId) {
 		this.aceId = aceId;
@@ -99,19 +98,20 @@ public final class OActivityWorkspace implements Entity {
 	 * Association : ActivityExecution.
 	 * @return io.vertigo.orchestra.domain.execution.OActivityExecution
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_TKW_TKE",
-			fkFieldName = "ACE_ID",
-			primaryDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-			primaryIsNavigable = true,
-			primaryRole = "ActivityExecution",
-			primaryLabel = "ActivityExecution",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_ACTIVITY_WORKSPACE",
-			foreignIsNavigable = false,
-			foreignRole = "ActivityWorkspace",
-			foreignLabel = "ActivityWorkspace",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_TKW_TKE",
+    	fkFieldName = "ACE_ID",
+    	primaryDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+    	primaryIsNavigable = true,
+    	primaryRole = "ActivityExecution",
+    	primaryLabel = "ActivityExecution",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_WORKSPACE",
+    	foreignIsNavigable = false,
+    	foreignRole = "ActivityWorkspace",
+    	foreignLabel = "ActivityWorkspace",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.orchestra.domain.execution.OActivityExecution getActivityExecution() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OActivityExecution> fkURI = getActivityExecutionURI();
 		if (fkURI == null) {
@@ -125,7 +125,7 @@ public final class OActivityWorkspace implements Entity {
 			if (!fkURI.urn().equals(uri.urn())) {
 				activityExecution = null;
 			}
-		}
+		}		
 		if (activityExecution == null) {
 			activityExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
@@ -136,19 +136,20 @@ public final class OActivityWorkspace implements Entity {
 	 * Retourne l'URI: ActivityExecution.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_TKW_TKE",
-			fkFieldName = "ACE_ID",
-			primaryDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-			primaryIsNavigable = true,
-			primaryRole = "ActivityExecution",
-			primaryLabel = "ActivityExecution",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_ACTIVITY_WORKSPACE",
-			foreignIsNavigable = false,
-			foreignRole = "ActivityWorkspace",
-			foreignLabel = "ActivityWorkspace",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_TKW_TKE",
+    	fkFieldName = "ACE_ID",
+    	primaryDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+    	primaryIsNavigable = true,
+    	primaryRole = "ActivityExecution",
+    	primaryLabel = "ActivityExecution",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY_WORKSPACE",
+    	foreignIsNavigable = false,
+    	foreignRole = "ActivityWorkspace",
+    	foreignLabel = "ActivityWorkspace",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OActivityExecution> getActivityExecutionURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_TKW_TKE", io.vertigo.orchestra.domain.execution.OActivityExecution.class);
 	}

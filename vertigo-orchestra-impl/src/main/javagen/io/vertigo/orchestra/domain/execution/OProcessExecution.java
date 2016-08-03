@@ -1,9 +1,8 @@
 package io.vertigo.orchestra.domain.execution;
 
-import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.stereotype.Field;
+import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
-
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcessExecution
@@ -29,7 +28,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'.
+	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
 	 * @return Long preId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
@@ -48,7 +47,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de début'.
+	 * Récupère la valeur de la propriété 'Date de début'. 
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Date de début")
@@ -67,8 +66,8 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de fin'.
-	 * @return java.util.Date endTime
+	 * Récupère la valeur de la propriété 'Date de fin'. 
+	 * @return java.util.Date endTime 
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de fin")
 	public java.util.Date getEndTime() {
@@ -78,7 +77,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de fin'.
-	 * @param endTime java.util.Date
+	 * @param endTime java.util.Date 
 	 */
 	public void setEndTime(final java.util.Date endTime) {
 		this.endTime = endTime;
@@ -86,8 +85,8 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'.
-	 * @return String engine
+	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'. 
+	 * @return String engine 
 	 */
 	@Field(domain = "DO_O_CLASSE", label = "Implémentation effective de l'execution")
 	public String getEngine() {
@@ -97,7 +96,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Implémentation effective de l'execution'.
-	 * @param engine String
+	 * @param engine String 
 	 */
 	public void setEngine(final String engine) {
 		this.engine = engine;
@@ -105,8 +104,8 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Pris en charge'.
-	 * @return Boolean checked
+	 * Récupère la valeur de la propriété 'Pris en charge'. 
+	 * @return Boolean checked 
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Pris en charge")
 	public Boolean getChecked() {
@@ -116,7 +115,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Pris en charge'.
-	 * @param checked Boolean
+	 * @param checked Boolean 
 	 */
 	public void setChecked(final Boolean checked) {
 		this.checked = checked;
@@ -124,8 +123,8 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de prise en charge'.
-	 * @return java.util.Date checkingDate
+	 * Récupère la valeur de la propriété 'Date de prise en charge'. 
+	 * @return java.util.Date checkingDate 
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de prise en charge")
 	public java.util.Date getCheckingDate() {
@@ -135,7 +134,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de prise en charge'.
-	 * @param checkingDate java.util.Date
+	 * @param checkingDate java.util.Date 
 	 */
 	public void setCheckingDate(final java.util.Date checkingDate) {
 		this.checkingDate = checkingDate;
@@ -143,8 +142,8 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Commentaire'.
-	 * @return String checkingComment
+	 * Récupère la valeur de la propriété 'Commentaire'. 
+	 * @return String checkingComment 
 	 */
 	@Field(domain = "DO_O_TEXT", label = "Commentaire")
 	public String getCheckingComment() {
@@ -154,7 +153,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Commentaire'.
-	 * @param checkingComment String
+	 * @param checkingComment String 
 	 */
 	public void setCheckingComment(final String checkingComment) {
 		this.checkingComment = checkingComment;
@@ -162,8 +161,8 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Processus'.
-	 * @return Long proId
+	 * Récupère la valeur de la propriété 'Processus'. 
+	 * @return Long proId 
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getProId() {
@@ -173,7 +172,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Processus'.
-	 * @param proId Long
+	 * @param proId Long 
 	 */
 	public void setProId(final Long proId) {
 		this.proId = proId;
@@ -181,8 +180,8 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'ExecutionState'.
-	 * @return String estCd
+	 * Récupère la valeur de la propriété 'ExecutionState'. 
+	 * @return String estCd 
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ExecutionState")
 	public String getEstCd() {
@@ -192,7 +191,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'ExecutionState'.
-	 * @param estCd String
+	 * @param estCd String 
 	 */
 	public void setEstCd(final String estCd) {
 		this.estCd = estCd;
@@ -200,8 +199,8 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'User'.
-	 * @return Long usrId
+	 * Récupère la valeur de la propriété 'User'. 
+	 * @return Long usrId 
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "User")
 	public Long getUsrId() {
@@ -211,7 +210,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'User'.
-	 * @param usrId Long
+	 * @param usrId Long 
 	 */
 	public void setUsrId(final Long usrId) {
 		this.usrId = usrId;
@@ -221,19 +220,20 @@ public final class OProcessExecution implements Entity {
 	 * Association : Processus.
 	 * @return io.vertigo.orchestra.domain.definition.OProcess
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_PRE_PRO",
-			fkFieldName = "PRO_ID",
-			primaryDtDefinitionName = "DT_O_PROCESS",
-			primaryIsNavigable = true,
-			primaryRole = "Process",
-			primaryLabel = "Processus",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-			foreignIsNavigable = false,
-			foreignRole = "ExecutionProcessus",
-			foreignLabel = "ExecutionProcessus",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRE_PRO",
+    	fkFieldName = "PRO_ID",
+    	primaryDtDefinitionName = "DT_O_PROCESS",
+    	primaryIsNavigable = true,
+    	primaryRole = "Process",
+    	primaryLabel = "Processus",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionProcessus",
+    	foreignLabel = "ExecutionProcessus",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.orchestra.domain.definition.OProcess getProcess() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> fkURI = getProcessURI();
 		if (fkURI == null) {
@@ -247,7 +247,7 @@ public final class OProcessExecution implements Entity {
 			if (!fkURI.urn().equals(uri.urn())) {
 				process = null;
 			}
-		}
+		}		
 		if (process == null) {
 			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
@@ -258,19 +258,20 @@ public final class OProcessExecution implements Entity {
 	 * Retourne l'URI: Processus.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_PRE_PRO",
-			fkFieldName = "PRO_ID",
-			primaryDtDefinitionName = "DT_O_PROCESS",
-			primaryIsNavigable = true,
-			primaryRole = "Process",
-			primaryLabel = "Processus",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-			foreignIsNavigable = false,
-			foreignRole = "ExecutionProcessus",
-			foreignLabel = "ExecutionProcessus",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRE_PRO",
+    	fkFieldName = "PRO_ID",
+    	primaryDtDefinitionName = "DT_O_PROCESS",
+    	primaryIsNavigable = true,
+    	primaryRole = "Process",
+    	primaryLabel = "Processus",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionProcessus",
+    	foreignLabel = "ExecutionProcessus",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
@@ -280,19 +281,20 @@ public final class OProcessExecution implements Entity {
 	 * Association : ExecutionState.
 	 * @return io.vertigo.orchestra.domain.referential.OExecutionState
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_PRE_EST",
-			fkFieldName = "EST_CD",
-			primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
-			primaryIsNavigable = true,
-			primaryRole = "ExecutionState",
-			primaryLabel = "ExecutionState",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-			foreignIsNavigable = false,
-			foreignRole = "ExecutionProcess",
-			foreignLabel = "ExecutionProcessus",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRE_EST",
+    	fkFieldName = "EST_CD",
+    	primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
+    	primaryIsNavigable = true,
+    	primaryRole = "ExecutionState",
+    	primaryLabel = "ExecutionState",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionProcess",
+    	foreignLabel = "ExecutionProcessus",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.orchestra.domain.referential.OExecutionState getExecutionState() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> fkURI = getExecutionStateURI();
 		if (fkURI == null) {
@@ -306,7 +308,7 @@ public final class OProcessExecution implements Entity {
 			if (!fkURI.urn().equals(uri.urn())) {
 				executionState = null;
 			}
-		}
+		}		
 		if (executionState == null) {
 			executionState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
@@ -317,40 +319,41 @@ public final class OProcessExecution implements Entity {
 	 * Retourne l'URI: ExecutionState.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_PRE_EST",
-			fkFieldName = "EST_CD",
-			primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
-			primaryIsNavigable = true,
-			primaryRole = "ExecutionState",
-			primaryLabel = "ExecutionState",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-			foreignIsNavigable = false,
-			foreignRole = "ExecutionProcess",
-			foreignLabel = "ExecutionProcessus",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRE_EST",
+    	fkFieldName = "EST_CD",
+    	primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
+    	primaryIsNavigable = true,
+    	primaryRole = "ExecutionState",
+    	primaryLabel = "ExecutionState",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionProcess",
+    	foreignLabel = "ExecutionProcessus",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> getExecutionStateURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_EST", io.vertigo.orchestra.domain.referential.OExecutionState.class);
 	}
-
 	/**
 	 * Association : User.
 	 * @return io.vertigo.orchestra.domain.referential.OUser
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_PRE_USR",
-			fkFieldName = "USR_ID",
-			primaryDtDefinitionName = "DT_O_USER",
-			primaryIsNavigable = true,
-			primaryRole = "User",
-			primaryLabel = "User",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-			foreignIsNavigable = false,
-			foreignRole = "ExecutionProcess",
-			foreignLabel = "ExecutionProcessus",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRE_USR",
+    	fkFieldName = "USR_ID",
+    	primaryDtDefinitionName = "DT_O_USER",
+    	primaryIsNavigable = true,
+    	primaryRole = "User",
+    	primaryLabel = "User",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionProcess",
+    	foreignLabel = "ExecutionProcessus",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.orchestra.domain.referential.OUser getUser() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OUser> fkURI = getUserURI();
 		if (fkURI == null) {
@@ -364,7 +367,7 @@ public final class OProcessExecution implements Entity {
 			if (!fkURI.urn().equals(uri.urn())) {
 				user = null;
 			}
-		}
+		}		
 		if (user == null) {
 			user = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
@@ -375,19 +378,20 @@ public final class OProcessExecution implements Entity {
 	 * Retourne l'URI: User.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_PRE_USR",
-			fkFieldName = "USR_ID",
-			primaryDtDefinitionName = "DT_O_USER",
-			primaryIsNavigable = true,
-			primaryRole = "User",
-			primaryLabel = "User",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-			foreignIsNavigable = false,
-			foreignRole = "ExecutionProcess",
-			foreignLabel = "ExecutionProcessus",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRE_USR",
+    	fkFieldName = "USR_ID",
+    	primaryDtDefinitionName = "DT_O_USER",
+    	primaryIsNavigable = true,
+    	primaryRole = "User",
+    	primaryLabel = "User",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ExecutionProcess",
+    	foreignLabel = "ExecutionProcessus",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OUser> getUserURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_USR", io.vertigo.orchestra.domain.referential.OUser.class);
 	}

@@ -1,9 +1,8 @@
 package io.vertigo.orchestra.domain.definition;
 
-import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.stereotype.Field;
+import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
-
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivity
@@ -24,7 +23,7 @@ public final class OActivity implements Entity {
 
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id Activité'.
+	 * Récupère la valeur de la propriété 'Id Activité'. 
 	 * @return Long actId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id Activité")
@@ -43,8 +42,8 @@ public final class OActivity implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom de l'activité'.
-	 * @return String name
+	 * Récupère la valeur de la propriété 'Nom de l'activité'. 
+	 * @return String name 
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Nom de l'activité")
 	public String getName() {
@@ -54,7 +53,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nom de l'activité'.
-	 * @param name String
+	 * @param name String 
 	 */
 	public void setName(final String name) {
 		this.name = name;
@@ -62,8 +61,8 @@ public final class OActivity implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Libellé de l'activité'.
-	 * @return String label
+	 * Récupère la valeur de la propriété 'Libellé de l'activité'. 
+	 * @return String label 
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Libellé de l'activité")
 	public String getLabel() {
@@ -73,7 +72,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Libellé de l'activité'.
-	 * @param label String
+	 * @param label String 
 	 */
 	public void setLabel(final String label) {
 		this.label = label;
@@ -81,8 +80,8 @@ public final class OActivity implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Numéro de l'activité'.
-	 * @return Integer number
+	 * Récupère la valeur de la propriété 'Numéro de l'activité'. 
+	 * @return Integer number 
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Numéro de l'activité")
 	public Integer getNumber() {
@@ -92,7 +91,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Numéro de l'activité'.
-	 * @param number Integer
+	 * @param number Integer 
 	 */
 	public void setNumber(final Integer number) {
 		this.number = number;
@@ -100,8 +99,8 @@ public final class OActivity implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Jalon'.
-	 * @return Boolean milestone
+	 * Récupère la valeur de la propriété 'Jalon'. 
+	 * @return Boolean milestone 
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Jalon")
 	public Boolean getMilestone() {
@@ -111,7 +110,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Jalon'.
-	 * @param milestone Boolean
+	 * @param milestone Boolean 
 	 */
 	public void setMilestone(final Boolean milestone) {
 		this.milestone = milestone;
@@ -119,8 +118,8 @@ public final class OActivity implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Implémentation de l'activité'.
-	 * @return String engine
+	 * Récupère la valeur de la propriété 'Implémentation de l'activité'. 
+	 * @return String engine 
 	 */
 	@Field(domain = "DO_O_CLASSE", label = "Implémentation de l'activité")
 	public String getEngine() {
@@ -130,7 +129,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Implémentation de l'activité'.
-	 * @param engine String
+	 * @param engine String 
 	 */
 	public void setEngine(final String engine) {
 		this.engine = engine;
@@ -138,8 +137,8 @@ public final class OActivity implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Processus'.
-	 * @return Long proId
+	 * Récupère la valeur de la propriété 'Processus'. 
+	 * @return Long proId 
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getProId() {
@@ -149,7 +148,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Processus'.
-	 * @param proId Long
+	 * @param proId Long 
 	 */
 	public void setProId(final Long proId) {
 		this.proId = proId;
@@ -159,19 +158,20 @@ public final class OActivity implements Entity {
 	 * Association : Processus.
 	 * @return io.vertigo.orchestra.domain.definition.OProcess
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_ACT_PRO",
-			fkFieldName = "PRO_ID",
-			primaryDtDefinitionName = "DT_O_PROCESS",
-			primaryIsNavigable = true,
-			primaryRole = "Process",
-			primaryLabel = "Processus",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_ACTIVITY",
-			foreignIsNavigable = false,
-			foreignRole = "Activity",
-			foreignLabel = "Activity",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_ACT_PRO",
+    	fkFieldName = "PRO_ID",
+    	primaryDtDefinitionName = "DT_O_PROCESS",
+    	primaryIsNavigable = true,
+    	primaryRole = "Process",
+    	primaryLabel = "Processus",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY",
+    	foreignIsNavigable = false,
+    	foreignRole = "Activity",
+    	foreignLabel = "Activity",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.orchestra.domain.definition.OProcess getProcess() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> fkURI = getProcessURI();
 		if (fkURI == null) {
@@ -185,7 +185,7 @@ public final class OActivity implements Entity {
 			if (!fkURI.urn().equals(uri.urn())) {
 				process = null;
 			}
-		}
+		}		
 		if (process == null) {
 			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
@@ -196,19 +196,20 @@ public final class OActivity implements Entity {
 	 * Retourne l'URI: Processus.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association(
-			name = "A_ACT_PRO",
-			fkFieldName = "PRO_ID",
-			primaryDtDefinitionName = "DT_O_PROCESS",
-			primaryIsNavigable = true,
-			primaryRole = "Process",
-			primaryLabel = "Processus",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_ACTIVITY",
-			foreignIsNavigable = false,
-			foreignRole = "Activity",
-			foreignLabel = "Activity",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_ACT_PRO",
+    	fkFieldName = "PRO_ID",
+    	primaryDtDefinitionName = "DT_O_PROCESS",
+    	primaryIsNavigable = true,
+    	primaryRole = "Process",
+    	primaryLabel = "Processus",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_ACTIVITY",
+    	foreignIsNavigable = false,
+    	foreignRole = "Activity",
+    	foreignLabel = "Activity",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACT_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
