@@ -43,7 +43,8 @@
         				"DEV": false,
         				"NODE_ENV" : "production",
                 "BABEL_ENV": "production",
-                "BASE_URL": "/"
+                "BASE_URL": "/",
+                "OUTPUT_PUBLIC_PATH" : "./"
             }
         },
         "profile": {
