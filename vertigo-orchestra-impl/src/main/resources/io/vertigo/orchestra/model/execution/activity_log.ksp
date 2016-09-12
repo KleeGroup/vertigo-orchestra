@@ -1,10 +1,9 @@
 package io.vertigo.orchestra.domain.execution
 
 create DtDefinition DT_O_ACTIVITY_LOG {
-	persistent: "true",
-	key ACL_ID			{domain : DO_O_IDENTIFIANT, label :"Id du log", notNull:"true",},
-	field LOG 			{domain : DO_O_TEXT, label :"Contenu du log", notNull:"false",},
-	field LOG_FILE 		{domain : DO_O_TEXT, label :"Fichier de log", notNull:"false",},
+	key ACL_ID			{domain : DO_O_IDENTIFIANT, label :"Id du log", notNull:"true",}
+	field LOG 			{domain : DO_O_TEXT, label :"Contenu du log", notNull:"false",}
+	field LOG_FILE 		{domain : DO_O_TEXT, label :"Fichier de log", notNull:"false",}
   
 },
 
