@@ -59,6 +59,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		WORKSPACE_OUT,
 		/** Propriété 'Fichier de log'. */
 		HAS_LOG_FILE,
+		/** Propriété 'Log technique'. */
+		HAS_TECHNICAL_LOG,
 	}
 
 	/**

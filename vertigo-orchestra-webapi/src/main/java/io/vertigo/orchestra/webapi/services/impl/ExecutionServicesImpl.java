@@ -105,6 +105,14 @@ public class ExecutionServicesImpl implements ExecutionServices {
 
 	/** {@inheritDoc} */
 	@Override
+	public VFile getTechnicalLogFileByAceId(final Long aceId) {
+		Assertion.checkNotNull(aceId);
+		// ---
+		return processExecutionManager.getTechnicalLogFileForActivity(aceId).get();
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public void updateProcessExecutionTreatment(final Long preId, final Boolean checked, final String checkingComment) {
 		final OProcessExecution processExecution = processExecutionDAO.get(preId);
 		Assertion.checkNotNull(processExecution);

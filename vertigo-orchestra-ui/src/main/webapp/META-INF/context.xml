@@ -7,7 +7,7 @@
 		 maxActive="20" maxIdle="0" maxWait="10000" removeAbandoned="true" logAbandoned="true"/>
 		 
 	<Parameter name="boot.nodeName" value="NODE_TEST_1" override="false" />	 
-	<Parameter name="boot.timerPeriod" value="10" override="false" />	 
+	<Parameter name="boot.timerPeriod" value="30" override="false" />	 
 	<Parameter name="boot.forecastDuration" value="1200" override="false" />	
 	<Parameter name="boot.workersCount" value="3" override="false" />
 	<Parameter name="orchestra.root.directory" value="D:\\tmp\\orchestra\\"/>	

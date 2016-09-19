@@ -68,7 +68,7 @@ public class MonitoringServicesImpl implements MonitoringServices {
 	public OActivityWorkspace getActivityWorkspaceByAceId(final Long aceId, final boolean isIn) {
 		Assertion.checkNotNull(aceId);
 		// ---
-		return activityWorkspaceDAO.getActivityWorkspace(aceId, isIn);
+		return activityWorkspaceDAO.getActivityWorkspace(aceId, isIn).get();
 	}
 
 	/** {@inheritDoc} */

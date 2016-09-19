@@ -57,7 +57,9 @@ public final class ActivityExecutionWorkspace {
 		final JsonObject jsonObject = parseStringValue(jsonParams);
 		for (final Entry<String, JsonElement> entry : jsonObject.entrySet()) {
 			// we support only string params
-			setValue(entry.getKey(), entry.getValue().getAsString());
+			if (entry.getValue() != null) {
+				setValue(entry.getKey(), entry.getValue().getAsString());
+			}
 		}
 	}
 
@@ -125,6 +127,10 @@ public final class ActivityExecutionWorkspace {
 		jsonValue.addProperty(STATUS_KEY, "pending");
 	}
 
+	public void setFinished() {
+		jsonValue.addProperty(STATUS_KEY, "finished");
+	}
+
 	public boolean isSuccess() {
 		return "ok".equals(getValue(STATUS_KEY));
 	}
@@ -135,6 +141,10 @@ public final class ActivityExecutionWorkspace {
 
 	public boolean isPending() {
 		return "pending".equals(getValue(STATUS_KEY));
+	}
+
+	public boolean isFinished() {
+		return "finished".equals(getValue(STATUS_KEY));
 	}
 
 	public void resetStatus() {

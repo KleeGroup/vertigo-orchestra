@@ -43,8 +43,8 @@ public abstract class AbstractActivityEngine implements ActivityEngine {
 	}
 
 	public ActivityExecutionWorkspace setActivityPending(final ActivityExecutionWorkspace workspace) {
-		processExecutionManager.setActivityExecutionPending(workspace.getActivityExecutionId());
 		workspace.setPending();
+		processExecutionManager.setActivityExecutionPending(workspace.getActivityExecutionId(), workspace);
 		return workspace;
 	}
 

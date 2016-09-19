@@ -39,6 +39,10 @@ module.exports = {
         hasLogFile: {
             domain: "DO_O_BOOLEEN",
             required: false
+        },
+        hasTechnicalLog: {
+            domain: "DO_O_BOOLEEN",
+            required: false
         }
     },
     oExecutionSummary: {

@@ -1,6 +1,8 @@
 package io.vertigo.orchestra.execution;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
@@ -22,6 +24,8 @@ public final class ActivityLogger {
 
 	private final Logger ACTIVITY_LOGGER;
 	private final Logger LOGGER = Logger.getLogger(ProcessExecutionManager.class);
+
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 
 	/**
 	 * Constructeur package protected.
@@ -55,22 +59,23 @@ public final class ActivityLogger {
 	}
 
 	public void info(final String message) {
+
 		// We log in Orchestra
-		log.append("[Info] ").append(message).append("\n");
+		log.append(dateFormat.format(new Date())).append(" [Info] ").append(message).append("\n");
 		// We log in Log4j
 		ACTIVITY_LOGGER.info(message);
 	}
 
 	public void warn(final String message) {
 		// We log in Orchestra
-		log.append("[Warn] ").append(message).append("\n");
+		log.append(dateFormat.format(new Date())).append(" [Warn] ").append(message).append("\n");
 		// We log in Log4j
 		ACTIVITY_LOGGER.warn(message);
 	}
 
 	public void error(final String message) {
 		// We log in Orchestra
-		log.append("[Error] ").append(message).append("\n");
+		log.append(dateFormat.format(new Date())).append(" [Error] ").append(message).append("\n");
 		// We log in Log4j
 		ACTIVITY_LOGGER.error(message);
 	}

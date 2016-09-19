@@ -41,7 +41,12 @@
                 "OUTPUT_DIR": "../src/main/webapp/static",
                 "LOCAL_FOCUS": false,
                 "API_ROOT": "'./'",
-                "SOURCE_MAPS": false
+                "SOURCE_MAPS": false,
+        				"DEV": false,
+        				"NODE_ENV" : "production",
+                "BABEL_ENV": "production",
+                "BASE_URL": "/",
+                "OUTPUT_PUBLIC_PATH" : "./"
             }
         },
         "profile": {

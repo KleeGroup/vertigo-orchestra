@@ -21,6 +21,7 @@ public final class OActivityExecutionUi implements DtObject {
 	private String workspaceIn;
 	private String workspaceOut;
 	private Boolean hasLogFile;
+	private Boolean hasTechnicalLog;
 
 	
 	/**
@@ -192,6 +193,25 @@ public final class OActivityExecutionUi implements DtObject {
 	 */
 	public void setHasLogFile(final Boolean hasLogFile) {
 		this.hasLogFile = hasLogFile;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Récupère la valeur de la propriété 'Log technique'. 
+	 * @return Boolean hasTechnicalLog 
+	 */
+	@Field(domain = "DO_O_BOOLEEN", label = "Log technique")
+	public Boolean getHasTechnicalLog() {
+		return hasTechnicalLog;
+	}
+
+	/**
+	 * Champ : DATA.
+	 * Définit la valeur de la propriété 'Log technique'.
+	 * @param hasTechnicalLog Boolean 
+	 */
+	public void setHasTechnicalLog(final Boolean hasTechnicalLog) {
+		this.hasTechnicalLog = hasTechnicalLog;
 	}
 
 	//Aucune Association déclarée

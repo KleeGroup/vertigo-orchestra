@@ -67,13 +67,14 @@ create Task TK_GET_ACTIVITIY_BY_ACE_ID {
         			ace.EST_CD as STATUS,
         			max((case when acw.IS_IN is true then acw.WORKSPACE else null end)) as WORKSPACE_IN,
         			max((case when acw.IS_IN is false then acw.WORKSPACE else null end)) as WORKSPACE_OUT,
-        			acl.LOG_FILE is not null as HAS_LOG_FILE
+        			acl.LOG_FILE is not null as HAS_LOG_FILE,
+        			acl.LOG is not null as HAS_TECHNICAL_LOG
         	from o_activity_execution ace
         	join o_activity act on act.ACT_ID = ace.ACT_ID
         	join o_activity_workspace acw on acw.ACE_ID = ace.ACE_ID
         	left join o_activity_log acl on acl.ACE_ID = ace.ACE_ID
         	where ace.ACE_ID = #ACE_ID#
-        	group by ace.ACE_ID, act.LABEL, ace.BEGIN_TIME, ace.END_TIME, acl.LOG_FILE
+        	group by ace.ACE_ID, act.LABEL, ace.BEGIN_TIME, ace.END_TIME, acl.LOG_FILE, acl.LOG
         	
 			"
 	attribute ACE_ID	 	{domain : DO_O_IDENTIFIANT		notNull:"true" 	inOut :"in"}

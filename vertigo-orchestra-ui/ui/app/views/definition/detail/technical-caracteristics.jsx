@@ -24,8 +24,8 @@ export default React.createClass({
         return (
             <Panel actions={this._renderActions} title='view.process.detail.technicalCaracteristics'>
               {this.fieldFor('cronExpression')}
-              {this.fieldFor('active', {options: {disabled: !this.state.isEdit, label: ''}})}
-              {this.fieldFor('multiexecution', {options: {disabled: !this.state.isEdit, label: ''}})}
+              {this.fieldFor('active')}
+              {this.fieldFor('multiexecution')}
               {this.fieldFor('rescuePeriod')}
             </Panel>
         );

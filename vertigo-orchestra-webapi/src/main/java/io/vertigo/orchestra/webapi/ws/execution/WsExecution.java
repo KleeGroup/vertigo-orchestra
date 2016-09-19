@@ -102,6 +102,15 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
+	 * Get the technicalLog by Id
+	 */
+	@GET("/activityExecution/{aceId}/technicalLogFile")
+	@AnonymousAccessAllowed
+	public VFile getTechnicalLogFileByAceId(@PathParam("aceId") final Long aceId) {
+		return executionServices.getTechnicalLogFileByAceId(aceId);
+	}
+
+	/**
 	 * Get the processDefinition by Id
 	 */
 	@GET("/summary/{proId}")

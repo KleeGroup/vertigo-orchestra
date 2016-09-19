@@ -33,6 +33,8 @@ public interface ExecutionServices extends StoreServices {
 
 	VFile getLogFileByAceId(Long aceId);
 
+	VFile getTechnicalLogFileByAceId(Long aceId);
+
 	void updateProcessExecutionTreatment(Long preId, Boolean checked, String checkingComment);
 
 }

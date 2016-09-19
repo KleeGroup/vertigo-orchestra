@@ -1,18 +1,26 @@
 package io.vertigo.orchestra.impl.execution;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Optional;
 
+import javax.activation.FileTypeMap;
 import javax.inject.Inject;
 
 import io.vertigo.core.param.ParamManager;
 import io.vertigo.dynamo.file.FileManager;
+import io.vertigo.dynamo.file.model.InputStreamBuilder;
 import io.vertigo.dynamo.file.model.VFile;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.domain.execution.OActivityLog;
+import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 
@@ -25,6 +33,8 @@ import io.vertigo.orchestra.execution.ProcessExecutionManager;
 public final class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
 	private static final String ROOT_DIRECTORY = "orchestra.root.directory";
+	private static final String TECHNICAL_LOG_PREFIX = "technicalLog_";
+	private static final String TECHNICAL_LOG_EXTENSION = ".log";
 
 	private final VTransactionManager transactionManager;
 	private final SequentialExecutorPlugin sequentialExecutorPlugin;
@@ -55,16 +65,16 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 
 	/** {@inheritDoc} */
 	@Override
-	public void setActivityExecutionPending(final Long activityExecutionId) {
+	public void setActivityExecutionPending(final Long activityExecutionId, final ActivityExecutionWorkspace workspace) {
 		// We need to be as short as possible for the commit
 		if (transactionManager.hasCurrentTransaction()) {
 			try (final VTransactionWritable transaction = transactionManager.createAutonomousTransaction()) {
-				sequentialExecutorPlugin.setActivityExecutionPending(activityExecutionId);
+				sequentialExecutorPlugin.setActivityExecutionPending(activityExecutionId, workspace);
 				transaction.commit();
 			}
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				sequentialExecutorPlugin.setActivityExecutionPending(activityExecutionId);
+				sequentialExecutorPlugin.setActivityExecutionPending(activityExecutionId, workspace);
 				transaction.commit();
 			}
 		}
@@ -89,6 +99,31 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 		return getLogFileFromActivityLog(activityLog);
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public Optional<VFile> getTechnicalLogFileForActivity(final Long actityExecutionId) {
+		Assertion.checkNotNull(actityExecutionId);
+		// ---
+
+		final Optional<OActivityLog> activityLog = activityLogDAO.getActivityLogByAceId(actityExecutionId);
+		if (activityLog.isPresent()) {
+			final byte[] stringByteArray = activityLog.get().getLog().getBytes(StandardCharsets.UTF_8);
+
+			final InputStreamBuilder inputStreamBuilder = new InputStreamBuilder() {
+				@Override
+				public InputStream createInputStream() throws IOException {
+					return new ByteArrayInputStream(stringByteArray);
+				}
+			};
+
+			final String fileName = TECHNICAL_LOG_PREFIX + actityExecutionId + TECHNICAL_LOG_EXTENSION;
+			final VFile file = fileManager.createFile(fileName, FileTypeMap.getDefaultFileTypeMap().getContentType(fileName), new Date(), stringByteArray.length, inputStreamBuilder);
+
+			return Optional.<VFile> of(file);
+		}
+		return Optional.<VFile> empty();
+	}
+
 	private Optional<VFile> getLogFileFromActivityLog(final Optional<OActivityLog> activityLog) {
 		Assertion.checkNotNull(activityLog);
 		// ---
@@ -101,4 +136,5 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 		}
 		return Optional.empty();
 	}
+
 }

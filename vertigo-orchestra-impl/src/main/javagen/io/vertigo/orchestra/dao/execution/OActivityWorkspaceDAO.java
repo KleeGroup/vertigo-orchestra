@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.dao.execution;
 
 import javax.inject.Inject;
+import java.util.Optional;
 import io.vertigo.app.Home;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
@@ -42,16 +43,16 @@ public final class OActivityWorkspaceDAO extends DAO<OActivityWorkspace, java.la
 	 * Execute la tache TK_GET_ACTIVITY_WORKSPACE.
 	 * @param aceId Long 
 	 * @param in Boolean 
-	 * @return io.vertigo.orchestra.domain.execution.OActivityWorkspace dtOActivityWorkspace
+	 * @return Option de io.vertigo.orchestra.domain.execution.OActivityWorkspace dtOActivityWorkspace
 	*/
-	public io.vertigo.orchestra.domain.execution.OActivityWorkspace getActivityWorkspace(final Long aceId, final Boolean in) {
+	public Optional<io.vertigo.orchestra.domain.execution.OActivityWorkspace> getActivityWorkspace(final Long aceId, final Boolean in) {
 		final Task task = createTaskBuilder("TK_GET_ACTIVITY_WORKSPACE")
 				.addValue("ACE_ID", aceId)
 				.addValue("IN", in)
 				.build();
-		return getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityWorkspace)getTaskManager()
 				.execute(task)
-				.getResult();
+				.getResult());
 	}
 
 
