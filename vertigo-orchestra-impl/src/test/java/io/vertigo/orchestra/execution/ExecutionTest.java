@@ -570,6 +570,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 			for (final String request : requests) {
 				final TaskDefinition taskDefinition = new TaskDefinitionBuilder("TK_CLEAN")
+						.withDataSpace("orchestra")
 						.withEngine(TaskEngineProc.class)
 						.withRequest(request)
 						.build();
