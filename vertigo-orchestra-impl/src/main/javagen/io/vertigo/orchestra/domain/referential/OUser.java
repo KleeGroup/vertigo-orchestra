@@ -2,11 +2,13 @@ package io.vertigo.orchestra.domain.referential;
 
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
+import io.vertigo.dynamo.domain.model.URI;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OUser
  */
+@io.vertigo.dynamo.domain.stereotype.DataSpace("orchestra")
 public final class OUser implements Entity {
 
 	/** SerialVersionUID. */
@@ -20,6 +22,12 @@ public final class OUser implements Entity {
 	private Boolean mailAlert;
 	private Boolean active;
 
+	/** {@inheritDoc} */
+	@Override
+	public URI<OUser> getURI() {
+		return DtObjectUtil.createURI(this);
+	}
+	
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id'. 

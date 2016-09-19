@@ -1,11 +1,12 @@
 package io.vertigo.orchestra.webapi.services.impl;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.definition.OActivity;
@@ -53,7 +54,7 @@ public class DefinitionServicesImpl implements DefinitionServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessProperties(final Long id, final Option<String> cronExpression, final boolean multiExecution, final int rescuePeriod, final boolean active) {
+	public void updateProcessProperties(final Long id, final Optional<String> cronExpression, final boolean multiExecution, final int rescuePeriod, final boolean active) {
 		final String processName = getProcessDefinitionById(id).getName();
 		processDefinitionManager.updateProcessDefinitionProperties(processName, cronExpression, multiExecution, rescuePeriod, active);
 
@@ -61,7 +62,7 @@ public class DefinitionServicesImpl implements DefinitionServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessInitialParams(final Long id, final Option<String> initialParams) {
+	public void updateProcessInitialParams(final Long id, final Optional<String> initialParams) {
 		final String processName = getProcessDefinitionById(id).getName();
 		processDefinitionManager.updateProcessDefinitionInitialParams(processName, initialParams);
 

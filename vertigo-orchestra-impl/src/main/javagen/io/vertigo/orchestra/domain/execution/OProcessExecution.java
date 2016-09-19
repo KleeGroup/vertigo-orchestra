@@ -2,11 +2,13 @@ package io.vertigo.orchestra.domain.execution;
 
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
+import io.vertigo.dynamo.domain.model.URI;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcessExecution
  */
+@io.vertigo.dynamo.domain.stereotype.DataSpace("orchestra")
 public final class OProcessExecution implements Entity {
 
 	/** SerialVersionUID. */
@@ -26,6 +28,12 @@ public final class OProcessExecution implements Entity {
 	private io.vertigo.orchestra.domain.referential.OExecutionState executionState;
 	private io.vertigo.orchestra.domain.referential.OUser user;
 
+	/** {@inheritDoc} */
+	@Override
+	public URI<OProcessExecution> getURI() {
+		return DtObjectUtil.createURI(this);
+	}
+	
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
@@ -242,9 +250,7 @@ public final class OProcessExecution implements Entity {
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (process != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> uri;
-			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(process);
-			if (!fkURI.urn().equals(uri.urn())) {
+			if (!fkURI.equals(process.getURI())) {
 				process = null;
 			}
 		}		
@@ -303,9 +309,7 @@ public final class OProcessExecution implements Entity {
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (executionState != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> uri;
-			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(executionState);
-			if (!fkURI.urn().equals(uri.urn())) {
+			if (!fkURI.equals(executionState.getURI())) {
 				executionState = null;
 			}
 		}		
@@ -362,9 +366,7 @@ public final class OProcessExecution implements Entity {
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (user != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OUser> uri;
-			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(user);
-			if (!fkURI.urn().equals(uri.urn())) {
+			if (!fkURI.equals(user.getURI())) {
 				user = null;
 			}
 		}		

@@ -2,11 +2,13 @@ package io.vertigo.orchestra.domain.execution;
 
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
+import io.vertigo.dynamo.domain.model.URI;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivityWorkspace
  */
+@io.vertigo.dynamo.domain.stereotype.DataSpace("orchestra")
 public final class OActivityWorkspace implements Entity {
 
 	/** SerialVersionUID. */
@@ -18,6 +20,12 @@ public final class OActivityWorkspace implements Entity {
 	private Long aceId;
 	private io.vertigo.orchestra.domain.execution.OActivityExecution activityExecution;
 
+	/** {@inheritDoc} */
+	@Override
+	public URI<OActivityWorkspace> getURI() {
+		return DtObjectUtil.createURI(this);
+	}
+	
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
@@ -120,9 +128,7 @@ public final class OActivityWorkspace implements Entity {
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (activityExecution != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OActivityExecution> uri;
-			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(activityExecution);
-			if (!fkURI.urn().equals(uri.urn())) {
+			if (!fkURI.equals(activityExecution.getURI())) {
 				activityExecution = null;
 			}
 		}		

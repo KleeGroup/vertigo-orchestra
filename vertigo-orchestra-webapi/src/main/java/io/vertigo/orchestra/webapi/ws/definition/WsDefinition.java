@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.webapi.ws.definition;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
 import io.vertigo.orchestra.webapi.services.DefinitionServices;
@@ -20,7 +21,7 @@ import io.vertigo.vega.webservice.stereotype.PathPrefix;
  * @author mlaroche.
  * @version $Id$
  */
-@PathPrefix("/definitions/")
+@PathPrefix("/definitions")
 public class WsDefinition implements WebServices {
 
 	@Inject
@@ -29,7 +30,7 @@ public class WsDefinition implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
-	@GET("{id}")
+	@GET("/{id}")
 	@AnonymousAccessAllowed
 	public OProcessUi getProcessById(@PathParam("id") final Long id) {
 		return definitionServices.getProcessDefinitionById(id);
@@ -38,7 +39,7 @@ public class WsDefinition implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
-	@POST("search")
+	@POST("/search")
 	@AnonymousAccessAllowed
 	public DtList<OProcessUi> searchProcessByLabel(@InnerBodyParam("criteria") final String criteria) {
 		//TODO voir comment faire autrement
@@ -51,7 +52,7 @@ public class WsDefinition implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
-	@GET("{id}/activities")
+	@GET("/{id}/activities")
 	@AnonymousAccessAllowed
 	public DtList<OActivity> getActivitiesByProcessId(@PathParam("id") final Long id) {
 		return definitionServices.getActivitiesByProId(id);
@@ -60,9 +61,9 @@ public class WsDefinition implements WebServices {
 	/**
 	 * Update the process properties
 	 */
-	@POST("{id}/updateProperties")
+	@POST("/{id}/updateProperties")
 	@AnonymousAccessAllowed
-	public OProcessUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("cronExpression") final Option<String> cronExpression, @InnerBodyParam("multiexecution") final boolean multiExecution, @InnerBodyParam("rescuePeriodSeconds") final int rescuePerdiodSeconds, @InnerBodyParam("active") final boolean active) {
+	public OProcessUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("cronExpression") final Optional<String> cronExpression, @InnerBodyParam("multiexecution") final boolean multiExecution, @InnerBodyParam("rescuePeriodSeconds") final int rescuePerdiodSeconds, @InnerBodyParam("active") final boolean active) {
 		definitionServices.updateProcessProperties(id, cronExpression, multiExecution, rescuePerdiodSeconds, active);
 		return definitionServices.getProcessDefinitionById(id);
 	}
@@ -70,9 +71,9 @@ public class WsDefinition implements WebServices {
 	/**
 	 * Update the process properties
 	 */
-	@POST("{id}/updateInitialParams")
+	@POST("/{id}/updateInitialParams")
 	@AnonymousAccessAllowed
-	public OProcessUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final Option<String> initialParams) {
+	public OProcessUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
 		definitionServices.updateProcessInitialParams(id, initialParams);
 		return definitionServices.getProcessDefinitionById(id);
 	}

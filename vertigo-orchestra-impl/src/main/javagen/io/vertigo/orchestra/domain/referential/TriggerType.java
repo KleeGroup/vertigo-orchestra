@@ -2,11 +2,13 @@ package io.vertigo.orchestra.domain.referential;
 
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
+import io.vertigo.dynamo.domain.model.URI;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données TriggerType
  */
+@io.vertigo.dynamo.domain.stereotype.DataSpace("orchestra")
 public final class TriggerType implements Entity {
 
 	/** SerialVersionUID. */
@@ -15,6 +17,12 @@ public final class TriggerType implements Entity {
 	private String trtCd;
 	private String label;
 
+	/** {@inheritDoc} */
+	@Override
+	public URI<TriggerType> getURI() {
+		return DtObjectUtil.createURI(this);
+	}
+	
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Code'. 

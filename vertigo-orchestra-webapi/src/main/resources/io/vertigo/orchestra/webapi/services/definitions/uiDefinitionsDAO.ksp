@@ -2,6 +2,7 @@ package io.vertigo.orchestra.webapi.dao.uidefinitions
 
 
 create Task TK_GET_PROCESS_BY_PRO_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select  pro.PRO_ID as PRO_ID,
@@ -21,6 +22,7 @@ create Task TK_GET_PROCESS_BY_PRO_ID {
 },
 
 create Task TK_SEARCH_PROCESS_BY_LABEL {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select  pro.PRO_ID as PRO_ID,

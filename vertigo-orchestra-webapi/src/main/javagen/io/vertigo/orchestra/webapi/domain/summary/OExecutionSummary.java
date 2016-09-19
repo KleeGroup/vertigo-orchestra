@@ -1,6 +1,5 @@
 package io.vertigo.orchestra.webapi.domain.summary;
 
-import io.vertigo.dynamo.domain.stereotype.DtDefinition;
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.DtObject;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
@@ -8,7 +7,6 @@ import io.vertigo.dynamo.domain.util.DtObjectUtil;
  * Attention cette classe est générée automatiquement !
  * Objet de données OExecutionSummary
  */
-@DtDefinition(persistent = false)
 public final class OExecutionSummary implements DtObject {
 
 	/** SerialVersionUID. */
@@ -19,19 +17,20 @@ public final class OExecutionSummary implements DtObject {
 	private String processLabel;
 	private java.util.Date lastExecutionTime;
 	private java.util.Date nextExecutionTime;
-	private Long errorsCount;
-	private Long misfiredCount;
-	private Long successfulCount;
-	private Long runningCount;
-	private Long averageExecutionTime;
+	private Integer errorsCount;
+	private Integer misfiredCount;
+	private Integer successfulCount;
+	private Integer runningCount;
+	private Integer averageExecutionTime;
 	private String health;
 
+	
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Id du processus'. 
 	 * @return Long proId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_IDENTIFIANT", required = true, persistent = false, label = "Id du processus")
+	@Field(domain = "DO_O_IDENTIFIANT", required = true, label = "Id du processus")
 	public Long getProId() {
 		return proId;
 	}
@@ -50,7 +49,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du processus'. 
 	 * @return String processName <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_LIBELLE", required = true, persistent = false, label = "Nom du processus")
+	@Field(domain = "DO_O_LIBELLE", required = true, label = "Nom du processus")
 	public String getProcessName() {
 		return processName;
 	}
@@ -69,7 +68,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Libellé du processus'. 
 	 * @return String processLabel <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_LIBELLE", required = true, persistent = false, label = "Libellé du processus")
+	@Field(domain = "DO_O_LIBELLE", required = true, label = "Libellé du processus")
 	public String getProcessLabel() {
 		return processLabel;
 	}
@@ -88,7 +87,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Dernière exécution le'. 
 	 * @return java.util.Date lastExecutionTime 
 	 */
-	@Field(domain = "DO_O_TIMESTAMP", persistent = false, label = "Dernière exécution le")
+	@Field(domain = "DO_O_TIMESTAMP", label = "Dernière exécution le")
 	public java.util.Date getLastExecutionTime() {
 		return lastExecutionTime;
 	}
@@ -107,7 +106,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Prochaine exécution le'. 
 	 * @return java.util.Date nextExecutionTime 
 	 */
-	@Field(domain = "DO_O_TIMESTAMP", persistent = false, label = "Prochaine exécution le")
+	@Field(domain = "DO_O_TIMESTAMP", label = "Prochaine exécution le")
 	public java.util.Date getNextExecutionTime() {
 		return nextExecutionTime;
 	}
@@ -124,95 +123,95 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre en erreur'. 
-	 * @return Long errorsCount 
+	 * @return Integer errorsCount 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre en erreur")
-	public Long getErrorsCount() {
+	@Field(domain = "DO_O_NOMBRE", label = "Nombre en erreur")
+	public Integer getErrorsCount() {
 		return errorsCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre en erreur'.
-	 * @param errorsCount Long 
+	 * @param errorsCount Integer 
 	 */
-	public void setErrorsCount(final Long errorsCount) {
+	public void setErrorsCount(final Integer errorsCount) {
 		this.errorsCount = errorsCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre non executés'. 
-	 * @return Long misfiredCount 
+	 * @return Integer misfiredCount 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre non executés")
-	public Long getMisfiredCount() {
+	@Field(domain = "DO_O_NOMBRE", label = "Nombre non executés")
+	public Integer getMisfiredCount() {
 		return misfiredCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre non executés'.
-	 * @param misfiredCount Long 
+	 * @param misfiredCount Integer 
 	 */
-	public void setMisfiredCount(final Long misfiredCount) {
+	public void setMisfiredCount(final Integer misfiredCount) {
 		this.misfiredCount = misfiredCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre en succès'. 
-	 * @return Long successfulCount 
+	 * @return Integer successfulCount 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre en succès")
-	public Long getSuccessfulCount() {
+	@Field(domain = "DO_O_NOMBRE", label = "Nombre en succès")
+	public Integer getSuccessfulCount() {
 		return successfulCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre en succès'.
-	 * @param successfulCount Long 
+	 * @param successfulCount Integer 
 	 */
-	public void setSuccessfulCount(final Long successfulCount) {
+	public void setSuccessfulCount(final Integer successfulCount) {
 		this.successfulCount = successfulCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre en cours'. 
-	 * @return Long runningCount 
+	 * @return Integer runningCount 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Nombre en cours")
-	public Long getRunningCount() {
+	@Field(domain = "DO_O_NOMBRE", label = "Nombre en cours")
+	public Integer getRunningCount() {
 		return runningCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre en cours'.
-	 * @param runningCount Long 
+	 * @param runningCount Integer 
 	 */
-	public void setRunningCount(final Long runningCount) {
+	public void setRunningCount(final Integer runningCount) {
 		this.runningCount = runningCount;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Durée moyenne d'exécution'. 
-	 * @return Long averageExecutionTime 
+	 * @return Integer averageExecutionTime 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Durée moyenne d'exécution")
-	public Long getAverageExecutionTime() {
+	@Field(domain = "DO_O_NOMBRE", label = "Durée moyenne d'exécution")
+	public Integer getAverageExecutionTime() {
 		return averageExecutionTime;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Durée moyenne d'exécution'.
-	 * @param averageExecutionTime Long 
+	 * @param averageExecutionTime Integer 
 	 */
-	public void setAverageExecutionTime(final Long averageExecutionTime) {
+	public void setAverageExecutionTime(final Integer averageExecutionTime) {
 		this.averageExecutionTime = averageExecutionTime;
 	}
 
@@ -221,7 +220,7 @@ public final class OExecutionSummary implements DtObject {
 	 * Récupère la valeur de la propriété 'Santé du processus'. 
 	 * @return String health <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_CODE_IDENTIFIANT", required = true, persistent = false, label = "Santé du processus")
+	@Field(domain = "DO_O_CODE_IDENTIFIANT", required = true, label = "Santé du processus")
 	public String getHealth() {
 		return health;
 	}

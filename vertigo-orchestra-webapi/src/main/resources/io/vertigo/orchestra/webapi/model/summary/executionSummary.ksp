@@ -1,7 +1,6 @@
 package io.vertigo.orchestra.webapi.domain.summary
 
 create DtDefinition DT_O_EXECUTION_SUMMARY {
-	persistent: "false",
 	field PRO_ID   					{domain : DO_O_IDENTIFIANT, label :"Id du processus", notNull:"true",},
 	field PROCESS_NAME   			{domain : DO_O_LIBELLE, label :"Nom du processus", notNull:"true",},
 	field PROCESS_LABEL   			{domain : DO_O_LIBELLE, label :"Libellé du processus", notNull:"true",},

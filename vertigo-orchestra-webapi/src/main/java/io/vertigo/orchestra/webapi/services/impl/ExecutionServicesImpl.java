@@ -59,7 +59,7 @@ public class ExecutionServicesImpl implements ExecutionServices {
 
 	/** {@inheritDoc} */
 	@Override
-	public DtList<OProcessExecutionUi> getProcessExecutionsByProId(final Long proId, final String status, final Long limit, final Long offset) {
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProId(final Long proId, final String status, final Integer limit, final Integer offset) {
 		Assertion.checkNotNull(proId);
 		// ---
 		final OProcess process = processDAO.get(proId);

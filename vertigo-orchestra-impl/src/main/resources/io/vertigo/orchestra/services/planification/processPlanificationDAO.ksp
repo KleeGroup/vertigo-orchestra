@@ -2,6 +2,7 @@ package io.vertigo.orchestra.dao.planification
 
 
 create Task TK_GET_PROCESS_TO_EXECUTE {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select prp.*
@@ -16,6 +17,7 @@ create Task TK_GET_PROCESS_TO_EXECUTE {
 
 
 create Task TK_RESERVE_PROCESS_TO_EXECUTE {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update o_process_planification
@@ -29,6 +31,7 @@ create Task TK_RESERVE_PROCESS_TO_EXECUTE {
 }
 
 create Task TK_GET_LAST_PLANIFICATION_BY_PRO_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select prp.* from  o_process_planification prp
@@ -46,6 +49,7 @@ create Task TK_GET_LAST_PLANIFICATION_BY_PRO_ID {
 
 
 create Task TK_GET_ALL_LAST_PAST_PLANIFICATIONS {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select prp.* from  o_process_planification prp
@@ -63,6 +67,7 @@ create Task TK_GET_ALL_LAST_PAST_PLANIFICATIONS {
 
 
 create Task TK_CLEAN_PLANIFICATIONS_ON_BOOT {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update o_process_planification set 
@@ -79,6 +84,7 @@ create Task TK_CLEAN_PLANIFICATIONS_ON_BOOT {
 
 
 create Task TK_CLEAN_FUTURE_PLANIFICATIONS {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	delete from o_process_planification prp using o_process pro

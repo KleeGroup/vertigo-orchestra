@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.dao.execution
 
 create Task TK_GET_ACTIVITIES_TO_LAUNCH {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 
@@ -16,6 +17,7 @@ create Task TK_GET_ACTIVITIES_TO_LAUNCH {
 
 
 create Task TK_GET_ACTIVITY_EXECUTION_BY_TOKEN {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 
@@ -31,6 +33,7 @@ create Task TK_GET_ACTIVITY_EXECUTION_BY_TOKEN {
 },
 
 create Task TK_RESERVE_ACTIVITIES_TO_LAUNCH {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update  o_activity_execution 
@@ -54,6 +57,7 @@ create Task TK_RESERVE_ACTIVITIES_TO_LAUNCH {
 
 
 create Task TK_GET_ACTIVITY_WORKSPACE {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select acw.*

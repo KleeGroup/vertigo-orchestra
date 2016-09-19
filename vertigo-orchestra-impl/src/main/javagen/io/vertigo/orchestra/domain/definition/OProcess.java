@@ -2,11 +2,13 @@ package io.vertigo.orchestra.domain.definition;
 
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
+import io.vertigo.dynamo.domain.model.URI;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcess
  */
+@io.vertigo.dynamo.domain.stereotype.DataSpace("orchestra")
 public final class OProcess implements Entity {
 
 	/** SerialVersionUID. */
@@ -28,6 +30,12 @@ public final class OProcess implements Entity {
 	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
 	private io.vertigo.orchestra.domain.referential.OProcessType processType;
 
+	/** {@inheritDoc} */
+	@Override
+	public URI<OProcess> getURI() {
+		return DtObjectUtil.createURI(this);
+	}
+	
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id de la definition du processus'. 
@@ -307,9 +315,7 @@ public final class OProcess implements Entity {
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (triggerType != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.TriggerType> uri;
-			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(triggerType);
-			if (!fkURI.urn().equals(uri.urn())) {
+			if (!fkURI.equals(triggerType.getURI())) {
 				triggerType = null;
 			}
 		}		
@@ -366,9 +372,7 @@ public final class OProcess implements Entity {
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (processType != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OProcessType> uri;
-			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(processType);
-			if (!fkURI.urn().equals(uri.urn())) {
+			if (!fkURI.equals(processType.getURI())) {
 				processType = null;
 			}
 		}		

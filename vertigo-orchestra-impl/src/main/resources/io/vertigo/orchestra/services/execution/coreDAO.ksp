@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.dao.execution
 
 create Task TK_GET_NODE_BY_NAME {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 
@@ -14,6 +15,7 @@ create Task TK_GET_NODE_BY_NAME {
 
 
 create Task TK_HANDLE_PROCESSES_OF_DEAD_NODES {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update o_activity_execution 

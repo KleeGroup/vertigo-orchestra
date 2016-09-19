@@ -35,12 +35,16 @@
 		<component api="StoreManager" class="io.vertigo.dynamo.impl.store.StoreManagerImpl" />
 		<component api="SqlDataBaseManager" class="io.vertigo.dynamo.impl.database.SqlDataBaseManagerImpl">
 			<plugin class="io.vertigo.dynamo.plugins.database.connection.datasource.DataSourceConnectionProviderPlugin">
+				<param name="name" value="orchestra"/>
 				<param name="classname" value="${boot.db.classname}" />
 				<param name="source" value="${boot.db.source}" />
 			</plugin>
 			<plugin class="io.vertigo.dynamo.plugins.store.datastore.postgresql.PostgreSqlDataStorePlugin">
+				<param name="name" value="orchestra"/>
+				<param name="connectionName" value="orchestra"/>
 				<param name="sequencePrefix" value="SEQ_" />
 			</plugin>
+			
 		</component>
 		
 		<component api="VSecurityManager" class="io.vertigo.persona.impl.security.VSecurityManagerImpl">

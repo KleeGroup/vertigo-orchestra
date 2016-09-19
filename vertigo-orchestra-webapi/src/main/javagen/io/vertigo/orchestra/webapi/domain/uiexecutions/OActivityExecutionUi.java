@@ -1,6 +1,5 @@
 package io.vertigo.orchestra.webapi.domain.uiexecutions;
 
-import io.vertigo.dynamo.domain.stereotype.DtDefinition;
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.DtObject;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
@@ -8,7 +7,6 @@ import io.vertigo.dynamo.domain.util.DtObjectUtil;
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivityExecutionUi
  */
-@DtDefinition(persistent = false)
 public final class OActivityExecutionUi implements DtObject {
 
 	/** SerialVersionUID. */
@@ -18,18 +16,19 @@ public final class OActivityExecutionUi implements DtObject {
 	private String label;
 	private java.util.Date beginTime;
 	private java.util.Date endTime;
-	private Long executionTime;
+	private Integer executionTime;
 	private String status;
 	private String workspaceIn;
 	private String workspaceOut;
 	private Boolean hasLogFile;
 
+	
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Id de l'activité'. 
 	 * @return Long aceId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_IDENTIFIANT", required = true, persistent = false, label = "Id de l'activité")
+	@Field(domain = "DO_O_IDENTIFIANT", required = true, label = "Id de l'activité")
 	public Long getAceId() {
 		return aceId;
 	}
@@ -48,7 +47,7 @@ public final class OActivityExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Libellé'. 
 	 * @return String label 
 	 */
-	@Field(domain = "DO_O_LIBELLE", persistent = false, label = "Libellé")
+	@Field(domain = "DO_O_LIBELLE", label = "Libellé")
 	public String getLabel() {
 		return label;
 	}
@@ -67,7 +66,7 @@ public final class OActivityExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du processus'. 
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_TIMESTAMP", required = true, persistent = false, label = "Nom du processus")
+	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
 	public java.util.Date getBeginTime() {
 		return beginTime;
 	}
@@ -86,7 +85,7 @@ public final class OActivityExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du processus'. 
 	 * @return java.util.Date endTime <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_TIMESTAMP", required = true, persistent = false, label = "Nom du processus")
+	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
 	public java.util.Date getEndTime() {
 		return endTime;
 	}
@@ -103,19 +102,19 @@ public final class OActivityExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Durée'. 
-	 * @return Long executionTime 
+	 * @return Integer executionTime 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Durée")
-	public Long getExecutionTime() {
+	@Field(domain = "DO_O_NOMBRE", label = "Durée")
+	public Integer getExecutionTime() {
 		return executionTime;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Durée'.
-	 * @param executionTime Long 
+	 * @param executionTime Integer 
 	 */
-	public void setExecutionTime(final Long executionTime) {
+	public void setExecutionTime(final Integer executionTime) {
 		this.executionTime = executionTime;
 	}
 
@@ -124,7 +123,7 @@ public final class OActivityExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Statut'. 
 	 * @return String status 
 	 */
-	@Field(domain = "DO_O_CODE_IDENTIFIANT", persistent = false, label = "Statut")
+	@Field(domain = "DO_O_CODE_IDENTIFIANT", label = "Statut")
 	public String getStatus() {
 		return status;
 	}
@@ -143,7 +142,7 @@ public final class OActivityExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Paramètres entrants'. 
 	 * @return String workspaceIn 
 	 */
-	@Field(domain = "DO_O_JSON_TEXT", persistent = false, label = "Paramètres entrants")
+	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres entrants")
 	public String getWorkspaceIn() {
 		return workspaceIn;
 	}
@@ -162,7 +161,7 @@ public final class OActivityExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Paramètres sortants'. 
 	 * @return String workspaceOut 
 	 */
-	@Field(domain = "DO_O_JSON_TEXT", persistent = false, label = "Paramètres sortants")
+	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres sortants")
 	public String getWorkspaceOut() {
 		return workspaceOut;
 	}
@@ -181,7 +180,7 @@ public final class OActivityExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Fichier de log'. 
 	 * @return Boolean hasLogFile 
 	 */
-	@Field(domain = "DO_O_BOOLEEN", persistent = false, label = "Fichier de log")
+	@Field(domain = "DO_O_BOOLEEN", label = "Fichier de log")
 	public Boolean getHasLogFile() {
 		return hasLogFile;
 	}

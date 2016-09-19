@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.webapi.ws.execution;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
@@ -56,7 +57,7 @@ public class WsExecutionControl implements WebServices {
 	 */
 	@POST("/execute")
 	@AnonymousAccessAllowed
-	public void endExecution(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final Option<String> initialParams) {
+	public void endExecution(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
 		Assertion.checkNotNull(processName);
 		// ---
 		orchestraManager.scheduleNow(processName, initialParams);
@@ -71,7 +72,7 @@ public class WsExecutionControl implements WebServices {
 		Assertion.checkNotNull(proId);
 		// ---
 		final OProcessUi processUi = definitionServices.getProcessDefinitionById(proId);
-		orchestraManager.scheduleNow(processUi.getName(), Option.<String> empty());
+		orchestraManager.scheduleNow(processUi.getName(), Optional.<String> empty());
 	}
 
 }

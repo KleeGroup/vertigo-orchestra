@@ -13,7 +13,6 @@
 			-->
 			<plugin class="io.vertigo.dynamo.plugins.environment.registries.search.SearchDynamicRegistryPlugin" />
 			<plugin class="io.vertigo.dynamo.plugins.environment.registries.file.FileDynamicRegistryPlugin" />
-			<plugin class="io.vertigo.persona.plugins.security.loaders.SecurityResourceLoaderPlugin" />
 	</boot>
 	<module name="vertigo-studio">
 	    <component api="MdaManager" class="io.vertigo.studio.impl.mda.MdaManagerImpl">
@@ -45,16 +44,12 @@
 	        <plugin class="io.vertigo.studio.plugins.mda.file.FileInfoGeneratorPlugin">
 		        <param name ="targetSubDir" value="."/>
 	        </plugin>
-	        <plugin class="io.vertigo.studio.plugins.mda.security.SecurityGeneratorPlugin">
-	        	<param name ="targetSubDir" value="."/>
-	        </plugin>
 	    </component> 
     </module> 
 
 	<module name="API">
 		<definitions>
 			<resource type ="kpr" path="io/vertigo/orchestra/generation.kpr"/>
-		    <resource type="security" path="mda/orchestra-auth-config.xml" />  
 		</definitions>          
 	</module>  
   

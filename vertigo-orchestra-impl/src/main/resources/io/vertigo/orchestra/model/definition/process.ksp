@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.domain.definition
 
 create DtDefinition DT_O_PROCESS{
+	storeName : "orchestra"
 	key PRO_ID					{domain : DO_O_IDENTIFIANT, label :"Id de la definition du processus", notNull:"true",}
 	field NAME   				{domain : DO_O_LIBELLE, label :"Nom du processus", notNull:"false",}
 	field LABEL   				{domain : DO_O_LIBELLE, label :"Libellé du processus", notNull:"false",},

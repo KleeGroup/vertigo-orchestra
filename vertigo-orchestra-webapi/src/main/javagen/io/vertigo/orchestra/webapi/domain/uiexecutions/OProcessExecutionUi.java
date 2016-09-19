@@ -1,6 +1,5 @@
 package io.vertigo.orchestra.webapi.domain.uiexecutions;
 
-import io.vertigo.dynamo.domain.stereotype.DtDefinition;
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.DtObject;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
@@ -8,7 +7,6 @@ import io.vertigo.dynamo.domain.util.DtObjectUtil;
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcessExecutionUi
  */
-@DtDefinition(persistent = false)
 public final class OProcessExecutionUi implements DtObject {
 
 	/** SerialVersionUID. */
@@ -17,19 +15,20 @@ public final class OProcessExecutionUi implements DtObject {
 	private Long preId;
 	private java.util.Date beginTime;
 	private java.util.Date endTime;
-	private Long executionTime;
+	private Integer executionTime;
 	private String status;
 	private Boolean checked;
 	private java.util.Date checkingDate;
 	private String checkingComment;
 	private Boolean hasLogFile;
 
+	
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Id de l'activité'. 
 	 * @return Long preId <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_IDENTIFIANT", required = true, persistent = false, label = "Id de l'activité")
+	@Field(domain = "DO_O_IDENTIFIANT", required = true, label = "Id de l'activité")
 	public Long getPreId() {
 		return preId;
 	}
@@ -48,7 +47,7 @@ public final class OProcessExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du processus'. 
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_TIMESTAMP", required = true, persistent = false, label = "Nom du processus")
+	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
 	public java.util.Date getBeginTime() {
 		return beginTime;
 	}
@@ -67,7 +66,7 @@ public final class OProcessExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Nom du processus'. 
 	 * @return java.util.Date endTime <b>Obligatoire</b>
 	 */
-	@Field(domain = "DO_O_TIMESTAMP", required = true, persistent = false, label = "Nom du processus")
+	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
 	public java.util.Date getEndTime() {
 		return endTime;
 	}
@@ -84,19 +83,19 @@ public final class OProcessExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Durée'. 
-	 * @return Long executionTime 
+	 * @return Integer executionTime 
 	 */
-	@Field(domain = "DO_O_NOMBRE", persistent = false, label = "Durée")
-	public Long getExecutionTime() {
+	@Field(domain = "DO_O_NOMBRE", label = "Durée")
+	public Integer getExecutionTime() {
 		return executionTime;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Durée'.
-	 * @param executionTime Long 
+	 * @param executionTime Integer 
 	 */
-	public void setExecutionTime(final Long executionTime) {
+	public void setExecutionTime(final Integer executionTime) {
 		this.executionTime = executionTime;
 	}
 
@@ -105,7 +104,7 @@ public final class OProcessExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Statut'. 
 	 * @return String status 
 	 */
-	@Field(domain = "DO_O_CODE_IDENTIFIANT", persistent = false, label = "Statut")
+	@Field(domain = "DO_O_CODE_IDENTIFIANT", label = "Statut")
 	public String getStatus() {
 		return status;
 	}
@@ -124,7 +123,7 @@ public final class OProcessExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Pris en charge'. 
 	 * @return Boolean checked 
 	 */
-	@Field(domain = "DO_O_BOOLEEN", persistent = false, label = "Pris en charge")
+	@Field(domain = "DO_O_BOOLEEN", label = "Pris en charge")
 	public Boolean getChecked() {
 		return checked;
 	}
@@ -143,7 +142,7 @@ public final class OProcessExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Date de prise en charge'. 
 	 * @return java.util.Date checkingDate 
 	 */
-	@Field(domain = "DO_O_TIMESTAMP", persistent = false, label = "Date de prise en charge")
+	@Field(domain = "DO_O_TIMESTAMP", label = "Date de prise en charge")
 	public java.util.Date getCheckingDate() {
 		return checkingDate;
 	}
@@ -162,7 +161,7 @@ public final class OProcessExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Commentaire'. 
 	 * @return String checkingComment 
 	 */
-	@Field(domain = "DO_O_TEXT", persistent = false, label = "Commentaire")
+	@Field(domain = "DO_O_TEXT", label = "Commentaire")
 	public String getCheckingComment() {
 		return checkingComment;
 	}
@@ -181,7 +180,7 @@ public final class OProcessExecutionUi implements DtObject {
 	 * Récupère la valeur de la propriété 'Fichier de log'. 
 	 * @return Boolean hasLogFile 
 	 */
-	@Field(domain = "DO_O_BOOLEEN", persistent = false, label = "Fichier de log")
+	@Field(domain = "DO_O_BOOLEEN", label = "Fichier de log")
 	public Boolean getHasLogFile() {
 		return hasLogFile;
 	}

@@ -2,11 +2,13 @@ package io.vertigo.orchestra.domain.planification;
 
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
+import io.vertigo.dynamo.domain.model.URI;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcessPlanification
  */
+@io.vertigo.dynamo.domain.stereotype.DataSpace("orchestra")
 public final class OProcessPlanification implements Entity {
 
 	/** SerialVersionUID. */
@@ -22,6 +24,12 @@ public final class OProcessPlanification implements Entity {
 	private io.vertigo.orchestra.domain.execution.ONode node;
 	private io.vertigo.orchestra.domain.referential.OPlanificationState planificationState;
 
+	/** {@inheritDoc} */
+	@Override
+	public URI<OProcessPlanification> getURI() {
+		return DtObjectUtil.createURI(this);
+	}
+	
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id Planification'. 
@@ -162,9 +170,7 @@ public final class OProcessPlanification implements Entity {
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (processus != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> uri;
-			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(processus);
-			if (!fkURI.urn().equals(uri.urn())) {
+			if (!fkURI.equals(processus.getURI())) {
 				processus = null;
 			}
 		}		
@@ -221,9 +227,7 @@ public final class OProcessPlanification implements Entity {
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (node != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> uri;
-			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(node);
-			if (!fkURI.urn().equals(uri.urn())) {
+			if (!fkURI.equals(node.getURI())) {
 				node = null;
 			}
 		}		
@@ -280,9 +284,7 @@ public final class OProcessPlanification implements Entity {
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (planificationState != null) {
 			// On s'assure que l'objet correspond à la bonne clé
-			final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> uri;
-			uri = io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(planificationState);
-			if (!fkURI.urn().equals(uri.urn())) {
+			if (!fkURI.equals(planificationState.getURI())) {
 				planificationState = null;
 			}
 		}		

@@ -4,12 +4,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.file.model.VFile;
-import io.vertigo.lang.Option;
 import io.vertigo.orchestra.webapi.domain.summary.OExecutionSummary;
 import io.vertigo.orchestra.webapi.domain.uiexecutions.OActivityExecutionUi;
 import io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi;
@@ -29,7 +29,7 @@ import io.vertigo.vega.webservice.stereotype.QueryParam;
  * @author mlaroche.
  * @version $Id$
  */
-@PathPrefix("/executions/")
+@PathPrefix("/executions")
 public class WsExecution implements WebServices {
 
 	@Inject
@@ -40,16 +40,16 @@ public class WsExecution implements WebServices {
 	/**
 	 * Get the processExecution by Id
 	 */
-	@GET("{proId}")
+	@GET("/{proId}")
 	@AnonymousAccessAllowed
-	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Option<String> status, @QueryParam("limit") final Option<Long> limit, @QueryParam("offset") final Option<Long> offset) {
-		return executionServices.getProcessExecutionsByProId(proId, status.orElse(""), limit.orElse(50L), offset.orElse(0L));
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Optional<String> status, @QueryParam("limit") final Optional<Integer> limit, @QueryParam("offset") final Optional<Integer> offset) {
+		return executionServices.getProcessExecutionsByProId(proId, status.orElse(""), limit.orElse(50), offset.orElse(0));
 	}
 
 	/**
 	 * Get the processExecution by Id
 	 */
-	@GET("processExecution/{preId}")
+	@GET("/processExecution/{preId}")
 	@AnonymousAccessAllowed
 	public OProcessExecutionUi getProcessExecutionById(@PathParam("preId") final Long preId) {
 		return executionServices.getProcessExecutionById(preId);
@@ -58,7 +58,7 @@ public class WsExecution implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
-	@GET("processExecution/{preId}/activities")
+	@GET("/processExecution/{preId}/activities")
 	@AnonymousAccessAllowed
 	public DtList<OActivityExecutionUi> getActivityExecutionsByPreId(@PathParam("preId") final Long preId) {
 		return executionServices.getActivityExecutionsByPreId(preId);
@@ -67,7 +67,7 @@ public class WsExecution implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
-	@GET("processExecution/{preId}/logFile")
+	@GET("/processExecution/{preId}/logFile")
 	@AnonymousAccessAllowed
 	public VFile getLogFileByPreId(@PathParam("preId") final Long preId) {
 		return executionServices.getLogFileByPreId(preId);
@@ -76,9 +76,9 @@ public class WsExecution implements WebServices {
 	/**
 	 * Update the process properties
 	 */
-	@POST("{id}/updateTreatment")
+	@POST("/{id}/updateTreatment")
 	@AnonymousAccessAllowed
-	public OProcessExecutionUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Option<Boolean> checked, @InnerBodyParam("checkingComment") final Option<String> checkingComment) {
+	public OProcessExecutionUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Optional<Boolean> checked, @InnerBodyParam("checkingComment") final Optional<String> checkingComment) {
 		executionServices.updateProcessExecutionTreatment(id, checked.orElse(null), checkingComment.orElse(null));
 		return executionServices.getProcessExecutionById(id);
 	}
@@ -86,7 +86,7 @@ public class WsExecution implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
-	@GET("activityExecution/{aceId}")
+	@GET("/activityExecution/{aceId}")
 	@AnonymousAccessAllowed
 	public OActivityExecutionUi getActivityExecutionById(@PathParam("aceId") final Long aceId) {
 		return executionServices.getActivityExecutionById(aceId);
@@ -95,7 +95,7 @@ public class WsExecution implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
-	@GET("activityExecution/{aceId}/logFile")
+	@GET("/activityExecution/{aceId}/logFile")
 	@AnonymousAccessAllowed
 	public VFile getLogFileByAceId(@PathParam("aceId") final Long aceId) {
 		return executionServices.getLogFileByAceId(aceId);
@@ -104,7 +104,7 @@ public class WsExecution implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
-	@GET("summary/{proId}")
+	@GET("/summary/{proId}")
 	@AnonymousAccessAllowed
 	public OExecutionSummary getWeekSummaryByProId(@PathParam("proId") final Long proId) {
 		final String processName = definitionServices.getProcessDefinitionById(proId).getName();
@@ -115,7 +115,7 @@ public class WsExecution implements WebServices {
 	/**
 	 * Get the processDefinition by Id
 	 */
-	@GET("summaries")
+	@GET("/summaries")
 	@AnonymousAccessAllowed
 	public DtList<OExecutionSummary> getWeekSummaries(@QueryParam("status") final String status, @QueryParam("offset") final int offset) {
 		// We take the first day of the current week

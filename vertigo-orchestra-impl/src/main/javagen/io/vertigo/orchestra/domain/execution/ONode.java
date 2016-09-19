@@ -2,11 +2,13 @@ package io.vertigo.orchestra.domain.execution;
 
 import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
+import io.vertigo.dynamo.domain.model.URI;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données ONode
  */
+@io.vertigo.dynamo.domain.stereotype.DataSpace("orchestra")
 public final class ONode implements Entity {
 
 	/** SerialVersionUID. */
@@ -16,6 +18,12 @@ public final class ONode implements Entity {
 	private String name;
 	private java.util.Date heartbeat;
 
+	/** {@inheritDoc} */
+	@Override
+	public URI<ONode> getURI() {
+		return DtObjectUtil.createURI(this);
+	}
+	
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id du noeud'. 

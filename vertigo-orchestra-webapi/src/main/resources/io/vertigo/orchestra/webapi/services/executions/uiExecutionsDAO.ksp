@@ -2,6 +2,7 @@ package io.vertigo.orchestra.webapi.dao.uiexecutions
 
 
 create Task TK_GET_EXECUTION_BY_PRE_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select  pre.PRE_ID as PRE_ID,
@@ -27,6 +28,7 @@ create Task TK_GET_EXECUTION_BY_PRE_ID {
 
 
 create Task TK_GET_EXECUTIONS_BY_PROCESS_NAME {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select  pre.PRE_ID as PRE_ID,
@@ -54,6 +56,7 @@ create Task TK_GET_EXECUTIONS_BY_PROCESS_NAME {
 
 
 create Task TK_GET_ACTIVITIY_BY_ACE_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select  ace.ACE_ID as ACE_ID,
@@ -78,6 +81,7 @@ create Task TK_GET_ACTIVITIY_BY_ACE_ID {
 }
 
 create Task TK_GET_ACTIVITIES_BY_PRE_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select  ace.ACE_ID as ACE_ID,

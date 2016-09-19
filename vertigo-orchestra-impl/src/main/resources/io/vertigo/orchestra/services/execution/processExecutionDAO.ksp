@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.dao.execution
 
 create Task TK_GET_ACTIVE_PROCESS_EXECUTION_BY_PRO_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 
@@ -14,6 +15,7 @@ create Task TK_GET_ACTIVE_PROCESS_EXECUTION_BY_PRO_ID {
 },
 
 create Task TK_GET_LOG_BY_PRE_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select 
@@ -28,6 +30,7 @@ create Task TK_GET_LOG_BY_PRE_ID {
 },
 
 create Task TK_UPDATE_PROCESS_EXECUTION_TREATMENT {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineProc"
         request : "
         	update o_process_execution

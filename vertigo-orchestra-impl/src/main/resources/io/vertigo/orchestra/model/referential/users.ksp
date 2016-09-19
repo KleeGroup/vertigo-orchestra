@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.domain.referential
 
 create DtDefinition DT_O_USER {
+	storeName : "orchestra"
 	key USR_ID			{domain : DO_O_IDENTIFIANT, label :"Id", notNull:"true",}
 	field FIRST_NAME   	{domain : DO_O_LIBELLE, label :"Nom", notNull:"false",}
 	field LAST_NAME   	{domain : DO_O_LIBELLE, label :"Prénom", notNull:"false",}
