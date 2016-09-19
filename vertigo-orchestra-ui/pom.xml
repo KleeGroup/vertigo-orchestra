@@ -8,6 +8,12 @@
 		<artifactId>vertigo-orchestra-reactor</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
+	
+	
+	<properties>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sonar.sources>scr/main/java,ui/app</sonar.sources>
+  	</properties>
 
 	<artifactId>vertigo-orchestra-ui</artifactId>
 	<packaging>war</packaging>
