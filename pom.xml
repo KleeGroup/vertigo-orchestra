@@ -28,6 +28,10 @@ limitations under the License. -->
 	<name>vertigo-orchestra</name>
 	<packaging>pom</packaging>
 	
+	<properties>
+		<sonar.javascript.file.suffixes>.js,.jsx</sonar.javascript.file.suffixes>
+	</properties>
+	
 	<modules>
 		<module>vertigo-orchestra-api</module>
 		<module>vertigo-orchestra-impl</module>
