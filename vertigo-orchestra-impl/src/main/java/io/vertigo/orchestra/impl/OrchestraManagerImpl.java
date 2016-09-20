@@ -26,6 +26,12 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 	private final ProcessSchedulerManager processSchedulerManager;
 	private final ProcessExecutionManager processExecutionManager;
 
+	/**
+	 * Manager principal d'orchestra.
+	 * @param processDefinitionManager le manager responsable des définitions
+	 * @param processExecutionManager le manager responsable des executions
+	 * @param processSchedulerManager le manager responsable de la planification
+	 */
 	@Inject
 	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager, final ProcessExecutionManager processExecutionManager, final ProcessSchedulerManager processSchedulerManager) {
 		Assertion.checkNotNull(processDefinitionManager);
@@ -37,6 +43,7 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 		this.processExecutionManager = processExecutionManager;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition getProcessDefinition(final String processName) {
 		Assertion.checkNotNull(processName);
@@ -52,16 +59,19 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public List<ProcessDefinition> getAllProcesses() {
 		return processDefinitionManager.getAllProcessDefinitions();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void scheduleNow(final String processName, final Optional<String> initialParams) {
 		scheduleAt(processName, new Date(), initialParams);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void scheduleAt(final String processName, final Date expectedTime, final Optional<String> initialParams) {
 		Assertion.checkNotNull(processName);

@@ -2,7 +2,6 @@ package io.vertigo.orchestra.impl.execution;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -111,7 +110,7 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 
 			final InputStreamBuilder inputStreamBuilder = new InputStreamBuilder() {
 				@Override
-				public InputStream createInputStream() throws IOException {
+				public InputStream createInputStream() {
 					return new ByteArrayInputStream(stringByteArray);
 				}
 			};
@@ -132,7 +131,7 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 			if (file.exists()) {
 				return Optional.of(fileManager.createFile(file));
 			}
-			throw new RuntimeException("Log File" + file.getAbsolutePath() + " not found");
+			throw new IllegalArgumentException("Log File" + file.getAbsolutePath() + " not found");
 		}
 		return Optional.empty();
 	}

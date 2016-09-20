@@ -6,8 +6,8 @@ import java.util.Optional;
 import io.vertigo.lang.Assertion;
 
 /**
- * TODO : Description de la classe.
- *
+ * Définition d'un processus Orchestra.
+ * Une définition doit être créee par un le builder associé.
  * @author mlaroche.
  * @version $Id$
  */

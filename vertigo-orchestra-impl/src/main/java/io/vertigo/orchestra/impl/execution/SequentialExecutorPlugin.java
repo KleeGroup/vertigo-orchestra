@@ -45,7 +45,7 @@ import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
 
 /**
- * TODO : Description de la classe.
+ * Executeur des processus orchestra sous la forme d'une séquence linéaire d'activités.
  *
  * @author mlaroche.
  * @version $Id$
@@ -79,6 +79,15 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	private final ProcessSchedulerManager processSchedulerManager;
 	private final VTransactionManager transactionManager;
 
+	/**
+	 * Constructeur.
+	 * @param processSchedulerManager le schedulerManager
+	 * @param nodeManager le gestionnaire de noeud
+	 * @param transactionManager le gestionnaire de transaction
+	 * @param nodeName le nom du noeud en cours
+	 * @param workersCount le nombre de worker du noeud
+	 * @param executionPeriodSeconds le timer du long-polling
+	 */
 	@Inject
 	public SequentialExecutorPlugin(
 			final ProcessSchedulerManager processSchedulerManager,
@@ -141,11 +150,6 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	//--- Package
 	//--------------------------------------------------------------------------------------------------
 
-	/**
-	 * TODO : Description de la méthode.
-	 * @param activityExecution
-	 * @param workspaceOut
-	 */
 	void putResult(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspaceOut, final Throwable error) {
 		Assertion.checkNotNull(workspaceOut);
 		Assertion.checkNotNull(workspaceOut.getValue("status"), "Le status est obligatoire dans le résultat");
@@ -204,6 +208,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			}
 
 		} catch (final Exception e) {
+			LOGGER.info("Unknow error ending a pending activity", e);
 			endActivityExecution(activityExecution, ExecutionState.ERROR);
 
 		} finally {
@@ -215,7 +220,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	}
 
-	public void setActivityExecutionPending(final Long activityExecutionId, final ActivityExecutionWorkspace workspace) {
+	void setActivityExecutionPending(final Long activityExecutionId, final ActivityExecutionWorkspace workspace) {
 		Assertion.checkNotNull(activityExecutionId);
 		// ---
 		final OActivityExecution activityExecution = activityExecutionDAO.get(activityExecutionId);
@@ -232,39 +237,6 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				transaction.commit();
 			}
 		}
-	}
-
-	private void doChangeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {
-		Assertion.checkNotNull(activityExecution);
-		// ---
-		activityExecution.setEstCd(executionState.name());
-		activityExecutionDAO.save(activityExecution);
-
-		// If it's an error the entire process is in Error
-		if (ExecutionState.ERROR.equals(executionState)) {
-			endProcessExecution(activityExecution.getPreId(), ExecutionState.ERROR);
-		}
-
-	}
-
-	private void finishProcessExecution(final OActivityExecution activityExecution) {
-		if (transactionManager.hasCurrentTransaction()) {
-			doFinishProcessExecution(activityExecution);
-		} else {
-			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				doFinishProcessExecution(activityExecution);
-				transaction.commit();
-			}
-		}
-	}
-
-	private void doFinishProcessExecution(final OActivityExecution activityExecution) {
-		Assertion.checkNotNull(activityExecution);
-		// ---
-		activityExecution.setEstCd(ExecutionState.DONE.name());
-		activityExecution.setEndTime(new Date());
-		activityExecutionDAO.save(activityExecution);
-		endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);
 	}
 
 	ActivityExecutionWorkspace getWorkspaceForActivityExecution(final Long aceId, final Boolean in) {
@@ -288,18 +260,6 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 		activityWorkspaceDAO.save(activityWorkspace);
 
-	}
-
-	private void handleOtherServices(final ActivityEngine activityEngine, final OActivityExecution activityExecution, final ActivityExecutionWorkspace resultWorkspace) {
-		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			// We save the workspace which is the minimal state
-			saveActivityExecutionWorkspace(activityExecution.getAceId(), resultWorkspace, false);
-			if (activityEngine instanceof AbstractActivityEngine) {
-				// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...)
-				saveActivityLogs(activityExecution.getAceId(), ((AbstractActivityEngine) activityEngine).getLogger(), resultWorkspace);
-			}
-			transaction.commit();
-		}
 	}
 
 	ActivityExecutionWorkspace execute(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspace) {
@@ -430,7 +390,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			case SUBMITTED:
 			case WAITING:
 			default:
-				throw new RuntimeException("Unknwon case for ending activity execution :  " + executionState.name());
+				throw new IllegalArgumentException("Unknwon case for ending activity execution :  " + executionState.name());
 		}
 
 	}
@@ -517,11 +477,56 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		activityExecution.setNodId(nodId);
 	}
 
+	private void doChangeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {
+		Assertion.checkNotNull(activityExecution);
+		// ---
+		activityExecution.setEstCd(executionState.name());
+		activityExecutionDAO.save(activityExecution);
+
+		// If it's an error the entire process is in Error
+		if (ExecutionState.ERROR.equals(executionState)) {
+			endProcessExecution(activityExecution.getPreId(), ExecutionState.ERROR);
+		}
+
+	}
+
+	private void finishProcessExecution(final OActivityExecution activityExecution) {
+		if (transactionManager.hasCurrentTransaction()) {
+			doFinishProcessExecution(activityExecution);
+		} else {
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+				doFinishProcessExecution(activityExecution);
+				transaction.commit();
+			}
+		}
+	}
+
+	private void doFinishProcessExecution(final OActivityExecution activityExecution) {
+		Assertion.checkNotNull(activityExecution);
+		// ---
+		activityExecution.setEstCd(ExecutionState.DONE.name());
+		activityExecution.setEndTime(new Date());
+		activityExecutionDAO.save(activityExecution);
+		endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);
+	}
+
 	private void endActivity(final OActivityExecution activityExecution) {
 		activityExecution.setEndTime(new Date());
 		activityExecution.setEstCd(ExecutionState.DONE.name());
 		activityExecutionDAO.save(activityExecution);
 
+	}
+
+	private void handleOtherServices(final ActivityEngine activityEngine, final OActivityExecution activityExecution, final ActivityExecutionWorkspace resultWorkspace) {
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			// We save the workspace which is the minimal state
+			saveActivityExecutionWorkspace(activityExecution.getAceId(), resultWorkspace, false);
+			if (activityEngine instanceof AbstractActivityEngine) {
+				// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...)
+				saveActivityLogs(activityExecution.getAceId(), ((AbstractActivityEngine) activityEngine).getLogger(), resultWorkspace);
+			}
+			transaction.commit();
+		}
 	}
 
 	private OProcessExecution getProcessExecutionById(final Long preId) {

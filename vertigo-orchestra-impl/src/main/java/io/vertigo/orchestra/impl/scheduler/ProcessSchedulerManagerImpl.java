@@ -21,6 +21,11 @@ public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManage
 	private final VTransactionManager transactionManager;
 	private final ProcessSchedulerPlugin processScheduler;
 
+	/**
+	 * Constructeur.
+	 * @param transactionManager le gestionnaire de transaction
+	 * @param processScheduler le gestionnaire de schedule
+	 */
 	@Inject
 	public ProcessSchedulerManagerImpl(
 			final VTransactionManager transactionManager,

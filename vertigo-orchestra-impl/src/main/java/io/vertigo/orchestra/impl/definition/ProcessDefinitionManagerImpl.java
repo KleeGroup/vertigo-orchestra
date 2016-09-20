@@ -42,23 +42,6 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	@Inject
 	private OActivityDAO activityDAO;
 
-	//	@Inject
-	//	public ProcessDefinitionManagerImpl(
-	//			final ProcessSchedulerManager processSchedulerManager,
-	//			final OProcessDAO processDao,
-	//			final DefinitionPAO definitionPAO,
-	//			final OActivityDAO activityDAO) {
-	//		Assertion.checkNotNull(processSchedulerManager);
-	//		Assertion.checkNotNull(processDao);
-	//		Assertion.checkNotNull(definitionPAO);
-	//		Assertion.checkNotNull(activityDAO);
-	//		//---
-	//		this.processSchedulerManager = processSchedulerManager;
-	//		this.processDao = processDao;
-	//		this.definitionPAO = definitionPAO;
-	//		this.activityDAO = activityDAO;
-	//	}
-
 	private void createDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		//-----
@@ -162,7 +145,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	}
 
-	public final class OActivityComparator implements Comparator<OActivity> {
+	public static final class OActivityComparator implements Comparator<OActivity> {
 
 		/** {@inheritDoc} */
 		@Override

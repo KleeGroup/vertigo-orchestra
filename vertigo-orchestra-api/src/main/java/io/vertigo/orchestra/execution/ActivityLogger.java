@@ -20,15 +20,15 @@ import io.vertigo.lang.Assertion;
 public final class ActivityLogger {
 
 	private static final String LOG_FILE_EXTENSION = ".log";
+	private static final Logger LOGGER = Logger.getLogger(ProcessExecutionManager.class);
+
+	private final Logger loggerActivity;
 	private final StringBuilder log = new StringBuilder();
-
-	private final Logger ACTIVITY_LOGGER;
-	private final Logger LOGGER = Logger.getLogger(ProcessExecutionManager.class);
-
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 
 	/**
-	 * Constructeur package protected.
+	 * Constructeur.
+	 * @param engineName le nom de l'engine de l'activité
 	 */
 	public ActivityLogger(final String engineName) {
 		Assertion.checkArgNotEmpty(engineName);
@@ -36,7 +36,7 @@ public final class ActivityLogger {
 		// Creates or get the logger
 		if (LogManager.exists(engineName) != null) {
 			// If it exist we keep it
-			ACTIVITY_LOGGER = Logger.getLogger(engineName);
+			loggerActivity = Logger.getLogger(engineName);
 		} else {
 			Logger tempLogger = null;
 			try {
@@ -52,34 +52,50 @@ public final class ActivityLogger {
 				LOGGER.warn("");
 				tempLogger = LOGGER;
 			} finally {
-				ACTIVITY_LOGGER = tempLogger;
+				loggerActivity = tempLogger;
 			}
 
 		}
 	}
 
+	/**
+	 * Ajoute une information dans le log.
+	 * @param message le message
+	 */
 	public void info(final String message) {
 
 		// We log in Orchestra
-		log.append(dateFormat.format(new Date())).append(" [Info] ").append(message).append("\n");
+		log.append(dateFormat.format(new Date())).append(" [Info] ").append(message).append('\n');
 		// We log in Log4j
-		ACTIVITY_LOGGER.info(message);
+		loggerActivity.info(message);
 	}
 
+	/**
+	 * Ajoute un avertissement dans le log.
+	 * @param message le message
+	 */
 	public void warn(final String message) {
 		// We log in Orchestra
-		log.append(dateFormat.format(new Date())).append(" [Warn] ").append(message).append("\n");
+		log.append(dateFormat.format(new Date())).append(" [Warn] ").append(message).append('\n');
 		// We log in Log4j
-		ACTIVITY_LOGGER.warn(message);
+		loggerActivity.warn(message);
 	}
 
+	/**
+	 * Ajoute une erreur dans le log.
+	 * @param message le message
+	 */
 	public void error(final String message) {
 		// We log in Orchestra
-		log.append(dateFormat.format(new Date())).append(" [Error] ").append(message).append("\n");
+		log.append(dateFormat.format(new Date())).append(" [Error] ").append(message).append('\n');
 		// We log in Log4j
-		ACTIVITY_LOGGER.error(message);
+		loggerActivity.error(message);
 	}
 
+	/**
+	 * Récupère le log global sous forme de string.
+	 * @return le log complet
+	 */
 	public String getLogAsString() {
 		return log.toString();
 	}

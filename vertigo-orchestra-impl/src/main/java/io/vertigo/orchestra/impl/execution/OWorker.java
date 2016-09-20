@@ -1,16 +1,20 @@
 package io.vertigo.orchestra.impl.execution;
 
+import org.apache.log4j.Logger;
+
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.domain.execution.OActivityExecution;
 import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 
 /**
- * TODO : Description de la classe.
+ * Worker d'une activité orchestra.
  *
  * @author mlaroche.
  * @version $Id$
  */
 public final class OWorker implements Runnable {
+
+	private static final Logger LOGGER = Logger.getLogger(OWorker.class);
 
 	private final OActivityExecution activityExecution;
 	private final ActivityExecutionWorkspace params;
@@ -37,6 +41,7 @@ public final class OWorker implements Runnable {
 			result = new OLocalWorker(sequentialExecutor, activityExecution, params).call();
 			sequentialExecutor.putResult(activityExecution, result, null);
 		} catch (final Exception e) {
+			LOGGER.info("Error executing activity", e);
 			sequentialExecutor.putResult(activityExecution, null, e.getCause());
 		}
 

@@ -63,7 +63,6 @@ public class ExecutionServicesImpl implements ExecutionServices {
 		Assertion.checkNotNull(proId);
 		// ---
 		final OProcess process = processDAO.get(proId);
-		//TODO : Mettre un offset et un limit
 		return uiexecutionsPAO.getExecutionsByProcessName(process.getName(), status, limit, offset);
 	}
 

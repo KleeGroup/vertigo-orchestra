@@ -4,15 +4,14 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.execution.ActivityEngine;
 
 /**
- * TODO : Description de la classe.
- *
- * @author mlaroche.
+ * Définition d'une activité d'un processus Orchestra.
+ * Une activity est caractérisé par son nom et son "engine" qui represente son execution.
+ * @author mlaroche
  * @version $Id$
  */
 public final class ActivityDefinition {
 	private final String name;
 	private final String label;
-	//TODO : mettre ActivityEngine
 	private final Class<? extends ActivityEngine> engineClass;
 
 	/**

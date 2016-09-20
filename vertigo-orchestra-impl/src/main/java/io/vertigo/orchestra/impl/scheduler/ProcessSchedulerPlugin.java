@@ -59,6 +59,13 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	@Inject
 	private OProcessDAO processDao;
 
+	/**
+	 * Constructeur.
+	 * @param nodeManager le gestionnaire de noeud
+	 * @param nodeName le nom du noeud
+	 * @param planningPeriodSeconds le timer de planfication
+	 * @param forecastDurationSeconds la durée de prévision des planifications
+	 */
 	@Inject
 	public ProcessSchedulerPlugin(
 			final NodeManager nodeManager,
@@ -178,9 +185,6 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 		return processPlanificationDAO.getLastPlanificationByProId(proId);
 	}
 
-	/**
-	 * TODO : Description de la méthode.
-	 */
 	private Optional<Date> findNextPlanificationTime(final OProcess process) {
 		final Optional<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(process.getProId());
 

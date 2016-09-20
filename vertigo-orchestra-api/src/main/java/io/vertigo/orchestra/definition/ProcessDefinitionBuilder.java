@@ -8,7 +8,7 @@ import io.vertigo.orchestra.execution.ActivityEngine;
 import io.vertigo.util.ListBuilder;
 
 /**
- * TODO : Description de la classe.
+ * Builder d'une définition de processus Orchestra.
  *
  * @author mlaroche.
  * @version $Id$
@@ -38,7 +38,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	}
 
 	/**
-	 * Processus a déclanchement automatique.
+	 * Processus autorisant la multi-execution.
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withMultiExecution() {
@@ -47,7 +47,8 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	}
 
 	/**
-	 * Processus a déclanchement automatique.
+	 * Durée pendant laquelle une planification peut être restaurée (durée de validité).
+	 * @param rescuePeriod la durée en secondes
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withRescuePeriod(final int rescuePeriod) {
@@ -79,7 +80,15 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	}
 
 	/**
-	 * Ajoute un delai entre deux executions d'une tache récurrente.
+	 * Ajoute une activité à un processus.
+	 * @return this
+	 */
+
+	/**
+	 * Ajoute une activité à un processus.
+	 * @param activityName le nom de l'activité (Code)
+	 * @param activityLabel Le libelle de l'activité (Ihm)
+	 * @param engineClass Le moteur d'exécution de l'activité
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder addActivity(final String activityName, final String activityLabel, final Class<? extends ActivityEngine> engineClass) {
@@ -101,7 +110,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	}
 
 	/**
-	 * Définit le informations du process.
+	 * Définit si au prochain démarrage de l'application la définition doit être mise à jour.
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withNeedUpdate() {

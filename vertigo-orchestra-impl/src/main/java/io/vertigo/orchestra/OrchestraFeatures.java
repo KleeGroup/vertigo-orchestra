@@ -74,8 +74,6 @@ public final class OrchestraFeatures extends Features {
 				//----Definitions
 				.addDefinitionResource("kpr", "io/vertigo/orchestra/execution.kpr")
 				.addDefinitionResource("classes", DtDefinitions.class.getName());
-				//---WS
-//				/.addComponent(WSMonitoring.class);
 		// @formatter:on
 
 	}

@@ -32,6 +32,11 @@ import io.vertigo.vega.webservice.stereotype.QueryParam;
 @PathPrefix("/executions")
 public class WsExecution implements WebServices {
 
+	private static final Integer DEFAULT_PAGE_SIZE = 50;
+	private static final Integer DEFAULT_OFFSET = 0;
+
+	private static final Integer WEEK_DAYS = 7;
+
 	@Inject
 	private ExecutionServices executionServices;
 	@Inject
@@ -42,8 +47,9 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/{proId}")
 	@AnonymousAccessAllowed
-	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Optional<String> status, @QueryParam("limit") final Optional<Integer> limit, @QueryParam("offset") final Optional<Integer> offset) {
-		return executionServices.getProcessExecutionsByProId(proId, status.orElse(""), limit.orElse(50), offset.orElse(0));
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Optional<String> status,
+			@QueryParam("limit") final Optional<Integer> limit, @QueryParam("offset") final Optional<Integer> offset) {
+		return executionServices.getProcessExecutionsByProId(proId, status.orElse(""), limit.orElse(DEFAULT_PAGE_SIZE), offset.orElse(DEFAULT_OFFSET));
 	}
 
 	/**
@@ -78,7 +84,8 @@ public class WsExecution implements WebServices {
 	 */
 	@POST("/{id}/updateTreatment")
 	@AnonymousAccessAllowed
-	public OProcessExecutionUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Optional<Boolean> checked, @InnerBodyParam("checkingComment") final Optional<String> checkingComment) {
+	public OProcessExecutionUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Optional<Boolean> checked,
+			@InnerBodyParam("checkingComment") final Optional<String> checkingComment) {
 		executionServices.updateProcessExecutionTreatment(id, checked.orElse(null), checkingComment.orElse(null));
 		return executionServices.getProcessExecutionById(id);
 	}
@@ -130,7 +137,7 @@ public class WsExecution implements WebServices {
 		// We take the first day of the current week
 		final Calendar firstDayOfWeek = getFirstDayOfWeek();
 		// We deal with the offset
-		firstDayOfWeek.add(Calendar.DAY_OF_YEAR, offset * 7);
+		firstDayOfWeek.add(Calendar.DAY_OF_YEAR, offset * WEEK_DAYS);
 		// We make the call with the proper week dates
 		return executionServices.getSummariesByDate(firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek), status);
 	}
@@ -138,7 +145,7 @@ public class WsExecution implements WebServices {
 	private static Date getFirstDayOfNextWeekDate(final Calendar first) {
 		// and add seven days to the end date
 		final Calendar last = (Calendar) first.clone();
-		last.add(Calendar.DAY_OF_YEAR, 7);
+		last.add(Calendar.DAY_OF_YEAR, WEEK_DAYS);
 
 		return last.getTime();
 	}

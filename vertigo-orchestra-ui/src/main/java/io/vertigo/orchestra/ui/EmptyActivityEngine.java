@@ -4,7 +4,7 @@ import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
 
 /**
- * TODO : Description de la classe.
+ * Activité basique (Démo).
  *
  * @author mlaroche.
  * @version $Id$
