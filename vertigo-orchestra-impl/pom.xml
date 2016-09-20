@@ -15,7 +15,7 @@
 
 	<properties>
 		<sonar.sources>src/main/java</sonar.sources>
-		<sonar.exclusions>src/main/java/io/vertigo/orchestra/impl/scheduler/CronExpression</sonar.exclusions>
+		<sonar.exclusions>src/main/java/io/vertigo/orchestra/impl/scheduler/CronExpression*</sonar.exclusions>
 	</properties>
 
 	<dependencies>
