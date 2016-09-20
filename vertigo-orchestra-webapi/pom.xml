@@ -12,6 +12,10 @@
 	<name>vertigo-orchestra-webapi</name>
 	<artifactId>vertigo-orchestra-webapi</artifactId>
 	<packaging>jar</packaging>
+	
+	<properties>
+		<sonar.sources>src/main/java</sonar.sources>
+	</properties>
 
 	<dependencies>
 		<dependency>
