@@ -601,7 +601,6 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			return workersCount - workersPool.getActiveCount();
 		}
 		return workersCount;
-		//return workersCount - activeWorkersCount;
 	}
 
 	private static void logError(final OActivityExecution activityExecution, final Throwable e) {

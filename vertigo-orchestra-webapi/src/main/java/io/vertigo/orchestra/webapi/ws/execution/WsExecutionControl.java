@@ -5,6 +5,8 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import io.vertigo.lang.Assertion;
+import io.vertigo.lang.MessageText;
+import io.vertigo.lang.VUserException;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
@@ -29,7 +31,10 @@ public class WsExecutionControl implements WebServices {
 	private DefinitionServices definitionServices;
 
 	/**
-	 * Get the processExecution by Id
+	 * Termine une exécution mise en attente.
+	 * @param activityExecutionId l'id de l'activité en attente
+	 * @param token le token de sécurité
+	 * @param state l'etat final de l'activité
 	 */
 	@POST("/endExecution")
 	@AnonymousAccessAllowed
@@ -47,28 +52,31 @@ public class WsExecutionControl implements WebServices {
 				executionState = ExecutionState.DONE;
 				break;
 			default:
-				throw new RuntimeException("Unknown execution state : " + state);
+				throw new VUserException(new MessageText("Unknown execution state : {0} ", null, state));
 		}
 		orchestraManager.endPendingActivityExecution(activityExecutionId, token, executionState);
 	}
 
 	/**
-	 * Get the processExecution by Id
+	 * Lance l'execution d'un processus.
+	 * @param processName le nom du processus à lancer
+	 * @param initialParams des éventuels paramètres supplémentaire
 	 */
 	@POST("/execute")
 	@AnonymousAccessAllowed
-	public void endExecution(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
+	public void executeNow(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
 		Assertion.checkNotNull(processName);
 		// ---
 		orchestraManager.scheduleNow(processName, initialParams);
 	}
 
 	/**
-	 * Execute with id
+	 * Lance l'execution d'un processus avec son id.
+	 * @param proId l'id du processus à lancer
 	 */
 	@POST("/executeNowWithId")
 	@AnonymousAccessAllowed
-	public void endExecution(@InnerBodyParam("proId") final Long proId) {
+	public void executeNowWithId(@InnerBodyParam("proId") final Long proId) {
 		Assertion.checkNotNull(proId);
 		// ---
 		final OProcessUi processUi = definitionServices.getProcessDefinitionById(proId);

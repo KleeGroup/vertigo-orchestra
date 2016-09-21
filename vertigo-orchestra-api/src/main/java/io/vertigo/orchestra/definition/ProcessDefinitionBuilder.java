@@ -28,6 +28,8 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	/**
 	 * Constructor.
+	 * @param processName le nom du processus
+	 * @param processLabel le libellé du processus
 	 */
 	public ProcessDefinitionBuilder(final String processName, final String processLabel) {
 		Assertion.checkArgNotEmpty(processName);
@@ -70,6 +72,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	/**
 	 * Définit l'expression cron du process.
+	 * @param cronExpression l'expression cron de recurrence
 	 * @return this
 	 */
 	public ProcessDefinitionBuilder withCronExpression(final String cronExpression) {
@@ -78,11 +81,6 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 		myCronExpression = Optional.of(cronExpression);
 		return this;
 	}
-
-	/**
-	 * Ajoute une activité à un processus.
-	 * @return this
-	 */
 
 	/**
 	 * Ajoute une activité à un processus.

@@ -8,7 +8,7 @@ import io.vertigo.orchestra.execution.ActivityLogger;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 
 /**
- * TODO : Description de la classe.
+ * Activity engine abstrait offrant des services communs (logger)
  *
  * @author mlaroche.
  * @version $Id$
@@ -42,6 +42,11 @@ public abstract class AbstractActivityEngine implements ActivityEngine {
 		return workspace;
 	}
 
+	/**
+	 * Place une activité en attente
+	 * @param workspace le worspace de l'activité
+	 * @return le workspace modifié
+	 */
 	public ActivityExecutionWorkspace setActivityPending(final ActivityExecutionWorkspace workspace) {
 		workspace.setPending();
 		processExecutionManager.setActivityExecutionPending(workspace.getActivityExecutionId(), workspace);

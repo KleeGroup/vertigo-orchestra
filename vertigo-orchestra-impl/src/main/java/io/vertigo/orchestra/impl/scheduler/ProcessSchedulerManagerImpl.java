@@ -12,7 +12,7 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**
- * TODO : Description de la classe.
+ * Implémentation du manager de la planification.
  *
  * @author mlaroche.
  * @version $Id$

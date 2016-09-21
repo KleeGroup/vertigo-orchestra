@@ -28,7 +28,9 @@ public class WsDefinition implements WebServices {
 	private DefinitionServices definitionServices;
 
 	/**
-	 * Get the processDefinition by Id
+	 * Retourne un processus par son id.
+	 * @param id l'id du processus
+	 * @return le processus
 	 */
 	@GET("/{id}")
 	@AnonymousAccessAllowed
@@ -37,7 +39,9 @@ public class WsDefinition implements WebServices {
 	}
 
 	/**
-	 * Get the processDefinition by Id
+	 * Retourne la liste des processus correspondant à un critère de recherche.
+	 * @param criteria le critère
+	 * @return la liste de resultats
 	 */
 	@POST("/search")
 	@AnonymousAccessAllowed
@@ -50,7 +54,9 @@ public class WsDefinition implements WebServices {
 	}
 
 	/**
-	 * Get the processDefinition by Id
+	 * Retourne lq liste des activités d'un processus par son id.
+	 * @param id du processus
+	 * @return la liste des activités
 	 */
 	@GET("/{id}/activities")
 	@AnonymousAccessAllowed
@@ -59,7 +65,13 @@ public class WsDefinition implements WebServices {
 	}
 
 	/**
-	 * Update the process properties
+	 * Met à jour les propriétés d'un processus.
+	 * @param id l'id du processus à mettre à jour
+	 * @param cronExpression la nouvelle expression cron de récurrence
+	 * @param multiExecution le processus autorise-t-il la multi-exécution
+	 * @param rescuePerdiodSeconds le temps de validité d'une planification
+	 * @param active si le processus est actif
+	 * @return le processus mis à jour
 	 */
 	@POST("/{id}/updateProperties")
 	@AnonymousAccessAllowed
@@ -70,11 +82,14 @@ public class WsDefinition implements WebServices {
 	}
 
 	/**
-	 * Update the process properties
+	 * Mets à jour les paramètres initiaux de démarrage d'un processus
+	 * @param id l'id du processus à mettre à jour
+	 * @param initialParams les nouveaux paramètres à utiliser (JSON sous forme de string)
+	 * @return le processus mis à jour
 	 */
 	@POST("/{id}/updateInitialParams")
 	@AnonymousAccessAllowed
-	public OProcessUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
+	public OProcessUi updateInitialParams(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
 		definitionServices.updateProcessInitialParams(id, initialParams);
 		return definitionServices.getProcessDefinitionById(id);
 	}

@@ -31,7 +31,7 @@ public final class OWorker implements Runnable {
 
 	/** {@inheritDoc} */
 	@Override
-	public final void run() {
+	public void run() {
 		doRun();
 	}
 

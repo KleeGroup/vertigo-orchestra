@@ -1,5 +1,6 @@
 package io.vertigo.orchestra.impl.definition;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,7 +27,7 @@ import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
 
 /**
- * TODO : Description de la classe.
+ * Implémentation du manager des définitions de processus Orchestra.
  *
  * @author mlaroche.
  * @version $Id$
@@ -84,6 +85,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition getProcessDefinition(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
@@ -94,6 +96,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		return decodeProcessDefinition(process, activities);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public List<ProcessDefinition> getAllProcessDefinitions() {
 		final DtList<OProcess> processes = processDao.getAllActiveProcesses();
@@ -145,7 +148,9 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	}
 
-	public static final class OActivityComparator implements Comparator<OActivity> {
+	private static final class OActivityComparator implements Comparator<OActivity>, Serializable {
+
+		private static final long serialVersionUID = 1L;
 
 		/** {@inheritDoc} */
 		@Override

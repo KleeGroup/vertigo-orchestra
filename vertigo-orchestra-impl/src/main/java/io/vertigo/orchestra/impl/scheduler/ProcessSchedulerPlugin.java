@@ -33,7 +33,7 @@ import io.vertigo.orchestra.execution.NodeManager;
 import io.vertigo.orchestra.scheduler.PlanificationState;
 
 /**
- * TODO : Description de la classe.
+ * Plugin de gestion de la planification.
  *
  * @author mlaroche.
  * @version $Id$

@@ -26,11 +26,14 @@ import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**
- * Defines extension comment.
+ * Defines extension orchestra.
  * @author pchretien
  */
 public final class OrchestraFeatures extends Features {
 
+	/**
+	 * Constructeur de la feature.
+	 */
 	public OrchestraFeatures() {
 		super("orchestra");
 	}

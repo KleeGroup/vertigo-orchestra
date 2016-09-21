@@ -12,7 +12,7 @@ import io.vertigo.orchestra.domain.execution.ONode;
 import io.vertigo.orchestra.execution.NodeManager;
 
 /**
- * TODO : Description de la classe.
+ * Implémentation du gestionnaire de noeuds.
  *
  * @author mlaroche.
  * @version $Id$

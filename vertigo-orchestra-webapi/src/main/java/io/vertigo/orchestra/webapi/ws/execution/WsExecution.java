@@ -43,7 +43,12 @@ public class WsExecution implements WebServices {
 	private DefinitionServices definitionServices;
 
 	/**
-	 * Get the processExecution by Id
+	 * Retourne la liste des executions d'un processus répondant à des critères triés par ordre chronologique décroissant
+	 * @param proId l'id du processus concerné par la requête
+	 * @param status le status des executions à retourner
+	 * @param limit le nombre de resultat souhaités
+	 * @param offset le rang du premier résultat retourné
+	 * @return la liste des éxécutions répondant aux critères
 	 */
 	@GET("/{proId}")
 	@AnonymousAccessAllowed
@@ -53,7 +58,9 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
-	 * Get the processExecution by Id
+	 * Retourne une execution de processus.
+	 * @param preId l'id de l'execution
+	 * @return l'execution
 	 */
 	@GET("/processExecution/{preId}")
 	@AnonymousAccessAllowed
@@ -62,7 +69,9 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
-	 * Get the processDefinition by Id
+	 * Récupère la liste des activités d'une execution de processus.
+	 * @param preId l'id de l'exécution
+	 * @return la liste des activités associées
 	 */
 	@GET("/processExecution/{preId}/activities")
 	@AnonymousAccessAllowed
@@ -71,7 +80,9 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
-	 * Get the processDefinition by Id
+	 * Récupère le fichier de log d'une execution de processus
+	 * @param preId l'id de l'exécution
+	 * @return le fichier de log
 	 */
 	@GET("/processExecution/{preId}/logFile")
 	@AnonymousAccessAllowed
@@ -80,7 +91,10 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
-	 * Update the process properties
+	 * Apporte des précession sur un traitement
+	 * @param id l'id de l'execution
+	 * @param checked si l'execution à été vérifiée
+	 * @param checkingComment le commentaire associé
 	 */
 	@POST("/{id}/updateTreatment")
 	@AnonymousAccessAllowed
@@ -91,7 +105,9 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
-	 * Get the processDefinition by Id
+	 * Retourne une execution d'activité par son id.
+	 * @param aceId l'id de l'execution d'activité
+	 * @return l'activité
 	 */
 	@GET("/activityExecution/{aceId}")
 	@AnonymousAccessAllowed
@@ -109,7 +125,9 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
-	 * Get the technicalLog by Id
+	 * Récupère le fichier de log d'une execution d'activité
+	 * @param aceId l'id de l'exécution
+	 * @return le fichier de log
 	 */
 	@GET("/activityExecution/{aceId}/technicalLogFile")
 	@AnonymousAccessAllowed
@@ -118,7 +136,9 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
-	 * Get the processDefinition by Id
+	 * Retourne le rapport d'execution d'un processus sur une période.
+	 * @param proId l'id du processus
+	 * @return le résumé
 	 */
 	@GET("/summary/{proId}")
 	@AnonymousAccessAllowed
@@ -129,7 +149,10 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
-	 * Get the processDefinition by Id
+	 * Retourne le rapport d'execution d'orchestra de la semaine courante.
+	 * @param status permet de filtrer sur un état d'execution (par exemple voir les processus qui ont eu une execution en erreur sur la période.
+	 * @param offset le décalage de semaine (-1 semaine dernière etc...)
+	 * @return la liste de résumés répondant aux critères
 	 */
 	@GET("/summaries")
 	@AnonymousAccessAllowed

@@ -24,7 +24,7 @@ import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 
 /**
- * TODO : Description de la classe.
+ * Implémentation du manager des executions.
  *
  * @author mlaroche.
  * @version $Id$

@@ -49,7 +49,7 @@ public final class ActivityLogger {
 				final Appender appender = new FileAppender(layout, engineName + LOG_FILE_EXTENSION);
 				tempLogger.addAppender(appender);
 			} catch (final IOException e) {
-				LOGGER.warn("");
+				LOGGER.warn("Error creating the file appender for activity engine :" + engineName, e);
 				tempLogger = LOGGER;
 			} finally {
 				loggerActivity = tempLogger;

@@ -16,18 +16,6 @@ import io.vertigo.lang.Assertion;
  * @author mlaroche.
  * @version $Id$
  */
-/**
- * @author mlaroche
- *
- */
-/**
- * @author mlaroche
- *
- */
-/**
- * @author mlaroche
- *
- */
 public final class ActivityExecutionWorkspace {
 
 	public static final String STATUS_KEY = "status";
@@ -80,6 +68,10 @@ public final class ActivityExecutionWorkspace {
 		jsonValue.addProperty(key, value);
 	}
 
+	/**
+	 * Retire une propriété du workspace.
+	 * @param key la clé à retirer
+	 */
 	public void removeKey(final String key) {
 		jsonValue.remove(key);
 	}
@@ -262,7 +254,7 @@ public final class ActivityExecutionWorkspace {
 		jsonValue.remove(STATUS_KEY);
 	}
 
-	private JsonObject parseStringValue(final String stringStoredValue) {
+	private static JsonObject parseStringValue(final String stringStoredValue) {
 		JsonObject tempJsonValue = new JsonObject();
 		if (stringStoredValue != null) {
 			try {
