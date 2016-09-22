@@ -20,7 +20,7 @@ public final class OWorker implements Runnable {
 	private final ActivityExecutionWorkspace params;
 	private final SequentialExecutorPlugin sequentialExecutor;
 
-	public OWorker(final OActivityExecution activityExecution,
+	OWorker(final OActivityExecution activityExecution,
 			final ActivityExecutionWorkspace params, final SequentialExecutorPlugin sequentialExecutor) {
 		Assertion.checkNotNull(activityExecution);
 		// -----

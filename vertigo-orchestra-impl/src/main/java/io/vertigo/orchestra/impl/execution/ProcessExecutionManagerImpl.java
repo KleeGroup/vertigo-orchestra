@@ -2,7 +2,6 @@ package io.vertigo.orchestra.impl.execution;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Optional;
@@ -108,11 +107,8 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 		if (activityLog.isPresent()) {
 			final byte[] stringByteArray = activityLog.get().getLog().getBytes(StandardCharsets.UTF_8);
 
-			final InputStreamBuilder inputStreamBuilder = new InputStreamBuilder() {
-				@Override
-				public InputStream createInputStream() {
-					return new ByteArrayInputStream(stringByteArray);
-				}
+			final InputStreamBuilder inputStreamBuilder = () -> {
+				return new ByteArrayInputStream(stringByteArray);
 			};
 
 			final String fileName = TECHNICAL_LOG_PREFIX + actityExecutionId + TECHNICAL_LOG_EXTENSION;

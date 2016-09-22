@@ -11,6 +11,9 @@ import java.security.SecureRandom;
  */
 public final class ActivityTokenGenerator {
 
+	private static final Integer NUM_BITS = 130;
+	private static final Integer RADIX = 32;
+
 	/**
 	 * Constructeur.
 	 */
@@ -20,6 +23,6 @@ public final class ActivityTokenGenerator {
 	}
 
 	public static String getToken() {
-		return new BigInteger(130, new SecureRandom()).toString(32);
+		return new BigInteger(NUM_BITS, new SecureRandom()).toString(RADIX);
 	}
 }

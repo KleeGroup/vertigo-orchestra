@@ -122,19 +122,16 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	public void start() {
 		handleDeadNodeProcesses();
 
-		localScheduledExecutor.scheduleAtFixedRate(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					executeToDo();
-					nodeManager.updateHeartbeat(nodId);
-					handleDeadNodeProcesses();
-				} catch (final Exception e) {
-					// We log the error and we continue the timer
-					LOGGER.error("Exception launching activities to executes", e);
-				}
-
+		localScheduledExecutor.scheduleAtFixedRate(() -> {
+			try {
+				executeToDo();
+				nodeManager.updateHeartbeat(nodId);
+				handleDeadNodeProcesses();
+			} catch (final Exception e) {
+				// We log the error and we continue the timer
+				LOGGER.error("Exception launching activities to executes", e);
 			}
+
 		}, 0, timerDelay, TimeUnit.MILLISECONDS);
 
 	}
@@ -291,7 +288,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			} catch (final Exception e) {
 				// In case of failure we keep the current workspace
 				resultWorkspace.setFailure();
-				logError(activityExecution, e);
+				LOGGER.error("Erreur de l'activité : " + activityExecution.getEngine(), e);
 				// we call the posttreament
 				resultWorkspace = activityEngine.errorPostTreatment(resultWorkspace, e);
 
@@ -302,7 +299,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		} catch (final Exception e) {
 			// Informative log
 			resultWorkspace.setFailure();
-			logError(activityExecution, e);
+			LOGGER.error("Erreur de l'activité : " + activityExecution.getEngine(), e);
 		}
 
 		return resultWorkspace;
@@ -340,7 +337,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		Assertion.checkNotNull(processExecution.getProId());
 		Assertion.checkNotNull(processExecution.getPreId());
 		// ---
-		final OActivity firstActivity = getFirtActivityByProcess(processExecution.getProId());
+		final OActivity firstActivity = activityDAO.getFirstActivityByProcess(processExecution.getProId());
 		final OActivityExecution firstActivityExecution = initActivityExecutionWithActivity(firstActivity, processExecution.getPreId());
 		activityExecutionDAO.save(firstActivityExecution);
 
@@ -366,7 +363,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		newProcessExecution.setBeginTime(new Date());
 		newProcessExecution.setEstCd(ExecutionState.RUNNING.name());
 
-		saveProcessExecution(newProcessExecution);
+		processExecutionDAO.save(newProcessExecution);
 
 		return newProcessExecution;
 	}
@@ -402,7 +399,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			endActivity(activityExecution);
 
-			final Optional<OActivity> nextActivity = getNextActivityByActId(activityExecution.getActId());
+			final Optional<OActivity> nextActivity = activityDAO.getNextActivityByActId(activityExecution.getActId());
 			if (nextActivity.isPresent()) {
 				hasNext = true;
 				nextActivityExecution = initActivityExecutionWithActivity(nextActivity.get(), activityExecution.getPreId());
@@ -423,7 +420,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 				nextWorkspace = previousWorkspace;
 
 			} else {
-				endSuccessfulProcessExecution(activityExecution.getPreId());
+				endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);
 			}
 			transaction.commit();
 
@@ -529,25 +526,11 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		}
 	}
 
-	private OProcessExecution getProcessExecutionById(final Long preId) {
-		return processExecutionDAO.get(preId);
-	}
-
-	private void saveProcessExecution(final OProcessExecution processExecution) {
-		processExecutionDAO.save(processExecution);
-
-	}
-
 	private void endProcessExecution(final Long preId, final ExecutionState executionState) {
-		final OProcessExecution processExecution = getProcessExecutionById(preId);
+		final OProcessExecution processExecution = processExecutionDAO.get(preId);
 		processExecution.setEndTime(new Date());
 		processExecution.setEstCd(executionState.name());
-		saveProcessExecution(processExecution);
-
-	}
-
-	private void endSuccessfulProcessExecution(final Long preId) {
-		endProcessExecution(preId, ExecutionState.DONE);
+		processExecutionDAO.save(processExecution);
 
 	}
 
@@ -562,21 +545,6 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	}
 
 	private void saveActivityLogs(final Long aceId, final ActivityLogger activityLogger, final ActivityExecutionWorkspace resultWorkspace) {
-		Assertion.checkNotNull(aceId);
-		Assertion.checkNotNull(activityLogger);
-		// ---
-		if (transactionManager.hasCurrentTransaction()) {
-			doSaveActivityLogs(aceId, activityLogger, resultWorkspace);
-		} else {
-			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				doSaveActivityLogs(aceId, activityLogger, resultWorkspace);
-				transaction.commit();
-			}
-		}
-
-	}
-
-	private void doSaveActivityLogs(final Long aceId, final ActivityLogger activityLogger, final ActivityExecutionWorkspace resultWorkspace) {
 		Assertion.checkNotNull(aceId);
 		Assertion.checkNotNull(activityLogger);
 		// ---
@@ -601,22 +569,6 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 			return workersCount - workersPool.getActiveCount();
 		}
 		return workersCount;
-	}
-
-	private static void logError(final OActivityExecution activityExecution, final Throwable e) {
-		LOGGER.error("Erreur de l'activité : " + activityExecution.getEngine(), e);
-	}
-
-	private OActivity getFirtActivityByProcess(final Long proId) {
-		Assertion.checkNotNull(proId);
-		// ---
-		return activityDAO.getFirstActivityByProcess(proId);
-	}
-
-	private Optional<OActivity> getNextActivityByActId(final Long actId) {
-		Assertion.checkNotNull(actId);
-		// ---
-		return activityDAO.getNextActivityByActId(actId);
 	}
 
 	private void handleDeadNodeProcesses() {

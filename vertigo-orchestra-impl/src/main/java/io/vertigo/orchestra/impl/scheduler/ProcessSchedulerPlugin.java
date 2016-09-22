@@ -91,17 +91,14 @@ public final class ProcessSchedulerPlugin implements Plugin, Activeable {
 	@Override
 	public void start() {
 
-		localScheduledExecutor.scheduleAtFixedRate(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					plannRecurrentProcesses();
-				} catch (final Exception e) {
-					// We log the error and we continue the timer
-					LOGGER.error("Exception planning recurrent processes", e);
-				}
-
+		localScheduledExecutor.scheduleAtFixedRate(() -> {
+			try {
+				plannRecurrentProcesses();
+			} catch (final Exception e) {
+				// We log the error and we continue the timer
+				LOGGER.error("Exception planning recurrent processes", e);
 			}
+
 		}, timerDelay / 2, timerDelay, TimeUnit.MILLISECONDS);
 		// We clean the planification
 		cleanPastPlanification();

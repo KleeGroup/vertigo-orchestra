@@ -95,6 +95,7 @@ public class WsExecution implements WebServices {
 	 * @param id l'id de l'execution
 	 * @param checked si l'execution à été vérifiée
 	 * @param checkingComment le commentaire associé
+	 * @return l'exécution mise à jour
 	 */
 	@POST("/{id}/updateTreatment")
 	@AnonymousAccessAllowed
@@ -116,7 +117,9 @@ public class WsExecution implements WebServices {
 	}
 
 	/**
-	 * Get the processDefinition by Id
+	 * Récupère le fichier de log d'une execution d'activité
+	 * @param aceId l'id de l'exécution
+	 * @return le fichier de log
 	 */
 	@GET("/activityExecution/{aceId}/logFile")
 	@AnonymousAccessAllowed
