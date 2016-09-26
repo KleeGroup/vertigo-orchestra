@@ -9,7 +9,6 @@ import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
 import io.vertigo.orchestra.webapi.services.DefinitionServices;
 import io.vertigo.vega.webservice.WebServices;
-import io.vertigo.vega.webservice.stereotype.AnonymousAccessAllowed;
 import io.vertigo.vega.webservice.stereotype.GET;
 import io.vertigo.vega.webservice.stereotype.InnerBodyParam;
 import io.vertigo.vega.webservice.stereotype.POST;
@@ -33,7 +32,6 @@ public class WsDefinition implements WebServices {
 	 * @return le processus
 	 */
 	@GET("/{id}")
-	@AnonymousAccessAllowed
 	public OProcessUi getProcessById(@PathParam("id") final Long id) {
 		return definitionServices.getProcessDefinitionById(id);
 	}
@@ -44,7 +42,6 @@ public class WsDefinition implements WebServices {
 	 * @return la liste de resultats
 	 */
 	@POST("/search")
-	@AnonymousAccessAllowed
 	public DtList<OProcessUi> searchProcessByLabel(@InnerBodyParam("criteria") final String criteria) {
 		//TODO voir comment faire autrement
 		if ("*".equals(criteria)) {
@@ -59,7 +56,6 @@ public class WsDefinition implements WebServices {
 	 * @return la liste des activités
 	 */
 	@GET("/{id}/activities")
-	@AnonymousAccessAllowed
 	public DtList<OActivity> getActivitiesByProcessId(@PathParam("id") final Long id) {
 		return definitionServices.getActivitiesByProId(id);
 	}
@@ -74,7 +70,6 @@ public class WsDefinition implements WebServices {
 	 * @return le processus mis à jour
 	 */
 	@POST("/{id}/updateProperties")
-	@AnonymousAccessAllowed
 	public OProcessUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("cronExpression") final Optional<String> cronExpression,
 			@InnerBodyParam("multiexecution") final boolean multiExecution, @InnerBodyParam("rescuePeriod") final int rescuePerdiodSeconds, @InnerBodyParam("active") final boolean active) {
 		definitionServices.updateProcessProperties(id, cronExpression, multiExecution, rescuePerdiodSeconds, active);
@@ -88,7 +83,6 @@ public class WsDefinition implements WebServices {
 	 * @return le processus mis à jour
 	 */
 	@POST("/{id}/updateInitialParams")
-	@AnonymousAccessAllowed
 	public OProcessUi updateInitialParams(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
 		definitionServices.updateProcessInitialParams(id, initialParams);
 		return definitionServices.getProcessDefinitionById(id);

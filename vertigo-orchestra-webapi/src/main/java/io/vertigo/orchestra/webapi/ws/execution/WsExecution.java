@@ -16,7 +16,6 @@ import io.vertigo.orchestra.webapi.domain.uiexecutions.OProcessExecutionUi;
 import io.vertigo.orchestra.webapi.services.DefinitionServices;
 import io.vertigo.orchestra.webapi.services.ExecutionServices;
 import io.vertigo.vega.webservice.WebServices;
-import io.vertigo.vega.webservice.stereotype.AnonymousAccessAllowed;
 import io.vertigo.vega.webservice.stereotype.GET;
 import io.vertigo.vega.webservice.stereotype.InnerBodyParam;
 import io.vertigo.vega.webservice.stereotype.POST;
@@ -51,7 +50,6 @@ public class WsExecution implements WebServices {
 	 * @return la liste des éxécutions répondant aux critères
 	 */
 	@GET("/{proId}")
-	@AnonymousAccessAllowed
 	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Optional<String> status,
 			@QueryParam("limit") final Optional<Integer> limit, @QueryParam("offset") final Optional<Integer> offset) {
 		return executionServices.getProcessExecutionsByProId(proId, status.orElse(""), limit.orElse(DEFAULT_PAGE_SIZE), offset.orElse(DEFAULT_OFFSET));
@@ -63,7 +61,6 @@ public class WsExecution implements WebServices {
 	 * @return l'execution
 	 */
 	@GET("/processExecution/{preId}")
-	@AnonymousAccessAllowed
 	public OProcessExecutionUi getProcessExecutionById(@PathParam("preId") final Long preId) {
 		return executionServices.getProcessExecutionById(preId);
 	}
@@ -74,7 +71,6 @@ public class WsExecution implements WebServices {
 	 * @return la liste des activités associées
 	 */
 	@GET("/processExecution/{preId}/activities")
-	@AnonymousAccessAllowed
 	public DtList<OActivityExecutionUi> getActivityExecutionsByPreId(@PathParam("preId") final Long preId) {
 		return executionServices.getActivityExecutionsByPreId(preId);
 	}
@@ -85,7 +81,6 @@ public class WsExecution implements WebServices {
 	 * @return le fichier de log
 	 */
 	@GET("/processExecution/{preId}/logFile")
-	@AnonymousAccessAllowed
 	public VFile getLogFileByPreId(@PathParam("preId") final Long preId) {
 		return executionServices.getLogFileByPreId(preId);
 	}
@@ -98,7 +93,6 @@ public class WsExecution implements WebServices {
 	 * @return l'exécution mise à jour
 	 */
 	@POST("/{id}/updateTreatment")
-	@AnonymousAccessAllowed
 	public OProcessExecutionUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Optional<Boolean> checked,
 			@InnerBodyParam("checkingComment") final Optional<String> checkingComment) {
 		executionServices.updateProcessExecutionTreatment(id, checked.orElse(null), checkingComment.orElse(null));
@@ -111,7 +105,6 @@ public class WsExecution implements WebServices {
 	 * @return l'activité
 	 */
 	@GET("/activityExecution/{aceId}")
-	@AnonymousAccessAllowed
 	public OActivityExecutionUi getActivityExecutionById(@PathParam("aceId") final Long aceId) {
 		return executionServices.getActivityExecutionById(aceId);
 	}
@@ -122,7 +115,6 @@ public class WsExecution implements WebServices {
 	 * @return le fichier de log
 	 */
 	@GET("/activityExecution/{aceId}/logFile")
-	@AnonymousAccessAllowed
 	public VFile getLogFileByAceId(@PathParam("aceId") final Long aceId) {
 		return executionServices.getLogFileByAceId(aceId);
 	}
@@ -133,7 +125,6 @@ public class WsExecution implements WebServices {
 	 * @return le fichier de log
 	 */
 	@GET("/activityExecution/{aceId}/technicalLogFile")
-	@AnonymousAccessAllowed
 	public VFile getTechnicalLogFileByAceId(@PathParam("aceId") final Long aceId) {
 		return executionServices.getTechnicalLogFileByAceId(aceId);
 	}
@@ -144,7 +135,6 @@ public class WsExecution implements WebServices {
 	 * @return le résumé
 	 */
 	@GET("/summary/{proId}")
-	@AnonymousAccessAllowed
 	public OExecutionSummary getWeekSummaryByProId(@PathParam("proId") final Long proId) {
 		final String processName = definitionServices.getProcessDefinitionById(proId).getName();
 		final Calendar firstDayOfWeek = getFirstDayOfWeek();
@@ -158,7 +148,6 @@ public class WsExecution implements WebServices {
 	 * @return la liste de résumés répondant aux critères
 	 */
 	@GET("/summaries")
-	@AnonymousAccessAllowed
 	public DtList<OExecutionSummary> getWeekSummaries(@QueryParam("status") final String status, @QueryParam("offset") final int offset) {
 		// We take the first day of the current week
 		final Calendar firstDayOfWeek = getFirstDayOfWeek();

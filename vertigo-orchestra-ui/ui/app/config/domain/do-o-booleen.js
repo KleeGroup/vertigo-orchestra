@@ -3,7 +3,7 @@ import {translate} from 'focus-core/translation';
 
 export default {
     SelectComponent: SelectRadio,
-    refContainer: {yesNoList: [{code: true, label: 'select.oui'}, {code: false, label: 'select.non'}]},
+    refContainer: {yesNoList: [{code: true, label: 'Oui'}, {code: false, label: 'Non'}]},
     listName: 'yesNoList',
     formatter: translate
 };
