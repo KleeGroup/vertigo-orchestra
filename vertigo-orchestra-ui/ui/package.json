@@ -30,7 +30,7 @@
     },
     "betterScripts": {
         "bundle": {
-            "command": "webpack --progress",
+            "command": "webpack --minify --progress ",
             "env": {
                 "ANCHOR_CLASS": "orchestra-app",
                 "BABELIFIED_PATH": "./app",

@@ -41,8 +41,8 @@ public class WsExecution implements WebServices {
 	 * Get the processExecution by Id
 	 */
 	@GET("{proId}")
-	@AnonymousAccessAllowed
-	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Option<String> status, @QueryParam("limit") final Option<Integer> limit, @QueryParam("offset") final Option<Integer> offset) {
+	public DtList<OProcessExecutionUi> getProcessExecutionsByProcessName(@PathParam("proId") final Long proId, @QueryParam("status") final Option<String> status,
+			@QueryParam("limit") final Option<Integer> limit, @QueryParam("offset") final Option<Integer> offset) {
 		return executionServices.getProcessExecutionsByProId(proId, status.getOrElse(""), limit.getOrElse(50), offset.getOrElse(0));
 	}
 
@@ -50,7 +50,6 @@ public class WsExecution implements WebServices {
 	 * Get the processExecution by Id
 	 */
 	@GET("processExecution/{preId}")
-	@AnonymousAccessAllowed
 	public OProcessExecutionUi getProcessExecutionById(@PathParam("preId") final Long preId) {
 		return executionServices.getProcessExecutionById(preId);
 	}
@@ -59,7 +58,6 @@ public class WsExecution implements WebServices {
 	 * Get the processDefinition by Id
 	 */
 	@GET("processExecution/{preId}/activities")
-	@AnonymousAccessAllowed
 	public DtList<OActivityExecutionUi> getActivityExecutionsByPreId(@PathParam("preId") final Long preId) {
 		return executionServices.getActivityExecutionsByPreId(preId);
 	}
@@ -68,7 +66,6 @@ public class WsExecution implements WebServices {
 	 * Get the processDefinition by Id
 	 */
 	@GET("processExecution/{preId}/logFile")
-	@AnonymousAccessAllowed
 	public VFile getLogFileByPreId(@PathParam("preId") final Long preId) {
 		return executionServices.getLogFileByPreId(preId);
 	}
@@ -77,8 +74,8 @@ public class WsExecution implements WebServices {
 	 * Update the process properties
 	 */
 	@POST("{id}/updateTreatment")
-	@AnonymousAccessAllowed
-	public OProcessExecutionUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Option<Boolean> checked, @InnerBodyParam("checkingComment") final Option<String> checkingComment) {
+	public OProcessExecutionUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Option<Boolean> checked,
+			@InnerBodyParam("checkingComment") final Option<String> checkingComment) {
 		executionServices.updateProcessExecutionTreatment(id, checked.getOrElse(null), checkingComment.getOrElse(null));
 		return executionServices.getProcessExecutionById(id);
 	}
@@ -96,7 +93,6 @@ public class WsExecution implements WebServices {
 	 * Get the processDefinition by Id
 	 */
 	@GET("activityExecution/{aceId}/logFile")
-	@AnonymousAccessAllowed
 	public VFile getLogFileByAceId(@PathParam("aceId") final Long aceId) {
 		return executionServices.getLogFileByAceId(aceId);
 	}
@@ -114,7 +110,6 @@ public class WsExecution implements WebServices {
 	 * Get the processDefinition by Id
 	 */
 	@GET("summary/{proId}")
-	@AnonymousAccessAllowed
 	public OExecutionSummary getWeekSummaryByProId(@PathParam("proId") final Long proId) {
 		final String processName = definitionServices.getProcessDefinitionById(proId).getName();
 		final Calendar firstDayOfWeek = getFirstDayOfWeek();
@@ -125,7 +120,6 @@ public class WsExecution implements WebServices {
 	 * Get the processDefinition by Id
 	 */
 	@GET("summaries")
-	@AnonymousAccessAllowed
 	public DtList<OExecutionSummary> getWeekSummaries(@QueryParam("status") final String status, @QueryParam("offset") final int offset) {
 		// We take the first day of the current week
 		final Calendar firstDayOfWeek = getFirstDayOfWeek();

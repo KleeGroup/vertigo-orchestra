@@ -6,6 +6,7 @@ import history from 'focus-core/history';
 import {cartridgeBehaviour} from 'focus-components/page/mixin';
 import {storeBehaviour} from 'focus-components/page/mixin';
 import OrchestraTitle from '../components/orchestra-title';
+import OrchestraLogout from '../components/orchestra-logout';
 import SummaryCardList from './components/summary-card-list'
 import {component as Button} from 'focus-components/common/button/action';
 import {translate} from 'focus-core/translation';
@@ -30,6 +31,9 @@ export default React.createClass({
         return {
             summary: {
                 component: OrchestraTitle
+            },
+            barRight: {
+              component: OrchestraLogout
             },
             canDeploy: false
         };

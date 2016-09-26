@@ -394,32 +394,32 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		checkExecutions(proId, 0, 2, 0, 0);
 	}
 
-	/**
-	 * @throws InterruptedException
-	 */
-	@Test
-	public void testFinishedExecution() throws InterruptedException {
-
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MULTI", "TEST MULTI")
-				.withMultiExecution()
-				.addActivity("DUMB ACTIVITY FINISHED", "DUMB ACTIVITY FINISHED", io.vertigo.orchestra.execution.engine.DumbFinishedActivityEngine.class)
-				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
-				.build();
-
-		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
-
-		final Long proId = processDefinition.getId();
-
-		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
-
-		// We wait 10 seconds
-		Thread.sleep(1000 * 10);
-		// we have one process_execution done
-		checkExecutions(proId, 0, 0, 1, 0);
-		// we have one and only one activity_execution done
-		checkActivityExecutions(proId, 0, 0, 1, 0);
-
-	}
+	//	/**
+	//	 * @throws InterruptedException
+	//	 */
+	//	@Test
+	//	public void testFinishedExecution() throws InterruptedException {
+	//
+	//		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST MULTI", "TEST MULTI")
+	//				.withMultiExecution()
+	//				.addActivity("DUMB ACTIVITY FINISHED", "DUMB ACTIVITY FINISHED", io.vertigo.orchestra.execution.engine.DumbFinishedActivityEngine.class)
+	//				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
+	//				.build();
+	//
+	//		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
+	//
+	//		final Long proId = processDefinition.getId();
+	//
+	//		processPlannerManager.scheduleAt(proId, new Date(), Option.<String> none());
+	//
+	//		// We wait 10 seconds
+	//		Thread.sleep(1000 * 10);
+	//		// we have one process_execution done
+	//		checkExecutions(proId, 0, 0, 1, 0);
+	//		// we have one and only one activity_execution done
+	//		checkActivityExecutions(proId, 0, 0, 1, 0);
+	//
+	//	}
 
 	private void checkPlanifications(final Long proId, final int waitingCount, final int triggeredCount, final int misfiredCount) {
 		int waitingPlanificationCount = 0;
