@@ -43,8 +43,6 @@ public final class SecurityFilter extends AbstractFilter {
 
 	private static final String NO_AUTHENTIFICATION_PATTERN_PARAM_NAME = "url-no-authentification";
 
-	private static final String CHECK_REQUEST_ACCESS_PARAM_NAME = "check-request-access";
-
 	/**
 	 * Le gestionnaire de sécurité
 	 */
@@ -52,14 +50,11 @@ public final class SecurityFilter extends AbstractFilter {
 
 	private Optional<Pattern> noAuthentificationPattern;
 
-	private boolean checkRequestAccess = false;
-
 	/** {@inheritDoc} */
 	@Override
 	public void doInit() {
 		securityManager = Home.getApp().getComponentSpace().resolve(VSecurityManager.class);
 		noAuthentificationPattern = parsePattern(getFilterConfig().getInitParameter(NO_AUTHENTIFICATION_PATTERN_PARAM_NAME));
-		checkRequestAccess = Boolean.valueOf(getFilterConfig().getInitParameter(CHECK_REQUEST_ACCESS_PARAM_NAME));
 	}
 
 	/** {@inheritDoc} */
@@ -69,30 +64,35 @@ public final class SecurityFilter extends AbstractFilter {
 	}
 
 	private void doSecurityFilter(final boolean needsAuthentification, final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-		final HttpServletRequest httpRequest = (HttpServletRequest) request;
-		final HttpServletResponse httpResponse = (HttpServletResponse) response;
-		final boolean hasSession = httpRequest.getSession(false) != null;
+		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
 
-		// On récupère la session de l'utilisateur
-		final UserSession user = obtainUserSession(httpRequest);
+			final HttpServletRequest httpRequest = (HttpServletRequest) request;
+			final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-		try {
-			// on place la session en ThreadLocal
-			securityManager.startCurrentUserSession(user);
+			// On récupère la session de l'utilisateur
+			final UserSession user = obtainUserSession(httpRequest);
 
-			// 1. Persistance de UserSession dans la session HTTP.
-			bindUser(httpRequest, user);
+			try {
+				// on place la session en ThreadLocal
+				securityManager.startCurrentUserSession(user);
 
-			// 2. Vérification que l'utilisateur est authentifié si l'adresse demandée l'exige
-			if (needsAuthentification && !user.isAuthenticated()) {
-				httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+				// 1. Persistance de UserSession dans la session HTTP.
+				bindUser(httpRequest, user);
 
-			} else {
-				chain.doFilter(request, response);
+				// 2. Vérification que l'utilisateur est authentifié si l'adresse demandée l'exige
+				if (needsAuthentification && !user.isAuthenticated()) {
+					httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+
+				} else {
+					chain.doFilter(request, response);
+				}
+			} finally {
+				// On retire le user du ThreadLocal (il est déjà en session)
+				securityManager.stopCurrentUserSession();
 			}
-		} finally {
-			// On retire le user du ThreadLocal (il est déjà en session)
-			securityManager.stopCurrentUserSession();
+
+		} else {
+			chain.doFilter(request, response);
 		}
 	}
 
