@@ -1,30 +1,18 @@
 package io.vertigo.orchestra.impl.definition;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
 
-import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.dao.definition.DefinitionPAO;
-import io.vertigo.orchestra.dao.definition.OActivityDAO;
-import io.vertigo.orchestra.dao.definition.OProcessDAO;
-import io.vertigo.orchestra.definition.ActivityDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinition;
-import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.domain.definition.OActivity;
-import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.execution.ActivityEngine;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
-import io.vertigo.util.ClassUtil;
-import io.vertigo.util.StringUtil;
+import io.vertigo.orchestra.definition.ProcessType;
 
 /**
  * Implémentation du manager des définitions de processus Orchestra.
@@ -32,57 +20,18 @@ import io.vertigo.util.StringUtil;
  * @author mlaroche.
  * @version $Id$
  */
-@Transactional
 public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
-	@Inject
-	private ProcessSchedulerManager processSchedulerManager;
-	@Inject
-	private OProcessDAO processDao;
-	@Inject
-	private DefinitionPAO definitionPAO;
-	@Inject
-	private OActivityDAO activityDAO;
 
-	private void createDefinition(final ProcessDefinition processDefinition) {
-		Assertion.checkNotNull(processDefinition);
-		//-----
-		final OProcess process = new OProcess();
+	private final Map<ProcessType, ProcessDefinitionStorePlugin> storePluginsMap = new HashMap<>();
 
-		process.setName(processDefinition.getName());
-		process.setLabel(processDefinition.getLabel());
-		process.setCronExpression(processDefinition.getCronExpression().orElse(null));
-		process.setInitialParams(processDefinition.getInitialParams().orElse(null));
-		process.setMultiexecution(processDefinition.isMultiExecution());
-		process.setRescuePeriod(processDefinition.getRescuePeriod());
-		process.setMetadatas(processDefinition.getMetadatas().orElse(null));
-		process.setNeedUpdate(processDefinition.getNeedUpdate());
-		if (processDefinition.getCronExpression().isPresent()) {
-			process.setTrtCd("SCHEDULED");
-		} else {
-			process.setTrtCd("MANUAL");
+	@Inject
+	public ProcessDefinitionManagerImpl(final List<ProcessDefinitionStorePlugin> definitionStorePlugins) {
+		Assertion.checkState(definitionStorePlugins.size() > 0, "At least one ProcessDefinitionStorePlugin is required");
+		// ---
+		for (final ProcessDefinitionStorePlugin storePlugin : definitionStorePlugins) {
+			Assertion.checkState(!storePluginsMap.containsKey(storePlugin.getHandledProcessType()), "Only one plugin can manage the processType {0}", storePlugin.getHandledProcessType());
+			storePluginsMap.put(storePlugin.getHandledProcessType(), storePlugin);
 		}
-
-		final List<ActivityDefinition> activities = processDefinition.getActivities();
-
-		process.setActive(Boolean.TRUE);
-		process.setActiveVersion(Boolean.TRUE);
-		processDao.save(process);
-
-		// We update the id
-		processDefinition.setId(process.getProId());
-
-		int activityNumber = 1;
-		for (final ActivityDefinition activity : activities) {
-			final OActivity oActivity = new OActivity();
-			oActivity.setName(activity.getName());
-			oActivity.setLabel(activity.getLabel());
-			oActivity.setEngine(activity.getEngineClass().getName());
-			oActivity.setProId(process.getProId());
-			oActivity.setNumber(activityNumber);
-			activityDAO.save(oActivity);// We have 10 activities max so we can iterate
-			activityNumber++;
-		}
-
 	}
 
 	/** {@inheritDoc} */
@@ -90,73 +39,22 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	public ProcessDefinition getProcessDefinition(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		// ---
-		final OProcess process = getOProcessByName(processName);
-		final DtList<OActivity> activities = activityDAO.getActivitiesByProId(process.getProId());
-
-		return decodeProcessDefinition(process, activities);
+		return storePluginsMap.values()
+				.stream()
+				.filter(processDefinitionStorePlugin -> processDefinitionStorePlugin.processDefinitionExists(processName))
+				.findFirst()
+				.orElseThrow(() -> new IllegalArgumentException("Cannot find process with name " + processName))
+				.getProcessDefinition(processName);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public List<ProcessDefinition> getAllProcessDefinitions() {
-		final DtList<OProcess> processes = processDao.getAllActiveProcesses();
-		final DtList<OActivity> activities = activityDAO.getAllActivitiesInActiveProcesses();
-		// ---
 		final List<ProcessDefinition> processDefinitions = new ArrayList<>();
-
-		for (final OProcess process : processes) {
-			final List<OActivity> activitiesByProcess = new ArrayList<>();
-			for (final OActivity activity : activities) {
-				if (activity.getProId().equals(process.getProId())) {
-					activitiesByProcess.add(activity);
-				}
-			}
-			Collections.sort(activitiesByProcess, new OActivityComparator());
-			processDefinitions.add(decodeProcessDefinition(process, activitiesByProcess));
+		for (final ProcessDefinitionStorePlugin storePlugin : storePluginsMap.values()) {
+			processDefinitions.addAll(storePlugin.getAllProcessDefinitions());
 		}
-		return processDefinitions;
-
-	}
-
-	private static ProcessDefinition decodeProcessDefinition(final OProcess process, final List<OActivity> oActivities) {
-		Assertion.checkNotNull(process);
-		Assertion.checkNotNull(oActivities);
-		// ---
-		final ProcessDefinitionBuilder processDefinitionBuilder = new ProcessDefinitionBuilder(process.getName(), process.getLabel());
-		processDefinitionBuilder.withRescuePeriod(process.getRescuePeriod());
-		if (!StringUtil.isEmpty(process.getCronExpression())) {
-			processDefinitionBuilder.withCronExpression(process.getCronExpression());
-		}
-		if (!StringUtil.isEmpty(process.getInitialParams())) {
-			processDefinitionBuilder.withInitialParams(process.getInitialParams());
-		}
-		if (process.getNeedUpdate() != null && process.getNeedUpdate()) {
-			processDefinitionBuilder.withNeedUpdate();
-		}
-		if (!StringUtil.isEmpty(process.getMetadatas())) {
-			processDefinitionBuilder.withMetadatas(process.getMetadatas());
-		}
-		if (process.getMultiexecution()) {
-			processDefinitionBuilder.withMultiExecution();
-		}
-		for (final OActivity activity : oActivities) {
-			processDefinitionBuilder.addActivity(activity.getName(), activity.getLabel(), ClassUtil.classForName(activity.getEngine(), ActivityEngine.class));
-		}
-		final ProcessDefinition processDefinition = processDefinitionBuilder.build();
-		processDefinition.setId(process.getProId());
-		return processDefinition;
-
-	}
-
-	private static final class OActivityComparator implements Comparator<OActivity>, Serializable {
-
-		private static final long serialVersionUID = 1L;
-
-		/** {@inheritDoc} */
-		@Override
-		public int compare(final OActivity actikvity1, final OActivity activity2) {
-			return actikvity1.getNumber() - activity2.getNumber();
-		}
+		return Collections.unmodifiableList(processDefinitions);
 
 	}
 
@@ -165,30 +63,10 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
-		final String processName = processDefinition.getName();
-
-		final int count = definitionPAO.getProcessesByName(processName);
-		final boolean exists = count > 0;
-		if (exists) {
-			final ProcessDefinition existingDefinition = getProcessDefinition(processName);
-			if (existingDefinition.getNeedUpdate()) {
-				updateDefinition(processDefinition);
-			}
-		} else {
-			createDefinition(processDefinition);
-		}
-
-	}
-
-	private void updateDefinition(final ProcessDefinition processDefinition) {
-		Assertion.checkNotNull(processDefinition);
+		final ProcessDefinitionStorePlugin storePlugin = storePluginsMap.get(processDefinition.getProcessType());
+		Assertion.checkNotNull(storePlugin, "No plugin found for managing processType {0}", processDefinition.getProcessType());
 		// ---
-		final String processName = processDefinition.getName();
-		definitionPAO.disableOldProcessDefinitions(processName);
-		// on supprime toute la planification existante
-		processSchedulerManager.resetFuturePlanificationOfProcess(processName);
-		createDefinition(processDefinition);
-
+		storePlugin.createOrUpdateDefinitionIfNeeded(processDefinition);
 	}
 
 	/** {@inheritDoc} */
@@ -198,19 +76,8 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		Assertion.checkNotNull(cronExpression);
 		Assertion.checkNotNull(rescuePeriod);
 		// ---
-		final OProcess process = getOProcessByName(processName);
-		if (cronExpression.isPresent()) {
-			process.setTrtCd("SCHEDULED");
-		} else {
-			process.setTrtCd("MANUAL");
-		}
-		process.setCronExpression(cronExpression.orElse(null));
-		process.setMultiexecution(multiExecution);
-		process.setRescuePeriod(rescuePeriod);
-		process.setActive(active);
-		processDao.save(process);
-		// on supprime toute la planification existante
-		processSchedulerManager.resetFuturePlanificationOfProcess(processName);
+		final ProcessDefinition processDefinition = getProcessDefinition(processName);
+		getPluginByType(processDefinition.getProcessType()).updateProcessDefinitionProperties(processDefinition, cronExpression, multiExecution, rescuePeriod, active);
 	}
 
 	/** {@inheritDoc} */
@@ -219,20 +86,14 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		Assertion.checkArgNotEmpty(processName);
 		Assertion.checkNotNull(initialParams);
 		// ---
-		final OProcess process = getOProcessByName(processName);
-		process.setInitialParams(initialParams.orElse(null));
-		processDao.save(process);
-
+		final ProcessDefinition processDefinition = getProcessDefinition(processName);
+		getPluginByType(processDefinition.getProcessType()).updateProcessDefinitionInitialParams(processDefinition, initialParams);
 	}
 
-	private OProcess getOProcessByName(final String processName) {
-		Assertion.checkArgNotEmpty(processName);
-		// ---
-		final Optional<OProcess> processOption = processDao.getActiveProcessByName(processName);
-		// ---
-		Assertion.checkState(processOption.isPresent(), "Cannot find process with name {0}", processName);
-		// ---
-		return processOption.get();
+	private ProcessDefinitionStorePlugin getPluginByType(final ProcessType processType) {
+		final ProcessDefinitionStorePlugin storePlugin = storePluginsMap.get(processType);
+		Assertion.checkNotNull(storePlugin, "No plugin found for managing processType {0}", processType.name());
+		return storePlugin;
 	}
 
 }

@@ -17,6 +17,7 @@ public final class ProcessDefinition {
 	private long id;
 	private final String name;
 	private final List<ActivityDefinition> activities;
+	private final ProcessType processType;
 	//---params dev / admin
 	private final String label;
 	private final Optional<String> cronExpression;
@@ -37,6 +38,7 @@ public final class ProcessDefinition {
 	ProcessDefinition(
 			final String name,
 			final String label,
+			final ProcessType processType,
 			final Optional<String> cronExpression,
 			final Optional<String> initialParams,
 			final boolean multiExecution,
@@ -46,6 +48,7 @@ public final class ProcessDefinition {
 			final List<ActivityDefinition> activities) {
 		Assertion.checkArgNotEmpty(name);
 		Assertion.checkArgNotEmpty(label);
+		Assertion.checkNotNull(processType);
 		Assertion.checkNotNull(cronExpression);
 		Assertion.checkNotNull(initialParams);
 		Assertion.checkNotNull(metadatas);
@@ -53,6 +56,7 @@ public final class ProcessDefinition {
 		//---
 		this.name = name;
 		this.label = label;
+		this.processType = processType;
 		this.cronExpression = cronExpression;
 		this.initialParams = initialParams;
 		this.multiExecution = multiExecution;
@@ -76,6 +80,10 @@ public final class ProcessDefinition {
 
 	public String getLabel() {
 		return label;
+	}
+
+	public ProcessType getProcessType() {
+		return processType;
 	}
 
 	public Optional<String> getCronExpression() {

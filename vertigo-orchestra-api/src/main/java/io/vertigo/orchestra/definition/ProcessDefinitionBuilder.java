@@ -17,6 +17,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	private final String name;
 	private final String label;
+	private final ProcessType type;
 	private Optional<String> myCronExpression = Optional.empty();
 	private Optional<String> myInitialParams = Optional.empty();
 	private boolean multiExecution;
@@ -36,7 +37,21 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 		//-----
 		name = processName;
 		label = processLabel;
+		type = ProcessType.SUPERVISED;
+	}
 
+	/**
+	 * Constructor.
+	 * @param processName le nom du processus
+	 * @param processLabel le libellé du processus
+	 */
+	public ProcessDefinitionBuilder(final String processName, final String processLabel, final ProcessType processType) {
+		Assertion.checkArgNotEmpty(processName);
+		Assertion.checkNotNull(processType);
+		//-----
+		name = processName;
+		label = processLabel;
+		type = processType;
 	}
 
 	/**
@@ -119,7 +134,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessDefinition(name, label, myCronExpression, myInitialParams, multiExecution, myRescuePeriod, myMetadatas, needUpdate, activitiesBuilder.unmodifiable().build());
+		return new ProcessDefinition(name, label, type, myCronExpression, myInitialParams, multiExecution, myRescuePeriod, myMetadatas, needUpdate, activitiesBuilder.unmodifiable().build());
 	}
 
 }

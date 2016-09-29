@@ -17,6 +17,7 @@ import io.vertigo.orchestra.domain.DtDefinitions;
 import io.vertigo.orchestra.execution.NodeManager;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.impl.OrchestraManagerImpl;
+import io.vertigo.orchestra.impl.definition.DbProcessDefinitionStorePlugin;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
 import io.vertigo.orchestra.impl.execution.NodeManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
@@ -48,6 +49,8 @@ public final class OrchestraFeatures extends Features {
 				.withNoAPI()
 				.addComponent(NodeManager.class, NodeManagerImpl.class)
 				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
+				.beginPlugin(DbProcessDefinitionStorePlugin.class)
+				.endPlugin()
 				.addComponent(ProcessSchedulerManager.class, ProcessSchedulerManagerImpl.class)
 				.beginPlugin(ProcessSchedulerPlugin.class)
 					.addParam("nodeName", nodeName)

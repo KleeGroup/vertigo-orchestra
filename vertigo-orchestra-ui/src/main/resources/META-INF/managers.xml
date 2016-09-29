@@ -78,7 +78,9 @@
 		    <resource type="classes" path="io.vertigo.orchestra.domain.DtDefinitions" />  
 		</definitions>   
 		<component api="NodeManager" class="io.vertigo.orchestra.impl.execution.NodeManagerImpl"/>
-		<component api="ProcessDefinitionManager" class="io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl"/>
+		<component api="ProcessDefinitionManager" class="io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl">
+			<plugin class="io.vertigo.orchestra.impl.definition.DbProcessDefinitionStorePlugin"/>
+		</component>
 		<component api="ProcessSchedulerManager" class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl">
 			<plugin class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin">
 				<param name="nodeName" value="${boot.nodeName}" />
