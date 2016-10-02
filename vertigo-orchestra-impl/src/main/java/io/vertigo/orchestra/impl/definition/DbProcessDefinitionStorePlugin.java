@@ -59,7 +59,7 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 
 		final List<ActivityDefinition> activities = processDefinition.getActivities();
 
-		process.setActive(Boolean.TRUE);
+		process.setActive(processDefinition.isActive());
 		process.setActiveVersion(Boolean.TRUE);
 		processDao.save(process);
 
@@ -133,6 +133,9 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 		}
 		if (process.getMultiexecution()) {
 			processDefinitionBuilder.withMultiExecution();
+		}
+		if (!process.getActive()) {
+			processDefinitionBuilder.inactive();
 		}
 		for (final OActivity activity : oActivities) {
 			processDefinitionBuilder.addActivity(activity.getName(), activity.getLabel(), ClassUtil.classForName(activity.getEngine(), ActivityEngine.class));

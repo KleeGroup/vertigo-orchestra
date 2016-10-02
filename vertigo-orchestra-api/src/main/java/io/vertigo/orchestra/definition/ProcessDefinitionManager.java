@@ -48,4 +48,11 @@ public interface ProcessDefinitionManager extends Manager {
 	 * @return la liste des processus
 	 */
 	List<ProcessDefinition> getAllProcessDefinitions();
+
+	/**
+	 * Récupère l'ensemble des processus gérés par orchestra d'un type donné.
+	 * @param processType le type de processus recherché
+	 * @return la liste des processus
+	 */
+	List<ProcessDefinition> getAllProcessDefinitionsByType(ProcessType processType);
 }

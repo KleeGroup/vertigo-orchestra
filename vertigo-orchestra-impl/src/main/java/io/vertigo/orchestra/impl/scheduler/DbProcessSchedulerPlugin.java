@@ -5,12 +5,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,6 +31,7 @@ import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.NodeManager;
@@ -116,17 +119,21 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		localScheduledExecutor.shutdown();
 	}
 
+	@Override
+	public ProcessType getHandledProcessType() {
+		return ProcessType.SUPERVISED;
+	}
 	//--------------------------------------------------------------------------------------------------
 	//--- Package
 	//--------------------------------------------------------------------------------------------------
 
 	@Override
-	public void scheduleAt(final Long proId, final Date planifiedTime, final Optional<String> initialParamsOption) {
+	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
 		if (transactionManager.hasCurrentTransaction()) {
-			doScheduleAt(proId, planifiedTime, initialParamsOption);
+			doScheduleAt(processDefinition, planifiedTime, initialParamsOption);
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				doScheduleAt(proId, planifiedTime, initialParamsOption);
+				doScheduleAt(processDefinition, planifiedTime, initialParamsOption);
 				transaction.commit();
 			}
 		}
@@ -149,11 +156,11 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	//--- Private
 	//--------------------------------------------------------------------------------------------------
 
-	private void doScheduleAt(final Long proId, final Date planifiedTime, final Optional<String> initialParamsOption) {
-		Assertion.checkNotNull(proId);
+	private void doScheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
+		Assertion.checkNotNull(processDefinition);
 		// ---
 		final OProcessPlanification processPlanification = new OProcessPlanification();
-		processPlanification.setProId(proId);
+		processPlanification.setProId(processDefinition.getId());
 		processPlanification.setExpectedTime(planifiedTime);
 		processPlanification.setPstCd(PlanificationState.WAITING.name());
 		if (initialParamsOption.isPresent()) {
@@ -179,10 +186,10 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 
 	private void plannRecurrentProcesses() {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			for (final OProcess process : getAllScheduledProcesses()) {
-				final Optional<Date> nextPlanification = findNextPlanificationTime(process);
+			for (final ProcessDefinition processDefinition : getAllScheduledProcesses()) {
+				final Optional<Date> nextPlanification = findNextPlanificationTime(processDefinition);
 				if (nextPlanification.isPresent()) {
-					scheduleAt(process.getProId(), nextPlanification.get(), Optional.ofNullable(process.getInitialParams()));
+					scheduleAt(processDefinition, nextPlanification.get(), processDefinition.getInitialParams());
 				}
 			}
 			transaction.commit();
@@ -216,11 +223,11 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		return processPlanificationDAO.getLastPlanificationByProId(proId);
 	}
 
-	private Optional<Date> findNextPlanificationTime(final OProcess process) {
-		final Optional<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(process.getProId());
+	private Optional<Date> findNextPlanificationTime(final ProcessDefinition processDefinition) {
+		final Optional<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(processDefinition.getId());
 
 		try {
-			final CronExpression cronExpression = new CronExpression(process.getCronExpression());
+			final CronExpression cronExpression = new CronExpression(processDefinition.getCronExpression().get());
 
 			if (!lastPlanificationOption.isPresent()) {
 				final Date now = new Date();
@@ -240,8 +247,11 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 
 	}
 
-	private DtList<OProcess> getAllScheduledProcesses() {
-		return processDao.getAllScheduledProcesses();
+	private List<ProcessDefinition> getAllScheduledProcesses() {
+		return definitionManager.getAllProcessDefinitionsByType(getHandledProcessType()).stream()
+				.filter(processDefinition -> processDefinition.isActive())// We only want actives
+				.filter(processDefinition -> processDefinition.getCronExpression().isPresent())// We only want the processes to schedule
+				.collect(Collectors.toList());
 	}
 
 	private void triggerPlanification(final OProcessPlanification processPlanification) {

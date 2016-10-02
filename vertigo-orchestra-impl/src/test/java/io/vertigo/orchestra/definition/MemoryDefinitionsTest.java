@@ -12,7 +12,7 @@ import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
  *
  * @author mlaroche.
  */
-public class ProcessServicesTest extends AbstractOrchestraTestCaseJU4 {
+public class MemoryDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 	@Inject
 
 	private ProcessDefinitionManager processDefinitionManager;
@@ -20,19 +20,18 @@ public class ProcessServicesTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void testRegister() {
 		//Before : 0
-		Assert.assertEquals(0, processDefinitionManager.getAllProcessDefinitions().size());
+		Assert.assertEquals(0, processDefinitionManager.getAllProcessDefinitionsByType(ProcessType.UNSUPERVISED).size());
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST BASIC", "TEST BASIC")
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("PRO_TEST_BASIC", "TEST BASIC", ProcessType.UNSUPERVISED)
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbErrorActivityEngine.class)
 				.build();
 
 		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 		//After :1
-		Assert.assertEquals(1, processDefinitionManager.getAllProcessDefinitions().size());
+		Assert.assertEquals(1, processDefinitionManager.getAllProcessDefinitionsByType(ProcessType.UNSUPERVISED).size());
 
-		final ProcessDefinition processDefinition2 = processDefinitionManager.getProcessDefinition("TEST BASIC");
+		final ProcessDefinition processDefinition2 = processDefinitionManager.getProcessDefinition("PRO_TEST_BASIC");
 		Assert.assertEquals(processDefinition.getName(), processDefinition2.getName());
-		Assert.assertEquals(processDefinition.getId(), processDefinition2.getId());
 	}
 	//
 }

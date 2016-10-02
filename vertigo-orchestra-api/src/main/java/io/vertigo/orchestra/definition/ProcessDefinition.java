@@ -3,6 +3,8 @@ package io.vertigo.orchestra.definition;
 import java.util.List;
 import java.util.Optional;
 
+import io.vertigo.core.spaces.definiton.Definition;
+import io.vertigo.core.spaces.definiton.DefinitionPrefix;
 import io.vertigo.lang.Assertion;
 
 /**
@@ -11,7 +13,8 @@ import io.vertigo.lang.Assertion;
  * @author mlaroche.
  * @version $Id$
  */
-public final class ProcessDefinition {
+@DefinitionPrefix("PRO")
+public final class ProcessDefinition implements Definition {
 	//TODO : ID doit être immutable!!
 	//---immutables
 	private long id;
@@ -20,6 +23,7 @@ public final class ProcessDefinition {
 	private final ProcessType processType;
 	//---params dev / admin
 	private final String label;
+	private final boolean active;
 	private final Optional<String> cronExpression;
 	private final Optional<String> initialParams;
 	private final boolean multiExecution;
@@ -38,6 +42,7 @@ public final class ProcessDefinition {
 	ProcessDefinition(
 			final String name,
 			final String label,
+			final boolean active,
 			final ProcessType processType,
 			final Optional<String> cronExpression,
 			final Optional<String> initialParams,
@@ -56,6 +61,7 @@ public final class ProcessDefinition {
 		//---
 		this.name = name;
 		this.label = label;
+		this.active = active;
 		this.processType = processType;
 		this.cronExpression = cronExpression;
 		this.initialParams = initialParams;
@@ -74,6 +80,7 @@ public final class ProcessDefinition {
 		this.id = id;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -100,6 +107,10 @@ public final class ProcessDefinition {
 
 	public boolean isMultiExecution() {
 		return multiExecution;
+	}
+
+	public boolean isActive() {
+		return active;
 	}
 
 	public Optional<String> getMetadatas() {

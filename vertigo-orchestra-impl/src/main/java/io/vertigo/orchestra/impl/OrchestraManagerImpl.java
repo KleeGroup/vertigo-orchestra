@@ -80,7 +80,7 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 		final ProcessDefinition processDefintion = getProcessDefinition(processName);
 		Assertion.checkNotNull(processDefintion);
 		// ---
-		processSchedulerManager.scheduleAt(processDefintion.getId(), expectedTime, initialParams);
+		processSchedulerManager.scheduleAt(processDefintion, expectedTime, initialParams);
 	}
 
 	/** {@inheritDoc} */

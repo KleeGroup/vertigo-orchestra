@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import io.vertigo.dynamo.file.model.VFile;
 import io.vertigo.lang.Manager;
+import io.vertigo.orchestra.definition.ProcessDefinition;
 
 /**
  * Interface (interne) de gestion des executions des processus Orchestra.
@@ -12,6 +13,12 @@ import io.vertigo.lang.Manager;
  * @version $Id$
  */
 public interface ProcessExecutionManager extends Manager {
+
+	/**
+	 * Execute un processus.
+	 * @param processDefinition le processus à lancer
+	 */
+	void execute(ProcessDefinition processDefinition);
 
 	/**
 	 * Termine une execution mise en attente.

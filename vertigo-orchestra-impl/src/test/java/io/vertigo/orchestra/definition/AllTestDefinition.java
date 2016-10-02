@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @version $Id$
  */
 @RunWith(Suite.class)
-@SuiteClasses(value = { ProcessServicesTest.class })
+@SuiteClasses(value = { MemoryDefinitionsTest.class })
 public class AllTestDefinition {
 	// Les annotations sont suffisantes.
 }

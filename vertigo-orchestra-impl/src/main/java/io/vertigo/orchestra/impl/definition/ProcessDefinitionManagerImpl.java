@@ -96,4 +96,10 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		return storePlugin;
 	}
 
+	@Override
+	public List<ProcessDefinition> getAllProcessDefinitionsByType(final ProcessType processType) {
+		Assertion.checkNotNull(processType);
+		return getPluginByType(processType).getAllProcessDefinitions();
+	}
+
 }

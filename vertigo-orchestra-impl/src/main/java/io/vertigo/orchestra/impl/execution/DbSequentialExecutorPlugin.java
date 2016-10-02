@@ -29,6 +29,7 @@ import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.dao.execution.OActivityWorkspaceDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.execution.OActivityExecution;
@@ -142,9 +143,37 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 		workers.shutdown();
 	}
 
+	@Override
+	public ProcessType getHandledProcessType() {
+		return ProcessType.SUPERVISED;
+	}
+
 	//--------------------------------------------------------------------------------------------------
 	//--- Package
 	//--------------------------------------------------------------------------------------------------
+
+	@Override
+	public void execute(final ProcessDefinition processDefinition) {
+		Assertion.checkNotNull(processDefinition);
+		// ---
+		// We need to be as short as possible for the commit
+		if (transactionManager.hasCurrentTransaction()) {
+			try (final VTransactionWritable transaction = transactionManager.createAutonomousTransaction()) {
+				doExecute(processDefinition);
+				transaction.commit();
+			}
+		}
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			doExecute(processDefinition);
+			transaction.commit();
+		}
+	}
+
+	private void doExecute(final ProcessDefinition processDefinition) {
+		final OProcessExecution processExecution = initProcessExecution(processDefinition);
+		initFirstAcitvityExecution(processExecution, null);
+
+	}
 
 	@Override
 	public void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState executionState) {

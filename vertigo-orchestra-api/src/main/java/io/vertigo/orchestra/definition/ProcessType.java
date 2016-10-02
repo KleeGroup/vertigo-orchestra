@@ -4,6 +4,6 @@ public enum ProcessType {
 
 	SUPERVISED,
 
-	DAEMON;
+	UNSUPERVISED;
 
 }

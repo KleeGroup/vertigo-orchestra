@@ -38,8 +38,8 @@ public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManage
 
 	/** {@inheritDoc} */
 	@Override
-	public void scheduleAt(final Long proId, final Date planifiedTime, final Optional<String> initialParamsOption) {
-		schedulerPlugin.scheduleAt(proId, planifiedTime, initialParamsOption);
+	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
+		schedulerPlugin.scheduleAt(processDefinition, planifiedTime, initialParamsOption);
 	}
 
 	/** {@inheritDoc} */

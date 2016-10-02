@@ -17,6 +17,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 
 	private final String name;
 	private final String label;
+	private boolean myActive;
 	private final ProcessType type;
 	private Optional<String> myCronExpression = Optional.empty();
 	private Optional<String> myInitialParams = Optional.empty();
@@ -33,11 +34,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * @param processLabel le libellé du processus
 	 */
 	public ProcessDefinitionBuilder(final String processName, final String processLabel) {
-		Assertion.checkArgNotEmpty(processName);
-		//-----
-		name = processName;
-		label = processLabel;
-		type = ProcessType.SUPERVISED;
+		this(processName, processLabel, ProcessType.SUPERVISED);
 	}
 
 	/**
@@ -52,6 +49,17 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 		name = processName;
 		label = processLabel;
 		type = processType;
+		// active by default
+		myActive = true;
+	}
+
+	/**
+	 * Processus actif.
+	 * @return this
+	 */
+	public ProcessDefinitionBuilder inactive() {
+		myActive = false;
+		return this;
 	}
 
 	/**
@@ -134,7 +142,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessDefinition(name, label, type, myCronExpression, myInitialParams, multiExecution, myRescuePeriod, myMetadatas, needUpdate, activitiesBuilder.unmodifiable().build());
+		return new ProcessDefinition(name, label, myActive, type, myCronExpression, myInitialParams, multiExecution, myRescuePeriod, myMetadatas, needUpdate, activitiesBuilder.unmodifiable().build());
 	}
 
 }

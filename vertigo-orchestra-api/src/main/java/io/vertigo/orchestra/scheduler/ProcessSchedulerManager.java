@@ -16,11 +16,11 @@ public interface ProcessSchedulerManager extends Manager {
 
 	/**
 	 * Planifie un processus à une date donnée.
-	 * @param proId l'id du processus à planifier
+	 * @param processDefinition le processus à planifier
 	 * @param planifiedTime la date de planification
 	 * @param initialParams les paramètres initiaux à utiliser
 	 */
-	void scheduleAt(final Long proId, final Date planifiedTime, final Optional<String> initialParams);
+	void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParams);
 
 	/**
 	 * Retourne la liste des executions qui doivent etre lancées maintenant avec des eventuels paramètres initiaux supplémentaires.

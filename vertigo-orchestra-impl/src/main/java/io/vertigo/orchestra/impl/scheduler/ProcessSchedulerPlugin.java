@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import io.vertigo.lang.Plugin;
 import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessType;
 
 /**
  * Plugin de gestion de la planification.
@@ -15,8 +16,10 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
  */
 public interface ProcessSchedulerPlugin extends Plugin {
 
-	void scheduleAt(final Long proId, final Date planifiedTime, final Optional<String> initialParamsOption);
+	void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption);
 
 	Map<ProcessDefinition, String> getProcessToExecute();
+
+	ProcessType getHandledProcessType();
 
 }

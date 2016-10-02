@@ -1,13 +1,19 @@
 package io.vertigo.orchestra.impl.execution;
 
 import io.vertigo.lang.Plugin;
+import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.execution.ExecutionState;
 
 public interface ProcessExecutorPlugin extends Plugin {
 
-	void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState state);
+	void execute(ProcessDefinition processDefinition);
 
-	void setActivityExecutionPending(final Long activityExecutionId, final ActivityExecutionWorkspace workspace);
+	void endPendingActivityExecution(Long activityExecutionId, String token, ExecutionState state);
+
+	void setActivityExecutionPending(Long activityExecutionId, ActivityExecutionWorkspace workspace);
+
+	ProcessType getHandledProcessType();
 
 }
