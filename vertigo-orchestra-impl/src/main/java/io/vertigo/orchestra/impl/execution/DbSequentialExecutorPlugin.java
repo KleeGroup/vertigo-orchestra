@@ -1,8 +1,6 @@
 package io.vertigo.orchestra.impl.execution;
 
 import java.util.Date;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,20 +29,16 @@ import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.domain.definition.OActivity;
-import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.execution.OActivityExecution;
 import io.vertigo.orchestra.domain.execution.OActivityLog;
 import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
-import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.ActivityEngine;
 import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.execution.ActivityLogger;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.NodeManager;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 import io.vertigo.util.ClassUtil;
-import io.vertigo.util.StringUtil;
 
 /**
  * Executeur des processus orchestra sous la forme d'une séquence linéaire d'activités.
@@ -76,7 +70,6 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 	private final long timerDelay;
 
 	private final NodeManager nodeManager;
-	private final ProcessSchedulerManager processSchedulerManager;
 	private final VTransactionManager transactionManager;
 
 	/**
@@ -90,21 +83,18 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 	 */
 	@Inject
 	public DbSequentialExecutorPlugin(
-			final ProcessSchedulerManager processSchedulerManager,
 			final NodeManager nodeManager,
 			final VTransactionManager transactionManager,
 			@Named("nodeName") final String nodeName,
 			@Named("workersCount") final int workersCount,
 			@Named("executionPeriodSeconds") final int executionPeriodSeconds) {
 		Assertion.checkNotNull(nodeManager);
-		Assertion.checkNotNull(processSchedulerManager);
 		Assertion.checkNotNull(transactionManager);
 		Assertion.checkNotNull(nodeName);
 		// ---
 		Assertion.checkState(workersCount >= 1, "We need at least 1 worker");
 		// ---
 		this.nodeManager = nodeManager;
-		this.processSchedulerManager = processSchedulerManager;
 		this.transactionManager = transactionManager;
 		// We register the node
 		nodId = nodeManager.registerNode(nodeName);
@@ -153,25 +143,23 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 	//--------------------------------------------------------------------------------------------------
 
 	@Override
-	public void execute(final ProcessDefinition processDefinition) {
+	public void execute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
 		// We need to be as short as possible for the commit
 		if (transactionManager.hasCurrentTransaction()) {
-			try (final VTransactionWritable transaction = transactionManager.createAutonomousTransaction()) {
-				doExecute(processDefinition);
+			doExecute(processDefinition, initialParams);
+		} else {
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+				doExecute(processDefinition, initialParams);
 				transaction.commit();
 			}
 		}
-		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			doExecute(processDefinition);
-			transaction.commit();
-		}
 	}
 
-	private void doExecute(final ProcessDefinition processDefinition) {
+	private void doExecute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
 		final OProcessExecution processExecution = initProcessExecution(processDefinition);
-		initFirstAcitvityExecution(processExecution, null);
+		initFirstAcitvityExecution(processExecution, initialParams);
 
 	}
 
@@ -251,10 +239,6 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 	//--------------------------------------------------------------------------------------------------
 
 	private void executeToDo() {
-		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			initNewProcessesToLaunch();
-			transaction.commit();
-		}
 		final DtList<OActivityExecution> activitiesToLaunch;
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			activitiesToLaunch = getActivitiesToLaunch();
@@ -368,14 +352,6 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 		}
 	}
 
-	private void initNewProcessesToLaunch() {
-		final Map<ProcessDefinition, String> processToLaunch = processSchedulerManager.getProcessToExecute();
-		for (final Entry<ProcessDefinition, String> entry : processToLaunch.entrySet()) {
-			final OProcessExecution processExecution = initProcessExecution(entry.getKey());
-			initFirstAcitvityExecution(processExecution, entry.getValue());
-		}
-	}
-
 	private OProcessExecution initProcessExecution(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
@@ -396,7 +372,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 		return activityExecutionDAO.getActivitiesToLaunch(nodId);
 	}
 
-	private void initFirstAcitvityExecution(final OProcessExecution processExecution, final String initialParams) {
+	private void initFirstAcitvityExecution(final OProcessExecution processExecution, final Optional<String> initialParams) {
 		Assertion.checkNotNull(processExecution.getProId());
 		Assertion.checkNotNull(processExecution.getPreId());
 		// ---
@@ -405,9 +381,9 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 		activityExecutionDAO.save(firstActivityExecution);
 
 		final ActivityExecutionWorkspace initialWorkspace = new ActivityExecutionWorkspace(processExecution.getProcess().getInitialParams());
-		if (!StringUtil.isEmpty(initialParams)) {
+		if (initialParams.isPresent()) {
 			// If Plannification specifies initialParams we take them in addition
-			initialWorkspace.addExternalParams(initialParams);
+			initialWorkspace.addExternalParams(initialParams.get());
 		}
 		// We set in the workspace essentials params
 		initialWorkspace.setProcessName(processExecution.getProcess().getName());
@@ -580,16 +556,6 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 		processExecution.setEndTime(new Date());
 		processExecution.setEstCd(executionState.name());
 		processExecutionDAO.save(processExecution);
-
-	}
-
-	private boolean canExecute(final OProcessPlanification processPlanification) {
-		// We check if process allow multiExecutions
-		final OProcess process = processPlanification.getProcessus();
-		if (!process.getMultiexecution()) {
-			return processExecutionDAO.getActiveProcessExecutionByProId(process.getProId()).isEmpty();
-		}
-		return true;
 
 	}
 

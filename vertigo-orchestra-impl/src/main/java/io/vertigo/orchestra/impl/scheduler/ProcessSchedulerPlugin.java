@@ -1,7 +1,6 @@
 package io.vertigo.orchestra.impl.scheduler;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.Optional;
 
 import io.vertigo.lang.Plugin;
@@ -17,8 +16,6 @@ import io.vertigo.orchestra.definition.ProcessType;
 public interface ProcessSchedulerPlugin extends Plugin {
 
 	void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption);
-
-	Map<ProcessDefinition, String> getProcessToExecute();
 
 	ProcessType getHandledProcessType();
 

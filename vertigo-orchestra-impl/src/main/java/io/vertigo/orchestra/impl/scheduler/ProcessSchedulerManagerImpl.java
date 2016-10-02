@@ -1,7 +1,6 @@
 package io.vertigo.orchestra.impl.scheduler;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -40,14 +39,6 @@ public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManage
 	@Override
 	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
 		schedulerPlugin.scheduleAt(processDefinition, planifiedTime, initialParamsOption);
-	}
-
-	/** {@inheritDoc} */
-
-	/** {@inheritDoc} */
-	@Override
-	public Map<ProcessDefinition, String> getProcessToExecute() {
-		return schedulerPlugin.getProcessToExecute();
 	}
 
 }

@@ -39,10 +39,10 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 
 	/** {@inheritDoc} */
 	@Override
-	public void execute(final ProcessDefinition processDefinition) {
+	public void execute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
-		getPluginByType(processDefinition.getProcessType()).execute(processDefinition);
+		getPluginByType(processDefinition.getProcessType()).execute(processDefinition, initialParams);
 	}
 
 	/** {@inheritDoc} */

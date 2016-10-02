@@ -17,8 +17,9 @@ public interface ProcessExecutionManager extends Manager {
 	/**
 	 * Execute un processus.
 	 * @param processDefinition le processus à lancer
+	 * @param initialParams paramètres initiaux supplémentaires
 	 */
-	void execute(ProcessDefinition processDefinition);
+	void execute(ProcessDefinition processDefinition, Optional<String> initialParams);
 
 	/**
 	 * Termine une execution mise en attente.

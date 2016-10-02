@@ -1,7 +1,6 @@
 package io.vertigo.orchestra.scheduler;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.Optional;
 
 import io.vertigo.lang.Manager;
@@ -21,11 +20,5 @@ public interface ProcessSchedulerManager extends Manager {
 	 * @param initialParams les paramètres initiaux à utiliser
 	 */
 	void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParams);
-
-	/**
-	 * Retourne la liste des executions qui doivent etre lancées maintenant avec des eventuels paramètres initiaux supplémentaires.
-	 * @return la liste de processus
-	 */
-	Map<ProcessDefinition, String> getProcessToExecute();
 
 }

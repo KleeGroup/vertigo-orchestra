@@ -1,5 +1,7 @@
 package io.vertigo.orchestra.impl.execution;
 
+import java.util.Optional;
+
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
@@ -8,7 +10,7 @@ import io.vertigo.orchestra.execution.ExecutionState;
 public class SimpleExecutorPlugin implements ProcessExecutorPlugin {
 
 	@Override
-	public void execute(final ProcessDefinition processDefinition) {
+	public void execute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
 		// TODO Not yet implemented
 
 	}
