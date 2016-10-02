@@ -21,9 +21,9 @@ import io.vertigo.orchestra.impl.definition.DbProcessDefinitionStorePlugin;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
 import io.vertigo.orchestra.impl.execution.NodeManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
-import io.vertigo.orchestra.impl.execution.SequentialExecutorPlugin;
+import io.vertigo.orchestra.impl.execution.DbSequentialExecutorPlugin;
 import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl;
-import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
+import io.vertigo.orchestra.impl.scheduler.DbProcessSchedulerPlugin;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**
@@ -52,13 +52,13 @@ public final class OrchestraFeatures extends Features {
 				.beginPlugin(DbProcessDefinitionStorePlugin.class)
 				.endPlugin()
 				.addComponent(ProcessSchedulerManager.class, ProcessSchedulerManagerImpl.class)
-				.beginPlugin(ProcessSchedulerPlugin.class)
+				.beginPlugin(DbProcessSchedulerPlugin.class)
 					.addParam("nodeName", nodeName)
 					.addParam("planningPeriodSeconds", period)
 					.addParam("forecastDurationSeconds", "60")
 				.endPlugin()
 				.addComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
-				.beginPlugin(SequentialExecutorPlugin.class)
+				.beginPlugin(DbSequentialExecutorPlugin.class)
 					.addParam("nodeName", nodeName)
 					.addParam("workersCount", "3")
 					.addParam("executionPeriodSeconds", period)

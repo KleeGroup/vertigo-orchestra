@@ -82,18 +82,19 @@
 			<plugin class="io.vertigo.orchestra.impl.definition.DbProcessDefinitionStorePlugin"/>
 		</component>
 		<component api="ProcessSchedulerManager" class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl">
-			<plugin class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin">
+			<plugin class="io.vertigo.orchestra.impl.scheduler.DbProcessSchedulerPlugin">
 				<param name="nodeName" value="${boot.nodeName}" />
 				<param name="planningPeriodSeconds" value="${boot.timerPeriod}" />
 				<param name="forecastDurationSeconds" value="${boot.forecastDuration}" />
 			</plugin>
 		</component>
 		<component api="ProcessExecutionManager" class="io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl">
-			<plugin class="io.vertigo.orchestra.impl.execution.SequentialExecutorPlugin">
+			<plugin class="io.vertigo.orchestra.impl.execution.DbSequentialExecutorPlugin">
 				<param name="nodeName" value="${boot.nodeName}" />
 				<param name="executionPeriodSeconds" value="${boot.timerPeriod}" />
 				<param name="workersCount" value="${boot.workersCount}" />
 			</plugin>
+			<plugin class="io.vertigo.orchestra.impl.execution.DbLogProviderPlugin"/>
 		</component>
 		<component api="OrchestraManager" class="io.vertigo.orchestra.impl.OrchestraManagerImpl"/>
 	</module>

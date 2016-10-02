@@ -1,6 +1,8 @@
 package io.vertigo.orchestra.impl.execution;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,14 +22,13 @@ import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.Plugin;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
 import io.vertigo.orchestra.dao.execution.OActivityExecutionDAO;
 import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.dao.execution.OActivityWorkspaceDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
-import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
+import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.execution.OActivityExecution;
@@ -50,14 +51,12 @@ import io.vertigo.util.StringUtil;
  * @author mlaroche.
  * @version $Id$
  */
-public final class SequentialExecutorPlugin implements Plugin, Activeable {
+public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, Activeable {
 
-	private static final Logger LOGGER = Logger.getLogger(SequentialExecutorPlugin.class);
+	private static final Logger LOGGER = Logger.getLogger(DbSequentialExecutorPlugin.class);
 
 	@Inject
 	private OProcessExecutionDAO processExecutionDAO;
-	@Inject
-	private OProcessPlanificationDAO processPlanificationDAO;
 	@Inject
 	private OActivityExecutionDAO activityExecutionDAO;
 	@Inject
@@ -89,7 +88,7 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	 * @param executionPeriodSeconds le timer du long-polling
 	 */
 	@Inject
-	public SequentialExecutorPlugin(
+	public DbSequentialExecutorPlugin(
 			final ProcessSchedulerManager processSchedulerManager,
 			final NodeManager nodeManager,
 			final VTransactionManager transactionManager,
@@ -147,31 +146,8 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 	//--- Package
 	//--------------------------------------------------------------------------------------------------
 
-	void putResult(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspaceOut, final Throwable error) {
-		Assertion.checkNotNull(workspaceOut);
-		Assertion.checkNotNull(workspaceOut.getValue("status"), "Le status est obligatoire dans le résultat");
-		// ---
-		// 2. We manage the execution workflow
-		if (error != null) {
-			// We log the error and we continue the timer
-			LOGGER.info("Error in activity " + activityExecution.getActId() + " execution", error);
-			endActivityExecution(activityExecution, ExecutionState.ERROR);
-		} else {
-			if (workspaceOut.isSuccess()) {
-				endActivityExecution(activityExecution, ExecutionState.DONE);
-			} else if (workspaceOut.isFinished()) {
-				// If finished we tag the whole process as DONE and dont launch next activities
-				finishProcessExecution(activityExecution);
-			} else if (workspaceOut.isPending()) {
-				// We do nothing because we already delegated the change of status in the AbstractActivityEngine
-			} else {
-				endActivityExecution(activityExecution, ExecutionState.ERROR);
-			}
-		}
-
-	}
-
-	void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState executionState) {
+	@Override
+	public void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState executionState) {
 		Assertion.checkNotNull(activityExecutionId);
 		Assertion.checkNotNull(token);
 		// ---
@@ -217,49 +193,72 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	}
 
-	void setActivityExecutionPending(final Long activityExecutionId, final ActivityExecutionWorkspace workspace) {
+	@Override
+	public void setActivityExecutionPending(final Long activityExecutionId, final ActivityExecutionWorkspace workspace) {
+		// We need to be as short as possible for the commit
+		if (transactionManager.hasCurrentTransaction()) {
+			try (final VTransactionWritable transaction = transactionManager.createAutonomousTransaction()) {
+				doSetActivityExecutionPending(activityExecutionId, workspace);
+				transaction.commit();
+			}
+		} else {
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+				doSetActivityExecutionPending(activityExecutionId, workspace);
+				transaction.commit();
+			}
+		}
+
+	}
+
+	private void doSetActivityExecutionPending(final Long activityExecutionId, final ActivityExecutionWorkspace workspace) {
 		Assertion.checkNotNull(activityExecutionId);
 		// ---
 		final OActivityExecution activityExecution = activityExecutionDAO.get(activityExecutionId);
 		endActivityExecution(activityExecution, ExecutionState.PENDING);
 		saveActivityExecutionWorkspace(activityExecutionId, workspace, false);
 	}
+	//--------------------------------------------------------------------------------------------------
+	//--- Private
+	//--------------------------------------------------------------------------------------------------
 
-	void changeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {
-		if (transactionManager.hasCurrentTransaction()) {
-			doChangeExecutionState(activityExecution, executionState);
-		} else {
+	private void executeToDo() {
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			initNewProcessesToLaunch();
+			transaction.commit();
+		}
+		final DtList<OActivityExecution> activitiesToLaunch;
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			activitiesToLaunch = getActivitiesToLaunch();
+			transaction.commit();
+		}
+		for (final OActivityExecution activityExecution : activitiesToLaunch) { //We submit only the process we can handle, no queue
+			ActivityExecutionWorkspace workspace;
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				doChangeExecutionState(activityExecution, executionState);
+				workspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), true);
+				doChangeExecutionState(activityExecution, ExecutionState.SUBMITTED);
+				// We set the beginning time of the activity
+				activityExecution.setBeginTime(new Date());
 				transaction.commit();
 			}
+			workers.submit(() -> {
+				doRunActivity(activityExecution, workspace);
+			});
+		}
+
+	}
+
+	private void doRunActivity(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspace) {
+		ActivityExecutionWorkspace result;
+		try {
+			result = execute(activityExecution, workspace);
+			putResult(activityExecution, result, null);
+		} catch (final Exception e) {
+			LOGGER.info("Error executing activity", e);
+			putResult(activityExecution, null, e.getCause());
 		}
 	}
 
-	ActivityExecutionWorkspace getWorkspaceForActivityExecution(final Long aceId, final Boolean in) {
-		Assertion.checkNotNull(aceId);
-		Assertion.checkNotNull(in);
-		// ---
-		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in).get();
-		return new ActivityExecutionWorkspace(activityWorkspace.getWorkspace());
-	}
-
-	void saveActivityExecutionWorkspace(final Long aceId, final ActivityExecutionWorkspace workspace, final Boolean in) {
-		Assertion.checkNotNull(aceId);
-		Assertion.checkNotNull(in);
-		Assertion.checkNotNull(workspace);
-		// ---
-		// we need at most one workspace in and one workspace out
-		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in).orElse(new OActivityWorkspace());
-		activityWorkspace.setAceId(aceId);
-		activityWorkspace.setIsIn(in);
-		activityWorkspace.setWorkspace(workspace.getStringForStorage());
-
-		activityWorkspaceDAO.save(activityWorkspace);
-
-	}
-
-	ActivityExecutionWorkspace execute(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspace) {
+	private ActivityExecutionWorkspace execute(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspace) {
 		ActivityExecutionWorkspace resultWorkspace = workspace;
 
 		try {
@@ -305,35 +304,70 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		return resultWorkspace;
 	}
 
-	//--------------------------------------------------------------------------------------------------
-	//--- Private
-	//--------------------------------------------------------------------------------------------------
-
-	private void executeToDo() {
-		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			initNewProcessesToLaunch();
-			transaction.commit();
-		}
-		final DtList<OActivityExecution> activitiesToLaunch;
-		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			activitiesToLaunch = getActivitiesToLaunch();
-			transaction.commit();
-		}
-		for (final OActivityExecution activityExecution : activitiesToLaunch) { //We submit only the process we can handle, no queue
-			ActivityExecutionWorkspace workspace;
-			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				workspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), true);
-				doChangeExecutionState(activityExecution, ExecutionState.SUBMITTED);
-				// We set the beginning time of the activity
-				activityExecution.setBeginTime(new Date());
-				transaction.commit();
+	private void putResult(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspaceOut, final Throwable error) {
+		Assertion.checkNotNull(workspaceOut);
+		Assertion.checkNotNull(workspaceOut.getValue("status"), "Le status est obligatoire dans le résultat");
+		// ---
+		// 2. We manage the execution workflow
+		if (error != null) {
+			// We log the error and we continue the timer
+			LOGGER.info("Error in activity " + activityExecution.getActId() + " execution", error);
+			endActivityExecution(activityExecution, ExecutionState.ERROR);
+		} else {
+			if (workspaceOut.isSuccess()) {
+				endActivityExecution(activityExecution, ExecutionState.DONE);
+			} else if (workspaceOut.isFinished()) {
+				// If finished we tag the whole process as DONE and dont launch next activities
+				finishProcessExecution(activityExecution);
+			} else if (workspaceOut.isPending()) {
+				// We do nothing because we already delegated the change of status in the AbstractActivityEngine
+			} else {
+				endActivityExecution(activityExecution, ExecutionState.ERROR);
 			}
-			workers.submit(new OWorker(activityExecution, workspace, this));
 		}
 
 	}
 
-	private void initFirstAcitvityExecution(final OProcessExecution processExecution, final OProcessPlanification processPlanification) {
+	private void changeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {
+		if (transactionManager.hasCurrentTransaction()) {
+			doChangeExecutionState(activityExecution, executionState);
+		} else {
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+				doChangeExecutionState(activityExecution, executionState);
+				transaction.commit();
+			}
+		}
+	}
+
+	private void initNewProcessesToLaunch() {
+		final Map<ProcessDefinition, String> processToLaunch = processSchedulerManager.getProcessToExecute();
+		for (final Entry<ProcessDefinition, String> entry : processToLaunch.entrySet()) {
+			final OProcessExecution processExecution = initProcessExecution(entry.getKey());
+			initFirstAcitvityExecution(processExecution, entry.getValue());
+		}
+	}
+
+	private OProcessExecution initProcessExecution(final ProcessDefinition processDefinition) {
+		Assertion.checkNotNull(processDefinition);
+		// ---
+		final OProcessExecution newProcessExecution = new OProcessExecution();
+		newProcessExecution.setProId(processDefinition.getId());
+		newProcessExecution.setBeginTime(new Date());
+		newProcessExecution.setEstCd(ExecutionState.RUNNING.name());
+
+		processExecutionDAO.save(newProcessExecution);
+
+		return newProcessExecution;
+	}
+
+	private DtList<OActivityExecution> getActivitiesToLaunch() {
+		final int maxNumber = getUnusedWorkersCount();
+		// ---
+		executionPAO.reserveActivitiesToLaunch(nodId, maxNumber);
+		return activityExecutionDAO.getActivitiesToLaunch(nodId);
+	}
+
+	private void initFirstAcitvityExecution(final OProcessExecution processExecution, final String initialParams) {
 		Assertion.checkNotNull(processExecution.getProId());
 		Assertion.checkNotNull(processExecution.getPreId());
 		// ---
@@ -342,9 +376,9 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 		activityExecutionDAO.save(firstActivityExecution);
 
 		final ActivityExecutionWorkspace initialWorkspace = new ActivityExecutionWorkspace(processExecution.getProcess().getInitialParams());
-		if (!StringUtil.isEmpty(processPlanification.getInitialParams())) {
+		if (!StringUtil.isEmpty(initialParams)) {
 			// If Plannification specifies initialParams we take them in addition
-			initialWorkspace.addExternalParams(processPlanification.getInitialParams());
+			initialWorkspace.addExternalParams(initialParams);
 		}
 		// We set in the workspace essentials params
 		initialWorkspace.setProcessName(processExecution.getProcess().getName());
@@ -356,16 +390,61 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	}
 
-	private OProcessExecution initProcessExecution(final OProcessPlanification processPlanification) {
-		final OProcess process = processPlanification.getProcessus();
-		final OProcessExecution newProcessExecution = new OProcessExecution();
-		newProcessExecution.setProId(process.getProId());
-		newProcessExecution.setBeginTime(new Date());
-		newProcessExecution.setEstCd(ExecutionState.RUNNING.name());
+	private static OActivityExecution initActivityExecutionWithActivity(final OActivity activity, final Long preId) {
+		Assertion.checkNotNull(preId);
+		// ---
+		final OActivityExecution activityExecution = new OActivityExecution();
 
-		processExecutionDAO.save(newProcessExecution);
+		activityExecution.setPreId(preId);
+		activityExecution.setActId(activity.getActId());
+		activityExecution.setCreationTime(new Date());
+		activityExecution.setEngine(activity.getEngine());
+		activityExecution.setEstCd(ExecutionState.WAITING.name());
+		activityExecution.setToken(ActivityTokenGenerator.getToken());
 
-		return newProcessExecution;
+		return activityExecution;
+
+	}
+
+	private void reserveActivityExecution(final OActivityExecution activityExecution) {
+		activityExecution.setEstCd(ExecutionState.SUBMITTED.name());
+		activityExecution.setNodId(nodId);
+	}
+
+	private void endActivityExecutionAndInitNext(final OActivityExecution activityExecution) {
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			endActivity(activityExecution);
+
+			final Optional<OActivity> nextActivity = activityDAO.getNextActivityByActId(activityExecution.getActId());
+			if (nextActivity.isPresent()) {
+				final OActivityExecution nextActivityExecution;
+				final ActivityExecutionWorkspace nextWorkspace;
+				nextActivityExecution = initActivityExecutionWithActivity(nextActivity.get(), activityExecution.getPreId());
+				// We keep the previous worker (Not the same but the slot) for the next Activity Execution
+				reserveActivityExecution(nextActivityExecution);
+				activityExecutionDAO.save(nextActivityExecution);
+
+				// We keep the old workspace for the nextTask
+				final ActivityExecutionWorkspace previousWorkspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
+				// We remove the status and update the activityExecutionId and token
+				previousWorkspace.resetStatus();
+				previousWorkspace.resetLogFile();
+				previousWorkspace.setActivityExecutionId(nextActivityExecution.getAceId());
+				previousWorkspace.setToken(nextActivityExecution.getToken());
+				// ---
+				saveActivityExecutionWorkspace(nextActivityExecution.getAceId(), previousWorkspace, true);
+				nextActivityExecution.setBeginTime(new Date());
+				nextWorkspace = previousWorkspace;
+				workers.submit(() -> {
+					doRunActivity(nextActivityExecution, nextWorkspace);
+				});
+
+			} else {
+				endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);
+			}
+			transaction.commit();
+
+		}
 	}
 
 	private void endActivityExecution(final OActivityExecution activityExecution, final ExecutionState executionState) {
@@ -392,86 +471,27 @@ public final class SequentialExecutorPlugin implements Plugin, Activeable {
 
 	}
 
-	private void endActivityExecutionAndInitNext(final OActivityExecution activityExecution) {
-		OActivityExecution nextActivityExecution = null;
-		ActivityExecutionWorkspace nextWorkspace = null;
-		boolean hasNext = false;
-		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			endActivity(activityExecution);
-
-			final Optional<OActivity> nextActivity = activityDAO.getNextActivityByActId(activityExecution.getActId());
-			if (nextActivity.isPresent()) {
-				hasNext = true;
-				nextActivityExecution = initActivityExecutionWithActivity(nextActivity.get(), activityExecution.getPreId());
-				// We keep the previous worker (Not the same but the slot) for the next Activity Execution
-				reserveActivityExecution(nextActivityExecution);
-				activityExecutionDAO.save(nextActivityExecution);
-
-				// We keep the old workspace for the nextTask
-				final ActivityExecutionWorkspace previousWorkspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
-				// We remove the status and update the activityExecutionId and token
-				previousWorkspace.resetStatus();
-				previousWorkspace.resetLogFile();
-				previousWorkspace.setActivityExecutionId(nextActivityExecution.getAceId());
-				previousWorkspace.setToken(nextActivityExecution.getToken());
-				// ---
-				saveActivityExecutionWorkspace(nextActivityExecution.getAceId(), previousWorkspace, true);
-				nextActivityExecution.setBeginTime(new Date());
-				nextWorkspace = previousWorkspace;
-
-			} else {
-				endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);
-			}
-			transaction.commit();
-
-		}
-		if (hasNext) {
-			Assertion.checkNotNull(nextActivityExecution);
-			Assertion.checkNotNull(nextWorkspace);
-			// ---
-			workers.submit(new OWorker(nextActivityExecution, nextWorkspace, this));
-		}
-	}
-
-	private void initNewProcessesToLaunch() {
-		for (final Long prpId : processSchedulerManager.getProcessToExecute()) {
-			final OProcessPlanification processPlanification = processPlanificationDAO.get(prpId);
-			if (canExecute(processPlanification)) {
-				final OProcessExecution processExecution = initProcessExecution(processPlanification);
-				processSchedulerManager.triggerPlanification(prpId);
-				initFirstAcitvityExecution(processExecution, processPlanification);
-			} else {
-				processSchedulerManager.misfirePlanification(prpId);
-			}
-		}
-	}
-
-	private DtList<OActivityExecution> getActivitiesToLaunch() {
-		final int maxNumber = getUnusedWorkersCount();
+	private ActivityExecutionWorkspace getWorkspaceForActivityExecution(final Long aceId, final Boolean in) {
+		Assertion.checkNotNull(aceId);
+		Assertion.checkNotNull(in);
 		// ---
-		executionPAO.reserveActivitiesToLaunch(nodId, maxNumber);
-		return activityExecutionDAO.getActivitiesToLaunch(nodId);
+		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in).get();
+		return new ActivityExecutionWorkspace(activityWorkspace.getWorkspace());
 	}
 
-	private static OActivityExecution initActivityExecutionWithActivity(final OActivity activity, final Long preId) {
-		Assertion.checkNotNull(preId);
+	private void saveActivityExecutionWorkspace(final Long aceId, final ActivityExecutionWorkspace workspace, final Boolean in) {
+		Assertion.checkNotNull(aceId);
+		Assertion.checkNotNull(in);
+		Assertion.checkNotNull(workspace);
 		// ---
-		final OActivityExecution activityExecution = new OActivityExecution();
+		// we need at most one workspace in and one workspace out
+		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in).orElse(new OActivityWorkspace());
+		activityWorkspace.setAceId(aceId);
+		activityWorkspace.setIsIn(in);
+		activityWorkspace.setWorkspace(workspace.getStringForStorage());
 
-		activityExecution.setPreId(preId);
-		activityExecution.setActId(activity.getActId());
-		activityExecution.setCreationTime(new Date());
-		activityExecution.setEngine(activity.getEngine());
-		activityExecution.setEstCd(ExecutionState.WAITING.name());
-		activityExecution.setToken(ActivityTokenGenerator.getToken());
+		activityWorkspaceDAO.save(activityWorkspace);
 
-		return activityExecution;
-
-	}
-
-	private void reserveActivityExecution(final OActivityExecution activityExecution) {
-		activityExecution.setEstCd(ExecutionState.SUBMITTED.name());
-		activityExecution.setNodId(nodId);
 	}
 
 	private void doChangeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {

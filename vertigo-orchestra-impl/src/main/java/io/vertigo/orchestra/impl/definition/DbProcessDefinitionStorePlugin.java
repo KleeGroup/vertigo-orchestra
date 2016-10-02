@@ -15,6 +15,7 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.dao.definition.DefinitionPAO;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
+import io.vertigo.orchestra.dao.planification.PlanificationPAO;
 import io.vertigo.orchestra.definition.ActivityDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
@@ -22,7 +23,6 @@ import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.execution.ActivityEngine;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
 
@@ -30,7 +30,7 @@ import io.vertigo.util.StringUtil;
 public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlugin {
 
 	@Inject
-	private ProcessSchedulerManager processSchedulerManager;
+	private PlanificationPAO planificationPAO;
 	@Inject
 	private OProcessDAO processDao;
 	@Inject
@@ -181,7 +181,7 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 		final String processName = processDefinition.getName();
 		definitionPAO.disableOldProcessDefinitions(processName);
 		// on supprime toute la planification existante
-		processSchedulerManager.resetFuturePlanificationOfProcess(processName);
+		planificationPAO.cleanFuturePlanifications(processName);
 		createDefinition(processDefinition);
 
 	}
@@ -206,7 +206,7 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 		process.setActive(active);
 		processDao.save(process);
 		// on supprime toute la planification existante
-		processSchedulerManager.resetFuturePlanificationOfProcess(processDefinition.getName());
+		planificationPAO.cleanFuturePlanifications(processDefinition.getName());
 	}
 
 	/** {@inheritDoc} */
