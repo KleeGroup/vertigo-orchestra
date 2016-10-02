@@ -25,7 +25,6 @@ import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.WrappedException;
-import io.vertigo.orchestra.dao.definition.OProcessDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
@@ -35,6 +34,7 @@ import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.NodeManager;
+import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.scheduler.PlanificationState;
 
 /**
@@ -59,6 +59,8 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 
 	@Inject
 	private ProcessDefinitionManager definitionManager;
+	@Inject
+	private ProcessExecutionManager processExecutionManager;
 
 	@Inject
 	private OProcessPlanificationDAO processPlanificationDAO;
@@ -66,8 +68,6 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	private PlanificationPAO planificationPAO;
 	@Inject
 	private OProcessExecutionDAO processExecutionDAO;
-	@Inject
-	private OProcessDAO processDao;
 
 	/**
 	 * Constructeur.
@@ -104,6 +104,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		localScheduledExecutor.scheduleAtFixedRate(() -> {
 			try {
 				plannRecurrentProcesses();
+				initToDo();
 			} catch (final Exception e) {
 				// We log the error and we continue the timer
 				LOGGER.error("Exception planning recurrent processes", e);
@@ -139,19 +140,6 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		}
 	}
 
-	@Override
-	public Map<ProcessDefinition, String> getProcessToExecute() {
-		if (transactionManager.hasCurrentTransaction()) {
-			return doGetProcessToExecute();
-		}
-		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			final Map<ProcessDefinition, String> processesToExecute = doGetProcessToExecute();
-			transaction.commit();
-			return processesToExecute;
-		}
-
-	}
-
 	//--------------------------------------------------------------------------------------------------
 	//--- Private
 	//--------------------------------------------------------------------------------------------------
@@ -170,18 +158,25 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 
 	}
 
-	private Map<ProcessDefinition, String> doGetProcessToExecute() {
+	private void initToDo() {
+		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+			initNewProcessesToLaunch();
+			transaction.commit();
+		}
+	}
+
+	private void initNewProcessesToLaunch() {
 		final Map<ProcessDefinition, String> processesToExecute = new HashMap<>();
 		for (final OProcessPlanification processPlanification : getPlanificationsToTrigger()) {
 			final ProcessDefinition processDefinition = definitionManager.getProcessDefinition(processPlanification.getProcessus().getName());
 			if (canExecute(processDefinition, processesToExecute)) {
 				processesToExecute.put(processDefinition, processPlanification.getInitialParams());
 				triggerPlanification(processPlanification);
+				processExecutionManager.execute(processDefinition, Optional.ofNullable(processPlanification.getInitialParams()));
 			} else {
 				misfirePlanification(processPlanification);
 			}
 		}
-		return processesToExecute;
 	}
 
 	private void plannRecurrentProcesses() {
