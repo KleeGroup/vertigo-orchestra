@@ -2,7 +2,7 @@ package io.vertigo.orchestra.impl.definition;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,11 +23,15 @@ import io.vertigo.orchestra.impl.definition.plugins.ProcessDefinitionStorePlugin
  */
 public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
-	private final Map<ProcessType, ProcessDefinitionStorePlugin> storePluginsMap = new HashMap<>();
+	private final Map<ProcessType, ProcessDefinitionStorePlugin> storePluginsMap = new EnumMap<>(ProcessType.class);
 
+	/**
+	 * Constructeur du gestionnaire de définitions.
+	 * @param definitionStorePlugins la liste des plugins gérant des définitions de processus
+	 */
 	@Inject
 	public ProcessDefinitionManagerImpl(final List<ProcessDefinitionStorePlugin> definitionStorePlugins) {
-		Assertion.checkState(definitionStorePlugins.size() > 0, "At least one ProcessDefinitionStorePlugin is required");
+		Assertion.checkState(!definitionStorePlugins.isEmpty(), "At least one ProcessDefinitionStorePlugin is required");
 		// ---
 		for (final ProcessDefinitionStorePlugin storePlugin : definitionStorePlugins) {
 			Assertion.checkState(!storePluginsMap.containsKey(storePlugin.getHandledProcessType()), "Only one plugin can manage the processType {0}", storePlugin.getHandledProcessType());

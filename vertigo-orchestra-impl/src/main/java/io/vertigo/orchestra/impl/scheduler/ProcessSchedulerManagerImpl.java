@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.impl.scheduler;
 
 import java.util.Date;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,12 +21,11 @@ import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
  * @version $Id$
  */
 public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
-	private final Map<ProcessType, ProcessSchedulerPlugin> schedulerPluginsMap = new HashMap<>();
+	private final Map<ProcessType, ProcessSchedulerPlugin> schedulerPluginsMap = new EnumMap<>(ProcessType.class);
 
 	/**
 	 * Constructeur.
-	 * @param transactionManager le gestionnaire de transaction
-	 * @param processScheduler le gestionnaire de schedule
+	 * @param schedulerPlugins la liste des plugins de gestion de la planification
 	 */
 	@Inject
 	public ProcessSchedulerManagerImpl(

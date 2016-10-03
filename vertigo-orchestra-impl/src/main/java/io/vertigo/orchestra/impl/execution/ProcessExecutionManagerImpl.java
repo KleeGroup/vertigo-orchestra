@@ -1,6 +1,6 @@
 package io.vertigo.orchestra.impl.execution;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,9 +25,14 @@ import io.vertigo.orchestra.impl.execution.plugins.ProcessExecutorPlugin;
  */
 public final class ProcessExecutionManagerImpl implements ProcessExecutionManager {
 
-	private final Map<ProcessType, ProcessExecutorPlugin> executorPluginsMap = new HashMap<>();
+	private final Map<ProcessType, ProcessExecutorPlugin> executorPluginsMap = new EnumMap<>(ProcessType.class);
 	private final Optional<LogProviderPlugin> logProviderPlugin;
 
+	/**
+	 * Constructeur du gestionnaire de l'execution des processus orchestra
+	 * @param executorPlugins liste des plugins d'execution
+	 * @param logProviderPlugin plugin de gestion des logs
+	 */
 	@Inject
 	public ProcessExecutionManagerImpl(final List<ProcessExecutorPlugin> executorPlugins, final Optional<LogProviderPlugin> logProviderPlugin) {
 		Assertion.checkNotNull(logProviderPlugin);

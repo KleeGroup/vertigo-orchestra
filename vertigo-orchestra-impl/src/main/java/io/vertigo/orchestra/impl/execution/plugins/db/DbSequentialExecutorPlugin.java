@@ -256,9 +256,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 				activityExecution.setBeginTime(new Date());
 				transaction.commit();
 			}
-			workers.submit(() -> {
-				doRunActivity(activityExecution, workspace);
-			});
+			workers.submit(() -> doRunActivity(activityExecution, workspace));
 		}
 
 	}
@@ -443,9 +441,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 				saveActivityExecutionWorkspace(nextActivityExecution.getAceId(), previousWorkspace, true);
 				nextActivityExecution.setBeginTime(new Date());
 				nextWorkspace = previousWorkspace;
-				workers.submit(() -> {
-					doRunActivity(nextActivityExecution, nextWorkspace);
-				});
+				workers.submit(() -> doRunActivity(nextActivityExecution, nextWorkspace));
 
 			} else {
 				endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);

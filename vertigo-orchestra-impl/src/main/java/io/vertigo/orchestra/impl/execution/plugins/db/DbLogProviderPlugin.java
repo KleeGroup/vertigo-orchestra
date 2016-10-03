@@ -18,6 +18,11 @@ import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.domain.execution.OActivityLog;
 import io.vertigo.orchestra.impl.execution.plugins.LogProviderPlugin;
 
+/**
+ * Récupération des logs en BDD.
+ * @author mlaroche
+ *
+ */
 public class DbLogProviderPlugin implements LogProviderPlugin {
 
 	private static final String ROOT_DIRECTORY = "orchestra.root.directory";
@@ -59,9 +64,7 @@ public class DbLogProviderPlugin implements LogProviderPlugin {
 		if (activityLog.isPresent()) {
 			final byte[] stringByteArray = activityLog.get().getLog().getBytes(StandardCharsets.UTF_8);
 
-			final InputStreamBuilder inputStreamBuilder = () -> {
-				return new ByteArrayInputStream(stringByteArray);
-			};
+			final InputStreamBuilder inputStreamBuilder = () -> new ByteArrayInputStream(stringByteArray);
 
 			final String fileName = TECHNICAL_LOG_PREFIX + actityExecutionId + TECHNICAL_LOG_EXTENSION;
 			final VFile file = fileManager.createFile(fileName, FileTypeMap.getDefaultFileTypeMap().getContentType(fileName), new Date(), stringByteArray.length, inputStreamBuilder);

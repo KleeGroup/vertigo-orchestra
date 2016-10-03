@@ -35,6 +35,11 @@ import io.vertigo.persona.security.UserSession;
 import io.vertigo.persona.security.VSecurityManager;
 import io.vertigo.vega.impl.servlet.filter.AbstractFilter;
 
+/**
+ * Filtre gérant l'accès aux ressource.
+ * @author mlaroche
+ *
+ */
 public final class SecurityFilter extends AbstractFilter {
 
 	/**

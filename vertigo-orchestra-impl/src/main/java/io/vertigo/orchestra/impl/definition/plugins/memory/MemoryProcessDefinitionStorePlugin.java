@@ -10,6 +10,11 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.impl.definition.plugins.ProcessDefinitionStorePlugin;
 
+/**
+ * Plugin de gestion des définitions en mémoire dans le DefinitionSpace.
+ * @author mlaroche
+ *
+ */
 public class MemoryProcessDefinitionStorePlugin implements ProcessDefinitionStorePlugin {
 
 	@Override

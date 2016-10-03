@@ -27,6 +27,11 @@ import io.vertigo.orchestra.impl.definition.plugins.ProcessDefinitionStorePlugin
 import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
 
+/**
+ * Plugin de gestion des définitions en base de données.
+ * @author mlaroche
+ *
+ */
 @Transactional
 public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlugin {
 

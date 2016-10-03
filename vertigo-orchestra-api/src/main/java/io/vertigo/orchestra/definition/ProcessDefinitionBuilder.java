@@ -41,6 +41,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * Constructor.
 	 * @param processName le nom du processus
 	 * @param processLabel le libellé du processus
+	 * @param processType le type de processus
 	 */
 	public ProcessDefinitionBuilder(final String processName, final String processLabel, final ProcessType processType) {
 		Assertion.checkArgNotEmpty(processName);

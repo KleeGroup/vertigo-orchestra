@@ -15,10 +15,20 @@ import io.vertigo.orchestra.definition.ProcessType;
  */
 public interface ProcessSchedulerPlugin extends Plugin {
 
+	/**
+	 * @see io.vertigo.orchestra.scheduler.ProcessSchedulerManager#scheduleWithCron(ProcessDefinition)
+	 */
 	void scheduleWithCron(final ProcessDefinition processDefinition);
 
+	/**
+	 * @see io.vertigo.orchestra.scheduler.ProcessSchedulerManager#scheduleAt(ProcessDefinition, Date, Optional)
+	 */
 	void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption);
 
+	/**
+	 * Retourne le type de processus géré par le plugin
+	 * @return le type de processus géré
+	 */
 	ProcessType getHandledProcessType();
 
 }

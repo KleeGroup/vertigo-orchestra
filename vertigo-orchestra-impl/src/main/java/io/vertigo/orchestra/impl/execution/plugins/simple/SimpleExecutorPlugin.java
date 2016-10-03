@@ -19,11 +19,16 @@ import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
 import io.vertigo.orchestra.impl.execution.plugins.ProcessExecutorPlugin;
 
+/**
+ * Executeur de processus non supervisés.
+ * @author mlaroche
+ *
+ */
 public class SimpleExecutorPlugin implements ProcessExecutorPlugin, Activeable {
 
 	private static final Logger LOGGER = Logger.getLogger(SimpleExecutorPlugin.class);
 
-	final ExecutorService localExecutor = Executors.newFixedThreadPool(5);
+	private final ExecutorService localExecutor = Executors.newFixedThreadPool(5);
 
 	@Override
 	public void start() {
