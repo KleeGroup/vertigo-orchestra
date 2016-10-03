@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import io.vertigo.app.Home;
 import io.vertigo.core.component.di.injector.Injector;
+import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ActivityDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinition;
@@ -18,11 +19,23 @@ import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
 import io.vertigo.orchestra.impl.execution.plugins.ProcessExecutorPlugin;
 
-public class SimpleExecutorPlugin implements ProcessExecutorPlugin {
+public class SimpleExecutorPlugin implements ProcessExecutorPlugin, Activeable {
 
 	private static final Logger LOGGER = Logger.getLogger(SimpleExecutorPlugin.class);
 
 	final ExecutorService localExecutor = Executors.newFixedThreadPool(5);
+
+	@Override
+	public void start() {
+		// nothing
+
+	}
+
+	@Override
+	public void stop() {
+		localExecutor.shutdown();
+
+	}
 
 	@Override
 	public void execute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
