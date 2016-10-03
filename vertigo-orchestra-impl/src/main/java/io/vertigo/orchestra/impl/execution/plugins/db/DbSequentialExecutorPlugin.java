@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.execution;
+package io.vertigo.orchestra.impl.execution.plugins.db;
 
 import java.util.Date;
 import java.util.Optional;
@@ -38,6 +38,9 @@ import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.execution.ActivityLogger;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.NodeManager;
+import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
+import io.vertigo.orchestra.impl.execution.ActivityTokenGenerator;
+import io.vertigo.orchestra.impl.execution.plugins.ProcessExecutorPlugin;
 import io.vertigo.util.ClassUtil;
 
 /**
@@ -159,7 +162,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 
 	private void doExecute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
 		final OProcessExecution processExecution = initProcessExecution(processDefinition);
-		initFirstAcitvityExecution(processExecution, initialParams);
+		initFirstActivityExecution(processExecution, initialParams);
 
 	}
 
@@ -372,7 +375,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 		return activityExecutionDAO.getActivitiesToLaunch(nodId);
 	}
 
-	private void initFirstAcitvityExecution(final OProcessExecution processExecution, final Optional<String> initialParams) {
+	private void initFirstActivityExecution(final OProcessExecution processExecution, final Optional<String> initialParams) {
 		Assertion.checkNotNull(processExecution.getProId());
 		Assertion.checkNotNull(processExecution.getPreId());
 		// ---

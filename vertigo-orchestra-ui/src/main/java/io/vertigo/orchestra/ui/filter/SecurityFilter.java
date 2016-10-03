@@ -33,6 +33,7 @@ import javax.servlet.http.HttpSession;
 import io.vertigo.app.Home;
 import io.vertigo.persona.security.UserSession;
 import io.vertigo.persona.security.VSecurityManager;
+import io.vertigo.vega.impl.servlet.filter.AbstractFilter;
 
 public final class SecurityFilter extends AbstractFilter {
 

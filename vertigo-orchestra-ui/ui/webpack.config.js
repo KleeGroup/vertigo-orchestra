@@ -21,7 +21,7 @@ const customConfig = localFocus ? {
 
 const globals = {
 
-    __API_ROOT__: process.env.API_ROOT || JSON.stringify(`http://${API_HOST}:${API_PORT}/vertigo-orchestra-ui/`)
+    __API_ROOT__: process.env.API_ROOT || JSON.stringify(`http://${API_HOST}:${API_PORT}/vertigo-orchestra-ui/api/orchestra/`)
 }
 
 module.exports = configBuilder(customConfig, globals);

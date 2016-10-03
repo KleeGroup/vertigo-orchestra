@@ -79,22 +79,22 @@
 		</definitions>   
 		<component api="NodeManager" class="io.vertigo.orchestra.impl.execution.NodeManagerImpl"/>
 		<component api="ProcessDefinitionManager" class="io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl">
-			<plugin class="io.vertigo.orchestra.impl.definition.DbProcessDefinitionStorePlugin"/>
+			<plugin class="io.vertigo.orchestra.impl.definition.plugins.db.DbProcessDefinitionStorePlugin"/>
 		</component>
 		<component api="ProcessSchedulerManager" class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl">
-			<plugin class="io.vertigo.orchestra.impl.scheduler.DbProcessSchedulerPlugin">
+			<plugin class="io.vertigo.orchestra.impl.scheduler.plugins.db.DbProcessSchedulerPlugin">
 				<param name="nodeName" value="${boot.nodeName}" />
 				<param name="planningPeriodSeconds" value="${boot.timerPeriod}" />
 				<param name="forecastDurationSeconds" value="${boot.forecastDuration}" />
 			</plugin>
 		</component>
 		<component api="ProcessExecutionManager" class="io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl">
-			<plugin class="io.vertigo.orchestra.impl.execution.DbSequentialExecutorPlugin">
+			<plugin class="io.vertigo.orchestra.impl.execution.plugins.db.DbSequentialExecutorPlugin">
 				<param name="nodeName" value="${boot.nodeName}" />
 				<param name="executionPeriodSeconds" value="${boot.timerPeriod}" />
 				<param name="workersCount" value="${boot.workersCount}" />
 			</plugin>
-			<plugin class="io.vertigo.orchestra.impl.execution.DbLogProviderPlugin"/>
+			<plugin class="io.vertigo.orchestra.impl.execution.plugins.db.DbLogProviderPlugin"/>
 		</component>
 		<component api="OrchestraManager" class="io.vertigo.orchestra.impl.OrchestraManagerImpl"/>
 	</module>
@@ -102,7 +102,9 @@
 	<module name="vertigo-vega" api="false">
 		<component api="WebServiceManager" class="io.vertigo.vega.impl.webservice.WebServiceManagerImpl">
 			<plugin class="io.vertigo.vega.plugins.webservice.scanner.annotations.AnnotationsWebServiceScannerPlugin" />
-			<plugin class="io.vertigo.vega.plugins.webservice.webserver.sparkjava.SparkJavaServletFilterWebServerPlugin" />
+			<plugin class="io.vertigo.vega.plugins.webservice.webserver.sparkjava.SparkJavaServletFilterWebServerPlugin" >
+				<param name="apiPrefix" value="/api"/>
+			</plugin>
 			<!-- Handlers -->
 			
 			<plugin class="io.vertigo.vega.plugins.webservice.handler.ExceptionWebServiceHandlerPlugin" />

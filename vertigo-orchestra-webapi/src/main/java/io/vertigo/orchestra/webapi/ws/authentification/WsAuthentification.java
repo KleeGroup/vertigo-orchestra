@@ -10,7 +10,7 @@ import io.vertigo.vega.webservice.stereotype.SessionInvalidate;
  * @author mlaroche.
  * @version $Id$
  */
-@PathPrefix("/authentification")
+@PathPrefix("/orchestra/authentification")
 public class WsAuthentification implements WebServices {
 
 	/**

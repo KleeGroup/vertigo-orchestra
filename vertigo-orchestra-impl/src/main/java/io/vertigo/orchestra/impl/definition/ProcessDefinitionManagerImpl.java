@@ -13,6 +13,7 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.definition.ProcessType;
+import io.vertigo.orchestra.impl.definition.plugins.ProcessDefinitionStorePlugin;
 
 /**
  * Implémentation du manager des définitions de processus Orchestra.

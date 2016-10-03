@@ -40,7 +40,7 @@
                 "PAGE_TITLE": "Orchestra",
                 "OUTPUT_DIR": "../src/main/webapp/static",
                 "LOCAL_FOCUS": false,
-                "API_ROOT": "'./'",
+                "API_ROOT": "'./api/orchestra/'",
                 "SOURCE_MAPS": false,
         				"DEV": false,
         				"NODE_ENV" : "production",

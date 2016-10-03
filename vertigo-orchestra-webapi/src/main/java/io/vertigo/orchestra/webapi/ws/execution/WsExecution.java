@@ -28,7 +28,7 @@ import io.vertigo.vega.webservice.stereotype.QueryParam;
  * @author mlaroche.
  * @version $Id$
  */
-@PathPrefix("/executions")
+@PathPrefix("/orchestra/executions")
 public class WsExecution implements WebServices {
 
 	private static final Integer DEFAULT_PAGE_SIZE = 50;

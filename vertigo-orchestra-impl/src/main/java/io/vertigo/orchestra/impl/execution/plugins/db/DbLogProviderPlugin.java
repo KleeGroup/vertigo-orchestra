@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.execution;
+package io.vertigo.orchestra.impl.execution.plugins.db;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -16,6 +16,7 @@ import io.vertigo.dynamo.file.model.VFile;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.domain.execution.OActivityLog;
+import io.vertigo.orchestra.impl.execution.plugins.LogProviderPlugin;
 
 public class DbLogProviderPlugin implements LogProviderPlugin {
 

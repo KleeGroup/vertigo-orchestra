@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.scheduler;
+package io.vertigo.orchestra.impl.scheduler.plugins;
 
 import java.util.Date;
 import java.util.Optional;
@@ -14,6 +14,8 @@ import io.vertigo.orchestra.definition.ProcessType;
  * @version $Id$
  */
 public interface ProcessSchedulerPlugin extends Plugin {
+
+	void scheduleWithCron(final ProcessDefinition processDefinition);
 
 	void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption);
 

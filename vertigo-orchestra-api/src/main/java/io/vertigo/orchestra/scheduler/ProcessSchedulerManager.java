@@ -14,6 +14,12 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 public interface ProcessSchedulerManager extends Manager {
 
 	/**
+	 * Planifie les executions d'un job en fonction de l'expression cron associée.
+	 * @param processDefinition le processus à planifier de manière recurrente grace à son expression Cron
+	 */
+	void scheduleWithCron(final ProcessDefinition processDefinition);
+
+	/**
 	 * Planifie un processus à une date donnée.
 	 * @param processDefinition le processus à planifier
 	 * @param planifiedTime la date de planification

@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.scheduler;
+package io.vertigo.orchestra.impl.scheduler.plugins.db;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -35,6 +35,8 @@ import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.NodeManager;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.impl.scheduler.CronExpression;
+import io.vertigo.orchestra.impl.scheduler.plugins.ProcessSchedulerPlugin;
 import io.vertigo.orchestra.scheduler.PlanificationState;
 
 /**
@@ -129,6 +131,25 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	//--------------------------------------------------------------------------------------------------
 
 	@Override
+	public void scheduleWithCron(final ProcessDefinition processDefinition) {
+		if (transactionManager.hasCurrentTransaction()) {
+			doScheduleWithCron(processDefinition);
+		} else {
+			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
+				doScheduleWithCron(processDefinition);
+			}
+		}
+
+	}
+
+	private void doScheduleWithCron(final ProcessDefinition processDefinition) {
+		final Optional<Date> nextPlanification = findNextPlanificationTime(processDefinition);
+		if (nextPlanification.isPresent()) {
+			scheduleAt(processDefinition, nextPlanification.get(), processDefinition.getInitialParams());
+		}
+	}
+
+	@Override
 	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
 		if (transactionManager.hasCurrentTransaction()) {
 			doScheduleAt(processDefinition, planifiedTime, initialParamsOption);
@@ -182,10 +203,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	private void plannRecurrentProcesses() {
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			for (final ProcessDefinition processDefinition : getAllScheduledProcesses()) {
-				final Optional<Date> nextPlanification = findNextPlanificationTime(processDefinition);
-				if (nextPlanification.isPresent()) {
-					scheduleAt(processDefinition, nextPlanification.get(), processDefinition.getInitialParams());
-				}
+				scheduleWithCron(processDefinition);
 			}
 			transaction.commit();
 		}

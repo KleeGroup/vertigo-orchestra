@@ -20,7 +20,7 @@ import io.vertigo.vega.webservice.stereotype.PathPrefix;
  * @author mlaroche.
  * @version $Id$
  */
-@PathPrefix("/definitions")
+@PathPrefix("/orchestra/definitions")
 public class WsDefinition implements WebServices {
 
 	@Inject

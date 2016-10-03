@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.definition;
+package io.vertigo.orchestra.impl.definition.plugins.memory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import io.vertigo.app.Home;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
+import io.vertigo.orchestra.impl.definition.plugins.ProcessDefinitionStorePlugin;
 
 public class MemoryProcessDefinitionStorePlugin implements ProcessDefinitionStorePlugin {
 

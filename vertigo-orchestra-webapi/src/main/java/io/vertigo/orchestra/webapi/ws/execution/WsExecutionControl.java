@@ -22,7 +22,7 @@ import io.vertigo.vega.webservice.stereotype.PathPrefix;
  * @author mlaroche.
  * @version $Id$
  */
-@PathPrefix("/executionsControl")
+@PathPrefix("/orchestra/executionsControl")
 public class WsExecutionControl implements WebServices {
 
 	@Inject

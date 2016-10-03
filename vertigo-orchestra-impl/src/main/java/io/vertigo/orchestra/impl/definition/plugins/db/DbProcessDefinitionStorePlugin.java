@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.definition;
+package io.vertigo.orchestra.impl.definition.plugins.db;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.execution.ActivityEngine;
+import io.vertigo.orchestra.impl.definition.plugins.ProcessDefinitionStorePlugin;
 import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
 

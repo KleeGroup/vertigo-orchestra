@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.execution;
+package io.vertigo.orchestra.impl.execution.plugins;
 
 import java.util.Optional;
 
