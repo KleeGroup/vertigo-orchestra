@@ -14,12 +14,12 @@
     <meta name="author" content="Klee Group">
     <title>FOCUS démo</title>
     <link rel="icon" type="image/png" href="static/img/focus.png" />
-    <link rel="stylesheet" href="./static/orchestra-app.css">
+    <link rel="stylesheet" href="http://localhost:3000/orchestra-app.css">
 
 </head>
 <body>
 	<div class='orchestra-app'></div>
-	<script type='text/javascript' src='./static/orchestra-app.js'></script>
+	<script type='text/javascript' src='http://localhost:3000/orchestra-app.js'></script>
 	<script src=''></script>
 
 </body>

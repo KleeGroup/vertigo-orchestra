@@ -2,9 +2,11 @@ package io.vertigo.orchestra.webapi.ws.definition;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import io.vertigo.dynamo.collections.CollectionsManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.vega.webservice.WebServices;
@@ -24,6 +26,8 @@ public class WsDefinition implements WebServices {
 
 	@Inject
 	private ProcessDefinitionManager definitionManager;
+	@Inject
+	private CollectionsManager collectionsManager;
 
 	/**
 	 * Retourne un processus par son id.
@@ -43,11 +47,14 @@ public class WsDefinition implements WebServices {
 	@POST("/search")
 	public List<ProcessDefinition> searchProcessByLabel(@InnerBodyParam("criteria") final String criteria) {
 		//TODO voir comment faire autrement
-		//		if ("*".equals(criteria)) {
-		//			return definitionServices.searchProcess("");
-		//		}
-		//		return definitionServices.searchProcess(criteria);
-		return definitionManager.getAllProcessDefinitions();
+		final List<ProcessDefinition> definitions = definitionManager.getAllProcessDefinitions();
+		if ("*".equals(criteria)) {
+			return definitions;
+		}
+		return definitions
+				.stream()
+				.filter(definition -> definition.getLabel().startsWith(criteria))
+				.collect(Collectors.toList());
 	}
 
 	/**

@@ -6,6 +6,7 @@ import io.vertigo.core.spaces.component.ComponentInitializer;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
+import io.vertigo.orchestra.definition.ProcessType;
 
 /**
  * Initialisation des processus gérés par Orchestra
@@ -176,6 +177,14 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.build();
 
 		orchestraManager.createOrUpdateDefinition(processDefinition13);
+
+		final ProcessDefinition processDefinition14 = new ProcessDefinitionBuilder("PRO_IN_MEMORY", "En mémoire", ProcessType.UNSUPERVISED)
+				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withMetadatas("{\"functionalDomain\" : \"Expression des besoins\"}")
+				.addActivity("ACT_1", "Complet", EmptyActivityEngine.class)
+				.build();
+
+		orchestraManager.createOrUpdateDefinition(processDefinition14);
 	}
 
 }
