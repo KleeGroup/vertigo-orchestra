@@ -77,7 +77,6 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 
 	/**
 	 * Constructeur.
-	 * @param processSchedulerManager le schedulerManager
 	 * @param nodeManager le gestionnaire de noeud
 	 * @param transactionManager le gestionnaire de transaction
 	 * @param nodeName le nom du noeud en cours
@@ -196,6 +195,10 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 				case ERROR:
 					workspace = activityEngine.errorPostTreatment(workspace, new RuntimeException("ThirdPartyExeception"));
 					break;
+				case PENDING:
+				case RUNNING:
+				case SUBMITTED:
+				case WAITING:
 				default:
 					throw new UnsupportedOperationException();
 			}
