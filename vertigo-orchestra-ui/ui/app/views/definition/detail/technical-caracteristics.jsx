@@ -12,7 +12,7 @@ import {propertiesActions} from '../../../action/process-definition';
 export default React.createClass({
     displayName: 'ProcessTechnicalCaracteristics',
     propTypes: {
-        id: PropTypes.number.isRequired
+        id: PropTypes.string.isRequired
     },
     mixins: [formPreset],
     definitionPath: 'oProcessUi',
@@ -25,7 +25,7 @@ export default React.createClass({
             <Panel actions={this._renderActions} title='view.process.detail.technicalCaracteristics'>
               {this.fieldFor('cronExpression')}
               {this.fieldFor('active')}
-              {this.fieldFor('multiexecution')}
+              {this.fieldFor('multiExecution')}
               {this.fieldFor('rescuePeriod')}
             </Panel>
         );

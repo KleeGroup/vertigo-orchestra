@@ -39,7 +39,7 @@ export default {
     },
 
     executeProcess(id){
-        return fetch(executionsUrl.executeProcess({ data : {proId:id}}), {isCORS: true}).then(
+        return fetch(executionsUrl.executeProcess({ data : {processName:id}}), {isCORS: true}).then(
           (success) => {
               message.addSuccessMessage('view.process.action.executeNow.success');
           }, (failure) => {
@@ -49,7 +49,7 @@ export default {
     },
 
     saveProcessExecution(data) {
-        console.log(`[PROCESS] call saveProcessExecution(${data.id}) method`);
-        return fetch(executionsUrl.saveProcessExecution({urlData: {id: data.id}, data: data}), {isCORS: true});
+        console.log(`[PROCESS] call saveProcessExecution(${data.name}) method`);
+        return fetch(executionsUrl.saveProcessExecution({urlData: {id: data.name}, data: data}), {isCORS: true});
     }
 }

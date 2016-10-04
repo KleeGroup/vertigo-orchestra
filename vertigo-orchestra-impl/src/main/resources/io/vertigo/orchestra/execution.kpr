@@ -1,5 +1,4 @@
 services/domain.ksp
-
 services/definition/processDAO.ksp
 services/definition/activityDAO.ksp
 
@@ -11,3 +10,8 @@ services/planification/processPlanificationDAO.ksp
 
 
 services/monitoring/monitoringDAO.ksp
+
+
+monitoring/services/summary/executionSummaryDAO.ksp
+monitoring/services/executions/uiExecutionsDAO.ksp
+monitoring/services/definitions/uiDefinitionsDAO.ksp

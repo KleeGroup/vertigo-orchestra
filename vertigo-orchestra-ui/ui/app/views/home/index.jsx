@@ -82,7 +82,7 @@ export default React.createClass({
     },
 
     _navigateToDetail(data) {
-      history.navigate(`#definitions/${data.proId}`, true);
+      history.navigate(`#definitions/${data.processName}`, true);
       window.scrollTo(0, 0);
     },
 

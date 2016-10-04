@@ -148,20 +148,6 @@ public final class OProcessPlanification implements Entity {
 	 * Association : Processus.
 	 * @return io.vertigo.orchestra.domain.definition.OProcess
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRP_PRO",
-    	fkFieldName = "PRO_ID",
-    	primaryDtDefinitionName = "DT_O_PROCESS",
-    	primaryIsNavigable = true,
-    	primaryRole = "Processus",
-    	primaryLabel = "Processus",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ProcessPlanification",
-    	foreignLabel = "PlanificationProcessus",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.definition.OProcess getProcessus() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> fkURI = getProcessusURI();
 		if (fkURI == null) {
@@ -205,20 +191,6 @@ public final class OProcessPlanification implements Entity {
 	 * Association : Node.
 	 * @return io.vertigo.orchestra.domain.execution.ONode
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRP_NOD",
-    	fkFieldName = "NOD_ID",
-    	primaryDtDefinitionName = "DT_O_NODE",
-    	primaryIsNavigable = true,
-    	primaryRole = "Node",
-    	primaryLabel = "Node",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ProcessPlanification",
-    	foreignLabel = "PlanificationProcessus",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.execution.ONode getNode() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> fkURI = getNodeURI();
 		if (fkURI == null) {
@@ -262,20 +234,6 @@ public final class OProcessPlanification implements Entity {
 	 * Association : PlanificationState.
 	 * @return io.vertigo.orchestra.domain.referential.OPlanificationState
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRP_PST",
-    	fkFieldName = "PST_CD",
-    	primaryDtDefinitionName = "DT_O_PLANIFICATION_STATE",
-    	primaryIsNavigable = true,
-    	primaryRole = "PlanificationState",
-    	primaryLabel = "PlanificationState",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ProcessPlanification",
-    	foreignLabel = "ProcessPlanification",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.referential.OPlanificationState getPlanificationState() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> fkURI = getPlanificationStateURI();
 		if (fkURI == null) {

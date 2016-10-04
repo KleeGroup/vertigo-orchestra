@@ -150,7 +150,7 @@ module.exports = {
             domain: "DO_O_JSON_TEXT",
             required: false
         },
-        multiexecution: {
+        multiExecution: {
             domain: "DO_O_BOOLEEN",
             required: false
         },

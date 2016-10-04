@@ -106,20 +106,6 @@ public final class OActivityWorkspace implements Entity {
 	 * Association : ActivityExecution.
 	 * @return io.vertigo.orchestra.domain.execution.OActivityExecution
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_TKW_TKE",
-    	fkFieldName = "ACE_ID",
-    	primaryDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	primaryIsNavigable = true,
-    	primaryRole = "ActivityExecution",
-    	primaryLabel = "ActivityExecution",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_WORKSPACE",
-    	foreignIsNavigable = false,
-    	foreignRole = "ActivityWorkspace",
-    	foreignLabel = "ActivityWorkspace",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.execution.OActivityExecution getActivityExecution() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OActivityExecution> fkURI = getActivityExecutionURI();
 		if (fkURI == null) {

@@ -1,7 +1,0 @@
-execution.kpr
-
-services/domain.ksp
-
-model/summary/executionSummary.ksp
-model/executions/uiExecutions.ksp
-model/definitions/uiDefinitions.ksp

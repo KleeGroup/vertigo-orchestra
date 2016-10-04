@@ -9,9 +9,8 @@ import io.vertigo.lang.Assertion;
 
 /**
  * Définition d'un processus Orchestra.
- * Une définition doit être créee par un le builder associé.
+ * Une définition doit être créee par le builder associé.
  * @author mlaroche.
- * @version $Id$
  */
 @DefinitionPrefix("PRO")
 public final class ProcessDefinition implements Definition {

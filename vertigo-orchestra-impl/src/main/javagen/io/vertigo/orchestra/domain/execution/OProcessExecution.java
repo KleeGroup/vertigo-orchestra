@@ -228,20 +228,6 @@ public final class OProcessExecution implements Entity {
 	 * Association : Processus.
 	 * @return io.vertigo.orchestra.domain.definition.OProcess
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRE_PRO",
-    	fkFieldName = "PRO_ID",
-    	primaryDtDefinitionName = "DT_O_PROCESS",
-    	primaryIsNavigable = true,
-    	primaryRole = "Process",
-    	primaryLabel = "Processus",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionProcessus",
-    	foreignLabel = "ExecutionProcessus",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.definition.OProcess getProcess() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> fkURI = getProcessURI();
 		if (fkURI == null) {
@@ -287,20 +273,6 @@ public final class OProcessExecution implements Entity {
 	 * Association : ExecutionState.
 	 * @return io.vertigo.orchestra.domain.referential.OExecutionState
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRE_EST",
-    	fkFieldName = "EST_CD",
-    	primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
-    	primaryIsNavigable = true,
-    	primaryRole = "ExecutionState",
-    	primaryLabel = "ExecutionState",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionProcess",
-    	foreignLabel = "ExecutionProcessus",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.referential.OExecutionState getExecutionState() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> fkURI = getExecutionStateURI();
 		if (fkURI == null) {
@@ -344,20 +316,6 @@ public final class OProcessExecution implements Entity {
 	 * Association : User.
 	 * @return io.vertigo.orchestra.domain.referential.OUser
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRE_USR",
-    	fkFieldName = "USR_ID",
-    	primaryDtDefinitionName = "DT_O_USER",
-    	primaryIsNavigable = true,
-    	primaryRole = "User",
-    	primaryLabel = "User",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionProcess",
-    	foreignLabel = "ExecutionProcessus",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.referential.OUser getUser() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OUser> fkURI = getUserURI();
 		if (fkURI == null) {

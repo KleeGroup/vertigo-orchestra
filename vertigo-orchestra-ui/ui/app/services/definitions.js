@@ -9,10 +9,10 @@ export default {
     },
     saveProcessProperties(data) {
         console.log(`[PROCESS] call saveProcessProperties(${data.id}) method`);
-        return fetch(definitionsUrl.saveProcessProperties({urlData: {id: data.id}, data: data}), {isCORS: true});
+        return fetch(definitionsUrl.saveProcessProperties({urlData: {id: data.name}, data: data}), {isCORS: true});
     },
     saveProcessInitialParams(data) {
         console.log(`[PROCESS] call saveProcessInitialParams(${data.id}) method`);
-        return fetch(definitionsUrl.saveProcessInitialParams({urlData: {id: data.id}, data: data}), {isCORS: true});
+        return fetch(definitionsUrl.saveProcessInitialParams({urlData: {id: data.name}, data: data}), {isCORS: true});
     }
 }

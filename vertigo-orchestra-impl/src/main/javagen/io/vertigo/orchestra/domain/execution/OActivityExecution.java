@@ -229,20 +229,6 @@ public final class OActivityExecution implements Entity {
 	 * Association : Activity.
 	 * @return io.vertigo.orchestra.domain.definition.OActivity
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_ACE_ACT",
-    	fkFieldName = "ACT_ID",
-    	primaryDtDefinitionName = "DT_O_ACTIVITY",
-    	primaryIsNavigable = true,
-    	primaryRole = "Activity",
-    	primaryLabel = "Activity",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionActivity",
-    	foreignLabel = "ExecutionActivity",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.definition.OActivity getActivity() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OActivity> fkURI = getActivityURI();
 		if (fkURI == null) {
@@ -286,20 +272,6 @@ public final class OActivityExecution implements Entity {
 	 * Association : Processus.
 	 * @return io.vertigo.orchestra.domain.execution.OProcessExecution
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_ACE_PRE",
-    	fkFieldName = "PRE_ID",
-    	primaryDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-    	primaryIsNavigable = true,
-    	primaryRole = "ProcessusExecution",
-    	primaryLabel = "Processus",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionActivity",
-    	foreignLabel = "ExecutionActivity",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.execution.OProcessExecution getProcessusExecution() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OProcessExecution> fkURI = getProcessusExecutionURI();
 		if (fkURI == null) {
@@ -347,20 +319,6 @@ public final class OActivityExecution implements Entity {
 	 * Association : Node.
 	 * @return io.vertigo.orchestra.domain.execution.ONode
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_ACE_NOD",
-    	fkFieldName = "NOD_ID",
-    	primaryDtDefinitionName = "DT_O_NODE",
-    	primaryIsNavigable = true,
-    	primaryRole = "Node",
-    	primaryLabel = "Node",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionActivity",
-    	foreignLabel = "ExecutionActivity",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.execution.ONode getNode() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> fkURI = getNodeURI();
 		if (fkURI == null) {
@@ -404,20 +362,6 @@ public final class OActivityExecution implements Entity {
 	 * Association : ExecutionState.
 	 * @return io.vertigo.orchestra.domain.referential.OExecutionState
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_ACE_EST",
-    	fkFieldName = "EST_CD",
-    	primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
-    	primaryIsNavigable = true,
-    	primaryRole = "ExecutionState",
-    	primaryLabel = "ExecutionState",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionActivity",
-    	foreignLabel = "ExecutionActivity",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.referential.OExecutionState getExecutionState() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> fkURI = getExecutionStateURI();
 		if (fkURI == null) {

@@ -1,14 +1,6 @@
 <?xml version =	'1.0' encoding = 'UTF-8'?>
 <config>
-	<module name="orchestra-ui-dao" api="false">
-		<component class="io.vertigo.orchestra.webapi.dao.summary.SummaryPAO"/>
-		<component class="io.vertigo.orchestra.webapi.dao.uiexecutions.UiexecutionsPAO"/>
-		<component class="io.vertigo.orchestra.webapi.dao.uidefinitions.UidefinitionsPAO"/>
-	</module>
-	<module name="orchestra-ui-services">
-		<component api="DefinitionServices" class="io.vertigo.orchestra.webapi.services.impl.DefinitionServicesImpl" />
-		<component api="ExecutionServices" class="io.vertigo.orchestra.webapi.services.impl.ExecutionServicesImpl" />
-	</module>
+	
 	<module name="orchestra-ui-ws" api="false" >
 		<component class="io.vertigo.vega.impl.webservice.catalog.CatalogWebServices" />
 		<component class="io.vertigo.vega.impl.webservice.catalog.SwaggerWebServices" />

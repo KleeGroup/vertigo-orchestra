@@ -4,9 +4,9 @@ import history from 'focus-core/history';
 export default function onLineClick(data) {
     let url = '#';
 
-    const {proId} = data;
+    const {name} = data;
     //console.log(data, '\n', isMovie,'\n', isPerson,'\n', code);
-    url = `#definitions/${proId}`;
+    url = `#definitions/${name}`;
 
     history.navigate(url, true);
     window.scrollTo(0, 0);

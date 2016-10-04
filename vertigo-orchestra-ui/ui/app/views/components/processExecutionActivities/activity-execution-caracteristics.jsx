@@ -35,10 +35,10 @@ export default React.createClass({
     },
 
     dlLogFile() {
-        window.location.href = './executions/activityExecution/'+this.props.id+'/logFile';
+        window.location.href = `${__API_ROOT__}executions/activityExecution/`+this.props.id+'/logFile';
     },
     dlTechnicalLogFile() {
-        window.location.href = './executions/activityExecution/'+this.props.id+'/technicalLogFile';
+        window.location.href = `${__API_ROOT__}executions/activityExecution/`+this.props.id+'/technicalLogFile';
     },
     /** @inheritDoc */
     render() {

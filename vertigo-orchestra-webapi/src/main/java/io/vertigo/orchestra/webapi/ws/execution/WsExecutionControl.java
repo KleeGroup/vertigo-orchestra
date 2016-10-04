@@ -9,8 +9,8 @@ import io.vertigo.lang.MessageText;
 import io.vertigo.lang.VUserException;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.execution.ExecutionState;
-import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
-import io.vertigo.orchestra.webapi.services.DefinitionServices;
+import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.util.DateUtil;
 import io.vertigo.vega.webservice.WebServices;
 import io.vertigo.vega.webservice.stereotype.AnonymousAccessAllowed;
 import io.vertigo.vega.webservice.stereotype.InnerBodyParam;
@@ -28,7 +28,7 @@ public class WsExecutionControl implements WebServices {
 	@Inject
 	private OrchestraManager orchestraManager;
 	@Inject
-	private DefinitionServices definitionServices;
+	private ProcessExecutionManager executionManager;
 
 	/**
 	 * Termine une exécution mise en attente.
@@ -54,7 +54,7 @@ public class WsExecutionControl implements WebServices {
 			default:
 				throw new VUserException(new MessageText("Unknown execution state : {0} ", null, state));
 		}
-		orchestraManager.endPendingActivityExecution(activityExecutionId, token, executionState);
+		executionManager.endPendingActivityExecution(activityExecutionId, token, executionState);
 	}
 
 	/**
@@ -67,20 +67,19 @@ public class WsExecutionControl implements WebServices {
 	public void executeNow(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
 		Assertion.checkNotNull(processName);
 		// ---
-		orchestraManager.scheduleNow(processName, initialParams);
+		orchestraManager.scheduleAt(processName, DateUtil.newDateTime(), initialParams);
 	}
 
 	/**
 	 * Lance l'execution d'un processus avec son id.
 	 * @param proId l'id du processus à lancer
 	 */
-	@POST("/executeNowWithId")
+	@POST("/executeNow")
 	@AnonymousAccessAllowed
-	public void executeNowWithId(@InnerBodyParam("proId") final Long proId) {
-		Assertion.checkNotNull(proId);
+	public void executeNowIhm(@InnerBodyParam("processName") final String processName) {
+		Assertion.checkArgNotEmpty(processName);
 		// ---
-		final OProcessUi processUi = definitionServices.getProcessDefinitionById(proId);
-		orchestraManager.scheduleNow(processUi.getName(), Optional.<String> empty());
+		orchestraManager.scheduleAt(processName, DateUtil.newDateTime(), Optional.<String> empty());
 	}
 
 }

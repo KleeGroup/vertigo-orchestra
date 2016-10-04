@@ -13,6 +13,7 @@ import io.vertigo.core.param.ParamManager;
 import io.vertigo.dynamo.file.FileManager;
 import io.vertigo.dynamo.file.model.InputStreamBuilder;
 import io.vertigo.dynamo.file.model.VFile;
+import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.domain.execution.OActivityLog;
@@ -23,6 +24,7 @@ import io.vertigo.orchestra.impl.execution.plugins.LogProviderPlugin;
  * @author mlaroche
  *
  */
+@Transactional
 public class DbLogProviderPlugin implements LogProviderPlugin {
 
 	private static final String ROOT_DIRECTORY = "orchestra.root.directory";

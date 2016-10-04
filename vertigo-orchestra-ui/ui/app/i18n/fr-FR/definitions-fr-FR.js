@@ -2,7 +2,7 @@ export default {
     oProcessUi: {
         cronExpression: 'Expression cron',
         active: 'Actif',
-        multiexecution: 'Autorise la multi-exécution',
+        multiExecution: 'Autorise la multi-exécution',
         rescuePeriod: 'Temps de validité d\'une planification'
     },
     oProcessExecutionUi: {

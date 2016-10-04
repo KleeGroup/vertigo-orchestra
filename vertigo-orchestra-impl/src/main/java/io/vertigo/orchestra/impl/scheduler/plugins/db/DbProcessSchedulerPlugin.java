@@ -4,10 +4,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -187,11 +185,9 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	}
 
 	private void initNewProcessesToLaunch() {
-		final Map<ProcessDefinition, String> processesToExecute = new HashMap<>();
 		for (final OProcessPlanification processPlanification : getPlanificationsToTrigger()) {
 			final ProcessDefinition processDefinition = definitionManager.getProcessDefinition(processPlanification.getProcessus().getName());
-			if (canExecute(processDefinition, processesToExecute)) {
-				processesToExecute.put(processDefinition, processPlanification.getInitialParams());
+			if (canExecute(processDefinition)) {
 				triggerPlanification(processPlanification);
 				processExecutionManager.execute(processDefinition, Optional.ofNullable(processPlanification.getInitialParams()));
 			} else {
@@ -220,11 +216,10 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		return processPlanificationDAO.getProcessToExecute(nodId);
 	}
 
-	private boolean canExecute(final ProcessDefinition processDefinition, final Map<ProcessDefinition, String> processesToExecute) {
+	private boolean canExecute(final ProcessDefinition processDefinition) {
 		// We check if process allow multiExecutions
 		if (!processDefinition.isMultiExecution()) {
-			return !processesToExecute.keySet().stream().anyMatch((inMapDefinition) -> inMapDefinition.getName().equals(processDefinition.getName()))
-					&& processExecutionDAO.getActiveProcessExecutionByProId(processDefinition.getId()).isEmpty();
+			return processExecutionDAO.getActiveProcessExecutionByProId(processDefinition.getId()).isEmpty();
 		}
 		return true;
 

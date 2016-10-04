@@ -10,8 +10,6 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.execution.ExecutionState;
-import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**
@@ -24,36 +22,24 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 
 	private final ProcessDefinitionManager processDefinitionManager;
 	private final ProcessSchedulerManager processSchedulerManager;
-	private final ProcessExecutionManager processExecutionManager;
 
 	/**
 	 * Manager principal d'orchestra.
 	 * @param processDefinitionManager le manager responsable des définitions
-	 * @param processExecutionManager le manager responsable des executions
 	 * @param processSchedulerManager le manager responsable de la planification
 	 */
 	@Inject
-	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager, final ProcessExecutionManager processExecutionManager, final ProcessSchedulerManager processSchedulerManager) {
+	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager, final ProcessSchedulerManager processSchedulerManager) {
 		Assertion.checkNotNull(processDefinitionManager);
-		Assertion.checkNotNull(processExecutionManager);
 		Assertion.checkNotNull(processSchedulerManager);
 		// ---
 		this.processDefinitionManager = processDefinitionManager;
 		this.processSchedulerManager = processSchedulerManager;
-		this.processExecutionManager = processExecutionManager;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public ProcessDefinition getProcessDefinition(final String processName) {
-		Assertion.checkNotNull(processName);
-		// ---
-		return processDefinitionManager.getProcessDefinition(processName);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
+	public void createOrUpdateDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
 		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
@@ -61,14 +47,8 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public List<ProcessDefinition> getAllProcesses() {
+	public List<ProcessDefinition> getAllProcessDefinitions() {
 		return processDefinitionManager.getAllProcessDefinitions();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void scheduleNow(final String processName, final Optional<String> initialParams) {
-		scheduleAt(processName, new Date(), initialParams);
 	}
 
 	/** {@inheritDoc} */
@@ -77,20 +57,22 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 		Assertion.checkNotNull(processName);
 		Assertion.checkNotNull(expectedTime);
 		// ---
-		final ProcessDefinition processDefintion = getProcessDefinition(processName);
-		Assertion.checkNotNull(processDefintion);
+		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
+		Assertion.checkNotNull(processDefinition);
 		// ---
-		processSchedulerManager.scheduleAt(processDefintion, expectedTime, initialParams);
+		processSchedulerManager.scheduleAt(processDefinition, expectedTime, initialParams);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void endPendingActivityExecution(final Long activityExecutionId, final String token, final ExecutionState state) {
-		Assertion.checkNotNull(activityExecutionId);
-		Assertion.checkNotNull(token);
-		Assertion.checkNotNull(state);
+	public void scheduleWithCron(final String processName) {
+		Assertion.checkArgNotEmpty(processName);
 		// ---
-		processExecutionManager.endPendingActivityExecution(activityExecutionId, token, state);
+		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
+		Assertion.checkNotNull(processDefinition);
+		// ---
+		processSchedulerManager.scheduleWithCron(processDefinition);
+
 	}
 
 }

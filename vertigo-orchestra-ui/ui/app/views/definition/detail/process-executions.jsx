@@ -19,7 +19,7 @@ import ProcessSummary from '../../components/processSummary'
 export default React.createClass({
     displayName: 'ProcessExecutions',
     propTypes: {
-        id: PropTypes.number.isRequired
+        id: PropTypes.string.isRequired
     },
     mixins: [formPreset],
     definitionPath: 'oProcessUi',
@@ -29,14 +29,14 @@ export default React.createClass({
     getInitialState () {
         return {
             isProcessExecutionsModalOpen: false,
-            proId: this.props.id,
+            name: this.props.id,
             initialStatus: null
         };
     },
 
     componentWillReceiveProps(nextProps){
       this.setState({
-          proId: nextProps.id,
+          name: nextProps.id,
           initialStatus: null
       });
     },
@@ -69,7 +69,7 @@ export default React.createClass({
 
     /** @inheritDoc */
     renderContent() {
-        const {isProcessExecutionsModalOpen, initialStatus, proId} = this.state;
+        const {isProcessExecutionsModalOpen, initialStatus, name} = this.state;
         const {errorsCount, successfulCount, misfiredCount, averageExecutionTime, health} = this.state;
         return (
             <Panel title='view.process.detail.executions' data-orchestra="process-executions-panel">
@@ -85,7 +85,7 @@ export default React.createClass({
                 {isProcessExecutionsModalOpen &&
                     <div>
                         <Modal open={true} type='from-right' size="large" onPopinClose={this._onProcessExecutionsModalToggle}>
-                          <ProcessExecutions id={proId} initialStatus={initialStatus} />
+                          <ProcessExecutions id={name} initialStatus={initialStatus} />
                         </Modal>
                     </div>
                 }

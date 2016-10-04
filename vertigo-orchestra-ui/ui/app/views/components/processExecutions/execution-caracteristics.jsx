@@ -34,7 +34,7 @@ export default React.createClass({
     },
 
     dlLogFile() {
-        window.location.href = './executions/processExecution/'+this.props.id+'/logFile';
+        window.location.href = `${__API_ROOT__}executions/processExecution/`+this.props.id+'/logFile';
     },
     /** @inheritDoc */
     render() {

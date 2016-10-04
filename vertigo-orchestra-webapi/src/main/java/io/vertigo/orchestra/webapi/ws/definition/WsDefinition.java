@@ -1,13 +1,12 @@
 package io.vertigo.orchestra.webapi.ws.definition;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
 
-import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.orchestra.domain.definition.OActivity;
-import io.vertigo.orchestra.webapi.domain.uidefinitions.OProcessUi;
-import io.vertigo.orchestra.webapi.services.DefinitionServices;
+import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.vega.webservice.WebServices;
 import io.vertigo.vega.webservice.stereotype.GET;
 import io.vertigo.vega.webservice.stereotype.InnerBodyParam;
@@ -24,16 +23,16 @@ import io.vertigo.vega.webservice.stereotype.PathPrefix;
 public class WsDefinition implements WebServices {
 
 	@Inject
-	private DefinitionServices definitionServices;
+	private ProcessDefinitionManager definitionManager;
 
 	/**
 	 * Retourne un processus par son id.
 	 * @param id l'id du processus
 	 * @return le processus
 	 */
-	@GET("/{id}")
-	public OProcessUi getProcessById(@PathParam("id") final Long id) {
-		return definitionServices.getProcessDefinitionById(id);
+	@GET("/{processName}")
+	public ProcessDefinition getProcessById(@PathParam("processName") final String processName) {
+		return definitionManager.getProcessDefinition(processName);
 	}
 
 	/**
@@ -42,22 +41,13 @@ public class WsDefinition implements WebServices {
 	 * @return la liste de resultats
 	 */
 	@POST("/search")
-	public DtList<OProcessUi> searchProcessByLabel(@InnerBodyParam("criteria") final String criteria) {
+	public List<ProcessDefinition> searchProcessByLabel(@InnerBodyParam("criteria") final String criteria) {
 		//TODO voir comment faire autrement
-		if ("*".equals(criteria)) {
-			return definitionServices.searchProcess("");
-		}
-		return definitionServices.searchProcess(criteria);
-	}
-
-	/**
-	 * Retourne lq liste des activités d'un processus par son id.
-	 * @param id du processus
-	 * @return la liste des activités
-	 */
-	@GET("/{id}/activities")
-	public DtList<OActivity> getActivitiesByProcessId(@PathParam("id") final Long id) {
-		return definitionServices.getActivitiesByProId(id);
+		//		if ("*".equals(criteria)) {
+		//			return definitionServices.searchProcess("");
+		//		}
+		//		return definitionServices.searchProcess(criteria);
+		return definitionManager.getAllProcessDefinitions();
 	}
 
 	/**
@@ -69,11 +59,12 @@ public class WsDefinition implements WebServices {
 	 * @param active si le processus est actif
 	 * @return le processus mis à jour
 	 */
-	@POST("/{id}/updateProperties")
-	public OProcessUi updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("cronExpression") final Optional<String> cronExpression,
-			@InnerBodyParam("multiexecution") final boolean multiExecution, @InnerBodyParam("rescuePeriod") final int rescuePerdiodSeconds, @InnerBodyParam("active") final boolean active) {
-		definitionServices.updateProcessProperties(id, cronExpression, multiExecution, rescuePerdiodSeconds, active);
-		return definitionServices.getProcessDefinitionById(id);
+	@POST("/{processName}/updateProperties")
+	public ProcessDefinition updateProcessProperties(@PathParam("processName") final String processName, @InnerBodyParam("cronExpression") final Optional<String> cronExpression,
+			@InnerBodyParam("multiExecution") final boolean multiExecution, @InnerBodyParam("rescuePeriod") final int rescuePerdiodSeconds, @InnerBodyParam("active") final boolean active) {
+
+		definitionManager.updateProcessDefinitionProperties(processName, cronExpression, multiExecution, rescuePerdiodSeconds, active);
+		return definitionManager.getProcessDefinition(processName);
 	}
 
 	/**
@@ -82,9 +73,9 @@ public class WsDefinition implements WebServices {
 	 * @param initialParams les nouveaux paramètres à utiliser (JSON sous forme de string)
 	 * @return le processus mis à jour
 	 */
-	@POST("/{id}/updateInitialParams")
-	public OProcessUi updateInitialParams(@PathParam("id") final Long id, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
-		definitionServices.updateProcessInitialParams(id, initialParams);
-		return definitionServices.getProcessDefinitionById(id);
+	@POST("/{processName}/updateInitialParams")
+	public ProcessDefinition updateInitialParams(@PathParam("processName") final String processName, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
+		definitionManager.updateProcessDefinitionInitialParams(processName, initialParams);
+		return definitionManager.getProcessDefinition(processName);
 	}
 }

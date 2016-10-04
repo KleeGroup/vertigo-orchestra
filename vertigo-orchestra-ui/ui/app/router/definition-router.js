@@ -8,9 +8,9 @@ export default router.extend({
         application.changeRoute('definitions');
     },
     routes: {
-        'definitions(/:id)': 'definitions'
+        'definitions(/:name)': 'definitions'
     },
-    definitions(id) {
-        this._pageContent(ProcessDetailView, {props: {id : +id}});
+    definitions(name) {
+        this._pageContent(ProcessDetailView, {props: {id : name}});
     }
 });

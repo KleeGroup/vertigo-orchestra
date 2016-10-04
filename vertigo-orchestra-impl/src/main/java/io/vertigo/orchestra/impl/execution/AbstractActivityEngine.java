@@ -2,10 +2,10 @@ package io.vertigo.orchestra.impl.execution;
 
 import javax.inject.Inject;
 
-import io.vertigo.orchestra.execution.ActivityEngine;
-import io.vertigo.orchestra.execution.ActivityExecutionWorkspace;
-import io.vertigo.orchestra.execution.ActivityLogger;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.execution.activity.ActivityEngine;
+import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
+import io.vertigo.orchestra.execution.activity.ActivityLogger;
 
 /**
  * Activity engine abstrait offrant des services communs (logger)

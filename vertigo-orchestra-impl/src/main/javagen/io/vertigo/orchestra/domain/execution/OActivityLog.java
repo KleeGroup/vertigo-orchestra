@@ -106,20 +106,6 @@ public final class OActivityLog implements Entity {
 	 * Association : ActivityExecution.
 	 * @return io.vertigo.orchestra.domain.execution.OActivityExecution
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_ACL_ACE",
-    	fkFieldName = "ACE_ID",
-    	primaryDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	primaryIsNavigable = true,
-    	primaryRole = "ActivityExecution",
-    	primaryLabel = "ActivityExecution",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_LOG",
-    	foreignIsNavigable = false,
-    	foreignRole = "ActivityLog",
-    	foreignLabel = "ActivityLog",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.execution.OActivityExecution getActivityExecution() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OActivityExecution> fkURI = getActivityExecutionURI();
 		if (fkURI == null) {

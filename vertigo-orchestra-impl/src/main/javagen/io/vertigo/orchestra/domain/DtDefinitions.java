@@ -17,12 +17,16 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			OActivity(io.vertigo.orchestra.domain.definition.OActivity.class),
 			/** Objet de données OActivityExecution. */
 			OActivityExecution(io.vertigo.orchestra.domain.execution.OActivityExecution.class),
+			/** Objet de données OActivityExecutionUi. */
+			OActivityExecutionUi(io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi.class),
 			/** Objet de données OActivityLog. */
 			OActivityLog(io.vertigo.orchestra.domain.execution.OActivityLog.class),
 			/** Objet de données OActivityWorkspace. */
 			OActivityWorkspace(io.vertigo.orchestra.domain.execution.OActivityWorkspace.class),
 			/** Objet de données OExecutionState. */
 			OExecutionState(io.vertigo.orchestra.domain.referential.OExecutionState.class),
+			/** Objet de données OExecutionSummary. */
+			OExecutionSummary(io.vertigo.orchestra.monitoring.domain.summary.OExecutionSummary.class),
 			/** Objet de données ONode. */
 			ONode(io.vertigo.orchestra.domain.execution.ONode.class),
 			/** Objet de données OPlanificationState. */
@@ -31,10 +35,14 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			OProcess(io.vertigo.orchestra.domain.definition.OProcess.class),
 			/** Objet de données OProcessExecution. */
 			OProcessExecution(io.vertigo.orchestra.domain.execution.OProcessExecution.class),
+			/** Objet de données OProcessExecutionUi. */
+			OProcessExecutionUi(io.vertigo.orchestra.monitoring.domain.uiexecutions.OProcessExecutionUi.class),
 			/** Objet de données OProcessPlanification. */
 			OProcessPlanification(io.vertigo.orchestra.domain.planification.OProcessPlanification.class),
 			/** Objet de données OProcessType. */
 			OProcessType(io.vertigo.orchestra.domain.referential.OProcessType.class),
+			/** Objet de données OProcessUi. */
+			OProcessUi(io.vertigo.orchestra.monitoring.domain.uidefinitions.OProcessUi.class),
 			/** Objet de données OUser. */
 			OUser(io.vertigo.orchestra.domain.referential.OUser.class),
 			/** Objet de données TriggerType. */
@@ -102,6 +110,32 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	}
 
 	/**
+	 * Enumération des champs de OActivityExecutionUi.
+	 */
+	public enum OActivityExecutionUiFields implements DtFieldName {
+		/** Propriété 'Id de l'activité'. */
+		ACE_ID,
+		/** Propriété 'Libellé'. */
+		LABEL,
+		/** Propriété 'Nom du processus'. */
+		BEGIN_TIME,
+		/** Propriété 'Nom du processus'. */
+		END_TIME,
+		/** Propriété 'Durée'. */
+		EXECUTION_TIME,
+		/** Propriété 'Statut'. */
+		STATUS,
+		/** Propriété 'Paramètres entrants'. */
+		WORKSPACE_IN,
+		/** Propriété 'Paramètres sortants'. */
+		WORKSPACE_OUT,
+		/** Propriété 'Fichier de log'. */
+		HAS_LOG_FILE,
+		/** Propriété 'Log technique'. */
+		HAS_TECHNICAL_LOG,
+	}
+
+	/**
 	 * Enumération des champs de OActivityLog.
 	 */
 	public enum OActivityLogFields implements DtFieldName {
@@ -137,6 +171,34 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		EST_CD,
 		/** Propriété 'Libellé'. */
 		LABEL,
+	}
+
+	/**
+	 * Enumération des champs de OExecutionSummary.
+	 */
+	public enum OExecutionSummaryFields implements DtFieldName {
+		/** Propriété 'Id du processus'. */
+		PRO_ID,
+		/** Propriété 'Nom du processus'. */
+		PROCESS_NAME,
+		/** Propriété 'Libellé du processus'. */
+		PROCESS_LABEL,
+		/** Propriété 'Dernière exécution le'. */
+		LAST_EXECUTION_TIME,
+		/** Propriété 'Prochaine exécution le'. */
+		NEXT_EXECUTION_TIME,
+		/** Propriété 'Nombre en erreur'. */
+		ERRORS_COUNT,
+		/** Propriété 'Nombre non executés'. */
+		MISFIRED_COUNT,
+		/** Propriété 'Nombre en succès'. */
+		SUCCESSFUL_COUNT,
+		/** Propriété 'Nombre en cours'. */
+		RUNNING_COUNT,
+		/** Propriété 'Durée moyenne d'exécution'. */
+		AVERAGE_EXECUTION_TIME,
+		/** Propriété 'Santé du processus'. */
+		HEALTH,
 	}
 
 	/**
@@ -220,6 +282,30 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	}
 
 	/**
+	 * Enumération des champs de OProcessExecutionUi.
+	 */
+	public enum OProcessExecutionUiFields implements DtFieldName {
+		/** Propriété 'Id de l'activité'. */
+		PRE_ID,
+		/** Propriété 'Nom du processus'. */
+		BEGIN_TIME,
+		/** Propriété 'Nom du processus'. */
+		END_TIME,
+		/** Propriété 'Durée'. */
+		EXECUTION_TIME,
+		/** Propriété 'Statut'. */
+		STATUS,
+		/** Propriété 'Pris en charge'. */
+		CHECKED,
+		/** Propriété 'Date de prise en charge'. */
+		CHECKING_DATE,
+		/** Propriété 'Commentaire'. */
+		CHECKING_COMMENT,
+		/** Propriété 'Fichier de log'. */
+		HAS_LOG_FILE,
+	}
+
+	/**
 	 * Enumération des champs de OProcessPlanification.
 	 */
 	public enum OProcessPlanificationFields implements DtFieldName {
@@ -245,6 +331,30 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		PRT_CD,
 		/** Propriété 'Libellé'. */
 		LABEL,
+	}
+
+	/**
+	 * Enumération des champs de OProcessUi.
+	 */
+	public enum OProcessUiFields implements DtFieldName {
+		/** Propriété 'Id du processus'. */
+		PRO_ID,
+		/** Propriété 'Nom du processus'. */
+		NAME,
+		/** Propriété 'Libellé du processus'. */
+		LABEL,
+		/** Propriété 'Expression récurrence du processus'. */
+		CRON_EXPRESSION,
+		/** Propriété 'Paramètres initiaux sous forme de JSON'. */
+		INITIAL_PARAMS,
+		/** Propriété 'Accepte la multi-execution'. */
+		MULTIEXECUTION,
+		/** Propriété 'Processus actif'. */
+		ACTIVE,
+		/** Propriété 'Temps de validité d'une planification'. */
+		RESCUE_PERIOD,
+		/** Propriété 'Métadonnées du processus'. */
+		METADATAS,
 	}
 
 	/**

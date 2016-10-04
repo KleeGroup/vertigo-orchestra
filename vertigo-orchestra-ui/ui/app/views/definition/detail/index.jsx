@@ -21,7 +21,7 @@ import HeaderSummary from './header-content-summary';
 export default React.createClass({
     displayName: 'ProcessDetailView',
     propTypes: {
-        id: PropTypes.number.isRequired
+        id: PropTypes.string.isRequired
     },
     mixins: [cartridgeBehaviour],
 

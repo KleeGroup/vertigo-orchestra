@@ -293,20 +293,6 @@ public final class OProcess implements Entity {
 	 * Association : TriggerType.
 	 * @return io.vertigo.orchestra.domain.referential.TriggerType
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRO_TRT",
-    	fkFieldName = "TRT_CD",
-    	primaryDtDefinitionName = "DT_TRIGGER_TYPE",
-    	primaryIsNavigable = true,
-    	primaryRole = "TriggerType",
-    	primaryLabel = "TriggerType",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS",
-    	foreignIsNavigable = false,
-    	foreignRole = "Process",
-    	foreignLabel = "Process",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.referential.TriggerType getTriggerType() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.TriggerType> fkURI = getTriggerTypeURI();
 		if (fkURI == null) {
@@ -350,20 +336,6 @@ public final class OProcess implements Entity {
 	 * Association : ProcessType.
 	 * @return io.vertigo.orchestra.domain.referential.OProcessType
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRO_PRT",
-    	fkFieldName = "PRT_CD",
-    	primaryDtDefinitionName = "DT_O_PROCESS_TYPE",
-    	primaryIsNavigable = true,
-    	primaryRole = "ProcessType",
-    	primaryLabel = "ProcessType",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS",
-    	foreignIsNavigable = false,
-    	foreignRole = "Process",
-    	foreignLabel = "Process",
-    	foreignMultiplicity = "0..*"
-    )
 	public io.vertigo.orchestra.domain.referential.OProcessType getProcessType() {
 		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OProcessType> fkURI = getProcessTypeURI();
 		if (fkURI == null) {

@@ -12,7 +12,7 @@ import {caracteristicsActions} from '../../../action/process-definition';
 export default React.createClass({
     displayName: 'ProcessFunctionalCaracteristics',
     propTypes: {
-        id: PropTypes.number.isRequired
+        id: PropTypes.string.isRequired
     },
     mixins: [formPreset],
     definitionPath: 'oProcessUi',

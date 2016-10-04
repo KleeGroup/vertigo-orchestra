@@ -27,6 +27,7 @@ import io.vertigo.orchestra.domain.execution.OActivityLog;
 import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
+import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.scheduler.PlanificationState;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;

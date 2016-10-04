@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.definition;
 
 import io.vertigo.lang.Assertion;
-import io.vertigo.orchestra.execution.ActivityEngine;
+import io.vertigo.orchestra.execution.activity.ActivityEngine;
 
 /**
  * Définition d'une activité d'un processus Orchestra.
