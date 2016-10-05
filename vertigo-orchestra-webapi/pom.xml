@@ -35,11 +35,6 @@
 		</dependency>
 		<dependency>
 			<groupId>io.vertigo</groupId>
-			<artifactId>vertigo-studio</artifactId>
-			<version>${vertigo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertigo</groupId>
 			<artifactId>vertigo-commons-impl</artifactId>
 			<version>${vertigo.version}</version>
 		</dependency>
@@ -72,26 +67,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/javagen</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

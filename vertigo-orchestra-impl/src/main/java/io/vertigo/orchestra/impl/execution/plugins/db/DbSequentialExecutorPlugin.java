@@ -1,5 +1,6 @@
 package io.vertigo.orchestra.impl.execution.plugins.db;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -265,6 +266,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 	}
 
 	private void doRunActivity(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspace) {
+		clearAllThreadLocals();
 		ActivityExecutionWorkspace result;
 		try {
 			result = execute(activityExecution, workspace);
@@ -272,6 +274,16 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 		} catch (final Exception e) {
 			LOGGER.info("Error executing activity", e);
 			putResult(activityExecution, null, e.getCause());
+		}
+	}
+
+	private static void clearAllThreadLocals() {
+		try {
+			final Field threadLocals = Thread.class.getDeclaredField("threadLocals");
+			threadLocals.setAccessible(true);
+			threadLocals.set(Thread.currentThread(), null);
+		} catch (final Exception e) {
+			throw new AssertionError(e);
 		}
 	}
 
@@ -444,12 +456,15 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 				saveActivityExecutionWorkspace(nextActivityExecution.getAceId(), previousWorkspace, true);
 				nextActivityExecution.setBeginTime(new Date());
 				nextWorkspace = previousWorkspace;
-				workers.submit(() -> doRunActivity(nextActivityExecution, nextWorkspace));
+				//we close the transaction now
+				transaction.commit();
+				transaction.close();
+				doRunActivity(nextActivityExecution, nextWorkspace);
 
 			} else {
 				endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);
+				transaction.commit();
 			}
-			transaction.commit();
 
 		}
 	}

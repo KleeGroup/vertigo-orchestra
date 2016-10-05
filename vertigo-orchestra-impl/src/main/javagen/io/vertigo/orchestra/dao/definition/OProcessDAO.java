@@ -40,18 +40,6 @@ public final class OProcessDAO extends DAO<OProcess, java.lang.Long> implements 
 	}
 
 	/**
-	 * Execute la tache TK_GET_ALL_SCHEDULED_PROCESSES.
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> dtcProcesses
-	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> getAllScheduledProcesses() {
-		final Task task = createTaskBuilder("TK_GET_ALL_SCHEDULED_PROCESSES")
-				.build();
-		return getTaskManager()
-				.execute(task)
-				.getResult();
-	}
-
-	/**
 	 * Execute la tache TK_GET_ACTIVE_PROCESS_BY_NAME.
 	 * @param name String 
 	 * @return Option de io.vertigo.orchestra.domain.definition.OProcess dtProcess
@@ -71,18 +59,6 @@ public final class OProcessDAO extends DAO<OProcess, java.lang.Long> implements 
 	*/
 	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> getAllActiveProcesses() {
 		final Task task = createTaskBuilder("TK_GET_ALL_ACTIVE_PROCESSES")
-				.build();
-		return getTaskManager()
-				.execute(task)
-				.getResult();
-	}
-
-	/**
-	 * Execute la tache TK_GET_PROCESSES.
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> dtcOProcess
-	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OProcess> getProcesses() {
-		final Task task = createTaskBuilder("TK_GET_PROCESSES")
 				.build();
 		return getTaskManager()
 				.execute(task)

@@ -1,22 +1,5 @@
 package io.vertigo.orchestra.dao.definition
 
-
-
-create Task TK_GET_ALL_SCHEDULED_PROCESSES {
-	storeName : "orchestra"
-    className : "io.vertigo.dynamox.task.TaskEngineSelect"
-        request : "
-        	select 
-        		pro.*
-        	from o_process pro
-        	where pro.trt_cd = 'SCHEDULED' and pro.active is true and pro.active_version is true
-        	for update
-        	
-			"
-	attribute DTC_PROCESSES	 	{domain : DO_DT_O_PROCESS_DTC 		notNull:"true" 	inOut :"out"}
-}
-
-
 create Task TK_GET_ACTIVE_PROCESS_BY_NAME {
 	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
