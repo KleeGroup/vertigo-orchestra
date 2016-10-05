@@ -67,7 +67,9 @@ public final class OrchestraFeatures extends Features {
 					.addParam("workersCount", "3")
 					.addParam("executionPeriodSeconds", period)
 				.endPlugin()
-				.beginPlugin(SimpleExecutorPlugin.class).endPlugin()
+				.beginPlugin(SimpleExecutorPlugin.class)
+				.addParam("workersCount", "3")
+				.endPlugin()
 				.addComponent(OrchestraManager.class, OrchestraManagerImpl.class)
 				//----DAO
 				.addComponent(OProcessDAO.class)

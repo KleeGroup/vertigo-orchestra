@@ -4,6 +4,9 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.apache.log4j.Logger;
 
 import io.vertigo.app.Home;
@@ -28,7 +31,18 @@ public class SimpleExecutorPlugin implements ProcessExecutorPlugin, Activeable {
 
 	private static final Logger LOGGER = Logger.getLogger(SimpleExecutorPlugin.class);
 
-	private final ExecutorService localExecutor = Executors.newFixedThreadPool(5);
+	private final ExecutorService localExecutor;
+
+	/**
+	 * Constructeur de l'executeur simple local.
+	 * @param workersCount le nombre de workers du pool
+	 */
+	@Inject
+	public SimpleExecutorPlugin(@Named("workersCount") final Integer workersCount) {
+		Assertion.checkNotNull(workersCount);
+		// ---
+		localExecutor = Executors.newFixedThreadPool(workersCount);
+	}
 
 	@Override
 	public void start() {
