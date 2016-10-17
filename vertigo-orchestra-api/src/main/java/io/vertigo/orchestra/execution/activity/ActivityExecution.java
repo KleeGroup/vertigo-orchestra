@@ -1,7 +1,13 @@
 package io.vertigo.orchestra.execution.activity;
 
 import java.io.Serializable;
+import java.util.Date;
 
+/**
+ * Representation of an activityExecution
+ * @author mlaroche
+ *
+ */
 public final class ActivityExecution implements Serializable {
 
 	/** SerialVersionUID. */
@@ -9,8 +15,8 @@ public final class ActivityExecution implements Serializable {
 
 	private Long aceId;
 	private String label;
-	private java.util.Date beginTime;
-	private java.util.Date endTime;
+	private Date beginTime;
+	private Date endTime;
 	private Integer executionTime;
 	private String status;
 	private String workspaceIn;
@@ -34,19 +40,19 @@ public final class ActivityExecution implements Serializable {
 		this.label = label;
 	}
 
-	public java.util.Date getBeginTime() {
+	public Date getBeginTime() {
 		return beginTime;
 	}
 
-	public void setBeginTime(final java.util.Date beginTime) {
+	public void setBeginTime(final Date beginTime) {
 		this.beginTime = beginTime;
 	}
 
-	public java.util.Date getEndTime() {
+	public Date getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(final java.util.Date endTime) {
+	public void setEndTime(final Date endTime) {
 		this.endTime = endTime;
 	}
 
