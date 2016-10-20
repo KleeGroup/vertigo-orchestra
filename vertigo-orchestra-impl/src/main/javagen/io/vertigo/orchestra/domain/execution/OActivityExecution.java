@@ -236,7 +236,7 @@ public final class OActivityExecution implements Entity {
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (activity == null || !fkURI.equals(activity.getURI())) {
-			activity = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
+			activity = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
 		}
 		return activity;
 	}
@@ -273,7 +273,7 @@ public final class OActivityExecution implements Entity {
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (processusExecution == null || !fkURI.equals(processusExecution.getURI())) {
-			processusExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
+			processusExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
 		}
 		return processusExecution;
 	}
@@ -314,7 +314,7 @@ public final class OActivityExecution implements Entity {
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (node == null || !fkURI.equals(node.getURI())) {
-			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
+			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
 		}
 		return node;
 	}
@@ -351,7 +351,7 @@ public final class OActivityExecution implements Entity {
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (executionState == null || !fkURI.equals(executionState.getURI())) {
-			executionState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
+			executionState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
 		}
 		return executionState;
 	}

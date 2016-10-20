@@ -173,7 +173,7 @@ public final class OActivity implements Entity {
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
 		if (process == null || !fkURI.equals(process.getURI())) {
-			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
+			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
 		}
 		return process;
 	}
