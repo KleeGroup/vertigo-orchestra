@@ -234,13 +234,7 @@ public final class OProcessExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (process != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(process.getURI())) {
-				process = null;
-			}
-		}		
-		if (process == null) {
+		if (process == null || !fkURI.equals(process.getURI())) {
 			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return process;
@@ -279,13 +273,7 @@ public final class OProcessExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (executionState != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(executionState.getURI())) {
-				executionState = null;
-			}
-		}		
-		if (executionState == null) {
+		if (executionState == null || !fkURI.equals(executionState.getURI())) {
 			executionState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return executionState;
@@ -322,13 +310,7 @@ public final class OProcessExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (user != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(user.getURI())) {
-				user = null;
-			}
-		}		
-		if (user == null) {
+		if (user == null || !fkURI.equals(user.getURI())) {
 			user = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return user;

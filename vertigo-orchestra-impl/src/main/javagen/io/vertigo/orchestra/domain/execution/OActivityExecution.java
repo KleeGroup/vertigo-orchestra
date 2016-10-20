@@ -235,13 +235,7 @@ public final class OActivityExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (activity != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(activity.getURI())) {
-				activity = null;
-			}
-		}		
-		if (activity == null) {
+		if (activity == null || !fkURI.equals(activity.getURI())) {
 			activity = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return activity;
@@ -278,13 +272,7 @@ public final class OActivityExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (processusExecution != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(processusExecution.getURI())) {
-				processusExecution = null;
-			}
-		}		
-		if (processusExecution == null) {
+		if (processusExecution == null || !fkURI.equals(processusExecution.getURI())) {
 			processusExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return processusExecution;
@@ -325,13 +313,7 @@ public final class OActivityExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (node != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(node.getURI())) {
-				node = null;
-			}
-		}		
-		if (node == null) {
+		if (node == null || !fkURI.equals(node.getURI())) {
 			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return node;
@@ -368,13 +350,7 @@ public final class OActivityExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (executionState != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(executionState.getURI())) {
-				executionState = null;
-			}
-		}		
-		if (executionState == null) {
+		if (executionState == null || !fkURI.equals(executionState.getURI())) {
 			executionState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return executionState;

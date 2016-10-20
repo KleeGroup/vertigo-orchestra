@@ -299,13 +299,7 @@ public final class OProcess implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (triggerType != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(triggerType.getURI())) {
-				triggerType = null;
-			}
-		}		
-		if (triggerType == null) {
+		if (triggerType == null || !fkURI.equals(triggerType.getURI())) {
 			triggerType = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return triggerType;
@@ -342,13 +336,7 @@ public final class OProcess implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (processType != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(processType.getURI())) {
-				processType = null;
-			}
-		}		
-		if (processType == null) {
+		if (processType == null || !fkURI.equals(processType.getURI())) {
 			processType = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return processType;

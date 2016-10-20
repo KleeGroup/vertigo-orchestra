@@ -172,13 +172,7 @@ public final class OActivity implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (process != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(process.getURI())) {
-				process = null;
-			}
-		}		
-		if (process == null) {
+		if (process == null || !fkURI.equals(process.getURI())) {
 			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return process;

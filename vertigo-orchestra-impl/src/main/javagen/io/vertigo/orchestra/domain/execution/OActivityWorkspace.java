@@ -112,13 +112,7 @@ public final class OActivityWorkspace implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (activityExecution != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(activityExecution.getURI())) {
-				activityExecution = null;
-			}
-		}		
-		if (activityExecution == null) {
+		if (activityExecution == null || !fkURI.equals(activityExecution.getURI())) {
 			activityExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return activityExecution;

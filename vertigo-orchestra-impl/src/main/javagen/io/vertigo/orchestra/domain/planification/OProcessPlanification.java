@@ -154,13 +154,7 @@ public final class OProcessPlanification implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (processus != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(processus.getURI())) {
-				processus = null;
-			}
-		}		
-		if (processus == null) {
+		if (processus == null || !fkURI.equals(processus.getURI())) {
 			processus = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return processus;
@@ -197,13 +191,7 @@ public final class OProcessPlanification implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (node != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(node.getURI())) {
-				node = null;
-			}
-		}		
-		if (node == null) {
+		if (node == null || !fkURI.equals(node.getURI())) {
 			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return node;
@@ -240,13 +228,7 @@ public final class OProcessPlanification implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (planificationState != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(planificationState.getURI())) {
-				planificationState = null;
-			}
-		}		
-		if (planificationState == null) {
+		if (planificationState == null || !fkURI.equals(planificationState.getURI())) {
 			planificationState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return planificationState;
