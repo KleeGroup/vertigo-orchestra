@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.domain.execution;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivityLog
@@ -48,7 +49,7 @@ public final class OActivityLog implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Contenu du log'. 
-	 * @return String log 
+	 * @return String log
 	 */
 	@Field(domain = "DO_O_TEXT", label = "Contenu du log")
 	public String getLog() {
@@ -58,7 +59,7 @@ public final class OActivityLog implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Contenu du log'.
-	 * @param log String 
+	 * @param log String
 	 */
 	public void setLog(final String log) {
 		this.log = log;
@@ -67,7 +68,7 @@ public final class OActivityLog implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Fichier de log'. 
-	 * @return String logFile 
+	 * @return String logFile
 	 */
 	@Field(domain = "DO_O_TEXT", label = "Fichier de log")
 	public String getLogFile() {
@@ -77,7 +78,7 @@ public final class OActivityLog implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Fichier de log'.
-	 * @param logFile String 
+	 * @param logFile String
 	 */
 	public void setLogFile(final String logFile) {
 		this.logFile = logFile;
@@ -86,7 +87,7 @@ public final class OActivityLog implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'ActivityExecution'. 
-	 * @return Long aceId 
+	 * @return Long aceId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "ActivityExecution")
 	public Long getAceId() {
@@ -96,7 +97,7 @@ public final class OActivityLog implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'ActivityExecution'.
-	 * @param aceId Long 
+	 * @param aceId Long
 	 */
 	public void setAceId(final Long aceId) {
 		this.aceId = aceId;

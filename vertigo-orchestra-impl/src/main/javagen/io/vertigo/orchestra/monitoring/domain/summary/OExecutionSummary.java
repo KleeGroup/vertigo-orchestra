@@ -1,8 +1,9 @@
 package io.vertigo.orchestra.monitoring.domain.summary;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.DtObject;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OExecutionSummary
@@ -85,7 +86,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Dernière exécution le'. 
-	 * @return java.util.Date lastExecutionTime 
+	 * @return java.util.Date lastExecutionTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Dernière exécution le")
 	public java.util.Date getLastExecutionTime() {
@@ -95,7 +96,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Dernière exécution le'.
-	 * @param lastExecutionTime java.util.Date 
+	 * @param lastExecutionTime java.util.Date
 	 */
 	public void setLastExecutionTime(final java.util.Date lastExecutionTime) {
 		this.lastExecutionTime = lastExecutionTime;
@@ -104,7 +105,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Prochaine exécution le'. 
-	 * @return java.util.Date nextExecutionTime 
+	 * @return java.util.Date nextExecutionTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Prochaine exécution le")
 	public java.util.Date getNextExecutionTime() {
@@ -114,7 +115,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Prochaine exécution le'.
-	 * @param nextExecutionTime java.util.Date 
+	 * @param nextExecutionTime java.util.Date
 	 */
 	public void setNextExecutionTime(final java.util.Date nextExecutionTime) {
 		this.nextExecutionTime = nextExecutionTime;
@@ -123,7 +124,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre en erreur'. 
-	 * @return Integer errorsCount 
+	 * @return Integer errorsCount
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Nombre en erreur")
 	public Integer getErrorsCount() {
@@ -133,7 +134,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre en erreur'.
-	 * @param errorsCount Integer 
+	 * @param errorsCount Integer
 	 */
 	public void setErrorsCount(final Integer errorsCount) {
 		this.errorsCount = errorsCount;
@@ -142,7 +143,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre non executés'. 
-	 * @return Integer misfiredCount 
+	 * @return Integer misfiredCount
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Nombre non executés")
 	public Integer getMisfiredCount() {
@@ -152,7 +153,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre non executés'.
-	 * @param misfiredCount Integer 
+	 * @param misfiredCount Integer
 	 */
 	public void setMisfiredCount(final Integer misfiredCount) {
 		this.misfiredCount = misfiredCount;
@@ -161,7 +162,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre en succès'. 
-	 * @return Integer successfulCount 
+	 * @return Integer successfulCount
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Nombre en succès")
 	public Integer getSuccessfulCount() {
@@ -171,7 +172,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre en succès'.
-	 * @param successfulCount Integer 
+	 * @param successfulCount Integer
 	 */
 	public void setSuccessfulCount(final Integer successfulCount) {
 		this.successfulCount = successfulCount;
@@ -180,7 +181,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nombre en cours'. 
-	 * @return Integer runningCount 
+	 * @return Integer runningCount
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Nombre en cours")
 	public Integer getRunningCount() {
@@ -190,7 +191,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nombre en cours'.
-	 * @param runningCount Integer 
+	 * @param runningCount Integer
 	 */
 	public void setRunningCount(final Integer runningCount) {
 		this.runningCount = runningCount;
@@ -199,7 +200,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Durée moyenne d'exécution'. 
-	 * @return Integer averageExecutionTime 
+	 * @return Integer averageExecutionTime
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Durée moyenne d'exécution")
 	public Integer getAverageExecutionTime() {
@@ -209,7 +210,7 @@ public final class OExecutionSummary implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Durée moyenne d'exécution'.
-	 * @param averageExecutionTime Integer 
+	 * @param averageExecutionTime Integer
 	 */
 	public void setAverageExecutionTime(final Integer averageExecutionTime) {
 		this.averageExecutionTime = averageExecutionTime;

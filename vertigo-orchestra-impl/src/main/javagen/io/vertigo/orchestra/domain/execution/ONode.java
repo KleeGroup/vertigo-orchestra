@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.domain.execution;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données ONode
@@ -23,10 +24,10 @@ public final class ONode implements Entity {
 	public URI<ONode> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id du noeud'. 
+	 * Récupère la valeur de la propriété 'Id du noeud'.
 	 * @return Long nodId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id du noeud")
@@ -45,7 +46,7 @@ public final class ONode implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du noeud'. 
+	 * Récupère la valeur de la propriété 'Nom du noeud'.
 	 * @return String name <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_LIBELLE", required = true, label = "Nom du noeud")
@@ -64,8 +65,8 @@ public final class ONode implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de dernière activité'. 
-	 * @return java.util.Date heartbeat 
+	 * Récupère la valeur de la propriété 'Date de dernière activité'.
+	 * @return java.util.Date heartbeat
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de dernière activité")
 	public java.util.Date getHeartbeat() {
@@ -75,12 +76,11 @@ public final class ONode implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de dernière activité'.
-	 * @param heartbeat java.util.Date 
+	 * @param heartbeat java.util.Date
 	 */
 	public void setHeartbeat(final java.util.Date heartbeat) {
 		this.heartbeat = heartbeat;
 	}
-
 
 	// Association : PlanificationProcessus non navigable
 

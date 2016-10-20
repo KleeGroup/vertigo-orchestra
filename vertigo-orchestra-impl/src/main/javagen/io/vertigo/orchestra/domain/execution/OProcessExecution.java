@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.domain.execution;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcessExecution
@@ -75,7 +76,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Date de fin'. 
-	 * @return java.util.Date endTime 
+	 * @return java.util.Date endTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de fin")
 	public java.util.Date getEndTime() {
@@ -85,7 +86,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de fin'.
-	 * @param endTime java.util.Date 
+	 * @param endTime java.util.Date
 	 */
 	public void setEndTime(final java.util.Date endTime) {
 		this.endTime = endTime;
@@ -94,7 +95,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'. 
-	 * @return String engine 
+	 * @return String engine
 	 */
 	@Field(domain = "DO_O_CLASSE", label = "Implémentation effective de l'execution")
 	public String getEngine() {
@@ -104,7 +105,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Implémentation effective de l'execution'.
-	 * @param engine String 
+	 * @param engine String
 	 */
 	public void setEngine(final String engine) {
 		this.engine = engine;
@@ -113,7 +114,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Pris en charge'. 
-	 * @return Boolean checked 
+	 * @return Boolean checked
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Pris en charge")
 	public Boolean getChecked() {
@@ -123,7 +124,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Pris en charge'.
-	 * @param checked Boolean 
+	 * @param checked Boolean
 	 */
 	public void setChecked(final Boolean checked) {
 		this.checked = checked;
@@ -132,7 +133,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Date de prise en charge'. 
-	 * @return java.util.Date checkingDate 
+	 * @return java.util.Date checkingDate
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de prise en charge")
 	public java.util.Date getCheckingDate() {
@@ -142,7 +143,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de prise en charge'.
-	 * @param checkingDate java.util.Date 
+	 * @param checkingDate java.util.Date
 	 */
 	public void setCheckingDate(final java.util.Date checkingDate) {
 		this.checkingDate = checkingDate;
@@ -151,7 +152,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Commentaire'. 
-	 * @return String checkingComment 
+	 * @return String checkingComment
 	 */
 	@Field(domain = "DO_O_TEXT", label = "Commentaire")
 	public String getCheckingComment() {
@@ -161,7 +162,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Commentaire'.
-	 * @param checkingComment String 
+	 * @param checkingComment String
 	 */
 	public void setCheckingComment(final String checkingComment) {
 		this.checkingComment = checkingComment;
@@ -170,7 +171,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'Processus'. 
-	 * @return Long proId 
+	 * @return Long proId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getProId() {
@@ -180,7 +181,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Processus'.
-	 * @param proId Long 
+	 * @param proId Long
 	 */
 	public void setProId(final Long proId) {
 		this.proId = proId;
@@ -189,7 +190,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'ExecutionState'. 
-	 * @return String estCd 
+	 * @return String estCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ExecutionState")
 	public String getEstCd() {
@@ -199,7 +200,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'ExecutionState'.
-	 * @param estCd String 
+	 * @param estCd String
 	 */
 	public void setEstCd(final String estCd) {
 		this.estCd = estCd;
@@ -208,7 +209,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'User'. 
-	 * @return Long usrId 
+	 * @return Long usrId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "User")
 	public Long getUsrId() {
@@ -218,7 +219,7 @@ public final class OProcessExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'User'.
-	 * @param usrId Long 
+	 * @param usrId Long
 	 */
 	public void setUsrId(final Long usrId) {
 		this.usrId = usrId;

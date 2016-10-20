@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.domain.definition;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcess
@@ -58,7 +59,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nom du processus'. 
-	 * @return String name 
+	 * @return String name
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Nom du processus")
 	public String getName() {
@@ -68,7 +69,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nom du processus'.
-	 * @param name String 
+	 * @param name String
 	 */
 	public void setName(final String name) {
 		this.name = name;
@@ -77,7 +78,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Libellé du processus'. 
-	 * @return String label 
+	 * @return String label
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Libellé du processus")
 	public String getLabel() {
@@ -87,7 +88,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Libellé du processus'.
-	 * @param label String 
+	 * @param label String
 	 */
 	public void setLabel(final String label) {
 		this.label = label;
@@ -96,7 +97,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Expression récurrence du processus'. 
-	 * @return String cronExpression 
+	 * @return String cronExpression
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Expression récurrence du processus")
 	public String getCronExpression() {
@@ -106,7 +107,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Expression récurrence du processus'.
-	 * @param cronExpression String 
+	 * @param cronExpression String
 	 */
 	public void setCronExpression(final String cronExpression) {
 		this.cronExpression = cronExpression;
@@ -115,7 +116,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'. 
-	 * @return String initialParams 
+	 * @return String initialParams
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
 	public String getInitialParams() {
@@ -125,7 +126,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Paramètres initiaux sous forme de JSON'.
-	 * @param initialParams String 
+	 * @param initialParams String
 	 */
 	public void setInitialParams(final String initialParams) {
 		this.initialParams = initialParams;
@@ -134,7 +135,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Accepte la multi-execution'. 
-	 * @return Boolean multiexecution 
+	 * @return Boolean multiexecution
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Accepte la multi-execution")
 	public Boolean getMultiexecution() {
@@ -144,7 +145,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Accepte la multi-execution'.
-	 * @param multiexecution Boolean 
+	 * @param multiexecution Boolean
 	 */
 	public void setMultiexecution(final Boolean multiexecution) {
 		this.multiexecution = multiexecution;
@@ -210,7 +211,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Meta-données du processus'. 
-	 * @return String metadatas 
+	 * @return String metadatas
 	 */
 	@Field(domain = "DO_O_METADATAS", label = "Meta-données du processus")
 	public String getMetadatas() {
@@ -220,7 +221,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Meta-données du processus'.
-	 * @param metadatas String 
+	 * @param metadatas String
 	 */
 	public void setMetadatas(final String metadatas) {
 		this.metadatas = metadatas;
@@ -248,7 +249,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'TriggerType'. 
-	 * @return String trtCd 
+	 * @return String trtCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "TriggerType")
 	public String getTrtCd() {
@@ -258,7 +259,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'TriggerType'.
-	 * @param trtCd String 
+	 * @param trtCd String
 	 */
 	public void setTrtCd(final String trtCd) {
 		this.trtCd = trtCd;
@@ -267,7 +268,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'ProcessType'. 
-	 * @return String prtCd 
+	 * @return String prtCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ProcessType")
 	public String getPrtCd() {
@@ -277,7 +278,7 @@ public final class OProcess implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'ProcessType'.
-	 * @param prtCd String 
+	 * @param prtCd String
 	 */
 	public void setPrtCd(final String prtCd) {
 		this.prtCd = prtCd;

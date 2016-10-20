@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.domain.definition;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivity
@@ -51,7 +52,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Nom de l'activité'. 
-	 * @return String name 
+	 * @return String name
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Nom de l'activité")
 	public String getName() {
@@ -61,7 +62,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nom de l'activité'.
-	 * @param name String 
+	 * @param name String
 	 */
 	public void setName(final String name) {
 		this.name = name;
@@ -70,7 +71,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Libellé de l'activité'. 
-	 * @return String label 
+	 * @return String label
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Libellé de l'activité")
 	public String getLabel() {
@@ -80,7 +81,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Libellé de l'activité'.
-	 * @param label String 
+	 * @param label String
 	 */
 	public void setLabel(final String label) {
 		this.label = label;
@@ -89,7 +90,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Numéro de l'activité'. 
-	 * @return Integer number 
+	 * @return Integer number
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Numéro de l'activité")
 	public Integer getNumber() {
@@ -99,7 +100,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Numéro de l'activité'.
-	 * @param number Integer 
+	 * @param number Integer
 	 */
 	public void setNumber(final Integer number) {
 		this.number = number;
@@ -108,7 +109,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Jalon'. 
-	 * @return Boolean milestone 
+	 * @return Boolean milestone
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Jalon")
 	public Boolean getMilestone() {
@@ -118,7 +119,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Jalon'.
-	 * @param milestone Boolean 
+	 * @param milestone Boolean
 	 */
 	public void setMilestone(final Boolean milestone) {
 		this.milestone = milestone;
@@ -127,7 +128,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Implémentation de l'activité'. 
-	 * @return String engine 
+	 * @return String engine
 	 */
 	@Field(domain = "DO_O_CLASSE", label = "Implémentation de l'activité")
 	public String getEngine() {
@@ -137,7 +138,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Implémentation de l'activité'.
-	 * @param engine String 
+	 * @param engine String
 	 */
 	public void setEngine(final String engine) {
 		this.engine = engine;
@@ -146,7 +147,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'Processus'. 
-	 * @return Long proId 
+	 * @return Long proId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getProId() {
@@ -156,7 +157,7 @@ public final class OActivity implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Processus'.
-	 * @param proId Long 
+	 * @param proId Long
 	 */
 	public void setProId(final Long proId) {
 		this.proId = proId;

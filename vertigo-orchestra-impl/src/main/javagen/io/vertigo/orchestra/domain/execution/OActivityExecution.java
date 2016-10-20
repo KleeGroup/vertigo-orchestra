@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.domain.execution;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivityExecution
@@ -76,7 +77,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Date de début'. 
-	 * @return java.util.Date beginTime 
+	 * @return java.util.Date beginTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de début")
 	public java.util.Date getBeginTime() {
@@ -86,7 +87,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de début'.
-	 * @param beginTime java.util.Date 
+	 * @param beginTime java.util.Date
 	 */
 	public void setBeginTime(final java.util.Date beginTime) {
 		this.beginTime = beginTime;
@@ -95,7 +96,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Date de fin'. 
-	 * @return java.util.Date endTime 
+	 * @return java.util.Date endTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de fin")
 	public java.util.Date getEndTime() {
@@ -105,7 +106,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de fin'.
-	 * @param endTime java.util.Date 
+	 * @param endTime java.util.Date
 	 */
 	public void setEndTime(final java.util.Date endTime) {
 		this.endTime = endTime;
@@ -114,7 +115,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'. 
-	 * @return String engine 
+	 * @return String engine
 	 */
 	@Field(domain = "DO_O_CLASSE", label = "Implémentation effective de l'execution")
 	public String getEngine() {
@@ -124,7 +125,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Implémentation effective de l'execution'.
-	 * @param engine String 
+	 * @param engine String
 	 */
 	public void setEngine(final String engine) {
 		this.engine = engine;
@@ -133,7 +134,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Token d'identification'. 
-	 * @return String token 
+	 * @return String token
 	 */
 	@Field(domain = "DO_O_TOKEN", label = "Token d'identification")
 	public String getToken() {
@@ -143,7 +144,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Token d'identification'.
-	 * @param token String 
+	 * @param token String
 	 */
 	public void setToken(final String token) {
 		this.token = token;
@@ -152,7 +153,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'Activity'. 
-	 * @return Long actId 
+	 * @return Long actId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Activity")
 	public Long getActId() {
@@ -162,7 +163,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Activity'.
-	 * @param actId Long 
+	 * @param actId Long
 	 */
 	public void setActId(final Long actId) {
 		this.actId = actId;
@@ -171,7 +172,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'Processus'. 
-	 * @return Long preId 
+	 * @return Long preId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getPreId() {
@@ -181,7 +182,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Processus'.
-	 * @param preId Long 
+	 * @param preId Long
 	 */
 	public void setPreId(final Long preId) {
 		this.preId = preId;
@@ -190,7 +191,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'Node'. 
-	 * @return Long nodId 
+	 * @return Long nodId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
 	public Long getNodId() {
@@ -200,7 +201,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Node'.
-	 * @param nodId Long 
+	 * @param nodId Long
 	 */
 	public void setNodId(final Long nodId) {
 		this.nodId = nodId;
@@ -209,7 +210,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'ExecutionState'. 
-	 * @return String estCd 
+	 * @return String estCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ExecutionState")
 	public String getEstCd() {
@@ -219,7 +220,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'ExecutionState'.
-	 * @param estCd String 
+	 * @param estCd String
 	 */
 	public void setEstCd(final String estCd) {
 		this.estCd = estCd;

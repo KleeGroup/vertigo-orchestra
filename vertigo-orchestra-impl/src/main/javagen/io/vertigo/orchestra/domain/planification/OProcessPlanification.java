@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.domain.planification;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcessPlanification
@@ -52,7 +53,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Date d'execution prévue'. 
-	 * @return java.util.Date expectedTime 
+	 * @return java.util.Date expectedTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date d'execution prévue")
 	public java.util.Date getExpectedTime() {
@@ -62,7 +63,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date d'execution prévue'.
-	 * @param expectedTime java.util.Date 
+	 * @param expectedTime java.util.Date
 	 */
 	public void setExpectedTime(final java.util.Date expectedTime) {
 		this.expectedTime = expectedTime;
@@ -71,7 +72,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'. 
-	 * @return String initialParams 
+	 * @return String initialParams
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
 	public String getInitialParams() {
@@ -81,7 +82,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Paramètres initiaux sous forme de JSON'.
-	 * @param initialParams String 
+	 * @param initialParams String
 	 */
 	public void setInitialParams(final String initialParams) {
 		this.initialParams = initialParams;
@@ -90,7 +91,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'Processus'. 
-	 * @return Long proId 
+	 * @return Long proId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getProId() {
@@ -100,7 +101,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Processus'.
-	 * @param proId Long 
+	 * @param proId Long
 	 */
 	public void setProId(final Long proId) {
 		this.proId = proId;
@@ -109,7 +110,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'Node'. 
-	 * @return Long nodId 
+	 * @return Long nodId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
 	public Long getNodId() {
@@ -119,7 +120,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Node'.
-	 * @param nodId Long 
+	 * @param nodId Long
 	 */
 	public void setNodId(final Long nodId) {
 		this.nodId = nodId;
@@ -128,7 +129,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'PlanificationState'. 
-	 * @return String pstCd 
+	 * @return String pstCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "PlanificationState")
 	public String getPstCd() {
@@ -138,7 +139,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'PlanificationState'.
-	 * @param pstCd String 
+	 * @param pstCd String
 	 */
 	public void setPstCd(final String pstCd) {
 		this.pstCd = pstCd;
