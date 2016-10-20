@@ -26,7 +26,7 @@ public final class OProcessExecutionUi implements DtObject {
 	
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Id de l'activité'. 
+	 * Récupère la valeur de la propriété 'Id de l'activité'.
 	 * @return Long preId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", required = true, label = "Id de l'activité")
@@ -45,7 +45,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Nom du processus'.
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
@@ -64,7 +64,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Nom du processus'.
 	 * @return java.util.Date endTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
@@ -83,7 +83,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Durée'. 
+	 * Récupère la valeur de la propriété 'Durée'.
 	 * @return Integer executionTime
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Durée")
@@ -102,7 +102,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Statut'. 
+	 * Récupère la valeur de la propriété 'Statut'.
 	 * @return String status
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", label = "Statut")
@@ -121,7 +121,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Pris en charge'. 
+	 * Récupère la valeur de la propriété 'Pris en charge'.
 	 * @return Boolean checked
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Pris en charge")
@@ -140,7 +140,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de prise en charge'. 
+	 * Récupère la valeur de la propriété 'Date de prise en charge'.
 	 * @return java.util.Date checkingDate
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de prise en charge")
@@ -159,7 +159,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Commentaire'. 
+	 * Récupère la valeur de la propriété 'Commentaire'.
 	 * @return String checkingComment
 	 */
 	@Field(domain = "DO_O_TEXT", label = "Commentaire")
@@ -178,7 +178,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Fichier de log'. 
+	 * Récupère la valeur de la propriété 'Fichier de log'.
 	 * @return Boolean hasLogFile
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Fichier de log")

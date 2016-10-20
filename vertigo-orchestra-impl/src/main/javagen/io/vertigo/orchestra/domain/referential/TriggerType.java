@@ -26,7 +26,7 @@ public final class TriggerType implements Entity {
 	
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Code'. 
+	 * Récupère la valeur de la propriété 'Code'.
 	 * @return String trtCd <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "ID", required = true, label = "Code")
@@ -45,7 +45,7 @@ public final class TriggerType implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Libellé'. 
+	 * Récupère la valeur de la propriété 'Libellé'.
 	 * @return String label
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Libellé")

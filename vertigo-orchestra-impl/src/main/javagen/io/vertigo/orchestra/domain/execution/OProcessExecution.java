@@ -37,7 +37,7 @@ public final class OProcessExecution implements Entity {
 	
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
+	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'.
 	 * @return Long preId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
@@ -56,7 +56,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de début'. 
+	 * Récupère la valeur de la propriété 'Date de début'.
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Date de début")
@@ -75,7 +75,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de fin'. 
+	 * Récupère la valeur de la propriété 'Date de fin'.
 	 * @return java.util.Date endTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de fin")
@@ -94,7 +94,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'. 
+	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'.
 	 * @return String engine
 	 */
 	@Field(domain = "DO_O_CLASSE", label = "Implémentation effective de l'execution")
@@ -113,7 +113,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Pris en charge'. 
+	 * Récupère la valeur de la propriété 'Pris en charge'.
 	 * @return Boolean checked
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Pris en charge")
@@ -132,7 +132,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de prise en charge'. 
+	 * Récupère la valeur de la propriété 'Date de prise en charge'.
 	 * @return java.util.Date checkingDate
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de prise en charge")
@@ -151,7 +151,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Commentaire'. 
+	 * Récupère la valeur de la propriété 'Commentaire'.
 	 * @return String checkingComment
 	 */
 	@Field(domain = "DO_O_TEXT", label = "Commentaire")
@@ -170,7 +170,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Processus'. 
+	 * Récupère la valeur de la propriété 'Processus'.
 	 * @return Long proId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
@@ -189,7 +189,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'ExecutionState'. 
+	 * Récupère la valeur de la propriété 'ExecutionState'.
 	 * @return String estCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ExecutionState")
@@ -208,7 +208,7 @@ public final class OProcessExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'User'. 
+	 * Récupère la valeur de la propriété 'User'.
 	 * @return Long usrId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "User")

@@ -28,7 +28,7 @@ public final class OExecutionSummary implements DtObject {
 	
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Id du processus'. 
+	 * Récupère la valeur de la propriété 'Id du processus'.
 	 * @return Long proId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", required = true, label = "Id du processus")
@@ -47,7 +47,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Nom du processus'.
 	 * @return String processName <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_LIBELLE", required = true, label = "Nom du processus")
@@ -66,7 +66,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Libellé du processus'. 
+	 * Récupère la valeur de la propriété 'Libellé du processus'.
 	 * @return String processLabel <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_LIBELLE", required = true, label = "Libellé du processus")
@@ -85,7 +85,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Dernière exécution le'. 
+	 * Récupère la valeur de la propriété 'Dernière exécution le'.
 	 * @return java.util.Date lastExecutionTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Dernière exécution le")
@@ -104,7 +104,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Prochaine exécution le'. 
+	 * Récupère la valeur de la propriété 'Prochaine exécution le'.
 	 * @return java.util.Date nextExecutionTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Prochaine exécution le")
@@ -123,7 +123,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nombre en erreur'. 
+	 * Récupère la valeur de la propriété 'Nombre en erreur'.
 	 * @return Integer errorsCount
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Nombre en erreur")
@@ -142,7 +142,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nombre non executés'. 
+	 * Récupère la valeur de la propriété 'Nombre non executés'.
 	 * @return Integer misfiredCount
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Nombre non executés")
@@ -161,7 +161,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nombre en succès'. 
+	 * Récupère la valeur de la propriété 'Nombre en succès'.
 	 * @return Integer successfulCount
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Nombre en succès")
@@ -180,7 +180,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nombre en cours'. 
+	 * Récupère la valeur de la propriété 'Nombre en cours'.
 	 * @return Integer runningCount
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Nombre en cours")
@@ -199,7 +199,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Durée moyenne d'exécution'. 
+	 * Récupère la valeur de la propriété 'Durée moyenne d'exécution'.
 	 * @return Integer averageExecutionTime
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Durée moyenne d'exécution")
@@ -218,7 +218,7 @@ public final class OExecutionSummary implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Santé du processus'. 
+	 * Récupère la valeur de la propriété 'Santé du processus'.
 	 * @return String health <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", required = true, label = "Santé du processus")

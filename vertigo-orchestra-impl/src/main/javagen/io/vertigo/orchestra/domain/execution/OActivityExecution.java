@@ -38,7 +38,7 @@ public final class OActivityExecution implements Entity {
 	
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
+	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'.
 	 * @return Long aceId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
@@ -57,7 +57,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de création'. 
+	 * Récupère la valeur de la propriété 'Date de création'.
 	 * @return java.util.Date creationTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Date de création")
@@ -76,7 +76,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de début'. 
+	 * Récupère la valeur de la propriété 'Date de début'.
 	 * @return java.util.Date beginTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de début")
@@ -95,7 +95,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de fin'. 
+	 * Récupère la valeur de la propriété 'Date de fin'.
 	 * @return java.util.Date endTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de fin")
@@ -114,7 +114,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'. 
+	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'.
 	 * @return String engine
 	 */
 	@Field(domain = "DO_O_CLASSE", label = "Implémentation effective de l'execution")
@@ -133,7 +133,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Token d'identification'. 
+	 * Récupère la valeur de la propriété 'Token d'identification'.
 	 * @return String token
 	 */
 	@Field(domain = "DO_O_TOKEN", label = "Token d'identification")
@@ -152,7 +152,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Activity'. 
+	 * Récupère la valeur de la propriété 'Activity'.
 	 * @return Long actId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Activity")
@@ -171,7 +171,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Processus'. 
+	 * Récupère la valeur de la propriété 'Processus'.
 	 * @return Long preId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
@@ -190,7 +190,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Node'. 
+	 * Récupère la valeur de la propriété 'Node'.
 	 * @return Long nodId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
@@ -209,7 +209,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'ExecutionState'. 
+	 * Récupère la valeur de la propriété 'ExecutionState'.
 	 * @return String estCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ExecutionState")

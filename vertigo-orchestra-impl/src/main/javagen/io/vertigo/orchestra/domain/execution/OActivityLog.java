@@ -29,7 +29,7 @@ public final class OActivityLog implements Entity {
 	
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id du log'. 
+	 * Récupère la valeur de la propriété 'Id du log'.
 	 * @return Long aclId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id du log")
@@ -48,7 +48,7 @@ public final class OActivityLog implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Contenu du log'. 
+	 * Récupère la valeur de la propriété 'Contenu du log'.
 	 * @return String log
 	 */
 	@Field(domain = "DO_O_TEXT", label = "Contenu du log")
@@ -67,7 +67,7 @@ public final class OActivityLog implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Fichier de log'. 
+	 * Récupère la valeur de la propriété 'Fichier de log'.
 	 * @return String logFile
 	 */
 	@Field(domain = "DO_O_TEXT", label = "Fichier de log")
@@ -86,7 +86,7 @@ public final class OActivityLog implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'ActivityExecution'. 
+	 * Récupère la valeur de la propriété 'ActivityExecution'.
 	 * @return Long aceId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "ActivityExecution")

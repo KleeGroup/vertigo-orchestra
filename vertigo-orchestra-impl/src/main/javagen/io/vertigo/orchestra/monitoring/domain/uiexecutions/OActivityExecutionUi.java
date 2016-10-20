@@ -27,7 +27,7 @@ public final class OActivityExecutionUi implements DtObject {
 	
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Id de l'activité'. 
+	 * Récupère la valeur de la propriété 'Id de l'activité'.
 	 * @return Long aceId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", required = true, label = "Id de l'activité")
@@ -46,7 +46,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Libellé'. 
+	 * Récupère la valeur de la propriété 'Libellé'.
 	 * @return String label
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Libellé")
@@ -65,7 +65,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Nom du processus'.
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
@@ -84,7 +84,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Nom du processus'.
 	 * @return java.util.Date endTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
@@ -103,7 +103,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Durée'. 
+	 * Récupère la valeur de la propriété 'Durée'.
 	 * @return Integer executionTime
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Durée")
@@ -122,7 +122,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Statut'. 
+	 * Récupère la valeur de la propriété 'Statut'.
 	 * @return String status
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", label = "Statut")
@@ -141,7 +141,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Paramètres entrants'. 
+	 * Récupère la valeur de la propriété 'Paramètres entrants'.
 	 * @return String workspaceIn
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres entrants")
@@ -160,7 +160,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Paramètres sortants'. 
+	 * Récupère la valeur de la propriété 'Paramètres sortants'.
 	 * @return String workspaceOut
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres sortants")
@@ -179,7 +179,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Fichier de log'. 
+	 * Récupère la valeur de la propriété 'Fichier de log'.
 	 * @return Boolean hasLogFile
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Fichier de log")
@@ -198,7 +198,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Log technique'. 
+	 * Récupère la valeur de la propriété 'Log technique'.
 	 * @return Boolean hasTechnicalLog
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Log technique")

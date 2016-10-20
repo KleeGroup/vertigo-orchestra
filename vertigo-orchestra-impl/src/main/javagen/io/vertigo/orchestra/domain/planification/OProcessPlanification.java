@@ -33,7 +33,7 @@ public final class OProcessPlanification implements Entity {
 	
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id Planification'. 
+	 * Récupère la valeur de la propriété 'Id Planification'.
 	 * @return Long prpId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id Planification")
@@ -52,7 +52,7 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date d'execution prévue'. 
+	 * Récupère la valeur de la propriété 'Date d'execution prévue'.
 	 * @return java.util.Date expectedTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date d'execution prévue")
@@ -71,7 +71,7 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'. 
+	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'.
 	 * @return String initialParams
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
@@ -90,7 +90,7 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Processus'. 
+	 * Récupère la valeur de la propriété 'Processus'.
 	 * @return Long proId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
@@ -109,7 +109,7 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Node'. 
+	 * Récupère la valeur de la propriété 'Node'.
 	 * @return Long nodId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
@@ -128,7 +128,7 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'PlanificationState'. 
+	 * Récupère la valeur de la propriété 'PlanificationState'.
 	 * @return String pstCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "PlanificationState")

@@ -29,7 +29,7 @@ public final class OActivityWorkspace implements Entity {
 	
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
+	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'.
 	 * @return Long acwId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
@@ -48,7 +48,7 @@ public final class OActivityWorkspace implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Workspace in/out'. 
+	 * Récupère la valeur de la propriété 'Workspace in/out'.
 	 * @return Boolean isIn <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_BOOLEEN", required = true, label = "Workspace in/out")
@@ -67,7 +67,7 @@ public final class OActivityWorkspace implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Contenu du workspace'. 
+	 * Récupère la valeur de la propriété 'Contenu du workspace'.
 	 * @return String workspace
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Contenu du workspace")
@@ -86,7 +86,7 @@ public final class OActivityWorkspace implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'ActivityExecution'. 
+	 * Récupère la valeur de la propriété 'ActivityExecution'.
 	 * @return Long aceId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "ActivityExecution")
