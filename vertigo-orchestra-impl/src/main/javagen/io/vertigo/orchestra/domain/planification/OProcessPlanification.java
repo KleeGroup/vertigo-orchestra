@@ -30,7 +30,7 @@ public final class OProcessPlanification implements Entity {
 	public URI<OProcessPlanification> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id Planification'.

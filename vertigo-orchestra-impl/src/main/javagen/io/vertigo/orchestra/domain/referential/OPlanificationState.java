@@ -23,7 +23,7 @@ public final class OPlanificationState implements Entity {
 	public URI<OPlanificationState> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Code'.

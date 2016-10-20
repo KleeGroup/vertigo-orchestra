@@ -29,7 +29,7 @@ public final class OActivity implements Entity {
 	public URI<OActivity> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id Activité'.

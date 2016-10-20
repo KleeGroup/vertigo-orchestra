@@ -23,7 +23,7 @@ public final class TriggerType implements Entity {
 	public URI<TriggerType> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Code'.

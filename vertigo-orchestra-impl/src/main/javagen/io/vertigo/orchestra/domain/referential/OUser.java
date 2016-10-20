@@ -28,7 +28,7 @@ public final class OUser implements Entity {
 	public URI<OUser> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id'.

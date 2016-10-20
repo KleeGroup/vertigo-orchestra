@@ -25,7 +25,7 @@ public final class OExecutionSummary implements DtObject {
 	private Integer averageExecutionTime;
 	private String health;
 
-	
+
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Id du processus'.

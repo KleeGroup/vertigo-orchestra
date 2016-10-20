@@ -35,7 +35,7 @@ public final class OActivityExecution implements Entity {
 	public URI<OActivityExecution> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'.

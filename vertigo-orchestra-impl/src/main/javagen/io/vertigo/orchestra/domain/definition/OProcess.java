@@ -36,7 +36,7 @@ public final class OProcess implements Entity {
 	public URI<OProcess> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id de la definition du processus'.

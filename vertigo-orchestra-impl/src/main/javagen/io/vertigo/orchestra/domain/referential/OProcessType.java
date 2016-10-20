@@ -23,7 +23,7 @@ public final class OProcessType implements Entity {
 	public URI<OProcessType> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Code'.

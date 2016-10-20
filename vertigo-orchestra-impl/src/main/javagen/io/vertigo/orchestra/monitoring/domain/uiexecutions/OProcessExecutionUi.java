@@ -23,7 +23,7 @@ public final class OProcessExecutionUi implements DtObject {
 	private String checkingComment;
 	private Boolean hasLogFile;
 
-	
+
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Id de l'activité'.

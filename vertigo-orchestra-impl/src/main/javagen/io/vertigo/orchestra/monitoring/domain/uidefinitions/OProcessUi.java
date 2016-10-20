@@ -23,7 +23,7 @@ public final class OProcessUi implements DtObject {
 	private Integer rescuePeriod;
 	private String metadatas;
 
-	
+
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Id du processus'.

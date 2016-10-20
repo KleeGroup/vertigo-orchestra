@@ -23,7 +23,7 @@ public final class OExecutionState implements Entity {
 	public URI<OExecutionState> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Code'.

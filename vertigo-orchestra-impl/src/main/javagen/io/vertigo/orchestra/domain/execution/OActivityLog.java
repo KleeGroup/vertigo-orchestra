@@ -26,7 +26,7 @@ public final class OActivityLog implements Entity {
 	public URI<OActivityLog> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
 	 * Récupère la valeur de la propriété 'Id du log'.
