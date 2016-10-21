@@ -183,20 +183,19 @@ public final class OActivity implements Entity {
 	 * Retourne l'URI: Processus.
 	 * @return URI de l'association
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    		name = "A_ACT_PRO",
-    		fkFieldName = "PRO_ID",
-    		primaryDtDefinitionName = "DT_O_PROCESS",
-    		primaryIsNavigable = true,
-    		primaryRole = "Process",
-    		primaryLabel = "Processus",
-    		primaryMultiplicity = "0..1",
-    		foreignDtDefinitionName = "DT_O_ACTIVITY",
-    		foreignIsNavigable = false,
-    		foreignRole = "Activity",
-    		foreignLabel = "Activity",
-    		foreignMultiplicity = "0..*"
-    )
+	@io.vertigo.dynamo.domain.stereotype.Association (
+			name = "A_ACT_PRO",
+			fkFieldName = "PRO_ID",
+			primaryDtDefinitionName = "DT_O_PROCESS",
+			primaryIsNavigable = true,
+			primaryRole = "Process",
+			primaryLabel = "Processus",
+			primaryMultiplicity = "0..1",
+			foreignDtDefinitionName = "DT_O_ACTIVITY",
+			foreignIsNavigable = false,
+			foreignRole = "Activity",
+			foreignLabel = "Activity",
+			foreignMultiplicity = "0..*")
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACT_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
