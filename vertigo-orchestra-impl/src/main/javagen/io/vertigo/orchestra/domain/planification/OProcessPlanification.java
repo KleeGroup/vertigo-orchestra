@@ -166,18 +166,18 @@ public final class OProcessPlanification implements Entity {
 	 * @return URI de l'association
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRP_PRO",
-    	fkFieldName = "PRO_ID",
-    	primaryDtDefinitionName = "DT_O_PROCESS",
-    	primaryIsNavigable = true,
-    	primaryRole = "Processus",
-    	primaryLabel = "Processus",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ProcessPlanification",
-    	foreignLabel = "PlanificationProcessus",
-    	foreignMultiplicity = "0..*"
+    		name = "A_PRP_PRO",
+    		fkFieldName = "PRO_ID",
+    		primaryDtDefinitionName = "DT_O_PROCESS",
+    		primaryIsNavigable = true,
+    		primaryRole = "Processus",
+    		primaryLabel = "Processus",
+    		primaryMultiplicity = "0..1",
+    		foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
+    		foreignIsNavigable = false,
+    		foreignRole = "ProcessPlanification",
+    		foreignLabel = "PlanificationProcessus",
+    		foreignMultiplicity = "0..*"
     )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessusURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
@@ -203,18 +203,18 @@ public final class OProcessPlanification implements Entity {
 	 * @return URI de l'association
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRP_NOD",
-    	fkFieldName = "NOD_ID",
-    	primaryDtDefinitionName = "DT_O_NODE",
-    	primaryIsNavigable = true,
-    	primaryRole = "Node",
-    	primaryLabel = "Node",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ProcessPlanification",
-    	foreignLabel = "PlanificationProcessus",
-    	foreignMultiplicity = "0..*"
+    		name = "A_PRP_NOD",
+    		fkFieldName = "NOD_ID",
+    		primaryDtDefinitionName = "DT_O_NODE",
+    		primaryIsNavigable = true,
+    		primaryRole = "Node",
+    		primaryLabel = "Node",
+    		primaryMultiplicity = "0..1",
+    		foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
+    		foreignIsNavigable = false,
+    		foreignRole = "ProcessPlanification",
+    		foreignLabel = "PlanificationProcessus",
+    		foreignMultiplicity = "0..*"
     )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> getNodeURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_NOD", io.vertigo.orchestra.domain.execution.ONode.class);
@@ -240,18 +240,18 @@ public final class OProcessPlanification implements Entity {
 	 * @return URI de l'association
 	 */
     @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_PRP_PST",
-    	fkFieldName = "PST_CD",
-    	primaryDtDefinitionName = "DT_O_PLANIFICATION_STATE",
-    	primaryIsNavigable = true,
-    	primaryRole = "PlanificationState",
-    	primaryLabel = "PlanificationState",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ProcessPlanification",
-    	foreignLabel = "ProcessPlanification",
-    	foreignMultiplicity = "0..*"
+    		name = "A_PRP_PST",
+    		fkFieldName = "PST_CD",
+    		primaryDtDefinitionName = "DT_O_PLANIFICATION_STATE",
+    		primaryIsNavigable = true,
+    		primaryRole = "PlanificationState",
+    		primaryLabel = "PlanificationState",
+    		primaryMultiplicity = "0..1",
+    		foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
+    		foreignIsNavigable = false,
+    		foreignRole = "ProcessPlanification",
+    		foreignLabel = "ProcessPlanification",
+    		foreignMultiplicity = "0..*"
     )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> getPlanificationStateURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PST", io.vertigo.orchestra.domain.referential.OPlanificationState.class);

@@ -24,7 +24,6 @@ public final class OActivityExecutionUi implements DtObject {
 	private Boolean hasLogFile;
 	private Boolean hasTechnicalLog;
 
-
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Id de l'activité'.
