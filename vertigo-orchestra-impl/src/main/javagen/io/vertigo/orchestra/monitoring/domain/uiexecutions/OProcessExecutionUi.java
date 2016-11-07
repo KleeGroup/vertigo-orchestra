@@ -1,8 +1,9 @@
 package io.vertigo.orchestra.monitoring.domain.uiexecutions;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.DtObject;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcessExecutionUi
@@ -22,10 +23,9 @@ public final class OProcessExecutionUi implements DtObject {
 	private String checkingComment;
 	private Boolean hasLogFile;
 
-	
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Id de l'activité'. 
+	 * Récupère la valeur de la propriété 'Id de l'activité'.
 	 * @return Long preId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", required = true, label = "Id de l'activité")
@@ -44,7 +44,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Nom du processus'.
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
@@ -63,7 +63,7 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Nom du processus'.
 	 * @return java.util.Date endTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
@@ -82,8 +82,8 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Durée'. 
-	 * @return Integer executionTime 
+	 * Récupère la valeur de la propriété 'Durée'.
+	 * @return Integer executionTime
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Durée")
 	public Integer getExecutionTime() {
@@ -93,7 +93,7 @@ public final class OProcessExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Durée'.
-	 * @param executionTime Integer 
+	 * @param executionTime Integer
 	 */
 	public void setExecutionTime(final Integer executionTime) {
 		this.executionTime = executionTime;
@@ -101,8 +101,8 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Statut'. 
-	 * @return String status 
+	 * Récupère la valeur de la propriété 'Statut'.
+	 * @return String status
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", label = "Statut")
 	public String getStatus() {
@@ -112,7 +112,7 @@ public final class OProcessExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Statut'.
-	 * @param status String 
+	 * @param status String
 	 */
 	public void setStatus(final String status) {
 		this.status = status;
@@ -120,8 +120,8 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Pris en charge'. 
-	 * @return Boolean checked 
+	 * Récupère la valeur de la propriété 'Pris en charge'.
+	 * @return Boolean checked
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Pris en charge")
 	public Boolean getChecked() {
@@ -131,7 +131,7 @@ public final class OProcessExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Pris en charge'.
-	 * @param checked Boolean 
+	 * @param checked Boolean
 	 */
 	public void setChecked(final Boolean checked) {
 		this.checked = checked;
@@ -139,8 +139,8 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de prise en charge'. 
-	 * @return java.util.Date checkingDate 
+	 * Récupère la valeur de la propriété 'Date de prise en charge'.
+	 * @return java.util.Date checkingDate
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de prise en charge")
 	public java.util.Date getCheckingDate() {
@@ -150,7 +150,7 @@ public final class OProcessExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de prise en charge'.
-	 * @param checkingDate java.util.Date 
+	 * @param checkingDate java.util.Date
 	 */
 	public void setCheckingDate(final java.util.Date checkingDate) {
 		this.checkingDate = checkingDate;
@@ -158,8 +158,8 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Commentaire'. 
-	 * @return String checkingComment 
+	 * Récupère la valeur de la propriété 'Commentaire'.
+	 * @return String checkingComment
 	 */
 	@Field(domain = "DO_O_TEXT", label = "Commentaire")
 	public String getCheckingComment() {
@@ -169,7 +169,7 @@ public final class OProcessExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Commentaire'.
-	 * @param checkingComment String 
+	 * @param checkingComment String
 	 */
 	public void setCheckingComment(final String checkingComment) {
 		this.checkingComment = checkingComment;
@@ -177,8 +177,8 @@ public final class OProcessExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Fichier de log'. 
-	 * @return Boolean hasLogFile 
+	 * Récupère la valeur de la propriété 'Fichier de log'.
+	 * @return Boolean hasLogFile
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Fichier de log")
 	public Boolean getHasLogFile() {
@@ -188,7 +188,7 @@ public final class OProcessExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Fichier de log'.
-	 * @param hasLogFile Boolean 
+	 * @param hasLogFile Boolean
 	 */
 	public void setHasLogFile(final Boolean hasLogFile) {
 		this.hasLogFile = hasLogFile;

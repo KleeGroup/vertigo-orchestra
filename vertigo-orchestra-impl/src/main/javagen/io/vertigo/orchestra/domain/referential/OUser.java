@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.domain.referential;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OUser
@@ -27,10 +28,10 @@ public final class OUser implements Entity {
 	public URI<OUser> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id'. 
+	 * Récupère la valeur de la propriété 'Id'.
 	 * @return Long usrId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id")
@@ -49,8 +50,8 @@ public final class OUser implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom'. 
-	 * @return String firstName 
+	 * Récupère la valeur de la propriété 'Nom'.
+	 * @return String firstName
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Nom")
 	public String getFirstName() {
@@ -60,7 +61,7 @@ public final class OUser implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Nom'.
-	 * @param firstName String 
+	 * @param firstName String
 	 */
 	public void setFirstName(final String firstName) {
 		this.firstName = firstName;
@@ -68,8 +69,8 @@ public final class OUser implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Prénom'. 
-	 * @return String lastName 
+	 * Récupère la valeur de la propriété 'Prénom'.
+	 * @return String lastName
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Prénom")
 	public String getLastName() {
@@ -79,7 +80,7 @@ public final class OUser implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Prénom'.
-	 * @param lastName String 
+	 * @param lastName String
 	 */
 	public void setLastName(final String lastName) {
 		this.lastName = lastName;
@@ -87,8 +88,8 @@ public final class OUser implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Email'. 
-	 * @return String email 
+	 * Récupère la valeur de la propriété 'Email'.
+	 * @return String email
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Email")
 	public String getEmail() {
@@ -98,7 +99,7 @@ public final class OUser implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Email'.
-	 * @param email String 
+	 * @param email String
 	 */
 	public void setEmail(final String email) {
 		this.email = email;
@@ -106,8 +107,8 @@ public final class OUser implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Mot de passe'. 
-	 * @return String password 
+	 * Récupère la valeur de la propriété 'Mot de passe'.
+	 * @return String password
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Mot de passe")
 	public String getPassword() {
@@ -117,7 +118,7 @@ public final class OUser implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Mot de passe'.
-	 * @param password String 
+	 * @param password String
 	 */
 	public void setPassword(final String password) {
 		this.password = password;
@@ -125,8 +126,8 @@ public final class OUser implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Alerté en cas d'erreur'. 
-	 * @return Boolean mailAlert 
+	 * Récupère la valeur de la propriété 'Alerté en cas d'erreur'.
+	 * @return Boolean mailAlert
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Alerté en cas d'erreur")
 	public Boolean getMailAlert() {
@@ -136,7 +137,7 @@ public final class OUser implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Alerté en cas d'erreur'.
-	 * @param mailAlert Boolean 
+	 * @param mailAlert Boolean
 	 */
 	public void setMailAlert(final Boolean mailAlert) {
 		this.mailAlert = mailAlert;
@@ -144,8 +145,8 @@ public final class OUser implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Compte Actif'. 
-	 * @return Boolean active 
+	 * Récupère la valeur de la propriété 'Compte Actif'.
+	 * @return Boolean active
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Compte Actif")
 	public Boolean getActive() {
@@ -155,7 +156,7 @@ public final class OUser implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Compte Actif'.
-	 * @param active Boolean 
+	 * @param active Boolean
 	 */
 	public void setActive(final Boolean active) {
 		this.active = active;

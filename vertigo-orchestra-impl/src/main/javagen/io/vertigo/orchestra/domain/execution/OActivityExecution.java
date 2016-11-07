@@ -1,9 +1,10 @@
 package io.vertigo.orchestra.domain.execution;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivityExecution
@@ -34,10 +35,10 @@ public final class OActivityExecution implements Entity {
 	public URI<OActivityExecution> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-	
+
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'. 
+	 * Récupère la valeur de la propriété 'Id de l'execution d'un processus'.
 	 * @return Long aceId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id de l'execution d'un processus")
@@ -56,7 +57,7 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de création'. 
+	 * Récupère la valeur de la propriété 'Date de création'.
 	 * @return java.util.Date creationTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Date de création")
@@ -75,8 +76,8 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de début'. 
-	 * @return java.util.Date beginTime 
+	 * Récupère la valeur de la propriété 'Date de début'.
+	 * @return java.util.Date beginTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de début")
 	public java.util.Date getBeginTime() {
@@ -86,7 +87,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de début'.
-	 * @param beginTime java.util.Date 
+	 * @param beginTime java.util.Date
 	 */
 	public void setBeginTime(final java.util.Date beginTime) {
 		this.beginTime = beginTime;
@@ -94,8 +95,8 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date de fin'. 
-	 * @return java.util.Date endTime 
+	 * Récupère la valeur de la propriété 'Date de fin'.
+	 * @return java.util.Date endTime
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date de fin")
 	public java.util.Date getEndTime() {
@@ -105,7 +106,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date de fin'.
-	 * @param endTime java.util.Date 
+	 * @param endTime java.util.Date
 	 */
 	public void setEndTime(final java.util.Date endTime) {
 		this.endTime = endTime;
@@ -113,8 +114,8 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'. 
-	 * @return String engine 
+	 * Récupère la valeur de la propriété 'Implémentation effective de l'execution'.
+	 * @return String engine
 	 */
 	@Field(domain = "DO_O_CLASSE", label = "Implémentation effective de l'execution")
 	public String getEngine() {
@@ -124,7 +125,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Implémentation effective de l'execution'.
-	 * @param engine String 
+	 * @param engine String
 	 */
 	public void setEngine(final String engine) {
 		this.engine = engine;
@@ -132,8 +133,8 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Token d'identification'. 
-	 * @return String token 
+	 * Récupère la valeur de la propriété 'Token d'identification'.
+	 * @return String token
 	 */
 	@Field(domain = "DO_O_TOKEN", label = "Token d'identification")
 	public String getToken() {
@@ -143,7 +144,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Token d'identification'.
-	 * @param token String 
+	 * @param token String
 	 */
 	public void setToken(final String token) {
 		this.token = token;
@@ -151,8 +152,8 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Activity'. 
-	 * @return Long actId 
+	 * Récupère la valeur de la propriété 'Activity'.
+	 * @return Long actId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Activity")
 	public Long getActId() {
@@ -162,7 +163,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Activity'.
-	 * @param actId Long 
+	 * @param actId Long
 	 */
 	public void setActId(final Long actId) {
 		this.actId = actId;
@@ -170,8 +171,8 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Processus'. 
-	 * @return Long preId 
+	 * Récupère la valeur de la propriété 'Processus'.
+	 * @return Long preId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getPreId() {
@@ -181,7 +182,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Processus'.
-	 * @param preId Long 
+	 * @param preId Long
 	 */
 	public void setPreId(final Long preId) {
 		this.preId = preId;
@@ -189,8 +190,8 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Node'. 
-	 * @return Long nodId 
+	 * Récupère la valeur de la propriété 'Node'.
+	 * @return Long nodId
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
 	public Long getNodId() {
@@ -200,7 +201,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Node'.
-	 * @param nodId Long 
+	 * @param nodId Long
 	 */
 	public void setNodId(final Long nodId) {
 		this.nodId = nodId;
@@ -208,8 +209,8 @@ public final class OActivityExecution implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'ExecutionState'. 
-	 * @return String estCd 
+	 * Récupère la valeur de la propriété 'ExecutionState'.
+	 * @return String estCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "ExecutionState")
 	public String getEstCd() {
@@ -219,7 +220,7 @@ public final class OActivityExecution implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'ExecutionState'.
-	 * @param estCd String 
+	 * @param estCd String
 	 */
 	public void setEstCd(final String estCd) {
 		this.estCd = estCd;
@@ -235,14 +236,8 @@ public final class OActivityExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (activity != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(activity.getURI())) {
-				activity = null;
-			}
-		}		
-		if (activity == null) {
-			activity = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
+		if (activity == null || !fkURI.equals(activity.getURI())) {
+			activity = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
 		}
 		return activity;
 	}
@@ -251,20 +246,19 @@ public final class OActivityExecution implements Entity {
 	 * Retourne l'URI: Activity.
 	 * @return URI de l'association
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_ACE_ACT",
-    	fkFieldName = "ACT_ID",
-    	primaryDtDefinitionName = "DT_O_ACTIVITY",
-    	primaryIsNavigable = true,
-    	primaryRole = "Activity",
-    	primaryLabel = "Activity",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionActivity",
-    	foreignLabel = "ExecutionActivity",
-    	foreignMultiplicity = "0..*"
-    )
+	@io.vertigo.dynamo.domain.stereotype.Association (
+			name = "A_ACE_ACT",
+			fkFieldName = "ACT_ID",
+			primaryDtDefinitionName = "DT_O_ACTIVITY",
+			primaryIsNavigable = true,
+			primaryRole = "Activity",
+			primaryLabel = "Activity",
+			primaryMultiplicity = "0..1",
+			foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+			foreignIsNavigable = false,
+			foreignRole = "ExecutionActivity",
+			foreignLabel = "ExecutionActivity",
+			foreignMultiplicity = "0..*")
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OActivity> getActivityURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_ACT", io.vertigo.orchestra.domain.definition.OActivity.class);
 	}
@@ -278,14 +272,8 @@ public final class OActivityExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (processusExecution != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(processusExecution.getURI())) {
-				processusExecution = null;
-			}
-		}		
-		if (processusExecution == null) {
-			processusExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
+		if (processusExecution == null || !fkURI.equals(processusExecution.getURI())) {
+			processusExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
 		}
 		return processusExecution;
 	}
@@ -294,20 +282,19 @@ public final class OActivityExecution implements Entity {
 	 * Retourne l'URI: Processus.
 	 * @return URI de l'association
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_ACE_PRE",
-    	fkFieldName = "PRE_ID",
-    	primaryDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-    	primaryIsNavigable = true,
-    	primaryRole = "ProcessusExecution",
-    	primaryLabel = "Processus",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionActivity",
-    	foreignLabel = "ExecutionActivity",
-    	foreignMultiplicity = "0..*"
-    )
+	@io.vertigo.dynamo.domain.stereotype.Association (
+			name = "A_ACE_PRE",
+			fkFieldName = "PRE_ID",
+			primaryDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+			primaryIsNavigable = true,
+			primaryRole = "ProcessusExecution",
+			primaryLabel = "Processus",
+			primaryMultiplicity = "0..1",
+			foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+			foreignIsNavigable = false,
+			foreignRole = "ExecutionActivity",
+			foreignLabel = "ExecutionActivity",
+			foreignMultiplicity = "0..*")
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OProcessExecution> getProcessusExecutionURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_PRE", io.vertigo.orchestra.domain.execution.OProcessExecution.class);
 	}
@@ -325,14 +312,8 @@ public final class OActivityExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (node != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(node.getURI())) {
-				node = null;
-			}
-		}		
-		if (node == null) {
-			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
+		if (node == null || !fkURI.equals(node.getURI())) {
+			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
 		}
 		return node;
 	}
@@ -341,20 +322,19 @@ public final class OActivityExecution implements Entity {
 	 * Retourne l'URI: Node.
 	 * @return URI de l'association
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_ACE_NOD",
-    	fkFieldName = "NOD_ID",
-    	primaryDtDefinitionName = "DT_O_NODE",
-    	primaryIsNavigable = true,
-    	primaryRole = "Node",
-    	primaryLabel = "Node",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionActivity",
-    	foreignLabel = "ExecutionActivity",
-    	foreignMultiplicity = "0..*"
-    )
+	@io.vertigo.dynamo.domain.stereotype.Association (
+			name = "A_ACE_NOD",
+			fkFieldName = "NOD_ID",
+			primaryDtDefinitionName = "DT_O_NODE",
+			primaryIsNavigable = true,
+			primaryRole = "Node",
+			primaryLabel = "Node",
+			primaryMultiplicity = "0..1",
+			foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+			foreignIsNavigable = false,
+			foreignRole = "ExecutionActivity",
+			foreignLabel = "ExecutionActivity",
+			foreignMultiplicity = "0..*")
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> getNodeURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_NOD", io.vertigo.orchestra.domain.execution.ONode.class);
 	}
@@ -368,14 +348,8 @@ public final class OActivityExecution implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (executionState != null) {
-			// On s'assure que l'objet correspond à la bonne clé
-			if (!fkURI.equals(executionState.getURI())) {
-				executionState = null;
-			}
-		}		
-		if (executionState == null) {
-			executionState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
+		if (executionState == null || !fkURI.equals(executionState.getURI())) {
+			executionState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
 		}
 		return executionState;
 	}
@@ -384,20 +358,19 @@ public final class OActivityExecution implements Entity {
 	 * Retourne l'URI: ExecutionState.
 	 * @return URI de l'association
 	 */
-    @io.vertigo.dynamo.domain.stereotype.Association (
-    	name = "A_ACE_EST",
-    	fkFieldName = "EST_CD",
-    	primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
-    	primaryIsNavigable = true,
-    	primaryRole = "ExecutionState",
-    	primaryLabel = "ExecutionState",
-    	primaryMultiplicity = "0..1",
-    	foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-    	foreignIsNavigable = false,
-    	foreignRole = "ExecutionActivity",
-    	foreignLabel = "ExecutionActivity",
-    	foreignMultiplicity = "0..*"
-    )
+	@io.vertigo.dynamo.domain.stereotype.Association (
+			name = "A_ACE_EST",
+			fkFieldName = "EST_CD",
+			primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
+			primaryIsNavigable = true,
+			primaryRole = "ExecutionState",
+			primaryLabel = "ExecutionState",
+			primaryMultiplicity = "0..1",
+			foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+			foreignIsNavigable = false,
+			foreignRole = "ExecutionActivity",
+			foreignLabel = "ExecutionActivity",
+			foreignMultiplicity = "0..*")
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> getExecutionStateURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_EST", io.vertigo.orchestra.domain.referential.OExecutionState.class);
 	}
