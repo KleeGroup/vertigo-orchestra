@@ -101,6 +101,7 @@ comment on column O_ACTIVITY.ENGINE is
 comment on column O_ACTIVITY.PRO_ID is
 'Processus';
 
+create index O_ACTIVITY_PRO_ID_FK on O_ACTIVITY (PRO_ID asc);
 -- ============================================================
 --   Table : O_ACTIVITY_EXECUTION                                        
 -- ============================================================
@@ -140,15 +141,19 @@ comment on column O_ACTIVITY_EXECUTION.TOKEN is
 comment on column O_ACTIVITY_EXECUTION.ACT_ID is
 'Activity';
 
+create index O_ACTIVITY_EXECUTION_ACT_ID_FK on O_ACTIVITY_EXECUTION (ACT_ID asc);
 comment on column O_ACTIVITY_EXECUTION.PRE_ID is
 'Processus';
 
+create index O_ACTIVITY_EXECUTION_PRE_ID_FK on O_ACTIVITY_EXECUTION (PRE_ID asc);
 comment on column O_ACTIVITY_EXECUTION.NOD_ID is
 'Node';
 
+create index O_ACTIVITY_EXECUTION_NOD_ID_FK on O_ACTIVITY_EXECUTION (NOD_ID asc);
 comment on column O_ACTIVITY_EXECUTION.EST_CD is
 'ExecutionState';
 
+create index O_ACTIVITY_EXECUTION_EST_CD_FK on O_ACTIVITY_EXECUTION (EST_CD asc);
 -- ============================================================
 --   Table : O_ACTIVITY_LOG                                        
 -- ============================================================
@@ -173,6 +178,7 @@ comment on column O_ACTIVITY_LOG.LOG_FILE is
 comment on column O_ACTIVITY_LOG.ACE_ID is
 'ActivityExecution';
 
+create index O_ACTIVITY_LOG_ACE_ID_FK on O_ACTIVITY_LOG (ACE_ID asc);
 -- ============================================================
 --   Table : O_ACTIVITY_WORKSPACE                                        
 -- ============================================================
@@ -197,6 +203,7 @@ comment on column O_ACTIVITY_WORKSPACE.WORKSPACE is
 comment on column O_ACTIVITY_WORKSPACE.ACE_ID is
 'ActivityExecution';
 
+create index O_ACTIVITY_WORKSPACE_ACE_ID_FK on O_ACTIVITY_WORKSPACE (ACE_ID asc);
 -- ============================================================
 --   Table : O_EXECUTION_STATE                                        
 -- ============================================================
@@ -306,9 +313,11 @@ comment on column O_PROCESS.NEED_UPDATE is
 comment on column O_PROCESS.TRT_CD is
 'TriggerType';
 
+create index O_PROCESS_TRT_CD_FK on O_PROCESS (TRT_CD asc);
 comment on column O_PROCESS.PRT_CD is
 'ProcessType';
 
+create index O_PROCESS_PRT_CD_FK on O_PROCESS (PRT_CD asc);
 -- ============================================================
 --   Table : O_PROCESS_EXECUTION                                        
 -- ============================================================
@@ -351,12 +360,15 @@ comment on column O_PROCESS_EXECUTION.CHECKING_COMMENT is
 comment on column O_PROCESS_EXECUTION.PRO_ID is
 'Processus';
 
+create index O_PROCESS_EXECUTION_PRO_ID_FK on O_PROCESS_EXECUTION (PRO_ID asc);
 comment on column O_PROCESS_EXECUTION.EST_CD is
 'ExecutionState';
 
+create index O_PROCESS_EXECUTION_EST_CD_FK on O_PROCESS_EXECUTION (EST_CD asc);
 comment on column O_PROCESS_EXECUTION.USR_ID is
 'User';
 
+create index O_PROCESS_EXECUTION_USR_ID_FK on O_PROCESS_EXECUTION (USR_ID asc);
 -- ============================================================
 --   Table : O_PROCESS_PLANIFICATION                                        
 -- ============================================================
@@ -383,12 +395,15 @@ comment on column O_PROCESS_PLANIFICATION.INITIAL_PARAMS is
 comment on column O_PROCESS_PLANIFICATION.PRO_ID is
 'Processus';
 
+create index O_PROCESS_PLANIFICATION_PRO_ID_FK on O_PROCESS_PLANIFICATION (PRO_ID asc);
 comment on column O_PROCESS_PLANIFICATION.NOD_ID is
 'Node';
 
+create index O_PROCESS_PLANIFICATION_NOD_ID_FK on O_PROCESS_PLANIFICATION (NOD_ID asc);
 comment on column O_PROCESS_PLANIFICATION.PST_CD is
 'PlanificationState';
 
+create index O_PROCESS_PLANIFICATION_PST_CD_FK on O_PROCESS_PLANIFICATION (PST_CD asc);
 -- ============================================================
 --   Table : O_PROCESS_TYPE                                        
 -- ============================================================
@@ -460,93 +475,62 @@ comment on column TRIGGER_TYPE.LABEL is
 
 
 alter table O_ACTIVITY_EXECUTION
-	add constraint FK_ACE_ACT_O_ACTIVITY foreign key (ACT_ID)
+	add constraint FK_ACE_ACT foreign key (ACT_ID)
 	references O_ACTIVITY (ACT_ID);
 
-create index ACE_ACT_O_ACTIVITY_FK on O_ACTIVITY_EXECUTION (ACT_ID asc);
-
 alter table O_ACTIVITY_EXECUTION
-	add constraint FK_ACE_EST_O_EXECUTION_STATE foreign key (EST_CD)
+	add constraint FK_ACE_EST foreign key (EST_CD)
 	references O_EXECUTION_STATE (EST_CD);
 
-create index ACE_EST_O_EXECUTION_STATE_FK on O_ACTIVITY_EXECUTION (EST_CD asc);
-
 alter table O_ACTIVITY_EXECUTION
-	add constraint FK_ACE_NOD_O_NODE foreign key (NOD_ID)
+	add constraint FK_ACE_NOD foreign key (NOD_ID)
 	references O_NODE (NOD_ID);
 
-create index ACE_NOD_O_NODE_FK on O_ACTIVITY_EXECUTION (NOD_ID asc);
-
 alter table O_ACTIVITY_EXECUTION
-	add constraint FK_ACE_PRE_O_PROCESS_EXECUTION foreign key (PRE_ID)
+	add constraint FK_ACE_PRE foreign key (PRE_ID)
 	references O_PROCESS_EXECUTION (PRE_ID);
 
-create index ACE_PRE_O_PROCESS_EXECUTION_FK on O_ACTIVITY_EXECUTION (PRE_ID asc);
-
 alter table O_ACTIVITY_LOG
-	add constraint FK_ACL_ACE_O_ACTIVITY_EXECUTION foreign key (ACE_ID)
+	add constraint FK_ACL_ACE foreign key (ACE_ID)
 	references O_ACTIVITY_EXECUTION (ACE_ID);
-
-create index ACL_ACE_O_ACTIVITY_EXECUTION_FK on O_ACTIVITY_LOG (ACE_ID asc);
 
 alter table O_ACTIVITY
-	add constraint FK_ACT_PRO_O_PROCESS foreign key (PRO_ID)
+	add constraint FK_ACT_PRO foreign key (PRO_ID)
 	references O_PROCESS (PRO_ID);
 
-create index ACT_PRO_O_PROCESS_FK on O_ACTIVITY (PRO_ID asc);
-
 alter table O_PROCESS_EXECUTION
-	add constraint FK_PRE_EST_O_EXECUTION_STATE foreign key (EST_CD)
+	add constraint FK_PRE_EST foreign key (EST_CD)
 	references O_EXECUTION_STATE (EST_CD);
 
-create index PRE_EST_O_EXECUTION_STATE_FK on O_PROCESS_EXECUTION (EST_CD asc);
-
 alter table O_PROCESS_EXECUTION
-	add constraint FK_PRE_PRO_O_PROCESS foreign key (PRO_ID)
+	add constraint FK_PRE_PRO foreign key (PRO_ID)
 	references O_PROCESS (PRO_ID);
 
-create index PRE_PRO_O_PROCESS_FK on O_PROCESS_EXECUTION (PRO_ID asc);
-
 alter table O_PROCESS_EXECUTION
-	add constraint FK_PRE_USR_O_USER foreign key (USR_ID)
+	add constraint FK_PRE_USR foreign key (USR_ID)
 	references O_USER (USR_ID);
 
-create index PRE_USR_O_USER_FK on O_PROCESS_EXECUTION (USR_ID asc);
-
 alter table O_PROCESS
-	add constraint FK_PRO_PRT_O_PROCESS_TYPE foreign key (PRT_CD)
+	add constraint FK_PRO_PRT foreign key (PRT_CD)
 	references O_PROCESS_TYPE (PRT_CD);
 
-create index PRO_PRT_O_PROCESS_TYPE_FK on O_PROCESS (PRT_CD asc);
-
 alter table O_PROCESS
-	add constraint FK_PRO_TRT_TRIGGER_TYPE foreign key (TRT_CD)
+	add constraint FK_PRO_TRT foreign key (TRT_CD)
 	references TRIGGER_TYPE (TRT_CD);
 
-create index PRO_TRT_TRIGGER_TYPE_FK on O_PROCESS (TRT_CD asc);
-
 alter table O_PROCESS_PLANIFICATION
-	add constraint FK_PRP_NOD_O_NODE foreign key (NOD_ID)
+	add constraint FK_PRP_NOD foreign key (NOD_ID)
 	references O_NODE (NOD_ID);
 
-create index PRP_NOD_O_NODE_FK on O_PROCESS_PLANIFICATION (NOD_ID asc);
-
 alter table O_PROCESS_PLANIFICATION
-	add constraint FK_PRP_PRO_O_PROCESS foreign key (PRO_ID)
+	add constraint FK_PRP_PRO foreign key (PRO_ID)
 	references O_PROCESS (PRO_ID);
 
-create index PRP_PRO_O_PROCESS_FK on O_PROCESS_PLANIFICATION (PRO_ID asc);
-
 alter table O_PROCESS_PLANIFICATION
-	add constraint FK_PRP_PST_O_PLANIFICATION_STATE foreign key (PST_CD)
+	add constraint FK_PRP_PST foreign key (PST_CD)
 	references O_PLANIFICATION_STATE (PST_CD);
 
-create index PRP_PST_O_PLANIFICATION_STATE_FK on O_PROCESS_PLANIFICATION (PST_CD asc);
-
 alter table O_ACTIVITY_WORKSPACE
-	add constraint FK_TKW_TKE_O_ACTIVITY_EXECUTION foreign key (ACE_ID)
+	add constraint FK_TKW_TKE foreign key (ACE_ID)
 	references O_ACTIVITY_EXECUTION (ACE_ID);
-
-create index TKW_TKE_O_ACTIVITY_EXECUTION_FK on O_ACTIVITY_WORKSPACE (ACE_ID asc);
-
 

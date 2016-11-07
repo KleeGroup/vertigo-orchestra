@@ -1,10 +1,9 @@
 package io.vertigo.orchestra.domain.planification;
 
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.Entity;
 import io.vertigo.dynamo.domain.model.URI;
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
-
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OProcessPlanification
@@ -30,10 +29,10 @@ public final class OProcessPlanification implements Entity {
 	public URI<OProcessPlanification> getURI() {
 		return DtObjectUtil.createURI(this);
 	}
-
+	
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Id Planification'.
+	 * Récupère la valeur de la propriété 'Id Planification'. 
 	 * @return Long prpId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "ID", required = true, label = "Id Planification")
@@ -52,8 +51,8 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Date d'execution prévue'.
-	 * @return java.util.Date expectedTime
+	 * Récupère la valeur de la propriété 'Date d'execution prévue'. 
+	 * @return java.util.Date expectedTime 
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", label = "Date d'execution prévue")
 	public java.util.Date getExpectedTime() {
@@ -63,7 +62,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Date d'execution prévue'.
-	 * @param expectedTime java.util.Date
+	 * @param expectedTime java.util.Date 
 	 */
 	public void setExpectedTime(final java.util.Date expectedTime) {
 		this.expectedTime = expectedTime;
@@ -71,8 +70,8 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'.
-	 * @return String initialParams
+	 * Récupère la valeur de la propriété 'Paramètres initiaux sous forme de JSON'. 
+	 * @return String initialParams 
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres initiaux sous forme de JSON")
 	public String getInitialParams() {
@@ -82,7 +81,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Paramètres initiaux sous forme de JSON'.
-	 * @param initialParams String
+	 * @param initialParams String 
 	 */
 	public void setInitialParams(final String initialParams) {
 		this.initialParams = initialParams;
@@ -90,8 +89,8 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Processus'.
-	 * @return Long proId
+	 * Récupère la valeur de la propriété 'Processus'. 
+	 * @return Long proId 
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Processus")
 	public Long getProId() {
@@ -101,7 +100,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Processus'.
-	 * @param proId Long
+	 * @param proId Long 
 	 */
 	public void setProId(final Long proId) {
 		this.proId = proId;
@@ -109,8 +108,8 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'Node'.
-	 * @return Long nodId
+	 * Récupère la valeur de la propriété 'Node'. 
+	 * @return Long nodId 
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", type = "FOREIGN_KEY", label = "Node")
 	public Long getNodId() {
@@ -120,7 +119,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'Node'.
-	 * @param nodId Long
+	 * @param nodId Long 
 	 */
 	public void setNodId(final Long nodId) {
 		this.nodId = nodId;
@@ -128,8 +127,8 @@ public final class OProcessPlanification implements Entity {
 
 	/**
 	 * Champ : FOREIGN_KEY.
-	 * Récupère la valeur de la propriété 'PlanificationState'.
-	 * @return String pstCd
+	 * Récupère la valeur de la propriété 'PlanificationState'. 
+	 * @return String pstCd 
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "PlanificationState")
 	public String getPstCd() {
@@ -139,7 +138,7 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'PlanificationState'.
-	 * @param pstCd String
+	 * @param pstCd String 
 	 */
 	public void setPstCd(final String pstCd) {
 		this.pstCd = pstCd;
@@ -155,8 +154,14 @@ public final class OProcessPlanification implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (processus == null || !fkURI.equals(processus.getURI())) {
-			processus = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
+		if (processus != null) {
+			// On s'assure que l'objet correspond à la bonne clé
+			if (!fkURI.equals(processus.getURI())) {
+				processus = null;
+			}
+		}		
+		if (processus == null) {
+			processus = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return processus;
 	}
@@ -165,19 +170,20 @@ public final class OProcessPlanification implements Entity {
 	 * Retourne l'URI: Processus.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
-			name = "A_PRP_PRO",
-			fkFieldName = "PRO_ID",
-			primaryDtDefinitionName = "DT_O_PROCESS",
-			primaryIsNavigable = true,
-			primaryRole = "Processus",
-			primaryLabel = "Processus",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
-			foreignIsNavigable = false,
-			foreignRole = "ProcessPlanification",
-			foreignLabel = "PlanificationProcessus",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRP_PRO",
+    	fkFieldName = "PRO_ID",
+    	primaryDtDefinitionName = "DT_O_PROCESS",
+    	primaryIsNavigable = true,
+    	primaryRole = "Processus",
+    	primaryLabel = "Processus",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ProcessPlanification",
+    	foreignLabel = "PlanificationProcessus",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessusURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
@@ -191,8 +197,14 @@ public final class OProcessPlanification implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (node == null || !fkURI.equals(node.getURI())) {
-			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
+		if (node != null) {
+			// On s'assure que l'objet correspond à la bonne clé
+			if (!fkURI.equals(node.getURI())) {
+				node = null;
+			}
+		}		
+		if (node == null) {
+			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return node;
 	}
@@ -201,19 +213,20 @@ public final class OProcessPlanification implements Entity {
 	 * Retourne l'URI: Node.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
-			name = "A_PRP_NOD",
-			fkFieldName = "NOD_ID",
-			primaryDtDefinitionName = "DT_O_NODE",
-			primaryIsNavigable = true,
-			primaryRole = "Node",
-			primaryLabel = "Node",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
-			foreignIsNavigable = false,
-			foreignRole = "ProcessPlanification",
-			foreignLabel = "PlanificationProcessus",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRP_NOD",
+    	fkFieldName = "NOD_ID",
+    	primaryDtDefinitionName = "DT_O_NODE",
+    	primaryIsNavigable = true,
+    	primaryRole = "Node",
+    	primaryLabel = "Node",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ProcessPlanification",
+    	foreignLabel = "PlanificationProcessus",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> getNodeURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_NOD", io.vertigo.orchestra.domain.execution.ONode.class);
 	}
@@ -227,8 +240,14 @@ public final class OProcessPlanification implements Entity {
 			return null;
 		}
 		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (planificationState == null || !fkURI.equals(planificationState.getURI())) {
-			planificationState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
+		if (planificationState != null) {
+			// On s'assure que l'objet correspond à la bonne clé
+			if (!fkURI.equals(planificationState.getURI())) {
+				planificationState = null;
+			}
+		}		
+		if (planificationState == null) {
+			planificationState = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().read(fkURI);
 		}
 		return planificationState;
 	}
@@ -237,19 +256,20 @@ public final class OProcessPlanification implements Entity {
 	 * Retourne l'URI: PlanificationState.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
-			name = "A_PRP_PST",
-			fkFieldName = "PST_CD",
-			primaryDtDefinitionName = "DT_O_PLANIFICATION_STATE",
-			primaryIsNavigable = true,
-			primaryRole = "PlanificationState",
-			primaryLabel = "PlanificationState",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
-			foreignIsNavigable = false,
-			foreignRole = "ProcessPlanification",
-			foreignLabel = "ProcessPlanification",
-			foreignMultiplicity = "0..*")
+    @io.vertigo.dynamo.domain.stereotype.Association (
+    	name = "A_PRP_PST",
+    	fkFieldName = "PST_CD",
+    	primaryDtDefinitionName = "DT_O_PLANIFICATION_STATE",
+    	primaryIsNavigable = true,
+    	primaryRole = "PlanificationState",
+    	primaryLabel = "PlanificationState",
+    	primaryMultiplicity = "0..1",
+    	foreignDtDefinitionName = "DT_O_PROCESS_PLANIFICATION",
+    	foreignIsNavigable = false,
+    	foreignRole = "ProcessPlanification",
+    	foreignLabel = "ProcessPlanification",
+    	foreignMultiplicity = "0..*"
+    )
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> getPlanificationStateURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PST", io.vertigo.orchestra.domain.referential.OPlanificationState.class);
 	}
