@@ -1,8 +1,9 @@
 package io.vertigo.orchestra.monitoring.domain.uiexecutions;
 
-import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.model.DtObject;
+import io.vertigo.dynamo.domain.stereotype.Field;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OActivityExecutionUi
@@ -23,10 +24,9 @@ public final class OActivityExecutionUi implements DtObject {
 	private Boolean hasLogFile;
 	private Boolean hasTechnicalLog;
 
-	
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Id de l'activité'. 
+	 * Récupère la valeur de la propriété 'Id de l'activité'.
 	 * @return Long aceId <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_IDENTIFIANT", required = true, label = "Id de l'activité")
@@ -45,8 +45,8 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Libellé'. 
-	 * @return String label 
+	 * Récupère la valeur de la propriété 'Libellé'.
+	 * @return String label
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Libellé")
 	public String getLabel() {
@@ -56,7 +56,7 @@ public final class OActivityExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Libellé'.
-	 * @param label String 
+	 * @param label String
 	 */
 	public void setLabel(final String label) {
 		this.label = label;
@@ -64,7 +64,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Nom du processus'.
 	 * @return java.util.Date beginTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
@@ -83,7 +83,7 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Nom du processus'. 
+	 * Récupère la valeur de la propriété 'Nom du processus'.
 	 * @return java.util.Date endTime <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_TIMESTAMP", required = true, label = "Nom du processus")
@@ -102,8 +102,8 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Durée'. 
-	 * @return Integer executionTime 
+	 * Récupère la valeur de la propriété 'Durée'.
+	 * @return Integer executionTime
 	 */
 	@Field(domain = "DO_O_NOMBRE", label = "Durée")
 	public Integer getExecutionTime() {
@@ -113,7 +113,7 @@ public final class OActivityExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Durée'.
-	 * @param executionTime Integer 
+	 * @param executionTime Integer
 	 */
 	public void setExecutionTime(final Integer executionTime) {
 		this.executionTime = executionTime;
@@ -121,8 +121,8 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Statut'. 
-	 * @return String status 
+	 * Récupère la valeur de la propriété 'Statut'.
+	 * @return String status
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", label = "Statut")
 	public String getStatus() {
@@ -132,7 +132,7 @@ public final class OActivityExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Statut'.
-	 * @param status String 
+	 * @param status String
 	 */
 	public void setStatus(final String status) {
 		this.status = status;
@@ -140,8 +140,8 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Paramètres entrants'. 
-	 * @return String workspaceIn 
+	 * Récupère la valeur de la propriété 'Paramètres entrants'.
+	 * @return String workspaceIn
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres entrants")
 	public String getWorkspaceIn() {
@@ -151,7 +151,7 @@ public final class OActivityExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Paramètres entrants'.
-	 * @param workspaceIn String 
+	 * @param workspaceIn String
 	 */
 	public void setWorkspaceIn(final String workspaceIn) {
 		this.workspaceIn = workspaceIn;
@@ -159,8 +159,8 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Paramètres sortants'. 
-	 * @return String workspaceOut 
+	 * Récupère la valeur de la propriété 'Paramètres sortants'.
+	 * @return String workspaceOut
 	 */
 	@Field(domain = "DO_O_JSON_TEXT", label = "Paramètres sortants")
 	public String getWorkspaceOut() {
@@ -170,7 +170,7 @@ public final class OActivityExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Paramètres sortants'.
-	 * @param workspaceOut String 
+	 * @param workspaceOut String
 	 */
 	public void setWorkspaceOut(final String workspaceOut) {
 		this.workspaceOut = workspaceOut;
@@ -178,8 +178,8 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Fichier de log'. 
-	 * @return Boolean hasLogFile 
+	 * Récupère la valeur de la propriété 'Fichier de log'.
+	 * @return Boolean hasLogFile
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Fichier de log")
 	public Boolean getHasLogFile() {
@@ -189,7 +189,7 @@ public final class OActivityExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Fichier de log'.
-	 * @param hasLogFile Boolean 
+	 * @param hasLogFile Boolean
 	 */
 	public void setHasLogFile(final Boolean hasLogFile) {
 		this.hasLogFile = hasLogFile;
@@ -197,8 +197,8 @@ public final class OActivityExecutionUi implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Log technique'. 
-	 * @return Boolean hasTechnicalLog 
+	 * Récupère la valeur de la propriété 'Log technique'.
+	 * @return Boolean hasTechnicalLog
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Log technique")
 	public Boolean getHasTechnicalLog() {
@@ -208,7 +208,7 @@ public final class OActivityExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Log technique'.
-	 * @param hasTechnicalLog Boolean 
+	 * @param hasTechnicalLog Boolean
 	 */
 	public void setHasTechnicalLog(final Boolean hasTechnicalLog) {
 		this.hasTechnicalLog = hasTechnicalLog;
