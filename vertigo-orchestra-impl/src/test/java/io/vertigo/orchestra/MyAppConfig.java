@@ -2,6 +2,7 @@ package io.vertigo.orchestra;
 
 import io.vertigo.app.config.AppConfig;
 import io.vertigo.app.config.AppConfigBuilder;
+import io.vertigo.app.config.ModuleConfigBuilder;
 import io.vertigo.commons.impl.CommonsFeatures;
 import io.vertigo.commons.plugins.cache.memory.MemoryCachePlugin;
 import io.vertigo.core.plugins.resource.classpath.ClassPathResourceResolverPlugin;
@@ -19,24 +20,22 @@ import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.monitoring.MonitoringServicesImpl;
 
 public final class MyAppConfig {
-	@SuppressWarnings("deprecation")
 	private static AppConfigBuilder createAppConfigBuilder() {
 		// @formatter:off
-		return new AppConfigBuilder().beginBootModule("fr_FR")
+		return new AppConfigBuilder().beginBoot()
+				.withLocales("fr_FR")
 				.addPlugin(ClassPathResourceResolverPlugin.class)
 				.addPlugin(KprLoaderPlugin.class)
 				.addPlugin(AnnotationLoaderPlugin.class)
 				.addPlugin(DomainDynamicRegistryPlugin.class)
 				.addPlugin(TaskDynamicRegistryPlugin.class)
-			.endModule()
-			.beginBoot()
 				.silently()
 			.endBoot()
-			.beginModule(CommonsFeatures.class)
+			.addModule(new CommonsFeatures()
 				.withCache(MemoryCachePlugin.class)
 				.withScript()
-			.endModule()
-			.beginModule(DynamoFeatures.class)
+				.build())
+			.addModule(new DynamoFeatures()
 				.withStore()
 				.getModuleConfigBuilder()
 				.addComponent(SqlDataBaseManager.class, SqlDataBaseManagerImpl.class)
@@ -52,14 +51,14 @@ public final class MyAppConfig {
 					.addParam("sequencePrefix","SEQ_")
 				.endPlugin()
 //				.addPlugin(LuceneIndexPlugin.class)
-				.endModule()
+				.build())
 			//.beginModule(PersonaFeatures.class).withUserSession(TestUserSession.class).endModule()
 			//.beginModule(VegaFeatures.class).withEmbeddedServer(8080).endModule()
-			.beginModule(OrchestraFeatures.class).endModule()
-			.beginModule("orchestra-test")
-			//---Services
-			.addComponent(MonitoringServices.class, MonitoringServicesImpl.class)
-			.endModule();
+			.addModule(new OrchestraFeatures().build())
+			.addModule(new ModuleConfigBuilder("orchestra-test")
+					//---Services
+					.addComponent(MonitoringServices.class, MonitoringServicesImpl.class)
+					.build());
 		// @formatter:on
 	}
 

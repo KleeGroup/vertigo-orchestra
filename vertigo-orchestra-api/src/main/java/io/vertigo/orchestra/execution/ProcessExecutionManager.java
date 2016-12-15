@@ -47,7 +47,7 @@ public interface ProcessExecutionManager extends Manager {
 	/****************************************************************************************************************/
 
 	/**
-	 * Retourne la liste des executions d'un processus répondant à des critères triés par ordre chronologique décroissant
+	 * Retourne la liste des executions d'un processus répondant à des critères triés par ordre chronologique décroissant.
 	 * @param processDefinition le processus concerné par la requête
 	 * @param status le status des executions à retourner
 	 * @param limit le nombre de resultat souhaités
@@ -67,7 +67,7 @@ public interface ProcessExecutionManager extends Manager {
 
 	/**
 	 * Retourne le rapport d'execution d'un processus sur une période.
-	 * @param processName le nom du processus
+	 * @param processDefinition le nom du processus
 	 * @param minDate la date de début
 	 * @param maxDate la date de fin
 	 * @return le résumé

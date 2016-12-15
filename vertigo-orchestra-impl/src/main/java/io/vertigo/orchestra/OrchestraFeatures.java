@@ -42,8 +42,9 @@ public final class OrchestraFeatures extends Features {
 		super("orchestra");
 	}
 
+	/** {@inheritDoc} */
 	@Override
-	protected void setUp() {
+	protected void buildFeatures() {
 		final String period = "1";
 		final String nodeName = "NODE_TEST_1";
 

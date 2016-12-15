@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import io.vertigo.dynamo.collections.CollectionsManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.vega.webservice.WebServices;
@@ -26,12 +25,10 @@ public class WsDefinition implements WebServices {
 
 	@Inject
 	private ProcessDefinitionManager definitionManager;
-	@Inject
-	private CollectionsManager collectionsManager;
 
 	/**
 	 * Retourne un processus par son id.
-	 * @param id l'id du processus
+	 * @param processName l'id du processus
 	 * @return le processus
 	 */
 	@GET("/{processName}")
@@ -59,7 +56,7 @@ public class WsDefinition implements WebServices {
 
 	/**
 	 * Met à jour les propriétés d'un processus.
-	 * @param id l'id du processus à mettre à jour
+	 * @param processName l'id du processus à mettre à jour
 	 * @param cronExpression la nouvelle expression cron de récurrence
 	 * @param multiExecution le processus autorise-t-il la multi-exécution
 	 * @param rescuePerdiodSeconds le temps de validité d'une planification
@@ -76,7 +73,7 @@ public class WsDefinition implements WebServices {
 
 	/**
 	 * Mets à jour les paramètres initiaux de démarrage d'un processus
-	 * @param id l'id du processus à mettre à jour
+	 * @param processName l'id du processus à mettre à jour
 	 * @param initialParams les nouveaux paramètres à utiliser (JSON sous forme de string)
 	 * @return le processus mis à jour
 	 */

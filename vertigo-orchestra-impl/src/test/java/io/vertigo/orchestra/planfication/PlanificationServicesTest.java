@@ -17,7 +17,7 @@ public class PlanificationServicesTest extends AbstractOrchestraTestCaseJU4 {
 	 */
 	@Test
 	public void nothing() throws InterruptedException {
-		Thread.sleep(1000 * 35);
+		//Thread.sleep(1000 * 35);
 	}
 
 }

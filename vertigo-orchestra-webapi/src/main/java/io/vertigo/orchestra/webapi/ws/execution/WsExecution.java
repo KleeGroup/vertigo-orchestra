@@ -44,7 +44,7 @@ public class WsExecution implements WebServices {
 
 	/**
 	 * Retourne la liste des executions d'un processus répondant à des critères triés par ordre chronologique décroissant
-	 * @param proId l'id du processus concerné par la requête
+	 * @param processName l'id du processus concerné par la requête
 	 * @param status le status des executions à retourner
 	 * @param limit le nombre de resultat souhaités
 	 * @param offset le rang du premier résultat retourné
@@ -134,7 +134,7 @@ public class WsExecution implements WebServices {
 
 	/**
 	 * Retourne le rapport d'execution d'un processus sur une période.
-	 * @param proId l'id du processus
+	 * @param processName l'id du processus
 	 * @return le résumé
 	 */
 	@GET("/summary/{processName}")

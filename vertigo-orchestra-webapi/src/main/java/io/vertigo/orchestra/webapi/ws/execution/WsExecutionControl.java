@@ -72,7 +72,7 @@ public class WsExecutionControl implements WebServices {
 
 	/**
 	 * Lance l'execution d'un processus avec son id.
-	 * @param proId l'id du processus à lancer
+	 * @param processName l'id du processus à lancer
 	 */
 	@POST("/executeNow")
 	@AnonymousAccessAllowed
