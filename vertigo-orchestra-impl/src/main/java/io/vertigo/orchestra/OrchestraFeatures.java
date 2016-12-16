@@ -1,6 +1,7 @@
 package io.vertigo.orchestra;
 
 import io.vertigo.app.config.Features;
+import io.vertigo.app.config.Param;
 import io.vertigo.orchestra.dao.definition.DefinitionPAO;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
@@ -42,36 +43,26 @@ public final class OrchestraFeatures extends Features {
 		super("orchestra");
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	protected void buildFeatures() {
-		final String period = "1";
-		final String nodeName = "NODE_TEST_1";
-
-		// @formatter:off
+	/**
+	 * Activate Orchestra with Database.
+	 * @param nodeName the node of the app
+	 * @param daemonPeriodSeconds the period for scheduling and execution
+	 * @param workersCount the number of workers
+	 * @param forecastDurationSeconds the time to forecast planifications
+	 * @return these features
+	 */
+	public OrchestraFeatures withDataBase(final String nodeName, final int daemonPeriodSeconds, final int workersCount, final int forecastDurationSeconds) {
 		getModuleConfigBuilder()
 				.withNoAPI()
-				.addComponent(NodeManager.class, NodeManagerImpl.class)
-				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
-				.beginPlugin(DbProcessDefinitionStorePlugin.class).endPlugin()
-				.beginPlugin(MemoryProcessDefinitionStorePlugin.class).endPlugin()
-				.addComponent(ProcessSchedulerManager.class, ProcessSchedulerManagerImpl.class)
-				.beginPlugin(DbProcessSchedulerPlugin.class)
-					.addParam("nodeName", nodeName)
-					.addParam("planningPeriodSeconds", period)
-					.addParam("forecastDurationSeconds", "60")
-				.endPlugin()
-				.beginPlugin(SimpleSchedulerPlugin.class).endPlugin()
-				.addComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
-				.beginPlugin(DbSequentialExecutorPlugin.class)
-					.addParam("nodeName", nodeName)
-					.addParam("workersCount", "3")
-					.addParam("executionPeriodSeconds", period)
-				.endPlugin()
-				.beginPlugin(SimpleExecutorPlugin.class)
-				.addParam("workersCount", "3")
-				.endPlugin()
-				.addComponent(OrchestraManager.class, OrchestraManagerImpl.class)
+				.addPlugin(DbProcessDefinitionStorePlugin.class)
+				.addPlugin(DbProcessSchedulerPlugin.class,
+						Param.create("nodeName", nodeName),
+						Param.create("planningPeriodSeconds", String.valueOf(daemonPeriodSeconds)),
+						Param.create("forecastDurationSeconds", String.valueOf(forecastDurationSeconds)))
+				.addPlugin(DbSequentialExecutorPlugin.class,
+						Param.create("nodeName", nodeName),
+						Param.create("workersCount", String.valueOf(workersCount)),
+						Param.create("executionPeriodSeconds", String.valueOf(daemonPeriodSeconds)))
 				//----DAO
 				.addComponent(OProcessDAO.class)
 				.addComponent(OActivityDAO.class)
@@ -86,9 +77,36 @@ public final class OrchestraFeatures extends Features {
 				.addComponent(ExecutionPAO.class)
 				.addComponent(PlanificationPAO.class)
 				//----Definitions
-				.addDefinitionResource("kpr", "io/vertigo/orchestra/execution.kpr")
+				.addDefinitionResource("kpr", "io/vertigo/orchestra/execution.kpr");
+		return this;
+	}
+
+	/**
+	 * Activate Orchestra with Memory.
+	 * @param workersCount the number of workers
+	 * @return these features
+	 */
+	public OrchestraFeatures withMemory(final int workersCount) {
+		getModuleConfigBuilder()
+				.addPlugin(MemoryProcessDefinitionStorePlugin.class)
+				.addPlugin(SimpleSchedulerPlugin.class)
+				.addPlugin(SimpleExecutorPlugin.class,
+						Param.create("workersCount", String.valueOf(workersCount)));
+
+		return this;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected void buildFeatures() {
+		getModuleConfigBuilder()
+				.addComponent(NodeManager.class, NodeManagerImpl.class)
+				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
+				.addComponent(ProcessSchedulerManager.class, ProcessSchedulerManagerImpl.class)
+				.addComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
+				.addComponent(OrchestraManager.class, OrchestraManagerImpl.class)
+				//----Definitions
 				.addDefinitionResource("classes", DtDefinitions.class.getName());
-		// @formatter:on
 
 	}
 }
