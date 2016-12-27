@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @version $Id$
  */
 @RunWith(Suite.class)
-@SuiteClasses(value = { ExecutionTest.class })
+@SuiteClasses(value = { ExecutionTest.class, LocalExecutionTest.class })
 public class AllTestExecution {
 	// Les annotations sont suffisantes.
 }

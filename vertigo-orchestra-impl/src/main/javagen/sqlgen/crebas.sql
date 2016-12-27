@@ -2,23 +2,6 @@
 --   SGBD      		  :  PostgreSql                     
 -- ============================================================
 
--- ============================================================
---   Drop                                       
--- ============================================================
-drop table O_ACTIVITY cascade;
-drop table O_ACTIVITY_EXECUTION cascade;
-drop table O_ACTIVITY_LOG cascade;
-drop table O_ACTIVITY_WORKSPACE cascade;
-drop table O_EXECUTION_STATE cascade;
-drop table O_NODE cascade;
-drop table O_PLANIFICATION_STATE cascade;
-drop table O_PROCESS cascade;
-drop table O_PROCESS_EXECUTION cascade;
-drop table O_PROCESS_PLANIFICATION cascade;
-drop table O_PROCESS_TYPE cascade;
-drop table O_USER cascade;
-drop table TRIGGER_TYPE cascade;
-
 
 
 

@@ -33,7 +33,7 @@ public class LocalExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void singleExecution() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("PRO_TEST_UNSUPERVISED", "PRO_TEST_UNSUPERVISED", ProcessType.UNSUPERVISED)
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("PRO_TEST_UNSUPERVISED_MANUAL", "PRO_TEST_UNSUPERVISED_MANUAL", ProcessType.UNSUPERVISED)
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
@@ -53,7 +53,7 @@ public class LocalExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	@Test
 	public void recurrentExecution() throws InterruptedException {
 
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("PRO_TEST_UNSUPERVISED", "PRO_TEST_UNSUPERVISED", ProcessType.UNSUPERVISED)
+		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("PRO_TEST_UNSUPERVISED_SCHEDULED", "PRO_TEST_UNSUPERVISED_SCHEDULED", ProcessType.UNSUPERVISED)
 				.withCronExpression("*/15 * * * * ?")
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
@@ -64,24 +64,8 @@ public class LocalExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		processPlannerManager.scheduleWithCron(processDefinition);
 
 		// The task takes 10 secondes to run we wait 12 secondes to check the final states
-		Thread.sleep(1000 * 60);
+		Thread.sleep(1000 * 10);
 
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doSetUp() throws Exception {
-		// Nothing in this case
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doTearDown() throws Exception {
-		// Nothing in this case
 	}
 
 }

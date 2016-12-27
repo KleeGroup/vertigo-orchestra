@@ -80,7 +80,7 @@ public class DbLogProviderPlugin implements LogProviderPlugin {
 		Assertion.checkNotNull(activityLog);
 		// ---
 		if (activityLog.isPresent()) {
-			final File file = new File(paramManager.getStringValue(ROOT_DIRECTORY) + activityLog.get().getLogFile());
+			final File file = new File(paramManager.getParam(ROOT_DIRECTORY).getValueAsString() + activityLog.get().getLogFile());
 			if (file.exists()) {
 				return Optional.of(fileManager.createFile(file));
 			}

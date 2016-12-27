@@ -117,7 +117,14 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 
 	@Override
 	public void stop() {
-		localScheduledExecutor.shutdown();
+		localScheduledExecutor.shutdownNow();
+		try {
+			while (!localScheduledExecutor.isTerminated()) {
+				Thread.sleep(100);
+			}
+		} catch (final InterruptedException e) {
+			//rien
+		}
 	}
 
 	@Override

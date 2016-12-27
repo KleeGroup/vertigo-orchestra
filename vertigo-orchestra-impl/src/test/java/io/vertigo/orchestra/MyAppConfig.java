@@ -3,18 +3,19 @@ package io.vertigo.orchestra;
 import io.vertigo.app.config.AppConfig;
 import io.vertigo.app.config.AppConfigBuilder;
 import io.vertigo.app.config.ModuleConfigBuilder;
-import io.vertigo.app.config.Param;
 import io.vertigo.commons.impl.CommonsFeatures;
 import io.vertigo.commons.plugins.cache.memory.MemoryCachePlugin;
+import io.vertigo.core.param.Param;
 import io.vertigo.core.plugins.resource.classpath.ClassPathResourceResolverPlugin;
 import io.vertigo.dynamo.impl.DynamoFeatures;
-import io.vertigo.dynamo.impl.database.vendor.postgresql.PostgreSqlDataBase;
+import io.vertigo.dynamo.impl.database.vendor.h2.H2Database;
 import io.vertigo.dynamo.plugins.database.connection.c3p0.C3p0ConnectionProviderPlugin;
 import io.vertigo.dynamo.plugins.environment.loaders.java.AnnotationLoaderPlugin;
 import io.vertigo.dynamo.plugins.environment.loaders.kpr.KprLoaderPlugin;
 import io.vertigo.dynamo.plugins.environment.registries.domain.DomainDynamicRegistryPlugin;
 import io.vertigo.dynamo.plugins.environment.registries.task.TaskDynamicRegistryPlugin;
 import io.vertigo.dynamo.plugins.store.datastore.postgresql.PostgreSqlDataStorePlugin;
+import io.vertigo.orchestra.boot.DataBaseInitializer;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.monitoring.MonitoringServicesImpl;
 
@@ -42,13 +43,16 @@ public final class MyAppConfig {
 						.withSqlDataBase()
 						.addSqlConnectionProviderPlugin(C3p0ConnectionProviderPlugin.class,
 								Param.create("name", "orchestra"),
-								Param.create("dataBaseClass", PostgreSqlDataBase.class.getName()),
-								Param.create("jdbcDriver", org.postgresql.Driver.class.getName()),
-								Param.create("jdbcUrl", "jdbc:postgresql://localhost:5432/orchestra?user=orchestra&password=orchestra"))
+								Param.create("dataBaseClass", H2Database.class.getName()),
+								Param.create("jdbcDriver", org.h2.Driver.class.getName()),
+								Param.create("jdbcUrl", "jdbc:h2:mem:database"))
 						.build())
+				// we build h2 mem
+				.addModule(new ModuleConfigBuilder("databaseInitializer").withNoAPI().addComponent(DataBaseInitializer.class).build())
+				//
 				.addModule(new OrchestraFeatures()
 						.withDataBase("NODE_TEST_1", 1, 3, 60)
-						.withMemory(3)
+						.withMemory(1)
 						.build())
 				.addModule(new ModuleConfigBuilder("orchestra-test")
 						//---Services

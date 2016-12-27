@@ -132,8 +132,18 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 	/** {@inheritDoc} */
 	@Override
 	public void stop() {
-		localScheduledExecutor.shutdown();
-		workers.shutdown();
+		localScheduledExecutor.shutdownNow();
+		workers.shutdownNow();
+		try {
+			while (!localScheduledExecutor.isTerminated()) {
+				Thread.sleep(100);
+			}
+			while (!workers.isTerminated()) {
+				Thread.sleep(100);
+			}
+		} catch (final InterruptedException e) {
+			//rien
+		}
 	}
 
 	@Override

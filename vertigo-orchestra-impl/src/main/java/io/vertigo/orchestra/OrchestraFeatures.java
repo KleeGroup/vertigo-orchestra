@@ -1,7 +1,7 @@
 package io.vertigo.orchestra;
 
 import io.vertigo.app.config.Features;
-import io.vertigo.app.config.Param;
+import io.vertigo.core.param.Param;
 import io.vertigo.orchestra.dao.definition.DefinitionPAO;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
