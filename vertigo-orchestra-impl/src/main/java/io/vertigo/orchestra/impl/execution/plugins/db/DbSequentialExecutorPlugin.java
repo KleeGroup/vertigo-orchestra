@@ -21,6 +21,7 @@ import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
+import io.vertigo.lang.WrappedException;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
 import io.vertigo.orchestra.dao.execution.OActivityExecutionDAO;
@@ -142,7 +143,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 				Thread.sleep(100);
 			}
 		} catch (final InterruptedException e) {
-			//rien
+			throw new WrappedException(e);
 		}
 	}
 

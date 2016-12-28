@@ -23,11 +23,16 @@ import io.vertigo.orchestra.impl.definition.plugins.db.DbProcessDefinitionStoreP
 import io.vertigo.orchestra.impl.definition.plugins.memory.MemoryProcessDefinitionStorePlugin;
 import io.vertigo.orchestra.impl.execution.NodeManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
+import io.vertigo.orchestra.impl.execution.plugins.db.DbLogProviderPlugin;
+import io.vertigo.orchestra.impl.execution.plugins.db.DbProcessReportPlugin;
 import io.vertigo.orchestra.impl.execution.plugins.db.DbSequentialExecutorPlugin;
 import io.vertigo.orchestra.impl.execution.plugins.simple.SimpleExecutorPlugin;
 import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl;
 import io.vertigo.orchestra.impl.scheduler.plugins.db.DbProcessSchedulerPlugin;
 import io.vertigo.orchestra.impl.scheduler.plugins.simple.SimpleSchedulerPlugin;
+import io.vertigo.orchestra.monitoring.dao.summary.SummaryPAO;
+import io.vertigo.orchestra.monitoring.dao.uidefinitions.UidefinitionsPAO;
+import io.vertigo.orchestra.monitoring.dao.uiexecutions.UiexecutionsPAO;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**
@@ -63,6 +68,8 @@ public final class OrchestraFeatures extends Features {
 						Param.create("nodeName", nodeName),
 						Param.create("workersCount", String.valueOf(workersCount)),
 						Param.create("executionPeriodSeconds", String.valueOf(daemonPeriodSeconds)))
+				.addPlugin(DbProcessReportPlugin.class)
+				.addPlugin(DbLogProviderPlugin.class)
 				//----DAO
 				.addComponent(OProcessDAO.class)
 				.addComponent(OActivityDAO.class)
@@ -76,6 +83,9 @@ public final class OrchestraFeatures extends Features {
 				.addComponent(DefinitionPAO.class)
 				.addComponent(ExecutionPAO.class)
 				.addComponent(PlanificationPAO.class)
+				.addComponent(UidefinitionsPAO.class)
+				.addComponent(UiexecutionsPAO.class)
+				.addComponent(SummaryPAO.class)
 				//----Definitions
 				.addDefinitionResource("kpr", "io/vertigo/orchestra/execution.kpr");
 		return this;

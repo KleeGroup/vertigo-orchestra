@@ -123,7 +123,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 				Thread.sleep(100);
 			}
 		} catch (final InterruptedException e) {
-			//rien
+			throw new WrappedException(e);
 		}
 	}
 

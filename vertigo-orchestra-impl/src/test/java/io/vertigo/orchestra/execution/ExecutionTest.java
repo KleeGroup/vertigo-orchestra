@@ -1,24 +1,14 @@
 package io.vertigo.orchestra.execution;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import io.vertigo.dynamo.domain.model.DtList;
-import io.vertigo.dynamo.task.TaskManager;
-import io.vertigo.dynamo.task.metamodel.TaskDefinition;
-import io.vertigo.dynamo.task.metamodel.TaskDefinitionBuilder;
-import io.vertigo.dynamo.task.model.Task;
-import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.dynamo.transaction.VTransactionManager;
-import io.vertigo.dynamo.transaction.VTransactionWritable;
-import io.vertigo.dynamox.task.TaskEngineProc;
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
@@ -32,7 +22,6 @@ import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.scheduler.PlanificationState;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
-import io.vertigo.util.ListBuilder;
 
 /**
  * TODO : Description de la classe.
@@ -41,11 +30,6 @@ import io.vertigo.util.ListBuilder;
  * @version $Id$
  */
 public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
-
-	@Inject
-	private VTransactionManager transactionManager;
-	@Inject
-	private TaskManager taskManager;
 
 	@Inject
 	private ProcessSchedulerManager processPlannerManager;
@@ -553,34 +537,6 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 			Assert.assertEquals("done", doneCount, doneExecutionCount);
 			Assert.assertEquals("error", errorCount, errorExecutionCount);
 
-		}
-
-	}
-
-	@Before
-	public void doSetUp() throws Exception {
-		//A chaque test on supprime tout
-		try (VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-			final List<String> requests = new ListBuilder<String>()
-					.add(" delete from o_activity_log;")
-					.add(" delete from o_activity_workspace;")
-					.add(" delete from o_process_planification;")
-					.add(" delete from o_activity_execution;")
-					.add(" delete from o_process_execution;")
-					.add(" delete from o_activity;")
-					.add(" delete from o_process;")
-					.build();
-
-			for (final String request : requests) {
-				final TaskDefinition taskDefinition = new TaskDefinitionBuilder("TK_CLEAN")
-						.withDataSpace("orchestra")
-						.withEngine(TaskEngineProc.class)
-						.withRequest(request)
-						.build();
-				final Task task = new TaskBuilder(taskDefinition).build();
-				taskManager.execute(task);
-			}
-			transaction.commit();
 		}
 
 	}
