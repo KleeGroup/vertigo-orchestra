@@ -23,7 +23,7 @@ limitations under the License. -->
 		<version>0.9.1</version>
 	</parent> 
 	
-	<artifactId>vertigo-orchestra-reactor</artifactId>
+	<artifactId>vertigo-orchestra</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>vertigo-orchestra</name>
 	<packaging>pom</packaging>
