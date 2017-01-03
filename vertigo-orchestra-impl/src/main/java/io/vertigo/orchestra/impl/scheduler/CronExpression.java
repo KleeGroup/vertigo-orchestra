@@ -8,6 +8,9 @@ import java.util.SortedSet;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+
+import io.vertigo.lang.Assertion;
 
 /**
  * Provides a parser and evaluator for unix-like cron expressions. Cron
@@ -189,7 +192,6 @@ public final class CronExpression {
 	private static final Integer NO_SPEC = NO_SPEC_INT;
 
 	enum MONTHS {
-		// @formatter:off
 		JAN(0, 31),
 		FEB(1, 28),
 		MAR(2, 31),
@@ -202,7 +204,6 @@ public final class CronExpression {
 		OCT(9, 31),
 		NOV(10, 30),
 		DEC(11, 31);
-		// @formatter:on
 
 		private final int index;
 		private final int maxDay;
@@ -327,12 +328,10 @@ public final class CronExpression {
 	 *         <CODE>CronExpression</CODE>
 	 */
 	public CronExpression(final String cronExpression) throws ParseException {
-		if (cronExpression == null) {
-			throw new IllegalArgumentException("cronExpression cannot be null");
-		}
+		Assertion.checkNotNull(cronExpression, "cronExpression cannot be null");
+		//--
 
 		this.cronExpression = cronExpression.toUpperCase(Locale.FRENCH);
-
 		buildExpression(this.cronExpression);
 	}
 
@@ -800,17 +799,10 @@ public final class CronExpression {
 			return "*";
 		}
 
-		final StringBuilder buf = new StringBuilder();
-
-		boolean first = true;
-		for (final Integer iVal : set) {
-			if (!first) {
-				buf.append(",");
-			}
-			buf.append(iVal);
-			first = false;
-		}
-		return buf.toString();
+		return set
+				.stream()
+				.map(iVal -> iVal.toString())
+				.collect(Collectors.joining(","));
 	}
 
 	private static int skipWhiteSpace(final int i, final String s) {
