@@ -176,7 +176,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		final OProcessPlanification processPlanification = new OProcessPlanification();
 		processPlanification.setProId(processDefinition.getId());
 		processPlanification.setExpectedTime(planifiedTime);
-		processPlanification.setPstCd(PlanificationState.WAITING.name());
+		changeState(processPlanification, PlanificationState.WAITING);
 		if (initialParamsOption.isPresent()) {
 			processPlanification.setInitialParams(initialParamsOption.get());
 		}
@@ -269,18 +269,20 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 				.collect(Collectors.toList());
 	}
 
-	private void triggerPlanification(final OProcessPlanification processPlanification) {
+	private void changeState(final OProcessPlanification processPlanification, final PlanificationState planificationState) {
 		Assertion.checkNotNull(processPlanification);
+		Assertion.checkNotNull(planificationState);
 		// ---
-		processPlanification.setPstCd(PlanificationState.TRIGGERED.name());
-		processPlanificationDAO.save(processPlanification);
+		processPlanification.setPstCd(planificationState.name());
+	}
 
+	private void triggerPlanification(final OProcessPlanification processPlanification) {
+		changeState(processPlanification, PlanificationState.TRIGGERED);
+		processPlanificationDAO.save(processPlanification);
 	}
 
 	private void misfirePlanification(final OProcessPlanification processPlanification) {
-		Assertion.checkNotNull(processPlanification);
-		// ---
-		processPlanification.setPstCd(PlanificationState.MISFIRED.name());
+		changeState(processPlanification, PlanificationState.MISFIRED);
 		processPlanificationDAO.save(processPlanification);
 	}
 
@@ -302,9 +304,9 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 			final OProcess process = planification.getProcessus();
 			final long ageOfPlanification = (now.getTime() - planification.getExpectedTime().getTime()) / (60 * 1000L);// in seconds
 			if (ageOfPlanification < process.getRescuePeriod()) {
-				planification.setPstCd(PlanificationState.RESCUED.name());
+				changeState(planification, PlanificationState.RESCUED);
 			} else {
-				planification.setPstCd(PlanificationState.MISFIRED.name());
+				changeState(planification, PlanificationState.MISFIRED);
 			}
 			processPlanificationDAO.save(planification);
 		}

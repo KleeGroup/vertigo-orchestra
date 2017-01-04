@@ -14,11 +14,10 @@ import io.vertigo.util.ListBuilder;
  * @version $Id$
  */
 public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition> {
-
 	private final String name;
 	private final String label;
-	private boolean myActive;
 	private final ProcessType type;
+	private boolean myActive;
 	private Optional<String> myCronExpression = Optional.empty();
 	private Optional<String> myInitialParams = Optional.empty();
 	private boolean multiExecution;
@@ -143,7 +142,18 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	/** {@inheritDoc} */
 	@Override
 	public ProcessDefinition build() {
-		return new ProcessDefinition(name, label, myActive, type, myCronExpression, myInitialParams, multiExecution, myRescuePeriod, myMetadatas, needUpdate, activitiesBuilder.unmodifiable().build());
+		return new ProcessDefinition(
+				name,
+				label,
+				myActive,
+				type,
+				myCronExpression,
+				myInitialParams,
+				multiExecution,
+				myRescuePeriod,
+				myMetadatas,
+				needUpdate,
+				activitiesBuilder.unmodifiable().build());
 	}
 
 }
