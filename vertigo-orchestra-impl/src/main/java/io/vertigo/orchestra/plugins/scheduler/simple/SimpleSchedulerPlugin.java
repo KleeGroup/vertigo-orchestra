@@ -89,7 +89,7 @@ public class SimpleSchedulerPlugin implements ProcessSchedulerPlugin, Activeable
 
 	private static Date getNextExecutionDateFrom(final ProcessDefinition processDefinition, final Date fromDate) {
 		try {
-			final CronExpression cronExpression = new CronExpression(processDefinition.getCronExpression().get());
+			final CronExpression cronExpression = new CronExpression(processDefinition.getTriggeringStrategy().getCronExpression().get());
 			return Optional.of(cronExpression.getNextValidTimeAfter(fromDate))
 					.orElseThrow(() -> new IllegalStateException("Cannot find a next execution date for process :" + processDefinition));
 		} catch (final ParseException e) {

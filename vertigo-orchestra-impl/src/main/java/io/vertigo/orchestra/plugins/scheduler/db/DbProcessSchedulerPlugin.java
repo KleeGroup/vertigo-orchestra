@@ -150,7 +150,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	private void doScheduleWithCron(final ProcessDefinition processDefinition) {
 		final Optional<Date> nextPlanification = findNextPlanificationTime(processDefinition);
 		if (nextPlanification.isPresent()) {
-			scheduleAt(processDefinition, nextPlanification.get(), processDefinition.getInitialParams());
+			scheduleAt(processDefinition, nextPlanification.get(), processDefinition.getTriggeringStrategy().getInitialParams());
 		}
 	}
 
@@ -225,7 +225,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 
 	private boolean canExecute(final ProcessDefinition processDefinition) {
 		// We check if process allow multiExecutions
-		if (!processDefinition.isMultiExecution()) {
+		if (!processDefinition.getTriggeringStrategy().isMultiExecution()) {
 			return processExecutionDAO.getActiveProcessExecutionByProId(processDefinition.getId()).isEmpty();
 		}
 		return true;
@@ -242,7 +242,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		final Optional<OProcessPlanification> lastPlanificationOption = getLastPlanificationsByProcess(processDefinition.getId());
 
 		try {
-			final CronExpression cronExpression = new CronExpression(processDefinition.getCronExpression().get());
+			final CronExpression cronExpression = new CronExpression(processDefinition.getTriggeringStrategy().getCronExpression().get());
 
 			if (!lastPlanificationOption.isPresent()) {
 				final Date now = new Date();
@@ -265,7 +265,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	private List<ProcessDefinition> getAllScheduledProcesses() {
 		return definitionManager.getAllProcessDefinitionsByType(getHandledProcessType()).stream()
 				.filter(processDefinition -> processDefinition.isActive())// We only want actives
-				.filter(processDefinition -> processDefinition.getCronExpression().isPresent())// We only want the processes to schedule
+				.filter(processDefinition -> processDefinition.getTriggeringStrategy().getCronExpression().isPresent())// We only want the processes to schedule
 				.collect(Collectors.toList());
 	}
 

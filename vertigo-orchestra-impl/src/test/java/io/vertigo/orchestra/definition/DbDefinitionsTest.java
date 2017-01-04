@@ -47,11 +47,11 @@ public class DbDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 
 		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 		// no initialParams
-		Assert.assertTrue(!processDefinitionManager.getProcessDefinition("TEST_BASIC").getInitialParams().isPresent());
+		Assert.assertTrue(!processDefinitionManager.getProcessDefinition("TEST_BASIC").getTriggeringStrategy().getInitialParams().isPresent());
 
 		processDefinitionManager.updateProcessDefinitionInitialParams("TEST_BASIC", Optional.of("{\"filePath\" : \"toto/titi\"}"));
 		// with initialParams
-		Assert.assertTrue(processDefinitionManager.getProcessDefinition("TEST_BASIC").getInitialParams().isPresent());
+		Assert.assertTrue(processDefinitionManager.getProcessDefinition("TEST_BASIC").getTriggeringStrategy().getInitialParams().isPresent());
 	}
 
 	@Test
@@ -63,11 +63,12 @@ public class DbDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 
 		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 		// no initialParams
-		Assert.assertTrue(!processDefinitionManager.getProcessDefinition("TEST_UPDATE_CRON").getCronExpression().isPresent());
+		Assert.assertTrue(!processDefinitionManager.getProcessDefinition("TEST_UPDATE_CRON").getTriggeringStrategy().getCronExpression().isPresent());
 
-		processDefinitionManager.updateProcessDefinitionProperties("TEST_UPDATE_CRON", Optional.of("*/15 * * * * ?"), processDefinition.isMultiExecution(), processDefinition.getRescuePeriod(),
+		processDefinitionManager.updateProcessDefinitionProperties("TEST_UPDATE_CRON", Optional.of("*/15 * * * * ?"), processDefinition.getTriggeringStrategy().isMultiExecution(),
+				processDefinition.getTriggeringStrategy().getRescuePeriod(),
 				processDefinition.isActive());
 		// with initialParams
-		Assert.assertTrue(processDefinitionManager.getProcessDefinition("TEST_UPDATE_CRON").getCronExpression().isPresent());
+		Assert.assertTrue(processDefinitionManager.getProcessDefinition("TEST_UPDATE_CRON").getTriggeringStrategy().getCronExpression().isPresent());
 	}
 }

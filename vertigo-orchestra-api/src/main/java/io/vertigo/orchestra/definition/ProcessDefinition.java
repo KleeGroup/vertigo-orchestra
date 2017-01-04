@@ -20,13 +20,12 @@ public final class ProcessDefinition implements Definition {
 	private final String name;
 	private final List<ActivityDefinition> activities;
 	private final ProcessType processType;
+
 	//---params dev / admin
 	private final String label;
 	private final boolean active;
-	private final Optional<String> cronExpression;
-	private final Optional<String> initialParams;
-	private final boolean multiExecution;
-	private final int rescuePeriod;
+
+	private final ProcessTriggeringStrategy triggeringStrategy;
 	private final Optional<String> metadatas;
 	private final boolean needUpdate;
 
@@ -43,32 +42,25 @@ public final class ProcessDefinition implements Definition {
 			final String label,
 			final boolean active,
 			final ProcessType processType,
-			final Optional<String> cronExpression,
-			final Optional<String> initialParams,
-			final boolean multiExecution,
-			final int rescuePeriod,
 			final Optional<String> metadatas,
 			final boolean needUpdate,
+			final ProcessTriggeringStrategy triggeringStrategy,
 			final List<ActivityDefinition> activities) {
 		Assertion.checkArgNotEmpty(name);
 		Assertion.checkArgNotEmpty(label);
 		Assertion.checkNotNull(processType);
-		Assertion.checkNotNull(cronExpression);
-		Assertion.checkNotNull(initialParams);
 		Assertion.checkNotNull(metadatas);
+		Assertion.checkNotNull(triggeringStrategy);
 		Assertion.checkNotNull(activities);
 		//---
 		this.name = name;
 		this.label = label;
 		this.active = active;
 		this.processType = processType;
-		this.cronExpression = cronExpression;
-		this.initialParams = initialParams;
-		this.multiExecution = multiExecution;
-		this.rescuePeriod = rescuePeriod;
 		this.activities = activities;
 		this.metadatas = metadatas;
 		this.needUpdate = needUpdate;
+		this.triggeringStrategy = triggeringStrategy;
 	}
 
 	public long getId() {
@@ -92,22 +84,6 @@ public final class ProcessDefinition implements Definition {
 		return processType;
 	}
 
-	public Optional<String> getCronExpression() {
-		return cronExpression;
-	}
-
-	public Optional<String> getInitialParams() {
-		return initialParams;
-	}
-
-	public int getRescuePeriod() {
-		return rescuePeriod;
-	}
-
-	public boolean isMultiExecution() {
-		return multiExecution;
-	}
-
 	public boolean isActive() {
 		return active;
 	}
@@ -122,6 +98,10 @@ public final class ProcessDefinition implements Definition {
 
 	public boolean getNeedUpdate() {
 		return needUpdate;
+	}
+
+	public ProcessTriggeringStrategy getTriggeringStrategy() {
+		return triggeringStrategy;
 	}
 
 }

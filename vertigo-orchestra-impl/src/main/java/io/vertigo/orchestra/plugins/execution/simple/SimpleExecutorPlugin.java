@@ -63,7 +63,7 @@ public class SimpleExecutorPlugin implements ProcessExecutorPlugin, Activeable {
 	}
 
 	private static void doSequentialExecute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
-		final ActivityExecutionWorkspace initialWorkspace = new ActivityExecutionWorkspace(processDefinition.getInitialParams().orElse(null));
+		final ActivityExecutionWorkspace initialWorkspace = new ActivityExecutionWorkspace(processDefinition.getTriggeringStrategy().getInitialParams().orElse(null));
 		if (initialParams.isPresent()) {
 			initialWorkspace.addExternalParams(initialParams.get());
 		}

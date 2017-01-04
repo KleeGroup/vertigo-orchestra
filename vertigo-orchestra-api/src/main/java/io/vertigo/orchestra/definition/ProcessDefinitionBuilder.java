@@ -147,12 +147,9 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 				label,
 				myActive,
 				type,
-				myCronExpression,
-				myInitialParams,
-				multiExecution,
-				myRescuePeriod,
 				myMetadatas,
 				needUpdate,
+				new ProcessTriggeringStrategy(myCronExpression, myInitialParams, multiExecution, myRescuePeriod),
 				activitiesBuilder.unmodifiable().build());
 	}
 
