@@ -28,8 +28,9 @@ public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManage
 	 * @param schedulerPlugins la liste des plugins de gestion de la planification
 	 */
 	@Inject
-	public ProcessSchedulerManagerImpl(
-			final List<ProcessSchedulerPlugin> schedulerPlugins) {
+	public ProcessSchedulerManagerImpl(final List<ProcessSchedulerPlugin> schedulerPlugins) {
+		Assertion.checkNotNull(schedulerPlugins);
+		//---
 		for (final ProcessSchedulerPlugin schedulerPlugin : schedulerPlugins) {
 			Assertion.checkState(!schedulerPluginsMap.containsKey(schedulerPlugin.getHandledProcessType()), "Only one plugin can manage the processType {0}", schedulerPlugin.getHandledProcessType());
 			schedulerPluginsMap.put(schedulerPlugin.getHandledProcessType(), schedulerPlugin);
@@ -53,6 +54,7 @@ public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManage
 	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
 		Assertion.checkNotNull(processDefinition);
 		Assertion.checkNotNull(planifiedTime);
+		Assertion.checkNotNull(initialParamsOption);
 		// ---
 		getPluginByType(processDefinition.getProcessType()).scheduleAt(processDefinition, planifiedTime, initialParamsOption);
 	}
