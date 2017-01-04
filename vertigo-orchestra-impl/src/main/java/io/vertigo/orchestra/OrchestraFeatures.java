@@ -21,7 +21,7 @@ import io.vertigo.orchestra.impl.OrchestraManagerImpl;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
 import io.vertigo.orchestra.impl.execution.NodeManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
-import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl;
+import io.vertigo.orchestra.impl.scheduler.SchedulerManagerImpl;
 import io.vertigo.orchestra.monitoring.dao.summary.SummaryPAO;
 import io.vertigo.orchestra.monitoring.dao.uidefinitions.UidefinitionsPAO;
 import io.vertigo.orchestra.monitoring.dao.uiexecutions.UiexecutionsPAO;
@@ -31,9 +31,9 @@ import io.vertigo.orchestra.plugins.execution.db.DbLogProviderPlugin;
 import io.vertigo.orchestra.plugins.execution.db.DbProcessReportPlugin;
 import io.vertigo.orchestra.plugins.execution.db.DbSequentialExecutorPlugin;
 import io.vertigo.orchestra.plugins.execution.simple.SimpleExecutorPlugin;
-import io.vertigo.orchestra.plugins.scheduler.db.DbProcessSchedulerPlugin;
+import io.vertigo.orchestra.plugins.scheduler.db.DbSchedulerPlugin;
 import io.vertigo.orchestra.plugins.scheduler.simple.SimpleSchedulerPlugin;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+import io.vertigo.orchestra.scheduler.SchedulerManager;
 
 /**
  * Defines extension orchestra.
@@ -60,7 +60,7 @@ public final class OrchestraFeatures extends Features {
 		getModuleConfigBuilder()
 				.withNoAPI()
 				.addPlugin(DbProcessDefinitionStorePlugin.class)
-				.addPlugin(DbProcessSchedulerPlugin.class,
+				.addPlugin(DbSchedulerPlugin.class,
 						Param.create("nodeName", nodeName),
 						Param.create("planningPeriodSeconds", String.valueOf(daemonPeriodSeconds)),
 						Param.create("forecastDurationSeconds", String.valueOf(forecastDurationSeconds)))
@@ -112,7 +112,7 @@ public final class OrchestraFeatures extends Features {
 		getModuleConfigBuilder()
 				.addComponent(NodeManager.class, NodeManagerImpl.class)
 				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
-				.addComponent(ProcessSchedulerManager.class, ProcessSchedulerManagerImpl.class)
+				.addComponent(SchedulerManager.class, SchedulerManagerImpl.class)
 				.addComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
 				.addComponent(OrchestraManager.class, OrchestraManagerImpl.class)
 				//----Definitions

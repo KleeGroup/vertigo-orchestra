@@ -13,15 +13,15 @@ import io.vertigo.orchestra.definition.ProcessType;
  * @author mlaroche.
  * @version $Id$
  */
-public interface ProcessSchedulerPlugin extends Plugin {
+public interface SchedulerPlugin extends Plugin {
 
 	/**
-	 * @see io.vertigo.orchestra.scheduler.ProcessSchedulerManager#scheduleWithCron(ProcessDefinition)
+	 * @see io.vertigo.orchestra.scheduler.SchedulerManager#scheduleWithCron(ProcessDefinition)
 	 */
 	void scheduleWithCron(final ProcessDefinition processDefinition);
 
 	/**
-	 * @see io.vertigo.orchestra.scheduler.ProcessSchedulerManager#scheduleAt(ProcessDefinition, Date, Optional)
+	 * @see io.vertigo.orchestra.scheduler.SchedulerManager#scheduleAt(ProcessDefinition, Date, Optional)
 	 */
 	void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption);
 

@@ -12,7 +12,7 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.definition.ProcessType;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+import io.vertigo.orchestra.scheduler.SchedulerManager;
 
 /**
  * TODO : Description de la classe.
@@ -23,7 +23,7 @@ import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 public class LocalExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 	@Inject
-	private ProcessSchedulerManager processPlannerManager;
+	private SchedulerManager processPlannerManager;
 	@Inject
 	private ProcessDefinitionManager processDefinitionManager;
 

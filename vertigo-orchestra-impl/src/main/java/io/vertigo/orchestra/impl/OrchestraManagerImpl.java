@@ -10,7 +10,7 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+import io.vertigo.orchestra.scheduler.SchedulerManager;
 
 /**
  *
@@ -21,20 +21,20 @@ import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 public final class OrchestraManagerImpl implements OrchestraManager {
 
 	private final ProcessDefinitionManager processDefinitionManager;
-	private final ProcessSchedulerManager processSchedulerManager;
+	private final SchedulerManager schedulerManager;
 
 	/**
 	 * Manager principal d'orchestra.
 	 * @param processDefinitionManager le manager responsable des définitions
-	 * @param processSchedulerManager le manager responsable de la planification
+	 * @param shedulerManager le manager responsable de la planification
 	 */
 	@Inject
-	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager, final ProcessSchedulerManager processSchedulerManager) {
+	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager, final SchedulerManager shedulerManager) {
 		Assertion.checkNotNull(processDefinitionManager);
-		Assertion.checkNotNull(processSchedulerManager);
+		Assertion.checkNotNull(shedulerManager);
 		// ---
 		this.processDefinitionManager = processDefinitionManager;
-		this.processSchedulerManager = processSchedulerManager;
+		this.schedulerManager = shedulerManager;
 	}
 
 	/** {@inheritDoc} */
@@ -60,7 +60,7 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
 		Assertion.checkNotNull(processDefinition);
 		// ---
-		processSchedulerManager.scheduleAt(processDefinition, expectedTime, initialParams);
+		schedulerManager.scheduleAt(processDefinition, expectedTime, initialParams);
 	}
 
 	/** {@inheritDoc} */
@@ -71,7 +71,7 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
 		Assertion.checkNotNull(processDefinition);
 		// ---
-		processSchedulerManager.scheduleWithCron(processDefinition);
+		schedulerManager.scheduleWithCron(processDefinition);
 
 	}
 

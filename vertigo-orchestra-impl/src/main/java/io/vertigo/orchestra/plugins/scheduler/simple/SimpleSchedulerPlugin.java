@@ -21,16 +21,15 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.impl.scheduler.CronExpression;
-import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
+import io.vertigo.orchestra.impl.scheduler.SchedulerPlugin;
 import io.vertigo.util.DateUtil;
 
-public class SimpleSchedulerPlugin implements ProcessSchedulerPlugin, Activeable {
+public class SimpleSchedulerPlugin implements SchedulerPlugin, Activeable {
 
 	/**
 	 * Pool de timers permettant l'exécution des Jobs.
 	 */
 	private final TimerPool timerPool = new TimerPool();
-	private boolean active;
 	private final ProcessExecutionManager executionManager;
 
 	@Inject
@@ -43,13 +42,12 @@ public class SimpleSchedulerPlugin implements ProcessSchedulerPlugin, Activeable
 	/** {@inheritDoc} */
 	@Override
 	public void start() {
-		active = true;
+		//
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void stop() {
-		active = false;
 		timerPool.close();
 	}
 
@@ -60,7 +58,6 @@ public class SimpleSchedulerPlugin implements ProcessSchedulerPlugin, Activeable
 	}
 
 	void scheduleAtRecurrent(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
-		checkActive();
 		//a chaque exécution il est nécessaire de reprogrammer l'execution.
 		final Date nextExecutionDate = getNextExecutionDateFrom(processDefinition, planifiedTime);
 		scheduleAt(processDefinition, nextExecutionDate, Optional.<String> empty());
@@ -75,7 +72,6 @@ public class SimpleSchedulerPlugin implements ProcessSchedulerPlugin, Activeable
 
 	@Override
 	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
-		checkActive();
 		final TimerTask task = createTimerTask(processDefinition);
 		timerPool.getTimer(processDefinition.getName()).schedule(task, planifiedTime);
 		log("Job ", processDefinition, planifiedTime);
@@ -108,10 +104,6 @@ public class SimpleSchedulerPlugin implements ProcessSchedulerPlugin, Activeable
 	private static void log(final String info, final ProcessDefinition processDefinition, final Date date) {
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.FRANCE);
 		getLogger(processDefinition.getName()).info(info + processDefinition.getName() + " programmé pour " + dateFormat.format(date));
-	}
-
-	private void checkActive() {
-		Assertion.checkArgument(active, "le manager n'est pas dans un état actif");
 	}
 
 	private static Logger getLogger(final String jobName) {

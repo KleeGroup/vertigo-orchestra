@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+import io.vertigo.orchestra.scheduler.SchedulerManager;
 
 /**
  * Implémentation du manager de la planification.
@@ -19,18 +19,18 @@ import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
  * @author mlaroche.
  * @version $Id$
  */
-public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManager {
-	private final Map<ProcessType, ProcessSchedulerPlugin> schedulerPluginsMap = new EnumMap<>(ProcessType.class);
+public final class SchedulerManagerImpl implements SchedulerManager {
+	private final Map<ProcessType, SchedulerPlugin> schedulerPluginsMap = new EnumMap<>(ProcessType.class);
 
 	/**
 	 * Constructeur.
 	 * @param schedulerPlugins la liste des plugins de gestion de la planification
 	 */
 	@Inject
-	public ProcessSchedulerManagerImpl(final List<ProcessSchedulerPlugin> schedulerPlugins) {
+	public SchedulerManagerImpl(final List<SchedulerPlugin> schedulerPlugins) {
 		Assertion.checkNotNull(schedulerPlugins);
 		//---
-		for (final ProcessSchedulerPlugin schedulerPlugin : schedulerPlugins) {
+		for (final SchedulerPlugin schedulerPlugin : schedulerPlugins) {
 			Assertion.checkState(!schedulerPluginsMap.containsKey(schedulerPlugin.getHandledProcessType()), "Only one plugin can manage the processType {0}", schedulerPlugin.getHandledProcessType());
 			schedulerPluginsMap.put(schedulerPlugin.getHandledProcessType(), schedulerPlugin);
 		}
@@ -60,8 +60,8 @@ public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManage
 				.scheduleAt(processDefinition, planifiedTime, initialParamsOption);
 	}
 
-	private ProcessSchedulerPlugin getPluginByType(final ProcessType processType) {
-		final ProcessSchedulerPlugin schedulerPlugin = schedulerPluginsMap.get(processType);
+	private SchedulerPlugin getPluginByType(final ProcessType processType) {
+		final SchedulerPlugin schedulerPlugin = schedulerPluginsMap.get(processType);
 		Assertion.checkNotNull(schedulerPlugin, "No plugin found for managing processType {0}", processType.name());
 		return schedulerPlugin;
 	}

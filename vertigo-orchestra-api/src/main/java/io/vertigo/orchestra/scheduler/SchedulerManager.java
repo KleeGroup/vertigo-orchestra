@@ -11,7 +11,7 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
  *
  * @author mlaroche
  */
-public interface ProcessSchedulerManager extends Manager {
+public interface SchedulerManager extends Manager {
 
 	/**
 	 * Planifie les executions d'un job en fonction de l'expression cron associée.

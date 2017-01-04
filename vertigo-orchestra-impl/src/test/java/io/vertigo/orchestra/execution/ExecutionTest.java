@@ -20,7 +20,7 @@ import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+import io.vertigo.orchestra.scheduler.SchedulerManager;
 import io.vertigo.orchestra.scheduler.SchedulerState;
 
 /**
@@ -32,7 +32,7 @@ import io.vertigo.orchestra.scheduler.SchedulerState;
 public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 	@Inject
-	private ProcessSchedulerManager processPlannerManager;
+	private SchedulerManager processPlannerManager;
 	@Inject
 	private ProcessDefinitionManager processDefinitionManager;
 

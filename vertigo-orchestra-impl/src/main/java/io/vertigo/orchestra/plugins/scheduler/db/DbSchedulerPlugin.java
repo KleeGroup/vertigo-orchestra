@@ -34,7 +34,7 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.NodeManager;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.impl.scheduler.CronExpression;
-import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
+import io.vertigo.orchestra.impl.scheduler.SchedulerPlugin;
 import io.vertigo.orchestra.scheduler.SchedulerState;
 
 /**
@@ -43,9 +43,9 @@ import io.vertigo.orchestra.scheduler.SchedulerState;
  * @author mlaroche.
  * @version $Id$
  */
-public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activeable {
+public class DbSchedulerPlugin implements SchedulerPlugin, Activeable {
 
-	private static final Logger LOGGER = Logger.getLogger(DbProcessSchedulerPlugin.class);
+	private static final Logger LOGGER = Logger.getLogger(DbSchedulerPlugin.class);
 
 	private final long timerDelay;
 
@@ -77,7 +77,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	 * @param forecastDurationSeconds la durée de prévision des planifications
 	 */
 	@Inject
-	public DbProcessSchedulerPlugin(
+	public DbSchedulerPlugin(
 			final NodeManager nodeManager,
 			@Named("nodeName") final String nodeName,
 			@Named("planningPeriodSeconds") final int planningPeriodSeconds,

@@ -13,7 +13,7 @@ import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.execution.activity.ActivityExecution;
 import io.vertigo.orchestra.execution.process.ExecutionSummary;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+import io.vertigo.orchestra.scheduler.SchedulerManager;
 import io.vertigo.util.DateUtil;
 
 /**
@@ -25,7 +25,7 @@ import io.vertigo.util.DateUtil;
 public class ReportingTest extends AbstractOrchestraTestCaseJU4 {
 
 	@Inject
-	private ProcessSchedulerManager processPlannerManager;
+	private SchedulerManager processPlannerManager;
 	@Inject
 	private ProcessDefinitionManager processDefinitionManager;
 	@Inject
