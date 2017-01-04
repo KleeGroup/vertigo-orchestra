@@ -27,7 +27,7 @@ import io.vertigo.util.ListBuilder;
  * @author mlaroche.
  * @version $Id$
  */
-public class AbstractOrchestraTestCaseJU4 {
+public abstract class AbstractOrchestraTestCaseJU4 {
 	private static AutoCloseableApp app;
 
 	@Inject

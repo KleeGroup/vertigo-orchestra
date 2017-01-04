@@ -54,7 +54,7 @@ public class WsExecution implements WebServices {
 	public List<ProcessExecution> getProcessExecutionsByProcessName(@PathParam("processName") final String processName, @QueryParam("status") final Optional<String> status,
 			@QueryParam("limit") final Optional<Integer> limit, @QueryParam("offset") final Optional<Integer> offset) {
 		final ProcessDefinition processDefinition = definitionManager.getProcessDefinition(processName);
-		return executionManager.getProcessExecutions(processDefinition, status.orElse(""), limit.orElse(DEFAULT_PAGE_SIZE), offset.orElse(DEFAULT_OFFSET));
+		return executionManager.getReport().getProcessExecutions(processDefinition, status.orElse(""), limit.orElse(DEFAULT_PAGE_SIZE), offset.orElse(DEFAULT_OFFSET));
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/processExecution/{preId}")
 	public ProcessExecution getProcessExecutionById(@PathParam("preId") final Long preId) {
-		return executionManager.getProcessExecution(preId);
+		return executionManager.getReport().getProcessExecution(preId);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/processExecution/{preId}/activities")
 	public List<ActivityExecution> getActivityExecutionsByPreId(@PathParam("preId") final Long preId) {
-		return executionManager.getActivityExecutionsByProcessExecution(preId);
+		return executionManager.getReport().getActivityExecutionsByProcessExecution(preId);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class WsExecution implements WebServices {
 	@POST("/updateTreatment")
 	public ProcessExecution updateProcessProperties(@InnerBodyParam("id") final Long id, @InnerBodyParam("checked") final Optional<Boolean> checked,
 			@InnerBodyParam("checkingComment") final Optional<String> checkingComment) {
-		return executionManager.getProcessExecution(id);
+		return executionManager.getReport().getProcessExecution(id);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/activityExecution/{aceId}")
 	public ActivityExecution getActivityExecutionById(@PathParam("aceId") final Long aceId) {
-		return executionManager.getActivityExecution(aceId);
+		return executionManager.getReport().getActivityExecution(aceId);
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class WsExecution implements WebServices {
 	public ExecutionSummary getWeekSummaryByProcessName(@PathParam("processName") final String processName) {
 		final ProcessDefinition processDefinition = definitionManager.getProcessDefinition(processName);
 		final Calendar firstDayOfWeek = getFirstDayOfWeek();
-		return executionManager.getSummaryByDateAndName(processDefinition, firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek));
+		return executionManager.getReport().getSummaryByDateAndName(processDefinition, firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek));
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class WsExecution implements WebServices {
 		// We deal with the offset
 		firstDayOfWeek.add(Calendar.DAY_OF_YEAR, offset * WEEK_DAYS);
 		// We make the call with the proper week dates
-		return executionManager.getSummariesByDate(firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek), status);
+		return executionManager.getReport().getSummariesByDate(firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek), status);
 	}
 
 	private static Date getFirstDayOfNextWeekDate(final Calendar first) {

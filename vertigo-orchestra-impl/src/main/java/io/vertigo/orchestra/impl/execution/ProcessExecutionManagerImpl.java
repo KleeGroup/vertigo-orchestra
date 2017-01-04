@@ -1,6 +1,5 @@
 package io.vertigo.orchestra.impl.execution;
 
-import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +13,8 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
-import io.vertigo.orchestra.execution.activity.ActivityExecution;
+import io.vertigo.orchestra.execution.ProcessReport;
 import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
-import io.vertigo.orchestra.execution.process.ExecutionSummary;
-import io.vertigo.orchestra.execution.process.ProcessExecution;
 
 /**
  * Implémentation du manager des executions.
@@ -29,7 +26,7 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 
 	private final Map<ProcessType, ProcessExecutorPlugin> executorPluginsMap = new EnumMap<>(ProcessType.class);
 	private final Optional<LogProviderPlugin> logProviderPlugin;
-	private final Optional<ProcessReportPlugin> processReportPlugin;
+	private final Optional<ProcessReport> optionalProcessReport;
 
 	/**
 	 * Constructeur du gestionnaire de l'execution des processus orchestra
@@ -37,8 +34,11 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 	 * @param logProviderPlugin plugin de gestion des logs
 	 */
 	@Inject
-	public ProcessExecutionManagerImpl(final List<ProcessExecutorPlugin> executorPlugins, final Optional<LogProviderPlugin> logProviderPlugin,
+	public ProcessExecutionManagerImpl(
+			final List<ProcessExecutorPlugin> executorPlugins,
+			final Optional<LogProviderPlugin> logProviderPlugin,
 			final Optional<ProcessReportPlugin> processReportPlugin) {
+		Assertion.checkNotNull(executorPlugins);
 		Assertion.checkNotNull(logProviderPlugin);
 		Assertion.checkNotNull(processReportPlugin);
 		// ---
@@ -47,7 +47,7 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 			executorPluginsMap.put(executorPlugin.getHandledProcessType(), executorPlugin);
 		}
 		this.logProviderPlugin = logProviderPlugin;
-		this.processReportPlugin = processReportPlugin;
+		this.optionalProcessReport = Optional.ofNullable(processReportPlugin.orElse(null));
 	}
 
 	/** {@inheritDoc} */
@@ -102,58 +102,9 @@ public final class ProcessExecutionManagerImpl implements ProcessExecutionManage
 	/****************************************************************************************************************/
 	/**                                           Report                                                           **/
 	/****************************************************************************************************************/
-
 	@Override
-	public List<ProcessExecution> getProcessExecutions(final ProcessDefinition processDefinition, final String status, final Integer limit, final Integer offset) {
-		checkProcessDefinition(processDefinition);
-		checkPluginPresent();
-		// ---
-		return processReportPlugin.get().getProcessExecutions(processDefinition, status, limit, offset);
-
-	}
-
-	@Override
-	public List<ExecutionSummary> getSummariesByDate(final Date minDate, final Date maxDate, final String status) {
-		checkPluginPresent();
-		// ---
-		return processReportPlugin.get().getSummariesByDate(minDate, maxDate, status);
-	}
-
-	@Override
-	public ExecutionSummary getSummaryByDateAndName(final ProcessDefinition processDefinition, final Date minDate, final Date maxDate) {
-		checkProcessDefinition(processDefinition);
-		checkPluginPresent();
-		// ---
-		return processReportPlugin.get().getSummaryByDateAndName(processDefinition, minDate, maxDate);
-	}
-
-	@Override
-	public ProcessExecution getProcessExecution(final Long preId) {
-		checkPluginPresent();
-		// ---
-		return processReportPlugin.get().getProcessExecution(preId);
-	}
-
-	@Override
-	public List<ActivityExecution> getActivityExecutionsByProcessExecution(final Long preId) {
-		checkPluginPresent();
-		// ---
-		return processReportPlugin.get().getActivityExecutionsByProcessExecution(preId);
-	}
-
-	@Override
-	public ActivityExecution getActivityExecution(final Long aceId) {
-		checkPluginPresent();
-		// ---
-		return processReportPlugin.get().getActivityExecution(aceId);
-	}
-
-	private static void checkProcessDefinition(final ProcessDefinition processDefinition) {
-		Assertion.checkState(ProcessType.SUPERVISED.equals(processDefinition.getProcessType()), "Only supervised process can retrieve executions. Process {0} isn't", processDefinition.getName());
-	}
-
-	private void checkPluginPresent() {
-		Assertion.checkState(processReportPlugin.isPresent(), "A ProcessReportPlugin must be defined for retrieving executions and summaries");
+	public ProcessReport getReport() {
+		return optionalProcessReport.orElseThrow(() -> new IllegalStateException("A ProcessReportPlugin must be defined for retrieving executions and summaries"));
 	}
 
 	/****************************************************************************************************************/

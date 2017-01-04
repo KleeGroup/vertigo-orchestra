@@ -58,7 +58,7 @@ public class ReportingTest extends AbstractOrchestraTestCaseJU4 {
 
 		final ProcessDefinition processDefinition = executeProcess();
 		// -1h +1h
-		final ExecutionSummary executionSummary = processExecutionManager.getSummaryByDateAndName(processDefinition, new Date(DateUtil.newDateTime().getTime() - 60 * 60 * 1000),
+		final ExecutionSummary executionSummary = processExecutionManager.getReport().getSummaryByDateAndName(processDefinition, new Date(DateUtil.newDateTime().getTime() - 60 * 60 * 1000),
 				new Date(DateUtil.newDateTime().getTime() + 60 * 60 * 1000));
 		Assert.assertTrue(1 == executionSummary.getSuccessfulCount());
 	}
@@ -70,8 +70,8 @@ public class ReportingTest extends AbstractOrchestraTestCaseJU4 {
 	public void testLog() throws InterruptedException {
 		final ProcessDefinition processDefinition = executeProcess();
 		// ---
-		final ActivityExecution activityExecution = processExecutionManager
-				.getActivityExecutionsByProcessExecution(processExecutionManager.getProcessExecutions(processDefinition, "", 10, 0).get(0).getPreId()).get(0);
+		final ActivityExecution activityExecution = processExecutionManager.getReport()
+				.getActivityExecutionsByProcessExecution(processExecutionManager.getReport().getProcessExecutions(processDefinition, "", 10, 0).get(0).getPreId()).get(0);
 		Assert.assertTrue(processExecutionManager.getTechnicalLogFileForActivity(activityExecution.getAceId()).isPresent());
 	}
 

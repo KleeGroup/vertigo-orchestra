@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.transaction.Transactional;
+import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.execution.activity.ActivityExecution;
 import io.vertigo.orchestra.execution.process.ExecutionSummary;
 import io.vertigo.orchestra.execution.process.ProcessExecution;
@@ -31,8 +33,15 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 	@Inject
 	private SummaryPAO summaryPAO;
 
+	private static void checkProcessDefinition(final ProcessDefinition processDefinition) {
+		Assertion.checkNotNull(processDefinition);
+		Assertion.checkState(ProcessType.SUPERVISED.equals(processDefinition.getProcessType()), "Only supervised process can retrieve executions. Process {0} isn't", processDefinition.getName());
+	}
+
 	@Override
 	public List<ProcessExecution> getProcessExecutions(final ProcessDefinition processDefinition, final String status, final Integer limit, final Integer offset) {
+		checkProcessDefinition(processDefinition);
+		//---
 		return decodeExecutionList(uiexecutionsPAO.getExecutionsByProcessName(processDefinition.getName(), status, limit, offset));
 	}
 
@@ -43,6 +52,8 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 
 	@Override
 	public ExecutionSummary getSummaryByDateAndName(final ProcessDefinition processDefinition, final Date minDate, final Date maxDate) {
+		checkProcessDefinition(processDefinition);
+		//---
 		return decodeSummary(summaryPAO.getExecutionSummaryByDateAndName(minDate, maxDate, processDefinition.getName()));
 	}
 
