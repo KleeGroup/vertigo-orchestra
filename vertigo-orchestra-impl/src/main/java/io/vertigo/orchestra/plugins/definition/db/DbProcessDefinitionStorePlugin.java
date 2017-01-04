@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
+import io.vertigo.lang.VSystemException;
 import io.vertigo.orchestra.dao.definition.DefinitionPAO;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
@@ -233,11 +234,8 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 	private OProcess getOProcessByName(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		// ---
-		final Optional<OProcess> processOption = processDao.getActiveProcessByName(processName);
-		// ---
-		Assertion.checkState(processOption.isPresent(), "Cannot find process with name {0}", processName);
-		// ---
-		return processOption.get();
+		return processDao.getActiveProcessByName(processName)
+				.orElseThrow(() -> new VSystemException("Cannot find process with name {0}", processName));
 	}
 
 	@Override

@@ -44,7 +44,8 @@ public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManage
 	public void scheduleWithCron(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
-		getPluginByType(processDefinition.getProcessType()).scheduleWithCron(processDefinition);
+		getPluginByType(processDefinition.getProcessType())
+				.scheduleWithCron(processDefinition);
 
 	}
 
@@ -55,7 +56,8 @@ public final class ProcessSchedulerManagerImpl implements ProcessSchedulerManage
 		Assertion.checkNotNull(planifiedTime);
 		Assertion.checkNotNull(initialParamsOption);
 		// ---
-		getPluginByType(processDefinition.getProcessType()).scheduleAt(processDefinition, planifiedTime, initialParamsOption);
+		getPluginByType(processDefinition.getProcessType())
+				.scheduleAt(processDefinition, planifiedTime, initialParamsOption);
 	}
 
 	private ProcessSchedulerPlugin getPluginByType(final ProcessType processType) {

@@ -63,7 +63,7 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 
 	// Utilitaire de transformation//
 	private static ExecutionSummary decodeSummary(final OExecutionSummary summary) {
-		final ExecutionSummary executionSummary = new ExecutionSummary(
+		return new ExecutionSummary(
 				summary.getProId(),
 				summary.getProcessName(),
 				summary.getProcessLabel(),
@@ -75,8 +75,6 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 				summary.getRunningCount(),
 				summary.getAverageExecutionTime(),
 				summary.getHealth());
-
-		return executionSummary;
 	}
 
 	private static List<ExecutionSummary> decodeSummaryList(final List<OExecutionSummary> summaries) {
@@ -88,7 +86,7 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 	}
 
 	private static ProcessExecution decodeExecution(final OProcessExecutionUi execution) {
-		final ProcessExecution processExecution = new ProcessExecution(
+		return new ProcessExecution(
 				execution.getPreId(),
 				execution.getBeginTime(),
 				execution.getEndTime(),
@@ -98,7 +96,6 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 				execution.getCheckingDate(),
 				execution.getCheckingComment(),
 				execution.getHasLogFile());
-		return processExecution;
 	}
 
 	private static List<ProcessExecution> decodeExecutionList(final List<OProcessExecutionUi> executions) {
@@ -110,7 +107,7 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 	}
 
 	private static ActivityExecution decodeActivityExecution(final OActivityExecutionUi execution) {
-		final ActivityExecution activityExecution = new ActivityExecution(
+		return new ActivityExecution(
 				execution.getAceId(),
 				execution.getLabel(),
 				execution.getBeginTime(),
@@ -121,7 +118,6 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 				execution.getWorkspaceOut(),
 				execution.getHasLogFile(),
 				execution.getHasTechnicalLog());
-		return activityExecution;
 	}
 
 	private static List<ActivityExecution> decodeActivityExecutionList(final List<OActivityExecutionUi> executions) {
