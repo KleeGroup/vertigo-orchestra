@@ -468,15 +468,17 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 				nextActivityExecution.setBeginTime(new Date());
 				nextWorkspace = previousWorkspace;
 				//we close the transaction now
-				transaction.commit();
-				transaction.close();
-				doRunActivity(nextActivityExecution, nextWorkspace);
+				transaction.addAfterCompletion(
+						succeeded -> {
+							if (succeeded) {
+								doRunActivity(nextActivityExecution, nextWorkspace);
+							}
+						});
 
 			} else {
 				endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);
-				transaction.commit();
 			}
-
+			transaction.commit();
 		}
 	}
 

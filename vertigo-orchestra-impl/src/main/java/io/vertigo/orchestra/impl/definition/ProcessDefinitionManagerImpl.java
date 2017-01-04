@@ -23,19 +23,19 @@ import io.vertigo.orchestra.impl.definition.plugins.ProcessDefinitionStorePlugin
  */
 public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
-	private final Map<ProcessType, ProcessDefinitionStorePlugin> storePluginsMap = new EnumMap<>(ProcessType.class);
+	private final Map<ProcessType, ProcessDefinitionStorePlugin> processDefinitionStorePluginsByProcessType = new EnumMap<>(ProcessType.class);
 
 	/**
 	 * Constructeur du gestionnaire de définitions.
-	 * @param definitionStorePlugins la liste des plugins gérant des définitions de processus
+	 * @param processDefinitionStorePlugins la liste des plugins gérant des définitions de processus
 	 */
 	@Inject
-	public ProcessDefinitionManagerImpl(final List<ProcessDefinitionStorePlugin> definitionStorePlugins) {
-		Assertion.checkState(!definitionStorePlugins.isEmpty(), "At least one ProcessDefinitionStorePlugin is required");
+	public ProcessDefinitionManagerImpl(final List<ProcessDefinitionStorePlugin> processDefinitionStorePlugins) {
+		Assertion.checkState(!processDefinitionStorePlugins.isEmpty(), "At least one ProcessDefinitionStorePlugin is required");
 		// ---
-		for (final ProcessDefinitionStorePlugin storePlugin : definitionStorePlugins) {
-			Assertion.checkState(!storePluginsMap.containsKey(storePlugin.getHandledProcessType()), "Only one plugin can manage the processType {0}", storePlugin.getHandledProcessType());
-			storePluginsMap.put(storePlugin.getHandledProcessType(), storePlugin);
+		for (final ProcessDefinitionStorePlugin storePlugin : processDefinitionStorePlugins) {
+			Assertion.checkState(!processDefinitionStorePluginsByProcessType.containsKey(storePlugin.getHandledProcessType()), "Only one plugin can manage the processType {0}", storePlugin.getHandledProcessType());
+			processDefinitionStorePluginsByProcessType.put(storePlugin.getHandledProcessType(), storePlugin);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	public ProcessDefinition getProcessDefinition(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		// ---
-		return storePluginsMap.values()
+		return processDefinitionStorePluginsByProcessType.values()
 				.stream()
 				.filter(processDefinitionStorePlugin -> processDefinitionStorePlugin.processDefinitionExists(processName))
 				.findFirst()
@@ -56,7 +56,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	@Override
 	public List<ProcessDefinition> getAllProcessDefinitions() {
 		final List<ProcessDefinition> processDefinitions = new ArrayList<>();
-		for (final ProcessDefinitionStorePlugin storePlugin : storePluginsMap.values()) {
+		for (final ProcessDefinitionStorePlugin storePlugin : processDefinitionStorePluginsByProcessType.values()) {
 			processDefinitions.addAll(storePlugin.getAllProcessDefinitions());
 		}
 		return Collections.unmodifiableList(processDefinitions);
@@ -68,7 +68,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
-		final ProcessDefinitionStorePlugin storePlugin = storePluginsMap.get(processDefinition.getProcessType());
+		final ProcessDefinitionStorePlugin storePlugin = processDefinitionStorePluginsByProcessType.get(processDefinition.getProcessType());
 		Assertion.checkNotNull(storePlugin, "No plugin found for managing processType {0}", processDefinition.getProcessType());
 		// ---
 		storePlugin.createOrUpdateDefinitionIfNeeded(processDefinition);
@@ -96,7 +96,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	}
 
 	private ProcessDefinitionStorePlugin getPluginByType(final ProcessType processType) {
-		final ProcessDefinitionStorePlugin storePlugin = storePluginsMap.get(processType);
+		final ProcessDefinitionStorePlugin storePlugin = processDefinitionStorePluginsByProcessType.get(processType);
 		Assertion.checkNotNull(storePlugin, "No plugin found for managing processType {0}", processType.name());
 		return storePlugin;
 	}
