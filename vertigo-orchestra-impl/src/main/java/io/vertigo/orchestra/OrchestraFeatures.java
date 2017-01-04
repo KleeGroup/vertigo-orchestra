@@ -19,20 +19,20 @@ import io.vertigo.orchestra.execution.NodeManager;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.impl.OrchestraManagerImpl;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
-import io.vertigo.orchestra.impl.definition.plugins.db.DbProcessDefinitionStorePlugin;
-import io.vertigo.orchestra.impl.definition.plugins.memory.MemoryProcessDefinitionStorePlugin;
 import io.vertigo.orchestra.impl.execution.NodeManagerImpl;
 import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
-import io.vertigo.orchestra.impl.execution.plugins.db.DbLogProviderPlugin;
-import io.vertigo.orchestra.impl.execution.plugins.db.DbProcessReportPlugin;
-import io.vertigo.orchestra.impl.execution.plugins.db.DbSequentialExecutorPlugin;
-import io.vertigo.orchestra.impl.execution.plugins.simple.SimpleExecutorPlugin;
 import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl;
-import io.vertigo.orchestra.impl.scheduler.plugins.db.DbProcessSchedulerPlugin;
-import io.vertigo.orchestra.impl.scheduler.plugins.simple.SimpleSchedulerPlugin;
 import io.vertigo.orchestra.monitoring.dao.summary.SummaryPAO;
 import io.vertigo.orchestra.monitoring.dao.uidefinitions.UidefinitionsPAO;
 import io.vertigo.orchestra.monitoring.dao.uiexecutions.UiexecutionsPAO;
+import io.vertigo.orchestra.plugins.definition.db.DbProcessDefinitionStorePlugin;
+import io.vertigo.orchestra.plugins.definition.memory.MemoryProcessDefinitionStorePlugin;
+import io.vertigo.orchestra.plugins.execution.db.DbLogProviderPlugin;
+import io.vertigo.orchestra.plugins.execution.db.DbProcessReportPlugin;
+import io.vertigo.orchestra.plugins.execution.db.DbSequentialExecutorPlugin;
+import io.vertigo.orchestra.plugins.execution.simple.SimpleExecutorPlugin;
+import io.vertigo.orchestra.plugins.scheduler.db.DbProcessSchedulerPlugin;
+import io.vertigo.orchestra.plugins.scheduler.simple.SimpleSchedulerPlugin;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**

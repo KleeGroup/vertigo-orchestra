@@ -50,10 +50,10 @@ create Association A_PRP_NOD {
 
 
 create Association A_PRP_PST {
-  fkFieldName : "PST_CD"
+  fkFieldName : "SST_CD"
     
  	dtDefinitionA : DT_O_PROCESS_PLANIFICATION
-	dtDefinitionB : DT_O_PLANIFICATION_STATE
+	dtDefinitionB : DT_O_SCHEDULER_STATE
 			
 	navigabilityA : "false"
 	navigabilityB : "true"

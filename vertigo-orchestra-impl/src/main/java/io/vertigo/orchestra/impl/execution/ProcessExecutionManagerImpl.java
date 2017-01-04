@@ -18,9 +18,6 @@ import io.vertigo.orchestra.execution.activity.ActivityExecution;
 import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.execution.process.ExecutionSummary;
 import io.vertigo.orchestra.execution.process.ProcessExecution;
-import io.vertigo.orchestra.impl.execution.plugins.LogProviderPlugin;
-import io.vertigo.orchestra.impl.execution.plugins.ProcessExecutorPlugin;
-import io.vertigo.orchestra.impl.execution.plugins.ProcessReportPlugin;
 
 /**
  * Implémentation du manager des executions.

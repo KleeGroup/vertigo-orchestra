@@ -7,9 +7,9 @@ create DtDefinition DT_O_EXECUTION_STATE {
   
 }
 
-create DtDefinition DT_O_PLANIFICATION_STATE {
+create DtDefinition DT_O_SCHEDULER_STATE {
 	storeName : "orchestra"
-	key PST_CD	{domain : DO_O_CODE_IDENTIFIANT, label :"Code", notNull:"true",}
+	key SST_CD	{domain : DO_O_CODE_IDENTIFIANT, label :"Code", notNull:"true",}
 	field LABEL   	{domain : DO_O_LIBELLE, label :"Libellé", notNull:"false",}
   
 }

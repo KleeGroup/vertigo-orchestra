@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.execution.plugins.simple;
+package io.vertigo.orchestra.plugins.execution.simple;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -20,7 +20,7 @@ import io.vertigo.orchestra.execution.ExecutionState;
 import io.vertigo.orchestra.execution.activity.ActivityEngine;
 import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
-import io.vertigo.orchestra.impl.execution.plugins.ProcessExecutorPlugin;
+import io.vertigo.orchestra.impl.execution.ProcessExecutorPlugin;
 
 /**
  * Executeur de processus non supervisés.

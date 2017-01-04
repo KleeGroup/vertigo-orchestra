@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.scheduler.plugins;
+package io.vertigo.orchestra.impl.scheduler;
 
 import java.util.Date;
 import java.util.Optional;

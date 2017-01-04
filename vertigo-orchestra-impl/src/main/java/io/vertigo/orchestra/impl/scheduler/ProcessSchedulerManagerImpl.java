@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
-import io.vertigo.orchestra.impl.scheduler.plugins.ProcessSchedulerPlugin;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
 
 /**

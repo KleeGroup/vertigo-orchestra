@@ -26,9 +26,6 @@ create sequence SEQ_O_EXECUTION_STATE
 create sequence SEQ_O_NODE
 	start with 1000 cache 20; 
 
-create sequence SEQ_O_PLANIFICATION_STATE
-	start with 1000 cache 20; 
-
 create sequence SEQ_O_PROCESS
 	start with 1000 cache 20; 
 
@@ -39,6 +36,9 @@ create sequence SEQ_O_PROCESS_PLANIFICATION
 	start with 1000 cache 20; 
 
 create sequence SEQ_O_PROCESS_TYPE
+	start with 1000 cache 20; 
+
+create sequence SEQ_O_SCHEDULER_STATE
 	start with 1000 cache 20; 
 
 create sequence SEQ_O_USER
@@ -217,22 +217,6 @@ comment on column O_NODE.HEARTBEAT is
 'Date de dernière activité';
 
 -- ============================================================
---   Table : O_PLANIFICATION_STATE                                        
--- ============================================================
-create table O_PLANIFICATION_STATE
-(
-    PST_CD      	 VARCHAR(20) 	not null,
-    LABEL       	 VARCHAR(100)	,
-    constraint PK_O_PLANIFICATION_STATE primary key (PST_CD)
-);
-
-comment on column O_PLANIFICATION_STATE.PST_CD is
-'Code';
-
-comment on column O_PLANIFICATION_STATE.LABEL is
-'Libellé';
-
--- ============================================================
 --   Table : O_PROCESS                                        
 -- ============================================================
 create table O_PROCESS
@@ -350,7 +334,7 @@ create table O_PROCESS_PLANIFICATION
     INITIAL_PARAMS	 TEXT        	,
     PRO_ID      	 NUMERIC     	,
     NOD_ID      	 NUMERIC     	,
-    PST_CD      	 VARCHAR(20) 	,
+    SST_CD      	 VARCHAR(20) 	,
     constraint PK_O_PROCESS_PLANIFICATION primary key (PRP_ID)
 );
 
@@ -369,7 +353,7 @@ comment on column O_PROCESS_PLANIFICATION.PRO_ID is
 comment on column O_PROCESS_PLANIFICATION.NOD_ID is
 'Node';
 
-comment on column O_PROCESS_PLANIFICATION.PST_CD is
+comment on column O_PROCESS_PLANIFICATION.SST_CD is
 'PlanificationState';
 
 -- ============================================================
@@ -386,6 +370,22 @@ comment on column O_PROCESS_TYPE.PRT_CD is
 'Code';
 
 comment on column O_PROCESS_TYPE.LABEL is
+'Libellé';
+
+-- ============================================================
+--   Table : O_SCHEDULER_STATE                                        
+-- ============================================================
+create table O_SCHEDULER_STATE
+(
+    SST_CD      	 VARCHAR(20) 	not null,
+    LABEL       	 VARCHAR(100)	,
+    constraint PK_O_SCHEDULER_STATE primary key (SST_CD)
+);
+
+comment on column O_SCHEDULER_STATE.SST_CD is
+'Code';
+
+comment on column O_SCHEDULER_STATE.LABEL is
 'Libellé';
 
 -- ============================================================
@@ -521,10 +521,10 @@ alter table O_PROCESS_PLANIFICATION
 create index PRP_PRO_O_PROCESS_FK on O_PROCESS_PLANIFICATION (PRO_ID asc);
 
 alter table O_PROCESS_PLANIFICATION
-	add constraint FK_PRP_PST_O_PLANIFICATION_STATE foreign key (PST_CD)
-	references O_PLANIFICATION_STATE (PST_CD);
+	add constraint FK_PRP_PST_O_SCHEDULER_STATE foreign key (SST_CD)
+	references O_SCHEDULER_STATE (SST_CD);
 
-create index PRP_PST_O_PLANIFICATION_STATE_FK on O_PROCESS_PLANIFICATION (PST_CD asc);
+create index PRP_PST_O_SCHEDULER_STATE_FK on O_PROCESS_PLANIFICATION (SST_CD asc);
 
 alter table O_ACTIVITY_WORKSPACE
 	add constraint FK_TKW_TKE_O_ACTIVITY_EXECUTION foreign key (ACE_ID)

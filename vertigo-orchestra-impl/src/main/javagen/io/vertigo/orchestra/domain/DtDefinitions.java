@@ -29,8 +29,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			OExecutionSummary(io.vertigo.orchestra.monitoring.domain.summary.OExecutionSummary.class),
 			/** Objet de données ONode. */
 			ONode(io.vertigo.orchestra.domain.execution.ONode.class),
-			/** Objet de données OPlanificationState. */
-			OPlanificationState(io.vertigo.orchestra.domain.referential.OPlanificationState.class),
 			/** Objet de données OProcess. */
 			OProcess(io.vertigo.orchestra.domain.definition.OProcess.class),
 			/** Objet de données OProcessExecution. */
@@ -43,6 +41,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			OProcessType(io.vertigo.orchestra.domain.referential.OProcessType.class),
 			/** Objet de données OProcessUi. */
 			OProcessUi(io.vertigo.orchestra.monitoring.domain.uidefinitions.OProcessUi.class),
+			/** Objet de données OSchedulerState. */
+			OSchedulerState(io.vertigo.orchestra.domain.referential.OSchedulerState.class),
 			/** Objet de données OUser. */
 			OUser(io.vertigo.orchestra.domain.referential.OUser.class),
 			/** Objet de données TriggerType. */
@@ -214,16 +214,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	}
 
 	/**
-	 * Enumération des champs de OPlanificationState.
-	 */
-	public enum OPlanificationStateFields implements DtFieldName {
-		/** Propriété 'Code'. */
-		PST_CD,
-		/** Propriété 'Libellé'. */
-		LABEL,
-	}
-
-	/**
 	 * Enumération des champs de OProcess.
 	 */
 	public enum OProcessFields implements DtFieldName {
@@ -320,7 +310,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		/** Propriété 'Node'. */
 		NOD_ID,
 		/** Propriété 'PlanificationState'. */
-		PST_CD,
+		SST_CD,
 	}
 
 	/**
@@ -355,6 +345,16 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		RESCUE_PERIOD,
 		/** Propriété 'Métadonnées du processus'. */
 		METADATAS,
+	}
+
+	/**
+	 * Enumération des champs de OSchedulerState.
+	 */
+	public enum OSchedulerStateFields implements DtFieldName {
+		/** Propriété 'Code'. */
+		SST_CD,
+		/** Propriété 'Libellé'. */
+		LABEL,
 	}
 
 	/**

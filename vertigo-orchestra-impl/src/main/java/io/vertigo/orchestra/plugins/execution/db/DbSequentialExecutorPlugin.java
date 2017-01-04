@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.execution.plugins.db;
+package io.vertigo.orchestra.plugins.execution.db;
 
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -41,8 +41,7 @@ import io.vertigo.orchestra.execution.activity.ActivityEngine;
 import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.execution.activity.ActivityLogger;
 import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
-import io.vertigo.orchestra.impl.execution.ActivityTokenGenerator;
-import io.vertigo.orchestra.impl.execution.plugins.ProcessExecutorPlugin;
+import io.vertigo.orchestra.impl.execution.ProcessExecutorPlugin;
 import io.vertigo.util.ClassUtil;
 
 /**
@@ -385,8 +384,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 		final OProcessExecution newProcessExecution = new OProcessExecution();
 		newProcessExecution.setProId(processDefinition.getId());
 		newProcessExecution.setBeginTime(new Date());
-		newProcessExecution.setEstCd(ExecutionState.RUNNING.name());
-
+		changeProcessExecutionState(newProcessExecution, ExecutionState.RUNNING);
 		processExecutionDAO.save(newProcessExecution);
 
 		return newProcessExecution;
@@ -431,7 +429,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 		activityExecution.setActId(activity.getActId());
 		activityExecution.setCreationTime(new Date());
 		activityExecution.setEngine(activity.getEngine());
-		activityExecution.setEstCd(ExecutionState.WAITING.name());
+		changeActivityExecutionState(activityExecution, ExecutionState.WAITING);
 		activityExecution.setToken(ActivityTokenGenerator.getToken());
 
 		return activityExecution;
@@ -532,7 +530,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 	private void doChangeExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {
 		Assertion.checkNotNull(activityExecution);
 		// ---
-		activityExecution.setEstCd(executionState.name());
+		changeActivityExecutionState(activityExecution, executionState);
 		activityExecutionDAO.save(activityExecution);
 
 		// If it's an error the entire process is in Error
@@ -556,15 +554,13 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 	private void doFinishProcessExecution(final OActivityExecution activityExecution) {
 		Assertion.checkNotNull(activityExecution);
 		// ---
-		activityExecution.setEstCd(ExecutionState.DONE.name());
-		activityExecution.setEndTime(new Date());
-		activityExecutionDAO.save(activityExecution);
+		endActivity(activityExecution);
 		endProcessExecution(activityExecution.getPreId(), ExecutionState.DONE);
 	}
 
 	private void endActivity(final OActivityExecution activityExecution) {
 		activityExecution.setEndTime(new Date());
-		activityExecution.setEstCd(ExecutionState.DONE.name());
+		changeActivityExecutionState(activityExecution, ExecutionState.DONE);
 		activityExecutionDAO.save(activityExecution);
 
 	}
@@ -584,7 +580,7 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 	private void endProcessExecution(final Long preId, final ExecutionState executionState) {
 		final OProcessExecution processExecution = processExecutionDAO.get(preId);
 		processExecution.setEndTime(new Date());
-		processExecution.setEstCd(executionState.name());
+		changeProcessExecutionState(processExecution, executionState);
 		processExecutionDAO.save(processExecution);
 
 	}
@@ -624,6 +620,16 @@ public final class DbSequentialExecutorPlugin implements ProcessExecutorPlugin, 
 			executionPAO.handleProcessesOfDeadNodes(maxDate);
 			transaction.commit();
 		}
+	}
+
+	private static void changeActivityExecutionState(final OActivityExecution activityExecution, final ExecutionState executionState) {
+		// we need to check if the transistion is valid
+		activityExecution.setEstCd(executionState.name());
+	}
+
+	private static void changeProcessExecutionState(final OProcessExecution processExecution, final ExecutionState executionState) {
+		// we need to check if the transistion is valid
+		processExecution.setEstCd(executionState.name());
 	}
 
 }

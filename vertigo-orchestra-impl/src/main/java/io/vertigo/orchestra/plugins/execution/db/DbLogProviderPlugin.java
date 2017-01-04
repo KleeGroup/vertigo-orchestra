@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.execution.plugins.db;
+package io.vertigo.orchestra.plugins.execution.db;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -17,7 +17,7 @@ import io.vertigo.dynamo.transaction.Transactional;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.dao.execution.OActivityLogDAO;
 import io.vertigo.orchestra.domain.execution.OActivityLog;
-import io.vertigo.orchestra.impl.execution.plugins.LogProviderPlugin;
+import io.vertigo.orchestra.impl.execution.LogProviderPlugin;
 
 /**
  * Récupération des logs en BDD.

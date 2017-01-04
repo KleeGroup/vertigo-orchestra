@@ -20,8 +20,8 @@ import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
-import io.vertigo.orchestra.scheduler.PlanificationState;
 import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+import io.vertigo.orchestra.scheduler.SchedulerState;
 
 /**
  * TODO : Description de la classe.
@@ -70,7 +70,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		// --- We check that planification is ok
 		Assert.assertEquals(1, processPlanifications.size());
 		final OProcessPlanification processPlanification = processPlanifications.get(0);
-		Assert.assertEquals(PlanificationState.TRIGGERED.name(), processPlanification.getPstCd());
+		Assert.assertEquals(SchedulerState.TRIGGERED.name(), processPlanification.getSstCd());
 		// We check executions
 		checkExecutions(proId, 0, 0, 1, 0);
 	}
@@ -418,7 +418,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		for (final OProcessPlanification processPlanification : monitoringServices.getPlanificationsByProId(proId)) {
 
-			switch (PlanificationState.valueOf(processPlanification.getPstCd())) {
+			switch (SchedulerState.valueOf(processPlanification.getSstCd())) {
 				case WAITING:
 					waitingPlanificationCount++;
 					break;

@@ -9,7 +9,7 @@ package io.vertigo.orchestra.scheduler;
  * @author mlaroche.
  * @version $Id$
  */
-public enum PlanificationState {
+public enum SchedulerState {
 	WAITING,
 
 	TRIGGERED,

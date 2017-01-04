@@ -3,6 +3,8 @@ package io.vertigo.orchestra.execution.activity;
 import java.io.Serializable;
 import java.util.Date;
 
+import io.vertigo.lang.Assertion;
+
 /**
  * Representation of an activityExecution
  * @author mlaroche
@@ -13,95 +15,85 @@ public final class ActivityExecution implements Serializable {
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	private Long aceId;
-	private String label;
-	private Date beginTime;
-	private Date endTime;
-	private Integer executionTime;
-	private String status;
-	private String workspaceIn;
-	private String workspaceOut;
-	private Boolean hasLogFile;
-	private Boolean hasTechnicalLog;
+	private final Long aceId;
+	private final String label;
+	private final Date beginTime;
+	private final Date endTime;
+	private final Integer executionTime;
+	private final String status;
+	private final String workspaceIn;
+	private final String workspaceOut;
+	private final Boolean hasLogFile;
+	private final Boolean hasTechnicalLog;
+
+	/**
+	 * Constructor.
+	 * @param aceId if of activity execution
+	 * @param label label of activity
+	 * @param beginTime begin tume
+	 * @param endTime end time
+	 * @param executionTime execution time in seconds
+	 * @param status status of activity
+	 * @param workspaceIn the workspace as input parameter
+	 * @param workspaceOut the workspace as output parameter
+	 * @param hasLogFile if the activity has a logfile
+	 * @param hasTechnicalLog of the activity has a technical logfile
+	 */
+	public ActivityExecution(final Long aceId, final String label, final Date beginTime, final Date endTime, final Integer executionTime, final String status, final String workspaceIn,
+			final String workspaceOut, final Boolean hasLogFile,
+			final Boolean hasTechnicalLog) {
+		Assertion.checkNotNull(aceId);
+		// ---
+		this.aceId = aceId;
+		this.label = label;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
+		this.executionTime = executionTime;
+		this.status = status;
+		this.workspaceIn = workspaceIn;
+		this.workspaceOut = workspaceOut;
+		this.hasLogFile = hasLogFile;
+		this.hasTechnicalLog = hasTechnicalLog;
+	}
 
 	public Long getAceId() {
 		return aceId;
-	}
-
-	public void setAceId(final Long aceId) {
-		this.aceId = aceId;
 	}
 
 	public String getLabel() {
 		return label;
 	}
 
-	public void setLabel(final String label) {
-		this.label = label;
-	}
-
 	public Date getBeginTime() {
 		return beginTime;
-	}
-
-	public void setBeginTime(final Date beginTime) {
-		this.beginTime = beginTime;
 	}
 
 	public Date getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(final Date endTime) {
-		this.endTime = endTime;
-	}
-
 	public Integer getExecutionTime() {
 		return executionTime;
-	}
-
-	public void setExecutionTime(final Integer executionTime) {
-		this.executionTime = executionTime;
 	}
 
 	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(final String status) {
-		this.status = status;
-	}
-
 	public String getWorkspaceIn() {
 		return workspaceIn;
-	}
-
-	public void setWorkspaceIn(final String workspaceIn) {
-		this.workspaceIn = workspaceIn;
 	}
 
 	public String getWorkspaceOut() {
 		return workspaceOut;
 	}
 
-	public void setWorkspaceOut(final String workspaceOut) {
-		this.workspaceOut = workspaceOut;
-	}
-
 	public Boolean getHasLogFile() {
 		return hasLogFile;
 	}
 
-	public void setHasLogFile(final Boolean hasLogFile) {
-		this.hasLogFile = hasLogFile;
-	}
-
 	public Boolean getHasTechnicalLog() {
 		return hasTechnicalLog;
-	}
-
-	public void setHasTechnicalLog(final Boolean hasTechnicalLog) {
-		this.hasTechnicalLog = hasTechnicalLog;
 	}
 
 }

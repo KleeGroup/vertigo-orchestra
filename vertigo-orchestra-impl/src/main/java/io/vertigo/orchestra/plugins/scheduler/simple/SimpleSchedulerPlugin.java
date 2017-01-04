@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.scheduler.plugins.simple;
+package io.vertigo.orchestra.plugins.scheduler.simple;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,7 +21,7 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.impl.scheduler.CronExpression;
-import io.vertigo.orchestra.impl.scheduler.plugins.ProcessSchedulerPlugin;
+import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
 import io.vertigo.util.DateUtil;
 
 public class SimpleSchedulerPlugin implements ProcessSchedulerPlugin, Activeable {

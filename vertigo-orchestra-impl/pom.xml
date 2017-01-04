@@ -39,11 +39,11 @@
 			<artifactId>vertigo-commons-impl</artifactId>
 			<version>${vertigo.version}</version>
 		</dependency>
-<!-- 		<dependency>
+		<dependency>
 			<groupId>io.vertigo</groupId>
 			<artifactId>vertigo-studio</artifactId>
 			<version>${vertigo.version}</version>
-		</dependency> -->
+		</dependency>
 
 
 		<!-- Dependencies for tests -->

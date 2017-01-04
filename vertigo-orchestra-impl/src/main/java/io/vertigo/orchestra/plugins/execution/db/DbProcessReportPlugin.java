@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.execution.plugins.db;
+package io.vertigo.orchestra.plugins.execution.db;
 
 import java.util.Date;
 import java.util.List;
@@ -11,7 +11,7 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.execution.activity.ActivityExecution;
 import io.vertigo.orchestra.execution.process.ExecutionSummary;
 import io.vertigo.orchestra.execution.process.ProcessExecution;
-import io.vertigo.orchestra.impl.execution.plugins.ProcessReportPlugin;
+import io.vertigo.orchestra.impl.execution.ProcessReportPlugin;
 import io.vertigo.orchestra.monitoring.dao.summary.SummaryPAO;
 import io.vertigo.orchestra.monitoring.dao.uiexecutions.UiexecutionsPAO;
 import io.vertigo.orchestra.monitoring.domain.summary.OExecutionSummary;
@@ -63,18 +63,18 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 
 	// Utilitaire de transformation//
 	private static ExecutionSummary decodeSummary(final OExecutionSummary summary) {
-		final ExecutionSummary executionSummary = new ExecutionSummary();
-		executionSummary.setProId(summary.getProId());
-		executionSummary.setProcessName(summary.getProcessName());
-		executionSummary.setProcessLabel(summary.getProcessLabel());
-		executionSummary.setLastExecutionTime(summary.getLastExecutionTime());
-		executionSummary.setNextExecutionTime(summary.getNextExecutionTime());
-		executionSummary.setErrorsCount(summary.getErrorsCount());
-		executionSummary.setMisfiredCount(summary.getMisfiredCount());
-		executionSummary.setSuccessfulCount(summary.getSuccessfulCount());
-		executionSummary.setRunningCount(summary.getRunningCount());
-		executionSummary.setAverageExecutionTime(summary.getAverageExecutionTime());
-		executionSummary.setHealth(summary.getHealth());
+		final ExecutionSummary executionSummary = new ExecutionSummary(
+				summary.getProId(),
+				summary.getProcessName(),
+				summary.getProcessLabel(),
+				summary.getLastExecutionTime(),
+				summary.getNextExecutionTime(),
+				summary.getErrorsCount(),
+				summary.getMisfiredCount(),
+				summary.getSuccessfulCount(),
+				summary.getRunningCount(),
+				summary.getAverageExecutionTime(),
+				summary.getHealth());
 
 		return executionSummary;
 	}
@@ -88,16 +88,16 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 	}
 
 	private static ProcessExecution decodeExecution(final OProcessExecutionUi execution) {
-		final ProcessExecution processExecution = new ProcessExecution();
-		processExecution.setPreId(execution.getPreId());
-		processExecution.setBeginTime(execution.getBeginTime());
-		processExecution.setEndTime(execution.getEndTime());
-		processExecution.setExecutionTime(execution.getExecutionTime());
-		processExecution.setStatus(execution.getStatus());
-		processExecution.setChecked(execution.getChecked());
-		processExecution.setCheckingDate(execution.getCheckingDate());
-		processExecution.setCheckingComment(execution.getCheckingComment());
-		processExecution.setHasLogFile(execution.getHasLogFile());
+		final ProcessExecution processExecution = new ProcessExecution(
+				execution.getPreId(),
+				execution.getBeginTime(),
+				execution.getEndTime(),
+				execution.getExecutionTime(),
+				execution.getStatus(),
+				execution.getChecked(),
+				execution.getCheckingDate(),
+				execution.getCheckingComment(),
+				execution.getHasLogFile());
 		return processExecution;
 	}
 
@@ -110,17 +110,17 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 	}
 
 	private static ActivityExecution decodeActivityExecution(final OActivityExecutionUi execution) {
-		final ActivityExecution activityExecution = new ActivityExecution();
-		activityExecution.setAceId(execution.getAceId());
-		activityExecution.setLabel(execution.getLabel());
-		activityExecution.setBeginTime(execution.getBeginTime());
-		activityExecution.setEndTime(execution.getEndTime());
-		activityExecution.setExecutionTime(execution.getExecutionTime());
-		activityExecution.setStatus(execution.getStatus());
-		activityExecution.setWorkspaceIn(execution.getWorkspaceIn());
-		activityExecution.setWorkspaceOut(execution.getWorkspaceOut());
-		activityExecution.setHasLogFile(execution.getHasLogFile());
-		activityExecution.setHasTechnicalLog(execution.getHasTechnicalLog());
+		final ActivityExecution activityExecution = new ActivityExecution(
+				execution.getAceId(),
+				execution.getLabel(),
+				execution.getBeginTime(),
+				execution.getEndTime(),
+				execution.getExecutionTime(),
+				execution.getStatus(),
+				execution.getWorkspaceIn(),
+				execution.getWorkspaceOut(),
+				execution.getHasLogFile(),
+				execution.getHasTechnicalLog());
 		return activityExecution;
 	}
 

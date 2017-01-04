@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.definition.plugins.memory;
+package io.vertigo.orchestra.plugins.definition.memory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import io.vertigo.app.Home;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
-import io.vertigo.orchestra.impl.definition.plugins.ProcessDefinitionStorePlugin;
+import io.vertigo.orchestra.impl.definition.ProcessDefinitionStorePlugin;
 
 /**
  * Plugin de gestion des définitions en mémoire dans le DefinitionSpace.

@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.scheduler.plugins.db;
+package io.vertigo.orchestra.plugins.scheduler.db;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -34,8 +34,8 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.execution.NodeManager;
 import io.vertigo.orchestra.execution.ProcessExecutionManager;
 import io.vertigo.orchestra.impl.scheduler.CronExpression;
-import io.vertigo.orchestra.impl.scheduler.plugins.ProcessSchedulerPlugin;
-import io.vertigo.orchestra.scheduler.PlanificationState;
+import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
+import io.vertigo.orchestra.scheduler.SchedulerState;
 
 /**
  * Plugin de gestion de la planification.
@@ -176,7 +176,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		final OProcessPlanification processPlanification = new OProcessPlanification();
 		processPlanification.setProId(processDefinition.getId());
 		processPlanification.setExpectedTime(planifiedTime);
-		changeState(processPlanification, PlanificationState.WAITING);
+		changeState(processPlanification, SchedulerState.WAITING);
 		if (initialParamsOption.isPresent()) {
 			processPlanification.setInitialParams(initialParamsOption.get());
 		}
@@ -269,20 +269,20 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 				.collect(Collectors.toList());
 	}
 
-	private void changeState(final OProcessPlanification processPlanification, final PlanificationState planificationState) {
+	private void changeState(final OProcessPlanification processPlanification, final SchedulerState planificationState) {
 		Assertion.checkNotNull(processPlanification);
 		Assertion.checkNotNull(planificationState);
 		// ---
-		processPlanification.setPstCd(planificationState.name());
+		processPlanification.setSstCd(planificationState.name());
 	}
 
 	private void triggerPlanification(final OProcessPlanification processPlanification) {
-		changeState(processPlanification, PlanificationState.TRIGGERED);
+		changeState(processPlanification, SchedulerState.TRIGGERED);
 		processPlanificationDAO.save(processPlanification);
 	}
 
 	private void misfirePlanification(final OProcessPlanification processPlanification) {
-		changeState(processPlanification, PlanificationState.MISFIRED);
+		changeState(processPlanification, SchedulerState.MISFIRED);
 		processPlanificationDAO.save(processPlanification);
 	}
 
@@ -304,9 +304,9 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 			final OProcess process = planification.getProcessus();
 			final long ageOfPlanification = (now.getTime() - planification.getExpectedTime().getTime()) / (60 * 1000L);// in seconds
 			if (ageOfPlanification < process.getRescuePeriod()) {
-				changeState(planification, PlanificationState.RESCUED);
+				changeState(planification, SchedulerState.RESCUED);
 			} else {
-				changeState(planification, PlanificationState.MISFIRED);
+				changeState(planification, SchedulerState.MISFIRED);
 			}
 			processPlanificationDAO.save(planification);
 		}

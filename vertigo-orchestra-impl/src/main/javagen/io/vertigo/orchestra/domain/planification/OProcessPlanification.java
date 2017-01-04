@@ -20,10 +20,10 @@ public final class OProcessPlanification implements Entity {
 	private String initialParams;
 	private Long proId;
 	private Long nodId;
-	private String pstCd;
+	private String sstCd;
 	private io.vertigo.orchestra.domain.definition.OProcess processus;
 	private io.vertigo.orchestra.domain.execution.ONode node;
-	private io.vertigo.orchestra.domain.referential.OPlanificationState planificationState;
+	private io.vertigo.orchestra.domain.referential.OSchedulerState planificationState;
 
 	/** {@inheritDoc} */
 	@Override
@@ -129,20 +129,20 @@ public final class OProcessPlanification implements Entity {
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Récupère la valeur de la propriété 'PlanificationState'.
-	 * @return String pstCd
+	 * @return String sstCd
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "FOREIGN_KEY", label = "PlanificationState")
-	public String getPstCd() {
-		return pstCd;
+	public String getSstCd() {
+		return sstCd;
 	}
 
 	/**
 	 * Champ : FOREIGN_KEY.
 	 * Définit la valeur de la propriété 'PlanificationState'.
-	 * @param pstCd String
+	 * @param sstCd String
 	 */
-	public void setPstCd(final String pstCd) {
-		this.pstCd = pstCd;
+	public void setSstCd(final String sstCd) {
+		this.sstCd = sstCd;
 	}
 
 	/**
@@ -219,10 +219,10 @@ public final class OProcessPlanification implements Entity {
 	}
 	/**
 	 * Association : PlanificationState.
-	 * @return io.vertigo.orchestra.domain.referential.OPlanificationState
+	 * @return io.vertigo.orchestra.domain.referential.OSchedulerState
 	 */
-	public io.vertigo.orchestra.domain.referential.OPlanificationState getPlanificationState() {
-		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> fkURI = getPlanificationStateURI();
+	public io.vertigo.orchestra.domain.referential.OSchedulerState getPlanificationState() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OSchedulerState> fkURI = getPlanificationStateURI();
 		if (fkURI == null) {
 			return null;
 		}
@@ -239,8 +239,8 @@ public final class OProcessPlanification implements Entity {
 	 */
 	@io.vertigo.dynamo.domain.stereotype.Association (
 			name = "A_PRP_PST",
-			fkFieldName = "PST_CD",
-			primaryDtDefinitionName = "DT_O_PLANIFICATION_STATE",
+			fkFieldName = "SST_CD",
+			primaryDtDefinitionName = "DT_O_SCHEDULER_STATE",
 			primaryIsNavigable = true,
 			primaryRole = "PlanificationState",
 			primaryLabel = "PlanificationState",
@@ -250,8 +250,8 @@ public final class OProcessPlanification implements Entity {
 			foreignRole = "ProcessPlanification",
 			foreignLabel = "ProcessPlanification",
 			foreignMultiplicity = "0..*")
-	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OPlanificationState> getPlanificationStateURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PST", io.vertigo.orchestra.domain.referential.OPlanificationState.class);
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OSchedulerState> getPlanificationStateURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PST", io.vertigo.orchestra.domain.referential.OSchedulerState.class);
 	}
 
 	/** {@inheritDoc} */

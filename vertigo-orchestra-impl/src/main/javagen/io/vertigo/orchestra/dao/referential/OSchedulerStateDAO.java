@@ -5,13 +5,13 @@ import io.vertigo.dynamo.impl.store.util.DAO;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.store.StoreServices;
 import io.vertigo.dynamo.task.TaskManager;
-import io.vertigo.orchestra.domain.referential.OPlanificationState;
+import io.vertigo.orchestra.domain.referential.OSchedulerState;
 
 /**
  * DAO : Accès à un object (DTO, DTC). 
- * OPlanificationStateDAO
+ * OSchedulerStateDAO
  */
-public final class OPlanificationStateDAO extends DAO<OPlanificationState, java.lang.String> implements StoreServices {
+public final class OSchedulerStateDAO extends DAO<OSchedulerState, java.lang.String> implements StoreServices {
 	 
 	/**
 	 * Contructeur.
@@ -19,8 +19,8 @@ public final class OPlanificationStateDAO extends DAO<OPlanificationState, java.
 	 * @param taskManager Manager de Task
 	 */
 	@Inject
-	public OPlanificationStateDAO(final StoreManager storeManager, final TaskManager taskManager) {
-		super(OPlanificationState.class, storeManager, taskManager);
+	public OSchedulerStateDAO(final StoreManager storeManager, final TaskManager taskManager) {
+		super(OSchedulerState.class, storeManager, taskManager);
 	}
 	
 

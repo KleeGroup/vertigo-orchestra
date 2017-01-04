@@ -71,10 +71,6 @@ module.exports = {
         name: "Nom du noeud",
         heartbeat: "Date de dernière activité"
     },
-    oPlanificationState: {
-        pstCd: "Code",
-        label: "Libellé"
-    },
     oProcess: {
         proId: "Id de la definition du processus",
         name: "Nom du processus",
@@ -119,7 +115,7 @@ module.exports = {
         initialParams: "Paramètres initiaux sous forme de JSON",
         proId: "Processus",
         nodId: "Node",
-        pstCd: "PlanificationState"
+        sstCd: "PlanificationState"
     },
     oProcessType: {
         prtCd: "Code",
@@ -135,6 +131,10 @@ module.exports = {
         active: "Processus actif",
         rescuePeriod: "Temps de validité d'une planification",
         metadatas: "Métadonnées du processus"
+    },
+    oSchedulerState: {
+        sstCd: "Code",
+        label: "Libellé"
     },
     oUser: {
         usrId: "Id",

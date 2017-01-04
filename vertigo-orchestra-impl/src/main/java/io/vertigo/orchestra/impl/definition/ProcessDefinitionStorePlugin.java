@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.impl.definition.plugins;
+package io.vertigo.orchestra.impl.definition;
 
 import java.util.List;
 import java.util.Optional;

@@ -54,12 +54,12 @@ create Task TK_GET_EXECUTION_SUMMARIES_BY_DATE {
 				
 				join ( 	select 	planif.name,
 								min(planif.waitingexpected_time) as NEXT_EXECUTION_TIME,
-								sum(case when planif.pst_cd='MISFIRED' and planif.expected_time between #DATE_MIN# and #DATE_MAX# then 1 else 0 end) as MISFIRED_COUNT
+								sum(case when planif.SST_CD='MISFIRED' and planif.expected_time between #DATE_MIN# and #DATE_MAX# then 1 else 0 end) as MISFIRED_COUNT
 						from (
 							select p2.name,
 								prp.expected_time as expected_time,
-								case when prp.PST_CD = 'WAITING' then prp.expected_time else null end as waitingexpected_time,
-								prp.PST_CD
+								case when prp.SST_CD = 'WAITING' then prp.expected_time else null end as waitingexpected_time,
+								prp.SST_CD
 							from o_process_planification prp
 							join o_process p2 on p2.pro_id=prp.pro_id) as planif 
 						group by planif.name
@@ -141,12 +141,12 @@ create Task TK_GET_EXECUTION_SUMMARY_BY_DATE_AND_NAME {
 				
 				 ( 	select 	
 								min(planif.waitingexpected_time) as NEXT_EXECUTION_TIME,
-								sum(case when planif.pst_cd='MISFIRED' and planif.expected_time between #DATE_MIN# and #DATE_MAX# then 1 else 0 end) as MISFIRED_COUNT
+								sum(case when planif.SST_CD='MISFIRED' and planif.expected_time between #DATE_MIN# and #DATE_MAX# then 1 else 0 end) as MISFIRED_COUNT
 						from (
 							select p2.name,
 								prp.expected_time as expected_time,
-								case when prp.PST_CD = 'WAITING' then prp.expected_time else null end as waitingexpected_time,
-								prp.PST_CD
+								case when prp.SST_CD = 'WAITING' then prp.expected_time else null end as waitingexpected_time,
+								prp.SST_CD
 							from o_process_planification prp
 							join o_process p2 on p2.pro_id=prp.pro_id
 							where p2.name = #NAME#) as planif 

@@ -94,12 +94,10 @@ public class WsExecution implements WebServices {
 	 * @param checkingComment le commentaire associé
 	 * @return l'exécution mise à jour
 	 */
-	@POST("/{id}/updateTreatment")
-	public ProcessExecution updateProcessProperties(@PathParam("id") final Long id, @InnerBodyParam("checked") final Optional<Boolean> checked,
+	@POST("/updateTreatment")
+	public ProcessExecution updateProcessProperties(@InnerBodyParam("id") final Long id, @InnerBodyParam("checked") final Optional<Boolean> checked,
 			@InnerBodyParam("checkingComment") final Optional<String> checkingComment) {
-		//		executionServices.updateProcessExecutionTreatment(id, checked.orElse(null), checkingComment.orElse(null));
-		//		return executionServices.getProcessExecutionById(id);
-		return new ProcessExecution();
+		return executionManager.getProcessExecution(id);
 	}
 
 	/**

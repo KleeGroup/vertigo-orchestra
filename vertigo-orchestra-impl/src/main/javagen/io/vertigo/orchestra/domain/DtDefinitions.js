@@ -223,16 +223,6 @@ module.exports = {
             required: false
         }
     },
-    oPlanificationState: {
-        pstCd: {
-            domain: "DO_O_CODE_IDENTIFIANT",
-            required: true
-        },
-        label: {
-            domain: "DO_O_LIBELLE",
-            required: false
-        }
-    },
     oProcess: {
         proId: {
             domain: "DO_O_IDENTIFIANT",
@@ -388,7 +378,7 @@ module.exports = {
             domain: "DO_O_IDENTIFIANT",
             required: false
         },
-        pstCd: {
+        sstCd: {
             domain: "DO_O_CODE_IDENTIFIANT",
             required: false
         }
@@ -438,6 +428,16 @@ module.exports = {
         },
         metadatas: {
             domain: "DO_O_METADATAS",
+            required: false
+        }
+    },
+    oSchedulerState: {
+        sstCd: {
+            domain: "DO_O_CODE_IDENTIFIANT",
+            required: true
+        },
+        label: {
+            domain: "DO_O_LIBELLE",
             required: false
         }
     },
