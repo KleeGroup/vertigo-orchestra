@@ -7,9 +7,10 @@ import javax.inject.Inject;
 import io.vertigo.lang.Assertion;
 import io.vertigo.lang.MessageText;
 import io.vertigo.lang.VUserException;
-import io.vertigo.orchestra.OrchestraManager;
-import io.vertigo.orchestra.execution.ExecutionState;
-import io.vertigo.orchestra.execution.ProcessExecutionManager;
+import io.vertigo.orchestra.definition.ProcessDefinition;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.process.ProcessManager;
+import io.vertigo.orchestra.process.execution.ExecutionState;
 import io.vertigo.util.DateUtil;
 import io.vertigo.vega.webservice.WebServices;
 import io.vertigo.vega.webservice.stereotype.AnonymousAccessAllowed;
@@ -26,9 +27,10 @@ import io.vertigo.vega.webservice.stereotype.PathPrefix;
 public class WsExecutionControl implements WebServices {
 
 	@Inject
-	private OrchestraManager orchestraManager;
+	private ProcessDefinitionManager processDefinitionManager;
+
 	@Inject
-	private ProcessExecutionManager executionManager;
+	private ProcessManager processManager;
 
 	/**
 	 * Termine une exécution mise en attente.
@@ -54,7 +56,8 @@ public class WsExecutionControl implements WebServices {
 			default:
 				throw new VUserException(new MessageText("Unknown execution state : {0} ", null, state));
 		}
-		executionManager.endPendingActivityExecution(activityExecutionId, token, executionState);
+		processManager.getExecutor()
+				.endPendingActivityExecution(activityExecutionId, token, executionState);
 	}
 
 	/**
@@ -67,7 +70,9 @@ public class WsExecutionControl implements WebServices {
 	public void executeNow(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
 		Assertion.checkNotNull(processName);
 		// ---
-		orchestraManager.scheduleAt(processName, DateUtil.newDateTime(), initialParams);
+		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
+		processManager.getScheduler()
+				.scheduleAt(processDefinition, DateUtil.newDateTime(), initialParams);
 	}
 
 	/**
@@ -79,7 +84,9 @@ public class WsExecutionControl implements WebServices {
 	public void executeNowIhm(@InnerBodyParam("processName") final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		// ---
-		orchestraManager.scheduleAt(processName, DateUtil.newDateTime(), Optional.<String> empty());
+		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
+		processManager.getScheduler()
+				.scheduleAt(processDefinition, DateUtil.newDateTime(), Optional.<String> empty());
 	}
 
 }

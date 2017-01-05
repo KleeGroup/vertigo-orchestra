@@ -15,25 +15,22 @@ import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.domain.DtDefinitions;
-import io.vertigo.orchestra.execution.NodeManager;
-import io.vertigo.orchestra.execution.ProcessExecutionManager;
-import io.vertigo.orchestra.impl.OrchestraManagerImpl;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
-import io.vertigo.orchestra.impl.execution.NodeManagerImpl;
-import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
-import io.vertigo.orchestra.impl.scheduler.SchedulerManagerImpl;
+import io.vertigo.orchestra.impl.node.NodeManagerImpl;
+import io.vertigo.orchestra.impl.process.ProcessManagerImpl;
 import io.vertigo.orchestra.monitoring.dao.summary.SummaryPAO;
 import io.vertigo.orchestra.monitoring.dao.uidefinitions.UidefinitionsPAO;
 import io.vertigo.orchestra.monitoring.dao.uiexecutions.UiexecutionsPAO;
+import io.vertigo.orchestra.node.NodeManager;
 import io.vertigo.orchestra.plugins.definition.db.DbProcessDefinitionStorePlugin;
 import io.vertigo.orchestra.plugins.definition.memory.MemoryProcessDefinitionStorePlugin;
-import io.vertigo.orchestra.plugins.execution.db.DbLogProviderPlugin;
-import io.vertigo.orchestra.plugins.execution.db.DbProcessReportPlugin;
-import io.vertigo.orchestra.plugins.execution.db.DbSequentialExecutorPlugin;
-import io.vertigo.orchestra.plugins.execution.simple.SimpleExecutorPlugin;
-import io.vertigo.orchestra.plugins.scheduler.db.DbSchedulerPlugin;
-import io.vertigo.orchestra.plugins.scheduler.simple.SimpleSchedulerPlugin;
-import io.vertigo.orchestra.scheduler.SchedulerManager;
+import io.vertigo.orchestra.plugins.process.execution.db.DbProcessExecutorPlugin;
+import io.vertigo.orchestra.plugins.process.execution.memory.MemoryProcessExecutorPlugin;
+import io.vertigo.orchestra.plugins.process.log.db.DbProcessLoggerPlugin;
+import io.vertigo.orchestra.plugins.process.report.db.DbProcessReportPlugin;
+import io.vertigo.orchestra.plugins.process.schedule.db.DbProcessSchedulerPlugin;
+import io.vertigo.orchestra.plugins.process.schedule.memory.MemoryProcessSchedulerPlugin;
+import io.vertigo.orchestra.process.ProcessManager;
 
 /**
  * Defines extension orchestra.
@@ -60,16 +57,16 @@ public final class OrchestraFeatures extends Features {
 		getModuleConfigBuilder()
 				.withNoAPI()
 				.addPlugin(DbProcessDefinitionStorePlugin.class)
-				.addPlugin(DbSchedulerPlugin.class,
+				.addPlugin(DbProcessSchedulerPlugin.class,
 						Param.create("nodeName", nodeName),
 						Param.create("planningPeriodSeconds", String.valueOf(daemonPeriodSeconds)),
 						Param.create("forecastDurationSeconds", String.valueOf(forecastDurationSeconds)))
-				.addPlugin(DbSequentialExecutorPlugin.class,
+				.addPlugin(DbProcessExecutorPlugin.class,
 						Param.create("nodeName", nodeName),
 						Param.create("workersCount", String.valueOf(workersCount)),
 						Param.create("executionPeriodSeconds", String.valueOf(daemonPeriodSeconds)))
 				.addPlugin(DbProcessReportPlugin.class)
-				.addPlugin(DbLogProviderPlugin.class)
+				.addPlugin(DbProcessLoggerPlugin.class)
 				//----DAO
 				.addComponent(OProcessDAO.class)
 				.addComponent(OActivityDAO.class)
@@ -99,8 +96,8 @@ public final class OrchestraFeatures extends Features {
 	public OrchestraFeatures withMemory(final int workersCount) {
 		getModuleConfigBuilder()
 				.addPlugin(MemoryProcessDefinitionStorePlugin.class)
-				.addPlugin(SimpleSchedulerPlugin.class)
-				.addPlugin(SimpleExecutorPlugin.class,
+				.addPlugin(MemoryProcessSchedulerPlugin.class)
+				.addPlugin(MemoryProcessExecutorPlugin.class,
 						Param.create("workersCount", String.valueOf(workersCount)));
 
 		return this;
@@ -112,9 +109,7 @@ public final class OrchestraFeatures extends Features {
 		getModuleConfigBuilder()
 				.addComponent(NodeManager.class, NodeManagerImpl.class)
 				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
-				.addComponent(SchedulerManager.class, SchedulerManagerImpl.class)
-				.addComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
-				.addComponent(OrchestraManager.class, OrchestraManagerImpl.class)
+				.addComponent(ProcessManager.class, ProcessManagerImpl.class)
 				//----Definitions
 				.addDefinitionResource("classes", DtDefinitions.class.getName());
 

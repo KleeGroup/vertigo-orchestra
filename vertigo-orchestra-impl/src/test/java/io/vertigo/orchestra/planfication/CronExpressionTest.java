@@ -5,7 +5,7 @@ import java.util.Calendar;
 import org.junit.Assert;
 import org.junit.Test;
 
-import io.vertigo.orchestra.impl.scheduler.CronExpression;
+import io.vertigo.orchestra.impl.process.schedule.CronExpression;
 
 /**
  * TODO : Description de la classe.

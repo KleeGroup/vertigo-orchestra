@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.ui;
 
-import io.vertigo.orchestra.execution.activity.ActivityExecutionWorkspace;
-import io.vertigo.orchestra.impl.execution.AbstractActivityEngine;
+import io.vertigo.orchestra.impl.process.execution.AbstractActivityEngine;
+import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
 
 /**
  * Activité basique (Démo).

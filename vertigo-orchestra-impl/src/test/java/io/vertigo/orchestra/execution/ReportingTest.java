@@ -11,9 +11,9 @@ import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.execution.activity.ActivityExecution;
-import io.vertigo.orchestra.execution.process.ExecutionSummary;
-import io.vertigo.orchestra.scheduler.SchedulerManager;
+import io.vertigo.orchestra.process.ProcessManager;
+import io.vertigo.orchestra.process.report.ActivityExecution;
+import io.vertigo.orchestra.process.report.ExecutionSummary;
 import io.vertigo.util.DateUtil;
 
 /**
@@ -25,11 +25,11 @@ import io.vertigo.util.DateUtil;
 public class ReportingTest extends AbstractOrchestraTestCaseJU4 {
 
 	@Inject
-	private SchedulerManager processPlannerManager;
+	private ProcessManager processManager;
 	@Inject
 	private ProcessDefinitionManager processDefinitionManager;
 	@Inject
-	private ProcessExecutionManager processExecutionManager;
+	private ProcessManager processExecutionManager;
 
 	private ProcessDefinition executeProcess() throws InterruptedException {
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST_SINGLE", "TEST_SINGLE")
@@ -43,7 +43,8 @@ public class ReportingTest extends AbstractOrchestraTestCaseJU4 {
 		Assert.assertNotNull(proId);
 
 		// We plan right now
-		processPlannerManager.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+		processManager.getScheduler()
+				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
 
 		// The task takes 10 secondes to run we wait 12 secondes to check the final states
 		Thread.sleep(1000 * 12);
@@ -72,7 +73,7 @@ public class ReportingTest extends AbstractOrchestraTestCaseJU4 {
 		// ---
 		final ActivityExecution activityExecution = processExecutionManager.getReport()
 				.getActivityExecutionsByProcessExecution(processExecutionManager.getReport().getProcessExecutions(processDefinition, "", 10, 0).get(0).getPreId()).get(0);
-		Assert.assertTrue(processExecutionManager.getTechnicalLogFileForActivity(activityExecution.getAceId()).isPresent());
+		Assert.assertTrue(processExecutionManager.getLogger().getTechnicalLogFileForActivity(activityExecution.getAceId()).isPresent());
 	}
 
 }

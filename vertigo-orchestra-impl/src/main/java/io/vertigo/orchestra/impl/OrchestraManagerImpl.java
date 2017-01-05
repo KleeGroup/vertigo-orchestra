@@ -10,7 +10,6 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.scheduler.SchedulerManager;
 
 /**
  *
@@ -19,9 +18,7 @@ import io.vertigo.orchestra.scheduler.SchedulerManager;
  *
  */
 public final class OrchestraManagerImpl implements OrchestraManager {
-
 	private final ProcessDefinitionManager processDefinitionManager;
-	private final SchedulerManager schedulerManager;
 
 	/**
 	 * Manager principal d'orchestra.
@@ -29,12 +26,10 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 	 * @param shedulerManager le manager responsable de la planification
 	 */
 	@Inject
-	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager, final SchedulerManager shedulerManager) {
+	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager) {
 		Assertion.checkNotNull(processDefinitionManager);
-		Assertion.checkNotNull(shedulerManager);
 		// ---
 		this.processDefinitionManager = processDefinitionManager;
-		this.schedulerManager = shedulerManager;
 	}
 
 	/** {@inheritDoc} */

@@ -12,7 +12,7 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.definition.ProcessType;
-import io.vertigo.orchestra.scheduler.SchedulerManager;
+import io.vertigo.orchestra.process.ProcessManager;
 
 /**
  * TODO : Description de la classe.
@@ -23,7 +23,7 @@ import io.vertigo.orchestra.scheduler.SchedulerManager;
 public class LocalExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 	@Inject
-	private SchedulerManager processPlannerManager;
+	private ProcessManager processManager;
 	@Inject
 	private ProcessDefinitionManager processDefinitionManager;
 
@@ -40,7 +40,8 @@ public class LocalExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		// We plan right now
-		processPlannerManager.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+		processManager.getScheduler()
+				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
 
 		// The task takes 10 secondes to run we wait 12 secondes to check the final states
 		Thread.sleep(1000 * 12);
@@ -61,7 +62,8 @@ public class LocalExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		// We plan right now
-		processPlannerManager.scheduleWithCron(processDefinition);
+		processManager.getScheduler()
+				.scheduleWithCron(processDefinition);
 
 		// The task takes 10 secondes to run we wait 12 secondes to check the final states
 		Thread.sleep(1000 * 10);

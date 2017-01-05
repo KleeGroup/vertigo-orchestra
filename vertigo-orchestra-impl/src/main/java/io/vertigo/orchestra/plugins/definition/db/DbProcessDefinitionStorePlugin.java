@@ -23,8 +23,8 @@ import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
 import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
-import io.vertigo.orchestra.execution.activity.ActivityEngine;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionStorePlugin;
+import io.vertigo.orchestra.process.execution.ActivityEngine;
 import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
 

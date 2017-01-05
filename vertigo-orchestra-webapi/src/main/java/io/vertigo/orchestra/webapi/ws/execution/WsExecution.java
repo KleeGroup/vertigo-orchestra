@@ -12,10 +12,10 @@ import javax.inject.Inject;
 import io.vertigo.dynamo.file.model.VFile;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
-import io.vertigo.orchestra.execution.ProcessExecutionManager;
-import io.vertigo.orchestra.execution.activity.ActivityExecution;
-import io.vertigo.orchestra.execution.process.ExecutionSummary;
-import io.vertigo.orchestra.execution.process.ProcessExecution;
+import io.vertigo.orchestra.process.ProcessManager;
+import io.vertigo.orchestra.process.report.ActivityExecution;
+import io.vertigo.orchestra.process.report.ExecutionSummary;
+import io.vertigo.orchestra.process.report.ProcessExecution;
 import io.vertigo.vega.webservice.WebServices;
 import io.vertigo.vega.webservice.stereotype.GET;
 import io.vertigo.vega.webservice.stereotype.InnerBodyParam;
@@ -38,9 +38,9 @@ public class WsExecution implements WebServices {
 	private static final Integer WEEK_DAYS = 7;
 
 	@Inject
-	private ProcessDefinitionManager definitionManager;
+	private ProcessDefinitionManager processDefinitionManager;
 	@Inject
-	private ProcessExecutionManager executionManager;
+	private ProcessManager processManager;
 
 	/**
 	 * Retourne la liste des executions d'un processus répondant à des critères triés par ordre chronologique décroissant
@@ -53,8 +53,9 @@ public class WsExecution implements WebServices {
 	@GET("/{processName}")
 	public List<ProcessExecution> getProcessExecutionsByProcessName(@PathParam("processName") final String processName, @QueryParam("status") final Optional<String> status,
 			@QueryParam("limit") final Optional<Integer> limit, @QueryParam("offset") final Optional<Integer> offset) {
-		final ProcessDefinition processDefinition = definitionManager.getProcessDefinition(processName);
-		return executionManager.getReport().getProcessExecutions(processDefinition, status.orElse(""), limit.orElse(DEFAULT_PAGE_SIZE), offset.orElse(DEFAULT_OFFSET));
+		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
+		return processManager.getReport()
+				.getProcessExecutions(processDefinition, status.orElse(""), limit.orElse(DEFAULT_PAGE_SIZE), offset.orElse(DEFAULT_OFFSET));
 	}
 
 	/**
@@ -64,7 +65,8 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/processExecution/{preId}")
 	public ProcessExecution getProcessExecutionById(@PathParam("preId") final Long preId) {
-		return executionManager.getReport().getProcessExecution(preId);
+		return processManager.getReport()
+				.getProcessExecution(preId);
 	}
 
 	/**
@@ -74,7 +76,8 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/processExecution/{preId}/activities")
 	public List<ActivityExecution> getActivityExecutionsByPreId(@PathParam("preId") final Long preId) {
-		return executionManager.getReport().getActivityExecutionsByProcessExecution(preId);
+		return processManager.getReport()
+				.getActivityExecutionsByProcessExecution(preId);
 	}
 
 	/**
@@ -84,7 +87,8 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/processExecution/{preId}/logFile")
 	public VFile getLogFileByPreId(@PathParam("preId") final Long preId) {
-		return executionManager.getLogFileForProcess(preId).get();
+		return processManager.getLogger()
+				.getLogFileForProcess(preId).get();
 	}
 
 	/**
@@ -97,7 +101,8 @@ public class WsExecution implements WebServices {
 	@POST("/updateTreatment")
 	public ProcessExecution updateProcessProperties(@InnerBodyParam("id") final Long id, @InnerBodyParam("checked") final Optional<Boolean> checked,
 			@InnerBodyParam("checkingComment") final Optional<String> checkingComment) {
-		return executionManager.getReport().getProcessExecution(id);
+		return processManager.getReport()
+				.getProcessExecution(id);
 	}
 
 	/**
@@ -107,7 +112,8 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/activityExecution/{aceId}")
 	public ActivityExecution getActivityExecutionById(@PathParam("aceId") final Long aceId) {
-		return executionManager.getReport().getActivityExecution(aceId);
+		return processManager.getReport()
+				.getActivityExecution(aceId);
 	}
 
 	/**
@@ -117,7 +123,8 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/activityExecution/{aceId}/logFile")
 	public VFile getLogFileByAceId(@PathParam("aceId") final Long aceId) {
-		return executionManager.getLogFileForActivity(aceId).get();
+		return processManager.getLogger()
+				.getLogFileForActivity(aceId).get();
 	}
 
 	/**
@@ -127,7 +134,8 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/activityExecution/{aceId}/technicalLogFile")
 	public VFile getTechnicalLogFileByAceId(@PathParam("aceId") final Long aceId) {
-		return executionManager.getTechnicalLogFileForActivity(aceId).get();
+		return processManager.getLogger()
+				.getTechnicalLogFileForActivity(aceId).get();
 	}
 
 	/**
@@ -137,9 +145,10 @@ public class WsExecution implements WebServices {
 	 */
 	@GET("/summary/{processName}")
 	public ExecutionSummary getWeekSummaryByProcessName(@PathParam("processName") final String processName) {
-		final ProcessDefinition processDefinition = definitionManager.getProcessDefinition(processName);
+		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
 		final Calendar firstDayOfWeek = getFirstDayOfWeek();
-		return executionManager.getReport().getSummaryByDateAndName(processDefinition, firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek));
+		return processManager.getReport()
+				.getSummaryByDateAndName(processDefinition, firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek));
 	}
 
 	/**
@@ -155,7 +164,8 @@ public class WsExecution implements WebServices {
 		// We deal with the offset
 		firstDayOfWeek.add(Calendar.DAY_OF_YEAR, offset * WEEK_DAYS);
 		// We make the call with the proper week dates
-		return executionManager.getReport().getSummariesByDate(firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek), status);
+		return processManager.getReport()
+				.getSummariesByDate(firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek), status);
 	}
 
 	private static Date getFirstDayOfNextWeekDate(final Calendar first) {
