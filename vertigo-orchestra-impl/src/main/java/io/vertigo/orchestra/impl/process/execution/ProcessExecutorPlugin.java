@@ -16,17 +16,17 @@ import io.vertigo.orchestra.process.execution.ExecutionState;
 public interface ProcessExecutorPlugin extends Plugin {
 
 	/**
-	 * @see io.vertigo.orchestra.process.ProcessManager#execute(ProcessDefinition, Optional)
+	 * @see io.vertigo.orchestra.process.execution.ProcessExecutor#execute(ProcessDefinition, Optional)
 	 */
 	void execute(ProcessDefinition processDefinition, Optional<String> initialParams);
 
 	/**
-	 * @see io.vertigo.orchestra.process.ProcessManager#endPendingActivityExecution(Long, String, ExecutionState)
+	 * @see io.vertigo.orchestra.process.execution.ProcessExecutor#endPendingActivityExecution(Long, String, ExecutionState)
 	 */
 	void endPendingActivityExecution(Long activityExecutionId, String token, ExecutionState state);
 
 	/**
-	 * @see io.vertigo.orchestra.process.ProcessManager#setActivityExecutionPending(Long, ActivityExecutionWorkspace)
+	 * @see io.vertigo.orchestra.process.execution.ProcessExecutor#setActivityExecutionPending(Long, ActivityExecutionWorkspace)
 	 */
 	void setActivityExecutionPending(Long activityExecutionId, ActivityExecutionWorkspace workspace);
 

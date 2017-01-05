@@ -21,13 +21,13 @@ public interface ProcessManager extends Manager {
 
 	/**
 	 * Only accessible if a plugin has been registered
-	 * @return
+	 * @return the report
 	 */
 	ProcessReport getReport();
 
 	/**
 	 * Only accessible if a plugin has been registered
-	 * @return
+	 * @return the processLogger
 	 */
 	ProcessLogger getLogger();
 

@@ -30,9 +30,11 @@ public final class ProcessManagerImpl implements ProcessManager {
 	private final ProcessScheduler processScheduler;
 
 	/**
-	 * Constructeur du gestionnaire de l'execution des processus orchestra
-	 * @param executorPlugins liste des plugins d'execution
-	 * @param logProviderPlugin plugin de gestion des logs
+	 * Constructeur du gestionnaire de l'execution des processus orchestra.
+	 * @param processExecutorPlugins plugins of execution
+	 * @param logProviderPlugin plugin for logging
+	 * @param processReportPlugin plugin for reporting
+	 * @param processSchedulerPlugins plugins for scheduling
 	 */
 	@Inject
 	public ProcessManagerImpl(
@@ -45,10 +47,10 @@ public final class ProcessManagerImpl implements ProcessManager {
 		Assertion.checkNotNull(processReportPlugin);
 		Assertion.checkNotNull(processSchedulerPlugins);
 		// ---
-		this.processExecutor = new ProcessExecutorImpl(processExecutorPlugins);
-		this.processScheduler = new ProcessSchedulerImpl(processSchedulerPlugins, processExecutor);
-		this.optionalProcessLog = Optional.ofNullable(logProviderPlugin.orElse(null));
-		this.optionalProcessReport = Optional.ofNullable(processReportPlugin.orElse(null));
+		processExecutor = new ProcessExecutorImpl(processExecutorPlugins);
+		processScheduler = new ProcessSchedulerImpl(processSchedulerPlugins, processExecutor);
+		optionalProcessLog = Optional.ofNullable(logProviderPlugin.orElse(null));
+		optionalProcessReport = Optional.ofNullable(processReportPlugin.orElse(null));
 	}
 
 	/** {@inheritDoc} */

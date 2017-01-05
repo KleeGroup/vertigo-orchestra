@@ -10,6 +10,7 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.process.ProcessManager;
 
 /**
  *
@@ -19,17 +20,20 @@ import io.vertigo.orchestra.definition.ProcessDefinitionManager;
  */
 public final class OrchestraManagerImpl implements OrchestraManager {
 	private final ProcessDefinitionManager processDefinitionManager;
+	private final ProcessManager processManager;
 
 	/**
 	 * Manager principal d'orchestra.
 	 * @param processDefinitionManager le manager responsable des définitions
-	 * @param shedulerManager le manager responsable de la planification
+	 * @param processManager le manager des process
 	 */
 	@Inject
-	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager) {
+	public OrchestraManagerImpl(final ProcessDefinitionManager processDefinitionManager, final ProcessManager processManager) {
 		Assertion.checkNotNull(processDefinitionManager);
+		Assertion.checkNotNull(processManager);
 		// ---
 		this.processDefinitionManager = processDefinitionManager;
+		this.processManager = processManager;
 	}
 
 	/** {@inheritDoc} */
@@ -55,7 +59,7 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
 		Assertion.checkNotNull(processDefinition);
 		// ---
-		schedulerManager.scheduleAt(processDefinition, expectedTime, initialParams);
+		processManager.getScheduler().scheduleAt(processDefinition, expectedTime, initialParams);
 	}
 
 	/** {@inheritDoc} */
@@ -66,7 +70,7 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
 		Assertion.checkNotNull(processDefinition);
 		// ---
-		schedulerManager.scheduleWithCron(processDefinition);
+		processManager.getScheduler().scheduleWithCron(processDefinition);
 
 	}
 
