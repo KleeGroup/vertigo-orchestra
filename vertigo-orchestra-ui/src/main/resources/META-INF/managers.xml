@@ -80,30 +80,28 @@
 			<resource type ="kpr" path="io/vertigo/orchestra/execution.kpr"/>
 		    <resource type="classes" path="io.vertigo.orchestra.domain.DtDefinitions" />  
 		</definitions>   
-		<component api="NodeManager" class="io.vertigo.orchestra.impl.execution.NodeManagerImpl"/>
+		<component api="NodeManager" class="io.vertigo.orchestra.impl.node.NodeManagerImpl"/>
 		<component api="ProcessDefinitionManager" class="io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl">
 			<plugin class="io.vertigo.orchestra.plugins.definition.db.DbProcessDefinitionStorePlugin"/>
 			<plugin class="io.vertigo.orchestra.plugins.definition.memory.MemoryProcessDefinitionStorePlugin"/>
 		</component>
-		<component api="ProcessSchedulerManager" class="io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl">
-			<plugin class="io.vertigo.orchestra.plugins.scheduler.db.DbProcessSchedulerPlugin">
+		<component api="ProcessManager" class="io.vertigo.orchestra.impl.process.ProcessManagerImpl">
+			<plugin class="io.vertigo.orchestra.plugins.process.schedule.db.DbProcessSchedulerPlugin">
 				<param name="nodeName" value="${boot.nodeName}" />
 				<param name="planningPeriodSeconds" value="${boot.timerPeriod}" />
 				<param name="forecastDurationSeconds" value="${boot.forecastDuration}" />
 			</plugin>
-			<plugin class="io.vertigo.orchestra.plugins.scheduler.simple.SimpleSchedulerPlugin"/>
-		</component>
-		<component api="ProcessExecutionManager" class="io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl">
-			<plugin class="io.vertigo.orchestra.plugins.execution.db.DbSequentialExecutorPlugin">
+			<plugin class="io.vertigo.orchestra.plugins.process.schedule.memory.MemoryProcessSchedulerPlugin"/>
+			<plugin class="io.vertigo.orchestra.plugins.process.execution.db.DbProcessExecutorPlugin">
 				<param name="nodeName" value="${boot.nodeName}" />
 				<param name="executionPeriodSeconds" value="${boot.timerPeriod}" />
 				<param name="workersCount" value="${boot.workersCount}" />
 			</plugin>
-			<plugin class="io.vertigo.orchestra.plugins.execution.simple.SimpleExecutorPlugin" >
+			<plugin class="io.vertigo.orchestra.plugins.process.execution.memory.MemoryProcessExecutorPlugin" >
 				<param name="workersCount" value="${boot.workersCount}" />
 			</plugin>
-			<plugin class="io.vertigo.orchestra.plugins.execution.db.DbLogProviderPlugin"/>
-			<plugin class="io.vertigo.orchestra.plugins.execution.db.DbProcessReportPlugin"/>
+			<plugin class="io.vertigo.orchestra.plugins.process.log.db.DbProcessLoggerPlugin"/>
+			<plugin class="io.vertigo.orchestra.plugins.process.report.db.DbProcessReportPlugin"/>
 		</component>
 		<component api="OrchestraManager" class="io.vertigo.orchestra.impl.OrchestraManagerImpl"/>
 	</module>
