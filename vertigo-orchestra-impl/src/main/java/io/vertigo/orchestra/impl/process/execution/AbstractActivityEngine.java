@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import io.vertigo.orchestra.process.ProcessManager;
 import io.vertigo.orchestra.process.execution.ActivityEngine;
 import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
-import io.vertigo.orchestra.process.execution.ActivityLogger;
 
 /**
  * Activity engine abstrait offrant des services communs (logger)

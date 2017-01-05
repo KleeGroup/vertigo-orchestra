@@ -1,4 +1,4 @@
-package io.vertigo.orchestra.process.execution;
+package io.vertigo.orchestra.impl.process.execution;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -31,7 +31,7 @@ public final class ActivityLogger {
 	 * Constructeur.
 	 * @param engineName le nom de l'engine de l'activité
 	 */
-	public ActivityLogger(final String engineName) {
+	ActivityLogger(final String engineName) {
 		Assertion.checkArgNotEmpty(engineName);
 		// ---
 		// Creates or get the logger

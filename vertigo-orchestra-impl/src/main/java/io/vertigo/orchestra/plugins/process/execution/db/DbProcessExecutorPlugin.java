@@ -36,11 +36,11 @@ import io.vertigo.orchestra.domain.execution.OActivityLog;
 import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
 import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.impl.process.execution.AbstractActivityEngine;
+import io.vertigo.orchestra.impl.process.execution.ActivityLogger;
 import io.vertigo.orchestra.impl.process.execution.ProcessExecutorPlugin;
 import io.vertigo.orchestra.node.NodeManager;
 import io.vertigo.orchestra.process.execution.ActivityEngine;
 import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
-import io.vertigo.orchestra.process.execution.ActivityLogger;
 import io.vertigo.orchestra.process.execution.ExecutionState;
 import io.vertigo.util.ClassUtil;
 
