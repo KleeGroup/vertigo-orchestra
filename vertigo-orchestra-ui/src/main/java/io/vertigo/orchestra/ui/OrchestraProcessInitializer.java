@@ -3,9 +3,9 @@ package io.vertigo.orchestra.ui;
 import javax.inject.Inject;
 
 import io.vertigo.core.spaces.component.ComponentInitializer;
-import io.vertigo.orchestra.OrchestraManager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionBuilder;
+import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.definition.ProcessType;
 
 /**
@@ -17,7 +17,7 @@ import io.vertigo.orchestra.definition.ProcessType;
 public class OrchestraProcessInitializer implements ComponentInitializer {
 
 	@Inject
-	private OrchestraManager orchestraManager;
+	private ProcessDefinitionManager processDefinitionManager;
 
 	/** {@inheritDoc} */
 	@Override
@@ -33,7 +33,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 
 		final ProcessDefinition processDefinition2 = new ProcessDefinitionBuilder("CHORUS_DOMAINES_FONC", "CHORUS - Domaines fonctionnels")
 				.withCronExpression("0 */1 * * * ?")
@@ -45,7 +45,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition2);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition2);
 
 		final ProcessDefinition processDefinition3 = new ProcessDefinitionBuilder("CHORUS_CENTRE_COUT", "CHORUS - Centres de couts")
 				.withCronExpression("0 */1 * * * ?")
@@ -57,7 +57,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition3);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition3);
 
 		final ProcessDefinition processDefinition4 = new ProcessDefinitionBuilder("CHORUS_REF_ACT", "CHORUS - Référentiels d'activités")
 				.withCronExpression("0 */1 * * * ?")
@@ -69,7 +69,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition4);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition4);
 
 		final ProcessDefinition processDefinition5 = new ProcessDefinitionBuilder("CHORUS_EOTP", "CHORUS - éOTP")
 				.withCronExpression("0 */1 * * * ?")
@@ -81,7 +81,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition5);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition5);
 
 		final ProcessDefinition processDefinition6 = new ProcessDefinitionBuilder("CHORUS_TRANCHES_FONC", "CHORUS - Tranches fonctionnelles")
 				.withCronExpression("0 */1 * * * ?")
@@ -93,7 +93,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition6);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition6);
 
 		final ProcessDefinition processDefinition7 = new ProcessDefinitionBuilder("CHORUS_OPERATEURS_ECO", "CHORUS - Opérateurs économiques")
 				.withCronExpression("0 */1 * * * ?")
@@ -105,7 +105,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition7);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition7);
 
 		final ProcessDefinition processDefinition8 = new ProcessDefinitionBuilder("INFODAF_SERVICES", "INFODAF - Service fait")
 				.withCronExpression("0 */1 * * * ?")
@@ -117,7 +117,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition8);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition8);
 
 		final ProcessDefinition processDefinition9 = new ProcessDefinitionBuilder("INFODAF_BDC", "INFODAF - Bons de commande")
 				.withCronExpression("0 */1 * * * ?")
@@ -129,7 +129,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition9);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition9);
 
 		final ProcessDefinition processDefinition10 = new ProcessDefinitionBuilder("PLACE_CREATION", "PLACE - Création des consultations")
 				.withCronExpression("0 */1 * * * ?")
@@ -141,7 +141,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition10);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition10);
 
 		final ProcessDefinition processDefinition11 = new ProcessDefinitionBuilder("PLACE_DCE", "PLACE - Récupération du DCE")
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
@@ -152,7 +152,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition11);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition11);
 
 		final ProcessDefinition processDefinition12 = new ProcessDefinitionBuilder("DECLIC_PPAA", "DECLIC - Plans de charge")
 				.withCronExpression("0 */1 * * * ?")
@@ -164,7 +164,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition12);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition12);
 
 		final ProcessDefinition processDefinition13 = new ProcessDefinitionBuilder("DECLIC_FEB", "DECLIC - Fiche d'expression de besoins")
 				.withCronExpression("0 */1 * * * ?")
@@ -176,7 +176,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_4", "Envoi à ALPHA", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition13);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition13);
 
 		final ProcessDefinition processDefinition14 = new ProcessDefinitionBuilder("PRO_IN_MEMORY", "En mémoire", ProcessType.UNSUPERVISED)
 				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
@@ -184,7 +184,7 @@ public class OrchestraProcessInitializer implements ComponentInitializer {
 				.addActivity("ACT_1", "Complet", EmptyActivityEngine.class)
 				.build();
 
-		orchestraManager.createOrUpdateDefinition(processDefinition14);
+		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition14);
 	}
 
 }
