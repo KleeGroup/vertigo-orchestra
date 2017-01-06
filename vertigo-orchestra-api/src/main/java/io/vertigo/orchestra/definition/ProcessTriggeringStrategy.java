@@ -1,5 +1,6 @@
 package io.vertigo.orchestra.definition;
 
+import java.util.Map;
 import java.util.Optional;
 
 import io.vertigo.lang.Assertion;
@@ -12,7 +13,7 @@ import io.vertigo.lang.Assertion;
 public class ProcessTriggeringStrategy {
 
 	private final Optional<String> cronExpression;
-	private final Optional<String> initialParams;
+	private final Map<String, String> initialParams;
 	private final boolean multiExecution;
 	private final int rescuePeriod;
 
@@ -23,7 +24,7 @@ public class ProcessTriggeringStrategy {
 	 * @param multiExecution if the process accepts multiexecution at the same time
 	 * @param rescuePeriod the time in seconds a planification is still valid
 	 */
-	public ProcessTriggeringStrategy(final Optional<String> cronExpression, final Optional<String> initialParams, final boolean multiExecution, final int rescuePeriod) {
+	public ProcessTriggeringStrategy(final Optional<String> cronExpression, final Map<String, String> initialParams, final boolean multiExecution, final int rescuePeriod) {
 		Assertion.checkNotNull(cronExpression);
 		Assertion.checkNotNull(initialParams);
 		// --
@@ -37,7 +38,7 @@ public class ProcessTriggeringStrategy {
 		return cronExpression;
 	}
 
-	public Optional<String> getInitialParams() {
+	public Map<String, String> getInitialParams() {
 		return initialParams;
 	}
 

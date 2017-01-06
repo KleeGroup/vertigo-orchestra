@@ -2,7 +2,7 @@ package io.vertigo.orchestra.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -52,7 +52,7 @@ public final class OrchestraManagerImpl implements OrchestraManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void scheduleAt(final String processName, final Date expectedTime, final Optional<String> initialParams) {
+	public void scheduleAt(final String processName, final Date expectedTime, final Map<String, String> initialParams) {
 		Assertion.checkNotNull(processName);
 		Assertion.checkNotNull(expectedTime);
 		// ---

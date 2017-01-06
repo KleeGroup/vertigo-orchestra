@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ProcessDefinition;
@@ -53,13 +52,13 @@ public final class ProcessSchedulerImpl implements ProcessScheduler {
 
 	/** {@inheritDoc} */
 	@Override
-	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
+	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Map<String, String> initialParams) {
 		Assertion.checkNotNull(processDefinition);
 		Assertion.checkNotNull(planifiedTime);
-		Assertion.checkNotNull(initialParamsOption);
+		Assertion.checkNotNull(initialParams);
 		// ---
 		getPluginByType(processDefinition.getProcessType())
-				.scheduleAt(processDefinition, planifiedTime, initialParamsOption);
+				.scheduleAt(processDefinition, planifiedTime, initialParams);
 	}
 
 	private ProcessSchedulerPlugin getPluginByType(final ProcessType processType) {

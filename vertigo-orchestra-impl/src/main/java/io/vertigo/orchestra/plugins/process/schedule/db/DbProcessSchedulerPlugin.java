@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -34,6 +35,7 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.impl.process.schedule.CronExpression;
 import io.vertigo.orchestra.impl.process.schedule.ProcessSchedulerPlugin;
 import io.vertigo.orchestra.node.NodeManager;
+import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.process.execution.ProcessExecutor;
 import io.vertigo.orchestra.process.schedule.SchedulerState;
 
@@ -146,6 +148,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 				doScheduleWithCron(processDefinition);
+				transaction.commit();
 			}
 		}
 
@@ -159,16 +162,16 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	}
 
 	@Override
-	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
+	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Map<String, String> initialParams) {
 		Assertion.checkNotNull(processDefinition);
 		Assertion.checkNotNull(planifiedTime);
-		Assertion.checkNotNull(initialParamsOption);
+		Assertion.checkNotNull(initialParams);
 		//---
 		if (transactionManager.hasCurrentTransaction()) {
-			doScheduleAt(processDefinition, planifiedTime, initialParamsOption);
+			doScheduleAt(processDefinition, planifiedTime, initialParams);
 		} else {
 			try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
-				doScheduleAt(processDefinition, planifiedTime, initialParamsOption);
+				doScheduleAt(processDefinition, planifiedTime, initialParams);
 				transaction.commit();
 			}
 		}
@@ -178,15 +181,15 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	//--- Private
 	//--------------------------------------------------------------------------------------------------
 
-	private void doScheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
+	private void doScheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Map<String, String> initialParams) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
 		final OProcessPlanification processPlanification = new OProcessPlanification();
 		processPlanification.setProId(processDefinition.getId());
 		processPlanification.setExpectedTime(planifiedTime);
 		changeState(processPlanification, SchedulerState.WAITING);
-		if (initialParamsOption.isPresent()) {
-			processPlanification.setInitialParams(initialParamsOption.get());
+		if (!initialParams.isEmpty()) {
+			processPlanification.setInitialParams(new ActivityExecutionWorkspace(initialParams).getStringForStorage());
 		}
 		processPlanificationDAO.save(processPlanification);
 

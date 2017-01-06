@@ -2,7 +2,7 @@ package io.vertigo.orchestra;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import io.vertigo.lang.Manager;
 import io.vertigo.orchestra.definition.ProcessDefinition;
@@ -31,9 +31,9 @@ public interface OrchestraManager extends Manager {
 	 * Programme à une date donnée une execution d'un processus donné.
 	 * @param processName Le nom du processus à lancer
 	 * @param expectedTime La date à laquelle il doit être lancé
-	 * @param initialParams Les paramètres initiaux à utiliser (JSON sous forme de string)
+	 * @param initialParams Les paramètres initiaux à utiliser
 	 */
-	void scheduleAt(String processName, Date expectedTime, Optional<String> initialParams);
+	void scheduleAt(String processName, Date expectedTime, Map<String, String> initialParams);
 
 	/**
 	 * Programme de manière récurrent des execution en se basant sur l'expression Cron du processus.

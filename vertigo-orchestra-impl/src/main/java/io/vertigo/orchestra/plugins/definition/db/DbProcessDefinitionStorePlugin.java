@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
+
+import com.google.common.reflect.TypeToken;
+import com.google.gson.GsonBuilder;
 
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.Transactional;
@@ -25,6 +29,7 @@ import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionStorePlugin;
 import io.vertigo.orchestra.process.execution.ActivityEngine;
+import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
 import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
 
@@ -53,10 +58,14 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 		process.setName(processDefinition.getName());
 		process.setLabel(processDefinition.getLabel());
 		process.setCronExpression(processDefinition.getTriggeringStrategy().getCronExpression().orElse(null));
-		process.setInitialParams(processDefinition.getTriggeringStrategy().getInitialParams().orElse(null));
+		if (!processDefinition.getTriggeringStrategy().getInitialParams().isEmpty()) {
+			process.setInitialParams(new ActivityExecutionWorkspace(processDefinition.getTriggeringStrategy().getInitialParams()).getStringForStorage());
+		}
 		process.setMultiexecution(processDefinition.getTriggeringStrategy().isMultiExecution());
 		process.setRescuePeriod(processDefinition.getTriggeringStrategy().getRescuePeriod());
-		process.setMetadatas(processDefinition.getMetadatas().orElse(null));
+		if (!processDefinition.getMetadatas().isEmpty()) {
+			process.setMetadatas(new GsonBuilder().create().toJson(processDefinition.getMetadatas()));
+		}
 		process.setNeedUpdate(processDefinition.getNeedUpdate());
 		if (processDefinition.getTriggeringStrategy().getCronExpression().isPresent()) {
 			process.setTrtCd("SCHEDULED");
@@ -120,7 +129,7 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 
 	}
 
-	private static ProcessDefinition decodeProcessDefinition(final OProcess process, final List<OActivity> oActivities) {
+	private ProcessDefinition decodeProcessDefinition(final OProcess process, final List<OActivity> oActivities) {
 		Assertion.checkNotNull(process);
 		Assertion.checkNotNull(oActivities);
 		// ---
@@ -130,13 +139,17 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 			processDefinitionBuilder.withCronExpression(process.getCronExpression());
 		}
 		if (!StringUtil.isEmpty(process.getInitialParams())) {
-			processDefinitionBuilder.withInitialParams(process.getInitialParams());
+			processDefinitionBuilder.withInitialParams(new ActivityExecutionWorkspace(process.getInitialParams()).getAsMap());
 		}
 		if (process.getNeedUpdate() != null && process.getNeedUpdate()) {
 			processDefinitionBuilder.withNeedUpdate();
 		}
 		if (!StringUtil.isEmpty(process.getMetadatas())) {
-			processDefinitionBuilder.withMetadatas(process.getMetadatas());
+			// voir si on fait mieux
+			processDefinitionBuilder.withMetadatas(new GsonBuilder().create().fromJson(process.getMetadatas(),
+					new TypeToken<Map<String, String>>() {
+						private static final long serialVersionUID = 1L;/*rien*/
+					}.getType()));
 		}
 		if (process.getMultiexecution()) {
 			processDefinitionBuilder.withMultiExecution();

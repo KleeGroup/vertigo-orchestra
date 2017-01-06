@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.execution;
 
+import java.util.Collections;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -44,7 +44,7 @@ public class ReportingTest extends AbstractOrchestraTestCaseJU4 {
 
 		// We plan right now
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// The task takes 10 secondes to run we wait 12 secondes to check the final states
 		Thread.sleep(1000 * 12);

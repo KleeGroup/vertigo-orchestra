@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.definition;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import io.vertigo.core.spaces.definiton.Definition;
 import io.vertigo.core.spaces.definiton.DefinitionPrefix;
@@ -26,7 +26,7 @@ public final class ProcessDefinition implements Definition {
 	private final boolean active;
 
 	private final ProcessTriggeringStrategy triggeringStrategy;
-	private final Optional<String> metadatas;
+	private final Map<String, String> metadatas;
 	private final boolean needUpdate;
 
 	/**
@@ -42,7 +42,7 @@ public final class ProcessDefinition implements Definition {
 			final String label,
 			final boolean active,
 			final ProcessType processType,
-			final Optional<String> metadatas,
+			final Map<String, String> metadatas,
 			final boolean needUpdate,
 			final ProcessTriggeringStrategy triggeringStrategy,
 			final List<ActivityDefinition> activities) {
@@ -88,7 +88,7 @@ public final class ProcessDefinition implements Definition {
 		return active;
 	}
 
-	public Optional<String> getMetadatas() {
+	public Map<String, String> getMetadatas() {
 		return metadatas;
 	}
 

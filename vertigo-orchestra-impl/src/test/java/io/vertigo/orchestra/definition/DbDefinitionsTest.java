@@ -1,5 +1,7 @@
 package io.vertigo.orchestra.definition;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -21,10 +23,15 @@ public class DbDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 
 	@Test
 	public void testRegister() {
+
 		//Before : 0
 		Assert.assertEquals(0, processDefinitionManager.getAllProcessDefinitionsByType(ProcessType.SUPERVISED).size());
 
+		final Map<String, String> metadatas = new HashMap<>();
+		metadatas.put("test", "toto");
+
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST_BASIC", "TEST BASIC", ProcessType.SUPERVISED)
+				.withMetadatas(metadatas)
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbErrorActivityEngine.class)
 				.build();
 
@@ -34,6 +41,7 @@ public class DbDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 
 		final ProcessDefinition processDefinition2 = processDefinitionManager.getProcessDefinition("TEST_BASIC");
 		Assert.assertEquals(processDefinition.getName(), processDefinition2.getName());
+		Assert.assertTrue(processDefinition2.getMetadatas().containsKey("test"));
 	}
 	//
 
@@ -47,11 +55,11 @@ public class DbDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 
 		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
 		// no initialParams
-		Assert.assertTrue(!processDefinitionManager.getProcessDefinition("TEST_BASIC").getTriggeringStrategy().getInitialParams().isPresent());
+		Assert.assertTrue(processDefinitionManager.getProcessDefinition("TEST_BASIC").getTriggeringStrategy().getInitialParams().isEmpty());
 
 		processDefinitionManager.updateProcessDefinitionInitialParams("TEST_BASIC", Optional.of("{\"filePath\" : \"toto/titi\"}"));
 		// with initialParams
-		Assert.assertTrue(processDefinitionManager.getProcessDefinition("TEST_BASIC").getTriggeringStrategy().getInitialParams().isPresent());
+		Assert.assertTrue(!processDefinitionManager.getProcessDefinition("TEST_BASIC").getTriggeringStrategy().getInitialParams().isEmpty());
 	}
 
 	@Test

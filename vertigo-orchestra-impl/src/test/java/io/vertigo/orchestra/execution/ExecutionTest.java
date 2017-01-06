@@ -1,6 +1,9 @@
 package io.vertigo.orchestra.execution;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -20,7 +23,6 @@ import io.vertigo.orchestra.domain.execution.OProcessExecution;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.process.ProcessManager;
-import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.process.execution.ExecutionState;
 import io.vertigo.orchestra.process.schedule.SchedulerState;
 
@@ -63,7 +65,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		// We plan right now
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// The task takes 10 secondes to run we wait 12 secondes to check the final states
 		Thread.sleep(1000 * 12);
@@ -147,7 +149,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		// We plan right now
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// Error is after 2 seconds
 		Thread.sleep(1000 * 5);
@@ -172,7 +174,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		final Long proId = processDefinition.getId();
 
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// After 15 seconds the process is still running
 		Thread.sleep(1000 * 15);
@@ -198,7 +200,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		final Long proId = processDefinition.getId();
 
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// After 5 seconds the process is still running
 		Thread.sleep(1000 * 5);
@@ -213,9 +215,11 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	 */
 	@Test
 	public void testWithInitialParams() throws InterruptedException {
+		final Map<String, String> initialParams = new HashMap<>();
+		initialParams.put("filePath", "toto/titi");
 
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST INITIAL PARAMS", "TEST INITIAL PARAMS")
-				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withInitialParams(initialParams)
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
@@ -224,7 +228,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		final Long proId = processDefinition.getId();
 
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// We wait 5 secondes to be sure that execution is running
 		Thread.sleep(1000 * 5);
@@ -240,37 +244,12 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void testWithInitialParamsParseError() throws InterruptedException {
-
-		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST INITIAL PARAMS ERROR", "TEST INITIAL PARAMS ERROR")
-				.withInitialParams("{testError}")
-				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
-				.build();
-
-		processDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
-
-		final Long proId = processDefinition.getId();
-
-		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
-
-		// We wait 5 secondes to be sure that execution is running
-		Thread.sleep(1000 * 5);
-		checkExecutions(proId, 0, 1, 0, 0); // We are sure that the process is running so we can continue the test safely
-
-		final OActivityWorkspace activityWorkspace = monitoringServices
-				.getActivityWorkspaceByAceId(monitoringServices.getActivityExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getAceId(), true);
-		Assert.assertTrue(activityWorkspace.getWorkspace().contains(ActivityExecutionWorkspace.PARSING_ERROR_KEY));
-	}
-
-	/**
-	 * @throws InterruptedException
-	 */
-	@Test
 	public void testWithInitialParamsInPlanification() throws InterruptedException {
+		final Map<String, String> initialParams = new HashMap<>();
+		initialParams.put("filePath", "toto/titi");
 
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST INITIALPARAMS PLANIF", "TEST INITIALPARAMS PLANIF")
-				.withInitialParams("{\"filePath\" : \"toto/titi\"}")
+				.withInitialParams(initialParams)
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
@@ -278,8 +257,12 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
+		final Map<String, String> planifParams = new HashMap<>();
+		planifParams.put("filePath", "tata/tutu");
+		planifParams.put("planifParam", "titi");
+
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.of("{\"filePath\" : \"tata/tutu\", \"planifParam\" : \"titi\"}"));
+				.scheduleAt(processDefinition, new Date(), planifParams);
 
 		// We check 3 secondes to be sure that execution is running
 		Thread.sleep(1000 * 3);
@@ -305,7 +288,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		final Long proId = processDefinition.getId();
 
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// After 2 second the process is running
 		Thread.sleep(1000 * 2);
@@ -330,9 +313,9 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		final Long proId = processDefinition.getId();
 
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// We wait 3 seconds
 		Thread.sleep(1000 * 3);
@@ -357,7 +340,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		final Long proId = processDefinition.getId();
 
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// We wait 10 seconds until it's finished
 		Thread.sleep(1000 * 10);
@@ -386,9 +369,9 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		final Long proId = processDefinition.getId();
 
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// We wait 3 seconds
 		Thread.sleep(1000 * 5);
@@ -415,7 +398,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		final Long proId = processDefinition.getId();
 
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Optional.<String> empty());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// We wait 10 seconds
 		Thread.sleep(1000 * 10);

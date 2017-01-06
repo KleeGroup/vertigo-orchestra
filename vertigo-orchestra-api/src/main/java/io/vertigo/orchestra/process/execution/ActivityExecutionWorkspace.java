@@ -1,7 +1,10 @@
 package io.vertigo.orchestra.process.execution;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -34,6 +37,14 @@ public final class ActivityExecutionWorkspace {
 	 */
 	public ActivityExecutionWorkspace(final String stringStoredValue) {
 		jsonValue = parseStringValue(stringStoredValue);
+	}
+
+	/**
+	 * Construction d'un workspace.
+	 * @param mapParams un workspace sous forme de Map
+	 */
+	public ActivityExecutionWorkspace(final Map<String, String> mapParams) {
+		this(new GsonBuilder().create().toJson(mapParams));
 	}
 
 	/**
@@ -252,6 +263,12 @@ public final class ActivityExecutionWorkspace {
 	 */
 	public void resetStatus() {
 		jsonValue.remove(STATUS_KEY);
+	}
+
+	public Map<String, String> getAsMap() {
+		final Map<String, String> result = new HashMap<>();
+		jsonValue.entrySet().forEach(entry -> result.put(entry.getKey(), entry.getValue().getAsString()));
+		return result;
 	}
 
 	private static JsonObject parseStringValue(final String stringStoredValue) {

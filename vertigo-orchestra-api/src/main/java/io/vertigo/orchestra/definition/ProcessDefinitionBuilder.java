@@ -1,5 +1,7 @@
 package io.vertigo.orchestra.definition;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import io.vertigo.lang.Assertion;
@@ -19,13 +21,13 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	private final ProcessType type;
 	private boolean myActive;
 	private Optional<String> myCronExpression = Optional.empty();
-	private Optional<String> myInitialParams = Optional.empty();
+	private final Map<String, String> myInitialParams = new HashMap<>();
 	private boolean multiExecution;
 	private boolean needUpdate;
 	private int myRescuePeriod;
 	private final ListBuilder<ActivityDefinition> activitiesBuilder = new ListBuilder<>();
 
-	private Optional<String> myMetadatas = Optional.empty();
+	private final Map<String, String> myMetadatas = new HashMap<>();
 
 	/**
 	 * Constructor.
@@ -86,10 +88,10 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * @param initialParams les paramètres initiaux sous format JSON
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withInitialParams(final String initialParams) {
+	public ProcessDefinitionBuilder withInitialParams(final Map<String, String> initialParams) {
 		Assertion.checkNotNull(initialParams);
 		// ---
-		myInitialParams = Optional.of(initialParams);
+		myInitialParams.putAll(initialParams);
 		return this;
 	}
 
@@ -123,10 +125,10 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	 * @param metadatas les métadonnées sous format JSON
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withMetadatas(final String metadatas) {
+	public ProcessDefinitionBuilder withMetadatas(final Map<String, String> metadatas) {
 		Assertion.checkNotNull(metadatas);
 		// ---
-		myMetadatas = Optional.of(metadatas);
+		myMetadatas.putAll(metadatas);
 		return this;
 	}
 

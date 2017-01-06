@@ -2,6 +2,7 @@ package io.vertigo.orchestra.plugins.process.schedule.memory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -48,6 +49,7 @@ public class MemoryProcessSchedulerPlugin implements ProcessSchedulerPlugin, Act
 		timerPool.close();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void scheduleWithCron(final ProcessDefinition processDefinition) {
 		scheduleAtRecurrent(processDefinition, DateUtil.newDateTime(), Optional.<String> empty());
@@ -57,7 +59,7 @@ public class MemoryProcessSchedulerPlugin implements ProcessSchedulerPlugin, Act
 	void scheduleAtRecurrent(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
 		//a chaque exécution il est nécessaire de reprogrammer l'execution.
 		final Date nextExecutionDate = getNextExecutionDateFrom(processDefinition, planifiedTime);
-		scheduleAt(processDefinition, nextExecutionDate, Optional.<String> empty());
+		scheduleAt(processDefinition, nextExecutionDate, Collections.emptyMap());
 
 		//a chaque exécution il est nécessaire de reprogrammer l'execution.
 		final Date nextReschedulerDate = new Date(nextExecutionDate.getTime() + 1 * 1000); //on reprogramme à l'heure dite + 1seconde (comme on est sur le m^me timer elle passera après
@@ -67,11 +69,12 @@ public class MemoryProcessSchedulerPlugin implements ProcessSchedulerPlugin, Act
 
 	}
 
+	/** {@inheritDoc} */
 	@Override
-	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
+	public void scheduleAt(final ProcessDefinition processDefinition, final Date planifiedTime, final Map<String, String> initialParams) {
 		Assertion.checkNotNull(processDefinition);
 		Assertion.checkNotNull(planifiedTime);
-		Assertion.checkNotNull(initialParamsOption);
+		Assertion.checkNotNull(initialParams);
 		//---
 		final TimerTask task = createTimerTask(processDefinition);
 		timerPool.getTimer(processDefinition.getName()).schedule(task, planifiedTime);
