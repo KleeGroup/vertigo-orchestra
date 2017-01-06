@@ -12,19 +12,37 @@ import io.vertigo.lang.Manager;
  * @version $Id$
  */
 public interface ProcessDefinitionManager extends Manager {
-
-	/**
-	 * Creer ou mettre à jour un processus orchestra.
-	 * @param processDefinition la définition à créer ou mettre à jour.
-	 */
-	void createOrUpdateDefinitionIfNeeded(ProcessDefinition processDefinition);
-
+	//-----
+	//-READ
+	//-----
 	/**
 	 * Récupère une définition de processus par son nom.
 	 * @param processName le nom du processus à récupérer
 	 * @return la définition du processus
 	 */
 	ProcessDefinition getProcessDefinition(String processName);
+
+	/**
+	 * Récupère l'ensemble des processus gérés par orchestra.
+	 * @return la liste des processus
+	 */
+	List<ProcessDefinition> getAllProcessDefinitions();
+
+	/**
+	 * Récupère l'ensemble des processus gérés par orchestra d'un type donné.
+	 * @param processType le type de processus recherché
+	 * @return la liste des processus
+	 */
+	List<ProcessDefinition> getAllProcessDefinitionsByType(ProcessType processType);
+
+	//-----
+	//-WRITE
+	//-----
+	/**
+	 * Creer ou mettre à jour un processus orchestra.
+	 * @param processDefinition la définition à créer ou mettre à jour.
+	 */
+	void createOrUpdateDefinitionIfNeeded(ProcessDefinition processDefinition);
 
 	/**
 	 * Met à jour les propriétés d'une définition sans la rendre obsolète.
@@ -43,16 +61,4 @@ public interface ProcessDefinitionManager extends Manager {
 	 */
 	void updateProcessDefinitionInitialParams(String processName, Optional<String> initialParams);
 
-	/**
-	 * Récupère l'ensemble des processus gérés par orchestra.
-	 * @return la liste des processus
-	 */
-	List<ProcessDefinition> getAllProcessDefinitions();
-
-	/**
-	 * Récupère l'ensemble des processus gérés par orchestra d'un type donné.
-	 * @param processType le type de processus recherché
-	 * @return la liste des processus
-	 */
-	List<ProcessDefinition> getAllProcessDefinitionsByType(ProcessType processType);
 }

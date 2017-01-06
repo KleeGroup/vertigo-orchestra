@@ -9,8 +9,7 @@ import io.vertigo.lang.Assertion;
  * @author mlaroche
  *
  */
-public class ProcessTriggeringStrategy {
-
+public final class ProcessTriggeringStrategy {
 	private final Optional<String> cronExpression;
 	private final Optional<String> initialParams;
 	private final boolean multiExecution;
@@ -23,7 +22,11 @@ public class ProcessTriggeringStrategy {
 	 * @param multiExecution if the process accepts multiexecution at the same time
 	 * @param rescuePeriod the time in seconds a planification is still valid
 	 */
-	public ProcessTriggeringStrategy(final Optional<String> cronExpression, final Optional<String> initialParams, final boolean multiExecution, final int rescuePeriod) {
+	ProcessTriggeringStrategy(
+			final Optional<String> cronExpression,
+			final Optional<String> initialParams,
+			final boolean multiExecution,
+			final int rescuePeriod) {
 		Assertion.checkNotNull(cronExpression);
 		Assertion.checkNotNull(initialParams);
 		// --
