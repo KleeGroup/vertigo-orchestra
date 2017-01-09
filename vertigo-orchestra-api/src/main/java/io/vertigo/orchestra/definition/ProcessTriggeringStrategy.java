@@ -23,7 +23,7 @@ public final class ProcessTriggeringStrategy {
 	 * @param multiExecution if the process accepts multiexecution at the same time
 	 * @param rescuePeriod the time in seconds a planification is still valid
 	 */
-	public ProcessTriggeringStrategy(
+	ProcessTriggeringStrategy(
 			final Optional<String> cronExpression,
 			final Map<String, String> initialParams,
 			final boolean multiExecution,

@@ -32,8 +32,16 @@ public final class ProcessExecution implements Serializable {
 	 * @param checkingComment the checking comm
 	 * @param hasLogFile if the execution has an associated log
 	 */
-	public ProcessExecution(final Long preId, final Date beginTime, final Date endTime, final Integer executionTime, final String status, final Boolean checked, final Date checkingDate,
-			final String checkingComment, final Boolean hasLogFile) {
+	public ProcessExecution(
+			final Long preId,
+			final Date beginTime,
+			final Date endTime,
+			final Integer executionTime,
+			final String status,
+			final Boolean checked,
+			final Date checkingDate,
+			final String checkingComment,
+			final Boolean hasLogFile) {
 		Assertion.checkNotNull(preId);
 		// ---
 		this.preId = preId;

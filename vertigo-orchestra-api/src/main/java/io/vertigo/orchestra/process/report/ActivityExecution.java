@@ -39,8 +39,16 @@ public final class ActivityExecution implements Serializable {
 	 * @param hasLogFile if the activity has a logfile
 	 * @param hasTechnicalLog of the activity has a technical logfile
 	 */
-	public ActivityExecution(final Long aceId, final String label, final Date beginTime, final Date endTime, final Integer executionTime, final String status, final String workspaceIn,
-			final String workspaceOut, final Boolean hasLogFile,
+	public ActivityExecution(
+			final Long aceId,
+			final String label,
+			final Date beginTime,
+			final Date endTime,
+			final Integer executionTime,
+			final String status,
+			final String workspaceIn,
+			final String workspaceOut,
+			final Boolean hasLogFile,
 			final Boolean hasTechnicalLog) {
 		Assertion.checkNotNull(aceId);
 		// ---
