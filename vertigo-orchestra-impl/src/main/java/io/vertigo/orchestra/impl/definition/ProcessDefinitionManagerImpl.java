@@ -21,7 +21,6 @@ import io.vertigo.orchestra.definition.ProcessType;
  * @version $Id$
  */
 public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
-
 	private final Map<ProcessType, ProcessDefinitionStorePlugin> processDefinitionStorePluginsByProcessType = new EnumMap<>(ProcessType.class);
 
 	/**
@@ -86,7 +85,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessDefinitionInitialParams(final String processName, final Optional<String> initialParams) {
+	public void updateProcessDefinitionInitialParams(final String processName, final Map<String, String> initialParams) {
 		Assertion.checkArgNotEmpty(processName);
 		Assertion.checkNotNull(initialParams);
 		// ---

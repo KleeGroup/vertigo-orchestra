@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import io.vertigo.orchestra.AbstractOrchestraTestCaseJU4;
+import io.vertigo.util.MapBuilder;
 
 /**
  * TODO : Description de la classe.
@@ -57,7 +58,7 @@ public class DbDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 		// no initialParams
 		Assert.assertTrue(processDefinitionManager.getProcessDefinition("TEST_BASIC").getTriggeringStrategy().getInitialParams().isEmpty());
 
-		processDefinitionManager.updateProcessDefinitionInitialParams("TEST_BASIC", Optional.of("{\"filePath\" : \"toto/titi\"}"));
+		processDefinitionManager.updateProcessDefinitionInitialParams("TEST_BASIC", new MapBuilder<String, String>().put("filePath", "toto/titi").build());
 		// with initialParams
 		Assert.assertTrue(!processDefinitionManager.getProcessDefinition("TEST_BASIC").getTriggeringStrategy().getInitialParams().isEmpty());
 	}

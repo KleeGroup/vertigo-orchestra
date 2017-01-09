@@ -18,6 +18,7 @@ import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.impl.process.execution.AbstractActivityEngine;
 import io.vertigo.orchestra.impl.process.execution.ProcessExecutorPlugin;
+import io.vertigo.orchestra.plugins.process.MapCodec;
 import io.vertigo.orchestra.process.execution.ActivityEngine;
 import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.process.execution.ExecutionState;
@@ -32,6 +33,7 @@ public class MemoryProcessExecutorPlugin implements ProcessExecutorPlugin, Activ
 	private static final Logger LOGGER = Logger.getLogger(MemoryProcessExecutorPlugin.class);
 
 	private final ExecutorService localExecutor;
+	private final MapCodec mapCodec = new MapCodec();
 
 	/**
 	 * Constructeur de l'executeur simple local.
@@ -62,10 +64,10 @@ public class MemoryProcessExecutorPlugin implements ProcessExecutorPlugin, Activ
 
 	}
 
-	private static void doSequentialExecute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
+	private void doSequentialExecute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
 		final ActivityExecutionWorkspace initialWorkspace = new ActivityExecutionWorkspace(processDefinition.getTriggeringStrategy().getInitialParams());
 		if (initialParams.isPresent()) {
-			initialWorkspace.addExternalParams(initialParams.get());
+			initialWorkspace.addExternalParams(mapCodec.decode(initialParams.get()));
 		}
 
 		ActivityExecutionWorkspace resultWorkspace = initialWorkspace;
@@ -78,7 +80,7 @@ public class MemoryProcessExecutorPlugin implements ProcessExecutorPlugin, Activ
 
 	}
 
-	private static ActivityExecutionWorkspace executeActivity(final ActivityDefinition activityDefinition, final ActivityExecutionWorkspace workspaceIn) {
+	private ActivityExecutionWorkspace executeActivity(final ActivityDefinition activityDefinition, final ActivityExecutionWorkspace workspaceIn) {
 		ActivityExecutionWorkspace resultWorkspace = workspaceIn;
 		try {
 			// ---
@@ -88,7 +90,7 @@ public class MemoryProcessExecutorPlugin implements ProcessExecutorPlugin, Activ
 
 				// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...) so we log the workspace
 				if (activityEngine instanceof AbstractActivityEngine) {
-					final String workspaceInLog = new StringBuilder("Workspace in :").append(workspaceIn.getStringForStorage()).toString();
+					final String workspaceInLog = new StringBuilder("Workspace in :").append(mapCodec.encode(workspaceIn.asMap())).toString();
 					((AbstractActivityEngine) activityEngine).getLogger().info(workspaceInLog);
 				}
 				// We try the execution and we keep the result

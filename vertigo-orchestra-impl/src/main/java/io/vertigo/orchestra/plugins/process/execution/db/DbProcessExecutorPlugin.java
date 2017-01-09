@@ -39,6 +39,7 @@ import io.vertigo.orchestra.impl.process.execution.AbstractActivityEngine;
 import io.vertigo.orchestra.impl.process.execution.ActivityLogger;
 import io.vertigo.orchestra.impl.process.execution.ProcessExecutorPlugin;
 import io.vertigo.orchestra.node.NodeManager;
+import io.vertigo.orchestra.plugins.process.MapCodec;
 import io.vertigo.orchestra.process.execution.ActivityEngine;
 import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.process.execution.ExecutionState;
@@ -75,6 +76,8 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 
 	private final NodeManager nodeManager;
 	private final VTransactionManager transactionManager;
+
+	private final MapCodec mapCodec = new MapCodec();
 
 	/**
 	 * Constructeur.
@@ -310,7 +313,7 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 
 				// If the engine extends the abstractEngine we can provide the services associated (LOGGING,...) so we log the workspace
 				if (activityEngine instanceof AbstractActivityEngine) {
-					final String workspaceInLog = new StringBuilder("Workspace in :").append(workspace.getStringForStorage()).toString();
+					final String workspaceInLog = new StringBuilder("Workspace in :").append(mapCodec.encode(workspace.asMap())).toString();
 					((AbstractActivityEngine) activityEngine).getLogger().info(workspaceInLog);
 				}
 				// We try the execution and we keep the result
@@ -405,10 +408,12 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 		final OActivityExecution firstActivityExecution = initActivityExecutionWithActivity(firstActivity, processExecution.getPreId());
 		activityExecutionDAO.save(firstActivityExecution);
 
-		final ActivityExecutionWorkspace initialWorkspace = new ActivityExecutionWorkspace(processExecution.getProcess().getInitialParams());
+		final ActivityExecutionWorkspace initialWorkspace = new ActivityExecutionWorkspace(mapCodec.decode(processExecution
+				.getProcess()
+				.getInitialParams()));
 		if (initialParams.isPresent()) {
 			// If Plannification specifies initialParams we take them in addition
-			initialWorkspace.addExternalParams(initialParams.get());
+			initialWorkspace.addExternalParams(mapCodec.decode(initialParams.get()));
 		}
 		// We set in the workspace essentials params
 		initialWorkspace.setProcessName(processExecution.getProcess().getName());
@@ -509,7 +514,7 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 		Assertion.checkNotNull(in);
 		// ---
 		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in).get();
-		return new ActivityExecutionWorkspace(activityWorkspace.getWorkspace());
+		return new ActivityExecutionWorkspace(mapCodec.decode(activityWorkspace.getWorkspace()));
 	}
 
 	private void saveActivityExecutionWorkspace(final Long aceId, final ActivityExecutionWorkspace workspace, final Boolean in) {
@@ -521,7 +526,7 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 		final OActivityWorkspace activityWorkspace = activityWorkspaceDAO.getActivityWorkspace(aceId, in).orElse(new OActivityWorkspace());
 		activityWorkspace.setAceId(aceId);
 		activityWorkspace.setIsIn(in);
-		activityWorkspace.setWorkspace(workspace.getStringForStorage());
+		activityWorkspace.setWorkspace(mapCodec.encode(workspace.asMap()));
 
 		activityWorkspaceDAO.save(activityWorkspace);
 
@@ -593,7 +598,7 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 		final OActivityLog activityLog = activityLogDAO.getActivityLogByAceId(aceId).orElse(new OActivityLog());
 		activityLog.setAceId(aceId);
 		final String log = new StringBuilder(activityLog.getLog() == null ? "" : activityLog.getLog()).append(activityLogger.getLogAsString())//
-				.append("ResultWorkspace : ").append(resultWorkspace.getStringForStorage()).append("\n")//
+				.append("ResultWorkspace : ").append(mapCodec.encode(resultWorkspace.asMap())).append("\n")//
 				.toString();
 		activityLog.setLog(log);
 		if (resultWorkspace.getLogFile() != null) {

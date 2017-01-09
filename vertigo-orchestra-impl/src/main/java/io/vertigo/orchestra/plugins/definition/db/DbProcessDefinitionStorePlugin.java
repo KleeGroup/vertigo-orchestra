@@ -28,8 +28,8 @@ import io.vertigo.orchestra.definition.ProcessType;
 import io.vertigo.orchestra.domain.definition.OActivity;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.impl.definition.ProcessDefinitionStorePlugin;
+import io.vertigo.orchestra.plugins.process.MapCodec;
 import io.vertigo.orchestra.process.execution.ActivityEngine;
-import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
 import io.vertigo.util.ClassUtil;
 import io.vertigo.util.StringUtil;
 
@@ -50,6 +50,8 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 	@Inject
 	private OActivityDAO activityDAO;
 
+	private final MapCodec mapCodec = new MapCodec();
+
 	private void createDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		//-----
@@ -58,9 +60,7 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 		process.setName(processDefinition.getName());
 		process.setLabel(processDefinition.getLabel());
 		process.setCronExpression(processDefinition.getTriggeringStrategy().getCronExpression().orElse(null));
-		if (!processDefinition.getTriggeringStrategy().getInitialParams().isEmpty()) {
-			process.setInitialParams(new ActivityExecutionWorkspace(processDefinition.getTriggeringStrategy().getInitialParams()).getStringForStorage());
-		}
+		process.setInitialParams(mapCodec.encode(processDefinition.getTriggeringStrategy().getInitialParams()));
 		process.setMultiexecution(processDefinition.getTriggeringStrategy().isMultiExecution());
 		process.setRescuePeriod(processDefinition.getTriggeringStrategy().getRescuePeriod());
 		if (!processDefinition.getMetadatas().isEmpty()) {
@@ -138,9 +138,7 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 		if (!StringUtil.isEmpty(process.getCronExpression())) {
 			processDefinitionBuilder.withCronExpression(process.getCronExpression());
 		}
-		if (!StringUtil.isEmpty(process.getInitialParams())) {
-			processDefinitionBuilder.withInitialParams(new ActivityExecutionWorkspace(process.getInitialParams()).getAsMap());
-		}
+		processDefinitionBuilder.addInitialParams(mapCodec.decode(process.getInitialParams()));
 		if (process.getNeedUpdate() != null && process.getNeedUpdate()) {
 			processDefinitionBuilder.withNeedUpdate();
 		}
@@ -234,12 +232,12 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessDefinitionInitialParams(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
+	public void updateProcessDefinitionInitialParams(final ProcessDefinition processDefinition, final Map<String, String> initialParams) {
 		Assertion.checkNotNull(processDefinition);
 		Assertion.checkNotNull(initialParams);
 		// ---
 		final OProcess process = getOProcessByName(processDefinition.getName());
-		process.setInitialParams(initialParams.orElse(null));
+		process.setInitialParams(mapCodec.encode(initialParams));
 		processDao.save(process);
 
 	}
@@ -262,4 +260,5 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 	public ProcessType getHandledProcessType() {
 		return ProcessType.SUPERVISED;
 	}
+
 }

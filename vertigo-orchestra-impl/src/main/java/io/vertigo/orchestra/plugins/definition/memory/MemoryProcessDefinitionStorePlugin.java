@@ -2,9 +2,11 @@ package io.vertigo.orchestra.plugins.definition.memory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import io.vertigo.app.Home;
+import io.vertigo.core.spaces.definiton.DefinitionSpace;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
@@ -16,10 +18,13 @@ import io.vertigo.orchestra.impl.definition.ProcessDefinitionStorePlugin;
  *
  */
 public class MemoryProcessDefinitionStorePlugin implements ProcessDefinitionStorePlugin {
+	private DefinitionSpace getDefinitionSpace() {
+		return Home.getApp().getDefinitionSpace();
+	}
 
 	@Override
 	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
-		Home.getApp().getDefinitionSpace().put(processDefinition);
+		getDefinitionSpace().put(processDefinition);
 
 	}
 
@@ -27,19 +32,19 @@ public class MemoryProcessDefinitionStorePlugin implements ProcessDefinitionStor
 	public boolean processDefinitionExists(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		// ---
-		return Home.getApp().getDefinitionSpace().containsDefinitionName(processName);
+		return getDefinitionSpace().containsDefinitionName(processName);
 	}
 
 	@Override
 	public ProcessDefinition getProcessDefinition(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		// ---
-		return Home.getApp().getDefinitionSpace().resolve(processName, ProcessDefinition.class);
+		return getDefinitionSpace().resolve(processName, ProcessDefinition.class);
 	}
 
 	@Override
 	public List<ProcessDefinition> getAllProcessDefinitions() {
-		return new ArrayList<>(Home.getApp().getDefinitionSpace().getAll(ProcessDefinition.class));
+		return new ArrayList<>(getDefinitionSpace().getAll(ProcessDefinition.class));
 	}
 
 	@Override
@@ -50,8 +55,7 @@ public class MemoryProcessDefinitionStorePlugin implements ProcessDefinitionStor
 	}
 
 	@Override
-	public void updateProcessDefinitionInitialParams(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
-		// unsupported
+	public void updateProcessDefinitionInitialParams(final ProcessDefinition processDefinition, final Map<String, String> initialParams) {
 		throw new UnsupportedOperationException("An in memory definition is immutable");
 	}
 

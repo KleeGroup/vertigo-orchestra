@@ -35,7 +35,7 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
 import io.vertigo.orchestra.impl.process.schedule.CronExpression;
 import io.vertigo.orchestra.impl.process.schedule.ProcessSchedulerPlugin;
 import io.vertigo.orchestra.node.NodeManager;
-import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
+import io.vertigo.orchestra.plugins.process.MapCodec;
 import io.vertigo.orchestra.process.execution.ProcessExecutor;
 import io.vertigo.orchestra.process.schedule.SchedulerState;
 
@@ -68,6 +68,8 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	private PlanificationPAO planificationPAO;
 	@Inject
 	private OProcessExecutionDAO processExecutionDAO;
+
+	private final MapCodec mapCodec = new MapCodec();
 
 	/**
 	 * Constructeur.
@@ -188,9 +190,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		processPlanification.setProId(processDefinition.getId());
 		processPlanification.setExpectedTime(planifiedTime);
 		changeState(processPlanification, SchedulerState.WAITING);
-		if (!initialParams.isEmpty()) {
-			processPlanification.setInitialParams(new ActivityExecutionWorkspace(initialParams).getStringForStorage());
-		}
+		processPlanification.setInitialParams(mapCodec.encode(initialParams));
 		processPlanificationDAO.save(processPlanification);
 
 	}

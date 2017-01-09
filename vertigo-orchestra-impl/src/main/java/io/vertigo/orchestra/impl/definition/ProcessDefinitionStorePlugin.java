@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.impl.definition;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import io.vertigo.lang.Plugin;
@@ -45,7 +46,7 @@ public interface ProcessDefinitionStorePlugin extends Plugin {
 	/**
 	 * @see io.vertigo.orchestra.definition.ProcessDefinitionManager#updateProcessDefinitionInitialParams(String, Optional)
 	 */
-	void updateProcessDefinitionInitialParams(final ProcessDefinition processDefinition, final Optional<String> initialParams);
+	void updateProcessDefinitionInitialParams(final ProcessDefinition processDefinition, final Map<String, String> initialParams);
 
 	/**
 	 * Retourne le type de processus géré par le plugin

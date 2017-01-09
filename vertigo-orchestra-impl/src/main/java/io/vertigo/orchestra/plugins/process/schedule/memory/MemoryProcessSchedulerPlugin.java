@@ -52,11 +52,11 @@ public class MemoryProcessSchedulerPlugin implements ProcessSchedulerPlugin, Act
 	/** {@inheritDoc} */
 	@Override
 	public void scheduleWithCron(final ProcessDefinition processDefinition) {
-		scheduleAtRecurrent(processDefinition, DateUtil.newDateTime(), Optional.<String> empty());
+		scheduleAtRecurrent(processDefinition, DateUtil.newDateTime(), Collections.emptyMap());
 
 	}
 
-	void scheduleAtRecurrent(final ProcessDefinition processDefinition, final Date planifiedTime, final Optional<String> initialParamsOption) {
+	void scheduleAtRecurrent(final ProcessDefinition processDefinition, final Date planifiedTime, final Map<String, String> initialParams) {
 		//a chaque exécution il est nécessaire de reprogrammer l'execution.
 		final Date nextExecutionDate = getNextExecutionDateFrom(processDefinition, planifiedTime);
 		scheduleAt(processDefinition, nextExecutionDate, Collections.emptyMap());

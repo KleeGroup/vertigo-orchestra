@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.definition;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import io.vertigo.lang.Manager;
@@ -57,8 +58,8 @@ public interface ProcessDefinitionManager extends Manager {
 	/**
 	 * Met à jour les paramètres initiaux d'exécution d'un processus
 	 * @param processName le nom du processus à mettre à jour
-	 * @param initialParams le nouveau paramètres à utiliser (JSON sous forme de string)
+	 * @param initialParams the params used to start the first activity
 	 */
-	void updateProcessDefinitionInitialParams(String processName, Optional<String> initialParams);
+	void updateProcessDefinitionInitialParams(String processName, Map<String, String> initialParams);
 
 }

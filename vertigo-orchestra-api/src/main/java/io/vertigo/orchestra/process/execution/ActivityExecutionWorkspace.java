@@ -1,14 +1,7 @@
 package io.vertigo.orchestra.process.execution;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 
 import io.vertigo.lang.Assertion;
 
@@ -29,22 +22,16 @@ public final class ActivityExecutionWorkspace {
 	public static final String LOG_FILE_KEY = "logFile";
 	public static final String PARSING_ERROR_KEY = "parsingError";
 
-	private final JsonObject jsonValue;
-
-	/**
-	 * Construction d'un workspace.
-	 * @param stringStoredValue un workspace sous forme de string
-	 */
-	public ActivityExecutionWorkspace(final String stringStoredValue) {
-		jsonValue = parseStringValue(stringStoredValue);
-	}
+	private final Map<String, String> params;
 
 	/**
 	 * Construction d'un workspace.
 	 * @param mapParams un workspace sous forme de Map
 	 */
-	public ActivityExecutionWorkspace(final Map<String, String> mapParams) {
-		this(new GsonBuilder().create().toJson(mapParams));
+	public ActivityExecutionWorkspace(final Map<String, String> params) {
+		Assertion.checkNotNull(params);
+		//---
+		this.params = params;
 	}
 
 	/**
@@ -53,10 +40,7 @@ public final class ActivityExecutionWorkspace {
 	 * @return la valeur
 	 */
 	public String getValue(final String key) {
-		if (containsKey(key)) {
-			return jsonValue.get(key).getAsString();
-		}
-		return null;
+		return params.get(key);
 	}
 
 	/**
@@ -65,7 +49,7 @@ public final class ActivityExecutionWorkspace {
 	 * @return true si la clé existe
 	 */
 	public boolean containsKey(final String key) {
-		return jsonValue.get(key) != null;
+		return params.containsKey(key);
 	}
 
 	/**
@@ -76,7 +60,7 @@ public final class ActivityExecutionWorkspace {
 	public void setValue(final String key, final String value) {
 		Assertion.checkState(!STATUS_KEY.equals(key), "Status cannot be set directly");
 		// ---
-		jsonValue.addProperty(key, value);
+		params.put(key, value);
 	}
 
 	/**
@@ -84,29 +68,20 @@ public final class ActivityExecutionWorkspace {
 	 * @param key la clé à retirer
 	 */
 	public void removeKey(final String key) {
-		jsonValue.remove(key);
+		params.remove(key);
 	}
 
 	/**
 	 * Ajoute de paramètres externe au workspace.
 	 * @param jsonParams des paramètres suppplémentaire au format JSON
 	 */
-	public void addExternalParams(final String jsonParams) {
-		final JsonObject jsonObject = parseStringValue(jsonParams);
-		for (final Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+	public void addExternalParams(final Map<String, String> extParams) {
+		for (final Entry<String, String> entry : extParams.entrySet()) {
 			// we support only string params
 			if (entry.getValue() != null) {
-				setValue(entry.getKey(), entry.getValue().getAsString());
+				setValue(entry.getKey(), entry.getValue());
 			}
 		}
-	}
-
-	/**
-	 * Transforme le workspace en string.
-	 * @return le workspace sous forme de string
-	 */
-	public String getStringForStorage() {
-		return jsonValue.toString();
 	}
 
 	// --- Always here
@@ -116,7 +91,7 @@ public final class ActivityExecutionWorkspace {
 	 * @param aceId l'id de l'activité
 	 */
 	public void setActivityExecutionId(final Long aceId) {
-		jsonValue.addProperty(ACE_ID_KEY, aceId.toString());
+		params.put(ACE_ID_KEY, aceId.toString());
 	}
 
 	/**
@@ -132,7 +107,7 @@ public final class ActivityExecutionWorkspace {
 	 * @param preId l'id du processus
 	 */
 	public void setProcessExecutionId(final Long preId) {
-		jsonValue.addProperty(PRE_ID_KEY, preId.toString());
+		params.put(PRE_ID_KEY, preId.toString());
 	}
 
 	/**
@@ -148,7 +123,7 @@ public final class ActivityExecutionWorkspace {
 	 * @param processName le nom du processus en cours
 	 */
 	public void setProcessName(final String processName) {
-		jsonValue.addProperty(PROCESS_NAME_KEY, processName);
+		params.put(PROCESS_NAME_KEY, processName);
 	}
 
 	/**
@@ -164,7 +139,7 @@ public final class ActivityExecutionWorkspace {
 	 * @param token le token
 	 */
 	public void setToken(final String token) {
-		jsonValue.addProperty(TOKEN_KEY, token);
+		params.put(TOKEN_KEY, token);
 	}
 
 	/**
@@ -179,7 +154,7 @@ public final class ActivityExecutionWorkspace {
 	 * Assigne le chemin relatif du fichier de log (par rapport au root orchestra).
 	 */
 	public void setLogFile(final String logFile) {
-		jsonValue.addProperty(LOG_FILE_KEY, logFile);
+		params.put(LOG_FILE_KEY, logFile);
 	}
 
 	/**
@@ -193,7 +168,7 @@ public final class ActivityExecutionWorkspace {
 	 * Remet à zéro la variable spécifiant le fichier de log.
 	 */
 	public void resetLogFile() {
-		jsonValue.remove(LOG_FILE_KEY);
+		params.remove(LOG_FILE_KEY);
 	}
 
 	// --- Execution State in workspace
@@ -202,28 +177,28 @@ public final class ActivityExecutionWorkspace {
 	 * Passe l'état à succès.
 	 */
 	public void setSuccess() {
-		jsonValue.addProperty(STATUS_KEY, "ok");
+		params.put(STATUS_KEY, "ok");
 	}
 
 	/**
 	 * Passe l'état à KO.
 	 */
 	public void setFailure() {
-		jsonValue.addProperty(STATUS_KEY, "ko");
+		params.put(STATUS_KEY, "ko");
 	}
 
 	/**
 	 * Passe l'état à en attente.
 	 */
 	public void setPending() {
-		jsonValue.addProperty(STATUS_KEY, "pending");
+		params.put(STATUS_KEY, "pending");
 	}
 
 	/**
 	 * Passe l'état à fini.
 	 */
 	public void setFinished() {
-		jsonValue.addProperty(STATUS_KEY, "finished");
+		params.put(STATUS_KEY, "finished");
 	}
 
 	/**
@@ -262,25 +237,11 @@ public final class ActivityExecutionWorkspace {
 	 * Reset le status du workspace
 	 */
 	public void resetStatus() {
-		jsonValue.remove(STATUS_KEY);
+		params.remove(STATUS_KEY);
 	}
 
-	public Map<String, String> getAsMap() {
-		final Map<String, String> result = new HashMap<>();
-		jsonValue.entrySet().forEach(entry -> result.put(entry.getKey(), entry.getValue().getAsString()));
-		return result;
-	}
-
-	private static JsonObject parseStringValue(final String stringStoredValue) {
-		JsonObject tempJsonValue = new JsonObject();
-		if (stringStoredValue != null) {
-			try {
-				tempJsonValue = new JsonParser().parse(stringStoredValue).getAsJsonObject();
-			} catch (final JsonParseException e) {
-				tempJsonValue.addProperty(PARSING_ERROR_KEY, e.getMessage());
-			}
-		}
-		return tempJsonValue;
+	public Map<String, String> asMap() {
+		return params;
 	}
 
 }

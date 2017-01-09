@@ -18,8 +18,8 @@
  */
 package io.vertigo.orchestra.plugins.process.schedule.memory;
 
+import java.util.Collections;
 import java.util.Date;
-import java.util.Optional;
 import java.util.TimerTask;
 
 import io.vertigo.lang.Assertion;
@@ -58,7 +58,7 @@ final class ReschedulerTimerTask extends TimerTask {
 		// pour éviter que l'exécution se décale d'une heure lors des changements d'heure été-hiver
 
 		// On rappel le scheduleAtRecurrent qui reprogrammera à la fois la prochaine task du Job et celle du ReschedulerTimerTask.
-		simpleSchedulerPlugin.scheduleAtRecurrent(processDefinition, nextExecutionDate, Optional.<String> empty());
+		simpleSchedulerPlugin.scheduleAtRecurrent(processDefinition, nextExecutionDate, Collections.emptyMap());
 	}
 
 }
