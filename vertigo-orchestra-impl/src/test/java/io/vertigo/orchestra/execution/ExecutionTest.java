@@ -215,11 +215,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	 */
 	@Test
 	public void testWithInitialParams() throws InterruptedException {
-		final Map<String, String> initialParams = new HashMap<>();
-		initialParams.put("filePath", "toto/titi");
-
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST INITIAL PARAMS", "TEST INITIAL PARAMS")
-				.withInitialParams(initialParams)
+				.addInitialParam("filePath", "toto/titi")
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 
@@ -245,11 +242,8 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 	 */
 	@Test
 	public void testWithInitialParamsInPlanification() throws InterruptedException {
-		final Map<String, String> initialParams = new HashMap<>();
-		initialParams.put("filePath", "toto/titi");
-
 		final ProcessDefinition processDefinition = new ProcessDefinitionBuilder("TEST INITIALPARAMS PLANIF", "TEST INITIALPARAMS PLANIF")
-				.withInitialParams(initialParams)
+				.addInitialParam("filePath", "toto/titi")
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.execution.engine.DumbActivityEngine.class)
 				.build();
 

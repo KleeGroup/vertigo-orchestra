@@ -8,6 +8,7 @@ import io.vertigo.lang.Assertion;
 import io.vertigo.lang.Builder;
 import io.vertigo.orchestra.process.execution.ActivityEngine;
 import io.vertigo.util.ListBuilder;
+import io.vertigo.util.MapBuilder;
 
 /**
  * Builder d'une définition de processus Orchestra.
@@ -21,7 +22,7 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	private final ProcessType type;
 	private boolean myActive;
 	private Optional<String> myCronExpression = Optional.empty();
-	private final Map<String, String> myInitialParams = new HashMap<>();
+	private final MapBuilder<String, String> myInitialParams = new MapBuilder<>();
 	private boolean multiExecution;
 	private boolean needUpdate;
 	private int myRescuePeriod;
@@ -84,14 +85,23 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 	}
 
 	/**
-	 * Définit le variable de début de process.
-	 * @param initialParams les paramètres initiaux sous format JSON
+	 * Adds params used to start the first activity.
+	 * @param initialParams the params definened as a map of key-value
 	 * @return this
 	 */
-	public ProcessDefinitionBuilder withInitialParams(final Map<String, String> initialParams) {
-		Assertion.checkNotNull(initialParams);
-		// ---
+	public ProcessDefinitionBuilder addInitialParams(final Map<String, String> initialParams) {
 		myInitialParams.putAll(initialParams);
+		return this;
+	}
+
+	/**
+	 * Adds param used to start the first activity.
+	 * @param paramName the name of the param
+	 * @param paramValue the value of the param
+	 * @return this
+	 */
+	public ProcessDefinitionBuilder addInitialParam(final String paramName, final String paramValue) {
+		myInitialParams.put(paramName, paramValue);
 		return this;
 	}
 
@@ -151,7 +161,11 @@ public final class ProcessDefinitionBuilder implements Builder<ProcessDefinition
 				type,
 				myMetadatas,
 				needUpdate,
-				new ProcessTriggeringStrategy(myCronExpression, myInitialParams, multiExecution, myRescuePeriod),
+				new ProcessTriggeringStrategy(
+						myCronExpression,
+						myInitialParams.unmodifiable().build(),
+						multiExecution,
+						myRescuePeriod),
 				activitiesBuilder.unmodifiable().build());
 	}
 
