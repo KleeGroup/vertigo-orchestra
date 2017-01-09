@@ -44,7 +44,7 @@ public interface ProcessDefinitionStorePlugin extends Plugin {
 			final boolean active);
 
 	/**
-	 * @see io.vertigo.orchestra.definition.ProcessDefinitionManager#updateProcessDefinitionInitialParams(String, Optional)
+	 * @see io.vertigo.orchestra.definition.ProcessDefinitionManager#updateProcessDefinitionInitialParams(String, Map)
 	 */
 	void updateProcessDefinitionInitialParams(final ProcessDefinition processDefinition, final Map<String, String> initialParams);
 

@@ -26,7 +26,7 @@ public final class ActivityExecutionWorkspace {
 
 	/**
 	 * Construction d'un workspace.
-	 * @param mapParams un workspace sous forme de Map
+	 * @param params un workspace sous forme de Map
 	 */
 	public ActivityExecutionWorkspace(final Map<String, String> params) {
 		Assertion.checkNotNull(params);
@@ -73,7 +73,7 @@ public final class ActivityExecutionWorkspace {
 
 	/**
 	 * Ajoute de paramètres externe au workspace.
-	 * @param jsonParams des paramètres suppplémentaire au format JSON
+	 * @param extParams des paramètres suppplémentaire
 	 */
 	public void addExternalParams(final Map<String, String> extParams) {
 		for (final Entry<String, String> entry : extParams.entrySet()) {

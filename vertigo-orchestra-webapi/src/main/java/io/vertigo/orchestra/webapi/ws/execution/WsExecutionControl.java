@@ -2,7 +2,6 @@ package io.vertigo.orchestra.webapi.ws.execution;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -12,7 +11,6 @@ import io.vertigo.lang.VUserException;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessDefinitionManager;
 import io.vertigo.orchestra.process.ProcessManager;
-import io.vertigo.orchestra.process.execution.ActivityExecutionWorkspace;
 import io.vertigo.orchestra.process.execution.ExecutionState;
 import io.vertigo.util.DateUtil;
 import io.vertigo.vega.webservice.WebServices;
@@ -70,13 +68,12 @@ public class WsExecutionControl implements WebServices {
 	 */
 	@POST("/execute")
 	@AnonymousAccessAllowed
-	public void executeNow(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
+	public void executeNow(@InnerBodyParam("processName") final String processName, @InnerBodyParam("initialParams") final Map<String, String> initialParams) {
 		Assertion.checkNotNull(processName);
 		// ---
 		final ProcessDefinition processDefinition = processDefinitionManager.getProcessDefinition(processName);
-		final Map<String, String> mapParams = initialParams.isPresent() ? new ActivityExecutionWorkspace(initialParams.get()).getAsMap() : Collections.emptyMap();
 		processManager.getScheduler()
-				.scheduleAt(processDefinition, DateUtil.newDateTime(), mapParams);
+				.scheduleAt(processDefinition, DateUtil.newDateTime(), initialParams);
 	}
 
 	/**

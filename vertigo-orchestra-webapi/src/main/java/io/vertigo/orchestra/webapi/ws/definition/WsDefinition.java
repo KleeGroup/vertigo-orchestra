@@ -1,6 +1,7 @@
 package io.vertigo.orchestra.webapi.ws.definition;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -78,7 +79,7 @@ public class WsDefinition implements WebServices {
 	 * @return le processus mis à jour
 	 */
 	@POST("/{processName}/updateInitialParams")
-	public ProcessDefinition updateInitialParams(@PathParam("processName") final String processName, @InnerBodyParam("initialParams") final Optional<String> initialParams) {
+	public ProcessDefinition updateInitialParams(@PathParam("processName") final String processName, @InnerBodyParam("initialParams") final Map<String, String> initialParams) {
 		definitionManager.updateProcessDefinitionInitialParams(processName, initialParams);
 		return definitionManager.getProcessDefinition(processName);
 	}
