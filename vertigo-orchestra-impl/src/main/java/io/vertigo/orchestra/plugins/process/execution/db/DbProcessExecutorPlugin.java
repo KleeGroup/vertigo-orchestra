@@ -5,9 +5,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,13 +13,13 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 
 import io.vertigo.app.Home;
+import io.vertigo.commons.daemon.DaemonManager;
 import io.vertigo.core.component.di.injector.Injector;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
-import io.vertigo.lang.WrappedException;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.execution.ExecutionPAO;
 import io.vertigo.orchestra.dao.execution.OActivityExecutionDAO;
@@ -56,6 +54,8 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 	private static final Logger LOGGER = Logger.getLogger(DbProcessExecutorPlugin.class);
 
 	@Inject
+	private DaemonManager daemonManager;
+	@Inject
 	private OProcessExecutionDAO processExecutionDAO;
 	@Inject
 	private OActivityExecutionDAO activityExecutionDAO;
@@ -71,8 +71,7 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 	private final int workersCount;
 	private final Long nodId;
 	private final ExecutorService workers;
-	private final ScheduledExecutorService localScheduledExecutor;
-	private final long timerDelay;
+	private final int executionPeriodSeconds;
 
 	private final NodeManager nodeManager;
 	private final VTransactionManager transactionManager;
@@ -108,17 +107,15 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 		Assertion.checkNotNull(nodId);
 		// ---
 		this.workersCount = workersCount;
-		timerDelay = executionPeriodSeconds * 1000L;
+		this.executionPeriodSeconds = executionPeriodSeconds;
 		workers = Executors.newFixedThreadPool(workersCount);
-		localScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void start() {
 		handleDeadNodeProcesses();
-
-		localScheduledExecutor.scheduleAtFixedRate(() -> {
+		daemonManager.registerDaemon("O_DB_PROCESS_EXECUTOR_DAEMON", () -> () -> {
 			try {
 				executeToDo();
 				nodeManager.updateHeartbeat(nodId);
@@ -128,25 +125,14 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 				LOGGER.error("Exception launching activities to executes", e);
 			}
 
-		}, 0, timerDelay, TimeUnit.MILLISECONDS);
+		}, executionPeriodSeconds);
 
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void stop() {
-		localScheduledExecutor.shutdownNow();
 		workers.shutdownNow();
-		try {
-			while (!localScheduledExecutor.isTerminated()) {
-				Thread.sleep(100);
-			}
-			while (!workers.isTerminated()) {
-				Thread.sleep(100);
-			}
-		} catch (final InterruptedException e) {
-			throw new WrappedException(e);
-		}
 	}
 
 	@Override
@@ -621,7 +607,7 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 		try (final VTransactionWritable transaction = transactionManager.createCurrentTransaction()) {
 			final Long now = System.currentTimeMillis();
 			// We wait two heartbeat to be sure that the node is dead
-			final Date maxDate = new Date(now - 2 * timerDelay);
+			final Date maxDate = new Date(now - 2 * executionPeriodSeconds * 1000);
 			executionPAO.handleProcessesOfDeadNodes(maxDate);
 			transaction.commit();
 		}

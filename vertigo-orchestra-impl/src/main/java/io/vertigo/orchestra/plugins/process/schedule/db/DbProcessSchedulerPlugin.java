@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -18,6 +15,7 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 
+import io.vertigo.commons.daemon.DaemonManager;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
@@ -49,15 +47,16 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 
 	private static final Logger LOGGER = Logger.getLogger(DbProcessSchedulerPlugin.class);
 
-	private final long timerDelay;
+	//private final long timerDelay;
 
 	private final Long nodId;
-	private final ScheduledExecutorService localScheduledExecutor;
 	private final int planningPeriodSeconds;
 	private final int forecastDurationSeconds;
 
 	@Inject
 	private VTransactionManager transactionManager;
+	@Inject
+	private DaemonManager daemonManager;
 
 	@Inject
 	private ProcessDefinitionManager definitionManager;
@@ -89,7 +88,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		Assertion.checkNotNull(planningPeriodSeconds);
 		Assertion.checkNotNull(forecastDurationSeconds);
 		//-----
-		timerDelay = planningPeriodSeconds * 1000L;
+		//timerDelay = planningPeriodSeconds * 1000L;
 		// We register the node
 		nodId = nodeManager.registerNode(nodeName);
 		// ---
@@ -97,7 +96,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 		// ---
 		this.planningPeriodSeconds = planningPeriodSeconds;
 		this.forecastDurationSeconds = forecastDurationSeconds;
-		localScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+		//localScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 	}
 
 	@Override
@@ -109,7 +108,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 	public void start(final ProcessExecutor processExecutor) {
 		Assertion.checkNotNull(processExecutor);
 		//---
-		localScheduledExecutor.scheduleAtFixedRate(() -> {
+		daemonManager.registerDaemon("O_DB_PROCESS_SCHEDULER_DAEMON", () -> () -> {
 			try {
 				plannRecurrentProcesses();
 				initToDo(processExecutor);
@@ -118,21 +117,16 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 				LOGGER.error("Exception planning recurrent processes", e);
 			}
 
-		}, timerDelay / 2, timerDelay, TimeUnit.MILLISECONDS);
+		}, planningPeriodSeconds);
+
 		// We clean the planification
 		cleanPastPlanification();
+
 	}
 
 	@Override
 	public void stop() {
-		localScheduledExecutor.shutdownNow();
-		try {
-			while (!localScheduledExecutor.isTerminated()) {
-				Thread.sleep(100);
-			}
-		} catch (final InterruptedException e) {
-			throw new WrappedException(e);
-		}
+		// rien
 	}
 
 	@Override

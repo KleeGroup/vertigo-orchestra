@@ -32,7 +32,8 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 		Assertion.checkState(!processDefinitionStorePlugins.isEmpty(), "At least one ProcessDefinitionStorePlugin is required");
 		// ---
 		for (final ProcessDefinitionStorePlugin storePlugin : processDefinitionStorePlugins) {
-			Assertion.checkState(!processDefinitionStorePluginsByProcessType.containsKey(storePlugin.getHandledProcessType()), "Only one plugin can manage the processType {0}", storePlugin.getHandledProcessType());
+			Assertion.checkState(!processDefinitionStorePluginsByProcessType.containsKey(storePlugin.getHandledProcessType()), "Only one plugin can manage the processType {0}",
+					storePlugin.getHandledProcessType());
 			processDefinitionStorePluginsByProcessType.put(storePlugin.getHandledProcessType(), storePlugin);
 		}
 	}

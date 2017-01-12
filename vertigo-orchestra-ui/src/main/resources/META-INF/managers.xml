@@ -103,7 +103,6 @@
 			<plugin class="io.vertigo.orchestra.plugins.process.log.db.DbProcessLoggerPlugin"/>
 			<plugin class="io.vertigo.orchestra.plugins.process.report.db.DbProcessReportPlugin"/>
 		</component>
-		<component api="OrchestraManager" class="io.vertigo.orchestra.impl.OrchestraManagerImpl"/>
 	</module>
 	
 	<module name="vertigo-vega" api="false">
