@@ -285,7 +285,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// After 3 second the process is running
-		Thread.sleep(1000 * 3);
+		Thread.sleep(1000 * 4);
 		checkExecutions(proId, 0, 1, 0, 0);
 		// After 5 seconds the process is in error because there is an exception after 3 seconds
 		Thread.sleep(1000 * 4);

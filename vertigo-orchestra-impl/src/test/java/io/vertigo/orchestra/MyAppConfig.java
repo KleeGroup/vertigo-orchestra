@@ -9,13 +9,13 @@ import io.vertigo.core.param.Param;
 import io.vertigo.core.plugins.resource.classpath.ClassPathResourceResolverPlugin;
 import io.vertigo.core.plugins.resource.url.URLResourceResolverPlugin;
 import io.vertigo.dynamo.impl.DynamoFeatures;
-import io.vertigo.dynamo.impl.database.vendor.h2.H2Database;
+import io.vertigo.dynamo.impl.database.vendor.h2.H2DataBase;
 import io.vertigo.dynamo.plugins.database.connection.c3p0.C3p0ConnectionProviderPlugin;
 import io.vertigo.dynamo.plugins.environment.loaders.java.AnnotationLoaderPlugin;
 import io.vertigo.dynamo.plugins.environment.loaders.kpr.KprLoaderPlugin;
 import io.vertigo.dynamo.plugins.environment.registries.domain.DomainDynamicRegistryPlugin;
 import io.vertigo.dynamo.plugins.environment.registries.task.TaskDynamicRegistryPlugin;
-import io.vertigo.dynamo.plugins.store.datastore.postgresql.PostgreSqlDataStorePlugin;
+import io.vertigo.dynamo.plugins.store.datastore.sql.SqlDataStorePlugin;
 import io.vertigo.orchestra.boot.DataBaseInitializer;
 import io.vertigo.orchestra.monitoring.MonitoringServices;
 import io.vertigo.orchestra.monitoring.MonitoringServicesImpl;
@@ -38,14 +38,14 @@ public final class MyAppConfig {
 						.build())
 				.addModule(new DynamoFeatures()
 						.withStore()
-						.addDataStorePlugin(PostgreSqlDataStorePlugin.class,
-								Param.create("name", "orchestra"),
+						.addDataStorePlugin(SqlDataStorePlugin.class,
+								Param.create("dataSpace", "orchestra"),
 								Param.create("connectionName", "orchestra"),
 								Param.create("sequencePrefix", "SEQ_"))
 						.withSqlDataBase()
 						.addSqlConnectionProviderPlugin(C3p0ConnectionProviderPlugin.class,
 								Param.create("name", "orchestra"),
-								Param.create("dataBaseClass", H2Database.class.getName()),
+								Param.create("dataBaseClass", H2DataBase.class.getName()),
 								Param.create("jdbcDriver", org.h2.Driver.class.getName()),
 								Param.create("jdbcUrl", "jdbc:h2:mem:database"))
 						.build())
