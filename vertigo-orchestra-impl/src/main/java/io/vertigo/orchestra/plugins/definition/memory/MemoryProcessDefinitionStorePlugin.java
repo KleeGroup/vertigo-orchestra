@@ -24,7 +24,7 @@ public class MemoryProcessDefinitionStorePlugin implements ProcessDefinitionStor
 
 	@Override
 	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
-		getDefinitionSpace().put(processDefinition);
+		getDefinitionSpace().registerDefinition(processDefinition);
 
 	}
 
@@ -32,7 +32,7 @@ public class MemoryProcessDefinitionStorePlugin implements ProcessDefinitionStor
 	public boolean processDefinitionExists(final String processName) {
 		Assertion.checkArgNotEmpty(processName);
 		// ---
-		return getDefinitionSpace().containsDefinitionName(processName);
+		return getDefinitionSpace().contains(processName);
 	}
 
 	@Override
