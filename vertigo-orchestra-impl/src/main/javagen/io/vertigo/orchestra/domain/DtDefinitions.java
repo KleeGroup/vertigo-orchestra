@@ -13,40 +13,40 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	 * Enumération des DtDefinitions.
 	 */
 	public enum Definitions {
-			/** Objet de données OActivity. */
-			OActivity(io.vertigo.orchestra.domain.definition.OActivity.class),
-			/** Objet de données OActivityExecution. */
-			OActivityExecution(io.vertigo.orchestra.domain.execution.OActivityExecution.class),
-			/** Objet de données OActivityExecutionUi. */
-			OActivityExecutionUi(io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi.class),
-			/** Objet de données OActivityLog. */
-			OActivityLog(io.vertigo.orchestra.domain.execution.OActivityLog.class),
-			/** Objet de données OActivityWorkspace. */
-			OActivityWorkspace(io.vertigo.orchestra.domain.execution.OActivityWorkspace.class),
-			/** Objet de données OExecutionState. */
-			OExecutionState(io.vertigo.orchestra.domain.referential.OExecutionState.class),
-			/** Objet de données OExecutionSummary. */
-			OExecutionSummary(io.vertigo.orchestra.monitoring.domain.summary.OExecutionSummary.class),
-			/** Objet de données ONode. */
-			ONode(io.vertigo.orchestra.domain.execution.ONode.class),
-			/** Objet de données OProcess. */
-			OProcess(io.vertigo.orchestra.domain.definition.OProcess.class),
-			/** Objet de données OProcessExecution. */
-			OProcessExecution(io.vertigo.orchestra.domain.execution.OProcessExecution.class),
-			/** Objet de données OProcessExecutionUi. */
-			OProcessExecutionUi(io.vertigo.orchestra.monitoring.domain.uiexecutions.OProcessExecutionUi.class),
-			/** Objet de données OProcessPlanification. */
-			OProcessPlanification(io.vertigo.orchestra.domain.planification.OProcessPlanification.class),
-			/** Objet de données OProcessType. */
-			OProcessType(io.vertigo.orchestra.domain.referential.OProcessType.class),
-			/** Objet de données OProcessUi. */
-			OProcessUi(io.vertigo.orchestra.monitoring.domain.uidefinitions.OProcessUi.class),
-			/** Objet de données OSchedulerState. */
-			OSchedulerState(io.vertigo.orchestra.domain.referential.OSchedulerState.class),
-			/** Objet de données OUser. */
-			OUser(io.vertigo.orchestra.domain.referential.OUser.class),
-			/** Objet de données TriggerType. */
-			TriggerType(io.vertigo.orchestra.domain.referential.TriggerType.class),
+		/** Objet de données OActivity. */
+		OActivity(io.vertigo.orchestra.domain.definition.OActivity.class),
+		/** Objet de données OActivityExecution. */
+		OActivityExecution(io.vertigo.orchestra.domain.execution.OActivityExecution.class),
+		/** Objet de données OActivityExecutionUi. */
+		OActivityExecutionUi(io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi.class),
+		/** Objet de données OActivityLog. */
+		OActivityLog(io.vertigo.orchestra.domain.execution.OActivityLog.class),
+		/** Objet de données OActivityWorkspace. */
+		OActivityWorkspace(io.vertigo.orchestra.domain.execution.OActivityWorkspace.class),
+		/** Objet de données OExecutionState. */
+		OExecutionState(io.vertigo.orchestra.domain.referential.OExecutionState.class),
+		/** Objet de données OExecutionSummary. */
+		OExecutionSummary(io.vertigo.orchestra.monitoring.domain.summary.OExecutionSummary.class),
+		/** Objet de données ONode. */
+		ONode(io.vertigo.orchestra.domain.execution.ONode.class),
+		/** Objet de données OProcess. */
+		OProcess(io.vertigo.orchestra.domain.definition.OProcess.class),
+		/** Objet de données OProcessExecution. */
+		OProcessExecution(io.vertigo.orchestra.domain.execution.OProcessExecution.class),
+		/** Objet de données OProcessExecutionUi. */
+		OProcessExecutionUi(io.vertigo.orchestra.monitoring.domain.uiexecutions.OProcessExecutionUi.class),
+		/** Objet de données OProcessPlanification. */
+		OProcessPlanification(io.vertigo.orchestra.domain.planification.OProcessPlanification.class),
+		/** Objet de données OProcessType. */
+		OProcessType(io.vertigo.orchestra.domain.referential.OProcessType.class),
+		/** Objet de données OProcessUi. */
+		OProcessUi(io.vertigo.orchestra.monitoring.domain.uidefinitions.OProcessUi.class),
+		/** Objet de données OSchedulerState. */
+		OSchedulerState(io.vertigo.orchestra.domain.referential.OSchedulerState.class),
+		/** Objet de données OUser. */
+		OUser(io.vertigo.orchestra.domain.referential.OUser.class),
+		/** Objet de données TriggerType. */
+		TriggerType(io.vertigo.orchestra.domain.referential.TriggerType.class),
 		;
 		
 		private final Class<?> clazz;
@@ -61,7 +61,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		public Class<?> getDtClass() {
 			return clazz;
 		}
-    }
+	}
 
 	/**
 	 * Enumération des champs de OActivity.
@@ -387,30 +387,30 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		LABEL,
 	}
 
-	    
-    /** {@inheritDoc} */
-    @Override
-    public Iterator<Class<?>> iterator() {
-        return new Iterator<Class<?>>() {
-            private Iterator<Definitions> it = Arrays.asList(Definitions.values()).iterator();
 
-            /** {@inheritDoc} */
-            @Override
-            public boolean hasNext() {
+	/** {@inheritDoc} */
+	@Override
+	public Iterator<Class<?>> iterator() {
+		return new Iterator<Class<?>>() {
+			private Iterator<Definitions> it = Arrays.asList(Definitions.values()).iterator();
+
+			/** {@inheritDoc} */
+			@Override
+			public boolean hasNext() {
 				return it.hasNext();
-            }
+			}
 
-            /** {@inheritDoc} */
-            @Override
-            public Class<?> next() {
-            	return it.next().getDtClass();
-            }
+			/** {@inheritDoc} */
+			@Override
+			public Class<?> next() {
+				return it.next().getDtClass();
+			}
 
-            /** {@inheritDoc} */
-            @Override
-            public void remove() {
-            	//unsupported
-            }
+			/** {@inheritDoc} */
+			@Override
+			public void remove() {
+				//unsupported
+			}
         };
     }                      
 }
