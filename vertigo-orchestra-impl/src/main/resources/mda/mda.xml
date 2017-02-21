@@ -6,13 +6,7 @@
 			<plugin class="io.vertigo.dynamo.plugins.environment.loaders.kpr.KprLoaderPlugin" >
 				<param name="encoding" value="UTF-8" />
 			</plugin>
-			<plugin class="io.vertigo.dynamo.plugins.environment.registries.domain.DomainDynamicRegistryPlugin" />
-			<plugin class="io.vertigo.dynamo.plugins.environment.registries.task.TaskDynamicRegistryPlugin" />
-			     <!-- 
-			<plugin class="io.vertigo.dynamo.plugins.environment.registries.publisher.PublisherDynamicRegistryPlugin" />
-			-->
-			<plugin class="io.vertigo.dynamo.plugins.environment.registries.search.SearchDynamicRegistryPlugin" />
-			<plugin class="io.vertigo.dynamo.plugins.environment.registries.file.FileDynamicRegistryPlugin" />
+			<plugin class="io.vertigo.dynamo.plugins.environment.registries.DynamoDynamicRegistryPlugin" />
 	</boot>
 	<module name="vertigo-studio">
 	    <component api="MdaManager" class="io.vertigo.studio.impl.mda.MdaManagerImpl">
