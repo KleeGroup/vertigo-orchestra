@@ -27,7 +27,7 @@ public final class OActivityLogDAO extends DAO<OActivityLog, java.lang.Long> imp
 	public OActivityLogDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OActivityLog.class, storeManager, taskManager);
 	}
-	
+
 
 	/**
 	 * Creates a taskBuilder.

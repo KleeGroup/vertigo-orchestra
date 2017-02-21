@@ -22,6 +22,6 @@ public final class OUserDAO extends DAO<OUser, java.lang.Long> implements StoreS
 	public OUserDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OUser.class, storeManager, taskManager);
 	}
-	
+
 
 }

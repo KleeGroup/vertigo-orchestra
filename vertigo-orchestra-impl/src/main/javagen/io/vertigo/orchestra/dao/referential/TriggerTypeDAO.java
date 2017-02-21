@@ -22,6 +22,6 @@ public final class TriggerTypeDAO extends DAO<TriggerType, java.lang.String> imp
 	public TriggerTypeDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(TriggerType.class, storeManager, taskManager);
 	}
-	
+
 
 }

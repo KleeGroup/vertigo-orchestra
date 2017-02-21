@@ -27,7 +27,7 @@ public final class OProcessPlanificationDAO extends DAO<OProcessPlanification, j
 	public OProcessPlanificationDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OProcessPlanification.class, storeManager, taskManager);
 	}
-	
+
 
 	/**
 	 * Creates a taskBuilder.

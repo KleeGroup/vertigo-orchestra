@@ -22,6 +22,6 @@ public final class OSchedulerStateDAO extends DAO<OSchedulerState, java.lang.Str
 	public OSchedulerStateDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OSchedulerState.class, storeManager, taskManager);
 	}
-	
+
 
 }

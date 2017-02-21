@@ -27,7 +27,7 @@ public final class ONodeDAO extends DAO<ONode, java.lang.Long> implements StoreS
 	public ONodeDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(ONode.class, storeManager, taskManager);
 	}
-	
+
 
 	/**
 	 * Creates a taskBuilder.

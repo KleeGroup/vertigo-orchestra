@@ -22,6 +22,6 @@ public final class OProcessTypeDAO extends DAO<OProcessType, java.lang.String> i
 	public OProcessTypeDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OProcessType.class, storeManager, taskManager);
 	}
-	
+
 
 }

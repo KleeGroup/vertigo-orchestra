@@ -26,7 +26,7 @@ public final class OActivityExecutionDAO extends DAO<OActivityExecution, java.la
 	public OActivityExecutionDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OActivityExecution.class, storeManager, taskManager);
 	}
-	
+
 
 	/**
 	 * Creates a taskBuilder.

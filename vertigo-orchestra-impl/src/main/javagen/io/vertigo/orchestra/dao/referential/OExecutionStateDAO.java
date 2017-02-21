@@ -22,6 +22,6 @@ public final class OExecutionStateDAO extends DAO<OExecutionState, java.lang.Str
 	public OExecutionStateDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OExecutionState.class, storeManager, taskManager);
 	}
-	
+
 
 }
