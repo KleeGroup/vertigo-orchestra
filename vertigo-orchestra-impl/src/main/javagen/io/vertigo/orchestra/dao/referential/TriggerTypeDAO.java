@@ -12,7 +12,7 @@ import io.vertigo.orchestra.domain.referential.TriggerType;
  * TriggerTypeDAO
  */
 public final class TriggerTypeDAO extends DAO<TriggerType, java.lang.String> implements StoreServices {
-	
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance

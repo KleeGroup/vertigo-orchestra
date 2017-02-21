@@ -12,7 +12,7 @@ import io.vertigo.orchestra.domain.referential.OProcessType;
  * OProcessTypeDAO
  */
 public final class OProcessTypeDAO extends DAO<OProcessType, java.lang.String> implements StoreServices {
-	
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance

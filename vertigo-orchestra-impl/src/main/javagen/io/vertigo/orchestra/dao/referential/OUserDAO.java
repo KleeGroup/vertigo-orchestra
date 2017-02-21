@@ -12,7 +12,7 @@ import io.vertigo.orchestra.domain.referential.OUser;
  * OUserDAO
  */
 public final class OUserDAO extends DAO<OUser, java.lang.Long> implements StoreServices {
-	
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance

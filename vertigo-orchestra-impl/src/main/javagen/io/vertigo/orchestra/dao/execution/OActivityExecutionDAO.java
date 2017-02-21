@@ -16,7 +16,7 @@ import io.vertigo.orchestra.domain.execution.OActivityExecution;
  * OActivityExecutionDAO
  */
 public final class OActivityExecutionDAO extends DAO<OActivityExecution, java.lang.Long> implements StoreServices {
-	
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance

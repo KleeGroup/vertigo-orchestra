@@ -12,7 +12,7 @@ import io.vertigo.orchestra.domain.referential.OSchedulerState;
  * OSchedulerStateDAO
  */
 public final class OSchedulerStateDAO extends DAO<OSchedulerState, java.lang.String> implements StoreServices {
-	
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance

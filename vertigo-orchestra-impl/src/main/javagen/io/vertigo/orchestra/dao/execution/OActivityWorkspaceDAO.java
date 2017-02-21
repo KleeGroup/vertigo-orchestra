@@ -17,7 +17,7 @@ import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
  * OActivityWorkspaceDAO
  */
 public final class OActivityWorkspaceDAO extends DAO<OActivityWorkspace, java.lang.Long> implements StoreServices {
-	
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance

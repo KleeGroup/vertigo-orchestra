@@ -17,7 +17,7 @@ import io.vertigo.orchestra.domain.execution.OActivityLog;
  * OActivityLogDAO
  */
 public final class OActivityLogDAO extends DAO<OActivityLog, java.lang.Long> implements StoreServices {
-	
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
