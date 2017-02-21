@@ -28,7 +28,6 @@ public final class OActivityLogDAO extends DAO<OActivityLog, java.lang.Long> imp
 		super(OActivityLog.class, storeManager, taskManager);
 	}
 
-
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task
@@ -48,7 +47,7 @@ public final class OActivityLogDAO extends DAO<OActivityLog, java.lang.Long> imp
 		final Task task = createTaskBuilder("TK_GET_ACTIVITY_LOG_BY_ACE_ID")
 				.addValue("ACE_ID", aceId)
 				.build();
-		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityLog)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityLog) getTaskManager()
 				.execute(task)
 				.getResult());
 	}
@@ -62,7 +61,7 @@ public final class OActivityLogDAO extends DAO<OActivityLog, java.lang.Long> imp
 		final Task task = createTaskBuilder("TK_GET_LOG_BY_PRE_ID")
 				.addValue("PRE_ID", preId)
 				.build();
-		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityLog)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityLog) getTaskManager()
 				.execute(task)
 				.getResult());
 	}

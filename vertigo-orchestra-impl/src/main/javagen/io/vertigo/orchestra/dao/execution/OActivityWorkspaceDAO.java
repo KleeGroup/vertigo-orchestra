@@ -28,7 +28,6 @@ public final class OActivityWorkspaceDAO extends DAO<OActivityWorkspace, java.la
 		super(OActivityWorkspace.class, storeManager, taskManager);
 	}
 
-
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task
@@ -50,7 +49,7 @@ public final class OActivityWorkspaceDAO extends DAO<OActivityWorkspace, java.la
 				.addValue("ACE_ID", aceId)
 				.addValue("IN", in)
 				.build();
-		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityWorkspace)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityWorkspace) getTaskManager()
 				.execute(task)
 				.getResult());
 	}

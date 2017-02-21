@@ -28,7 +28,6 @@ public final class OProcessDAO extends DAO<OProcess, java.lang.Long> implements 
 		super(OProcess.class, storeManager, taskManager);
 	}
 
-
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task
@@ -48,7 +47,7 @@ public final class OProcessDAO extends DAO<OProcess, java.lang.Long> implements 
 		final Task task = createTaskBuilder("TK_GET_ACTIVE_PROCESS_BY_NAME")
 				.addValue("NAME", name)
 				.build();
-		return Optional.ofNullable((io.vertigo.orchestra.domain.definition.OProcess)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.definition.OProcess) getTaskManager()
 				.execute(task)
 				.getResult());
 	}

@@ -28,7 +28,6 @@ public final class ONodeDAO extends DAO<ONode, java.lang.Long> implements StoreS
 		super(ONode.class, storeManager, taskManager);
 	}
 
-
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task
@@ -48,7 +47,7 @@ public final class ONodeDAO extends DAO<ONode, java.lang.Long> implements StoreS
 		final Task task = createTaskBuilder("TK_GET_NODE_BY_NAME")
 				.addValue("NODE_NAME", nodeName)
 				.build();
-		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.ONode)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.ONode) getTaskManager()
 				.execute(task)
 				.getResult());
 	}

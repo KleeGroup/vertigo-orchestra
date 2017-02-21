@@ -28,7 +28,6 @@ public final class OActivityDAO extends DAO<OActivity, java.lang.Long> implement
 		super(OActivity.class, storeManager, taskManager);
 	}
 
-
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task
@@ -88,7 +87,7 @@ public final class OActivityDAO extends DAO<OActivity, java.lang.Long> implement
 		final Task task = createTaskBuilder("TK_GET_NEXT_ACTIVITY_BY_ACT_ID")
 				.addValue("ACT_ID", actId)
 				.build();
-		return Optional.ofNullable((io.vertigo.orchestra.domain.definition.OActivity)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.definition.OActivity) getTaskManager()
 				.execute(task)
 				.getResult());
 	}

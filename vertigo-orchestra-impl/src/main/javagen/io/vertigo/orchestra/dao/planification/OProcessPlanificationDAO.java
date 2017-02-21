@@ -28,7 +28,6 @@ public final class OProcessPlanificationDAO extends DAO<OProcessPlanification, j
 		super(OProcessPlanification.class, storeManager, taskManager);
 	}
 
-
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task
@@ -62,7 +61,7 @@ public final class OProcessPlanificationDAO extends DAO<OProcessPlanification, j
 		final Task task = createTaskBuilder("TK_GET_LAST_PLANIFICATION_BY_PRO_ID")
 				.addValue("PRO_ID", proId)
 				.build();
-		return Optional.ofNullable((io.vertigo.orchestra.domain.planification.OProcessPlanification)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.planification.OProcessPlanification) getTaskManager()
 				.execute(task)
 				.getResult());
 	}
