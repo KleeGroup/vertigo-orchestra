@@ -75,7 +75,7 @@ public final class PlanificationPAO implements StoreServices {
 	}
 
 
-	private TaskManager getTaskManager(){
+	private TaskManager getTaskManager() {
 		return taskManager;
 	} 
 }

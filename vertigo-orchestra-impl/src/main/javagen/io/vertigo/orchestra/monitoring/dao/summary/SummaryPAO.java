@@ -74,7 +74,7 @@ public final class SummaryPAO implements StoreServices {
 	}
 
 
-	private TaskManager getTaskManager(){
+	private TaskManager getTaskManager() {
 		return taskManager;
 	} 
 }

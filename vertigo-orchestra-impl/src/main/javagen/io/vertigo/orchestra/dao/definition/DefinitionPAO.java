@@ -63,7 +63,7 @@ public final class DefinitionPAO implements StoreServices {
 	}
 
 
-	private TaskManager getTaskManager(){
+	private TaskManager getTaskManager() {
 		return taskManager;
 	} 
 }

@@ -66,7 +66,7 @@ public final class UidefinitionsPAO implements StoreServices {
 	}
 
 
-	private TaskManager getTaskManager(){
+	private TaskManager getTaskManager() {
 		return taskManager;
 	} 
 }
