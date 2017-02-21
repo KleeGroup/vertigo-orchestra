@@ -8,7 +8,7 @@ import io.vertigo.dynamo.domain.metamodel.DtFieldName;
  * Attention cette classe est générée automatiquement !
  */
 public final class DtDefinitions implements Iterable<Class<?>> {
-	
+
 	/**
 	 * Enumération des DtDefinitions.
 	 */
@@ -48,16 +48,16 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		/** Objet de données TriggerType. */
 		TriggerType(io.vertigo.orchestra.domain.referential.TriggerType.class),
 		;
-		
+	
 		private final Class<?> clazz;
 		private Definitions(final Class<?> clazz) {
 			this.clazz = clazz;
 		}
-		
+	
 		/** 
-		  * Classe associée.
-		  * @return Class d'implémentation de l'objet 
-		  */
+		 * Classe associée.
+		 * @return Class d'implémentation de l'objet 
+		 */
 		public Class<?> getDtClass() {
 			return clazz;
 		}
@@ -411,6 +411,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 			public void remove() {
 				//unsupported
 			}
-        };
-    }                      
+		};
+	}
 }
