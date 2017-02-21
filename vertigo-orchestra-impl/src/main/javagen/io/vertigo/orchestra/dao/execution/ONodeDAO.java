@@ -17,7 +17,7 @@ import io.vertigo.orchestra.domain.execution.ONode;
  * ONodeDAO
  */
 public final class ONodeDAO extends DAO<ONode, java.lang.Long> implements StoreServices {
-	 
+	
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -52,6 +52,5 @@ public final class ONodeDAO extends DAO<ONode, java.lang.Long> implements StoreS
 				.execute(task)
 				.getResult());
 	}
-
 
 }

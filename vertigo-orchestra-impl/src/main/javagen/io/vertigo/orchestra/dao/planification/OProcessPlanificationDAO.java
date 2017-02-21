@@ -17,7 +17,7 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
  * OProcessPlanificationDAO
  */
 public final class OProcessPlanificationDAO extends DAO<OProcessPlanification, java.lang.Long> implements StoreServices {
-	 
+	
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -94,6 +94,5 @@ public final class OProcessPlanificationDAO extends DAO<OProcessPlanification, j
 				.execute(task)
 				.getResult();
 	}
-
 
 }

@@ -17,7 +17,7 @@ import io.vertigo.orchestra.domain.definition.OActivity;
  * OActivityDAO
  */
 public final class OActivityDAO extends DAO<OActivity, java.lang.Long> implements StoreServices {
-	 
+	
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -92,6 +92,5 @@ public final class OActivityDAO extends DAO<OActivity, java.lang.Long> implement
 				.execute(task)
 				.getResult());
 	}
-
 
 }

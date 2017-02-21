@@ -12,7 +12,7 @@ import io.vertigo.orchestra.domain.referential.OExecutionState;
  * OExecutionStateDAO
  */
 public final class OExecutionStateDAO extends DAO<OExecutionState, java.lang.String> implements StoreServices {
-	 
+	
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -22,6 +22,5 @@ public final class OExecutionStateDAO extends DAO<OExecutionState, java.lang.Str
 	public OExecutionStateDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OExecutionState.class, storeManager, taskManager);
 	}
-
 
 }
