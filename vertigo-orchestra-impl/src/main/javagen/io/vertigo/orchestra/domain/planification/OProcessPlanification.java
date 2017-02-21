@@ -181,6 +181,7 @@ public final class OProcessPlanification implements Entity {
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> getNodeURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_NOD", io.vertigo.orchestra.domain.execution.ONode.class);
 	}
+
 	/**
 	 * Association : Processus.
 	 * @return io.vertigo.orchestra.domain.definition.OProcess
@@ -217,6 +218,7 @@ public final class OProcessPlanification implements Entity {
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessusURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
+
 	/**
 	 * Association : PlanificationState.
 	 * @return io.vertigo.orchestra.domain.referential.OSchedulerState

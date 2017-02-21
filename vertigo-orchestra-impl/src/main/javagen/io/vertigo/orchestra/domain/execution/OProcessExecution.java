@@ -262,6 +262,7 @@ public final class OProcessExecution implements Entity {
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> getExecutionStateURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_EST", io.vertigo.orchestra.domain.referential.OExecutionState.class);
 	}
+
 	/**
 	 * Association : Processus.
 	 * @return io.vertigo.orchestra.domain.definition.OProcess
@@ -298,6 +299,7 @@ public final class OProcessExecution implements Entity {
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
+
 	/**
 	 * Association : User.
 	 * @return io.vertigo.orchestra.domain.referential.OUser

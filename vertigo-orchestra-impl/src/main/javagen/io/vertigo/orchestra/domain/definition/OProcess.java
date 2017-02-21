@@ -322,6 +322,7 @@ public final class OProcess implements Entity {
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OProcessType> getProcessTypeURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRO_PRT", io.vertigo.orchestra.domain.referential.OProcessType.class);
 	}
+
 	/**
 	 * Association : TriggerType.
 	 * @return io.vertigo.orchestra.domain.referential.TriggerType

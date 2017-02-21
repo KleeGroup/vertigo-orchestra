@@ -50,7 +50,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		;
 
 		private final Class<?> clazz;
-	
+
 		private Definitions(final Class<?> clazz) {
 			this.clazz = clazz;
 		}
