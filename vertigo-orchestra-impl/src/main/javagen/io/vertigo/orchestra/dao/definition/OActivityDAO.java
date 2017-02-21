@@ -40,6 +40,32 @@ public final class OActivityDAO extends DAO<OActivity, java.lang.Long> implement
 	}
 
 	/**
+	 * Execute la tache TK_GET_ACTIVITIES_BY_PRO_ID.
+	 * @param proId Long 
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OActivity> dtOActivities
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OActivity> getActivitiesByProId(final Long proId) {
+		final Task task = createTaskBuilder("TK_GET_ACTIVITIES_BY_PRO_ID")
+				.addValue("PRO_ID", proId)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
+	 * Execute la tache TK_GET_ALL_ACTIVITIES_IN_ACTIVE_PROCESSES.
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OActivity> dtOActivities
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OActivity> getAllActivitiesInActiveProcesses() {
+		final Task task = createTaskBuilder("TK_GET_ALL_ACTIVITIES_IN_ACTIVE_PROCESSES")
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
 	 * Execute la tache TK_GET_FIRST_ACTIVITY_BY_PROCESS.
 	 * @param proId Long 
 	 * @return io.vertigo.orchestra.domain.definition.OActivity dtOActivity
@@ -65,32 +91,6 @@ public final class OActivityDAO extends DAO<OActivity, java.lang.Long> implement
 		return Optional.ofNullable((io.vertigo.orchestra.domain.definition.OActivity)getTaskManager()
 				.execute(task)
 				.getResult());
-	}
-
-	/**
-	 * Execute la tache TK_GET_ACTIVITIES_BY_PRO_ID.
-	 * @param proId Long 
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OActivity> dtOActivities
-	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OActivity> getActivitiesByProId(final Long proId) {
-		final Task task = createTaskBuilder("TK_GET_ACTIVITIES_BY_PRO_ID")
-				.addValue("PRO_ID", proId)
-				.build();
-		return getTaskManager()
-				.execute(task)
-				.getResult();
-	}
-
-	/**
-	 * Execute la tache TK_GET_ALL_ACTIVITIES_IN_ACTIVE_PROCESSES.
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OActivity> dtOActivities
-	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.definition.OActivity> getAllActivitiesInActiveProcesses() {
-		final Task task = createTaskBuilder("TK_GET_ALL_ACTIVITIES_IN_ACTIVE_PROCESSES")
-				.build();
-		return getTaskManager()
-				.execute(task)
-				.getResult();
 	}
 
 

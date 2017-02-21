@@ -83,9 +83,9 @@ public final class ONode implements Entity {
 	}
 
 
-	// Association : PlanificationProcessus non navigable
-
 	// Association : ExecutionActivity non navigable
+
+	// Association : PlanificationProcessus non navigable
 
 	/** {@inheritDoc} */
 	@Override

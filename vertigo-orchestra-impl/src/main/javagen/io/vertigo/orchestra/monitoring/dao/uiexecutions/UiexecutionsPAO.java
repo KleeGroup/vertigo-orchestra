@@ -39,13 +39,27 @@ public final class UiexecutionsPAO implements StoreServices {
 	}
 
 	/**
-	 * Execute la tache TK_GET_EXECUTION_BY_PRE_ID.
+	 * Execute la tache TK_GET_ACTIVITIES_BY_PRE_ID.
 	 * @param preId Long 
-	 * @return io.vertigo.orchestra.monitoring.domain.uiexecutions.OProcessExecutionUi dtOProcessExecutionUi
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi> dtcOActivityExecutionUi
 	*/
-	public io.vertigo.orchestra.monitoring.domain.uiexecutions.OProcessExecutionUi getExecutionByPreId(final Long preId) {
-		final Task task = createTaskBuilder("TK_GET_EXECUTION_BY_PRE_ID")
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi> getActivitiesByPreId(final Long preId) {
+		final Task task = createTaskBuilder("TK_GET_ACTIVITIES_BY_PRE_ID")
 				.addValue("PRE_ID", preId)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
+	 * Execute la tache TK_GET_ACTIVITIY_BY_ACE_ID.
+	 * @param aceId Long 
+	 * @return io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi dtOActivityExecutionUi
+	*/
+	public io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi getActivitiyByAceId(final Long aceId) {
+		final Task task = createTaskBuilder("TK_GET_ACTIVITIY_BY_ACE_ID")
+				.addValue("ACE_ID", aceId)
 				.build();
 		return getTaskManager()
 				.execute(task)
@@ -73,26 +87,12 @@ public final class UiexecutionsPAO implements StoreServices {
 	}
 
 	/**
-	 * Execute la tache TK_GET_ACTIVITIY_BY_ACE_ID.
-	 * @param aceId Long 
-	 * @return io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi dtOActivityExecutionUi
-	*/
-	public io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi getActivitiyByAceId(final Long aceId) {
-		final Task task = createTaskBuilder("TK_GET_ACTIVITIY_BY_ACE_ID")
-				.addValue("ACE_ID", aceId)
-				.build();
-		return getTaskManager()
-				.execute(task)
-				.getResult();
-	}
-
-	/**
-	 * Execute la tache TK_GET_ACTIVITIES_BY_PRE_ID.
+	 * Execute la tache TK_GET_EXECUTION_BY_PRE_ID.
 	 * @param preId Long 
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi> dtcOActivityExecutionUi
+	 * @return io.vertigo.orchestra.monitoring.domain.uiexecutions.OProcessExecutionUi dtOProcessExecutionUi
 	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi> getActivitiesByPreId(final Long preId) {
-		final Task task = createTaskBuilder("TK_GET_ACTIVITIES_BY_PRE_ID")
+	public io.vertigo.orchestra.monitoring.domain.uiexecutions.OProcessExecutionUi getExecutionByPreId(final Long preId) {
+		final Task task = createTaskBuilder("TK_GET_EXECUTION_BY_PRE_ID")
 				.addValue("PRE_ID", preId)
 				.build();
 		return getTaskManager()

@@ -28,8 +28,8 @@ public final class OProcess implements Entity {
 	private Boolean needUpdate;
 	private String trtCd;
 	private String prtCd;
-	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
 	private io.vertigo.orchestra.domain.referential.OProcessType processType;
+	private io.vertigo.orchestra.domain.referential.TriggerType triggerType;
 
 	/** {@inheritDoc} */
 	@Override
@@ -288,44 +288,6 @@ public final class OProcess implements Entity {
 	// Association : Activity non navigable
 
 	// Association : ExecutionProcessus non navigable
-
-	// Association : PlanificationProcessus non navigable
-	/**
-	 * Association : TriggerType.
-	 * @return io.vertigo.orchestra.domain.referential.TriggerType
-	 */
-	public io.vertigo.orchestra.domain.referential.TriggerType getTriggerType() {
-		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.TriggerType> fkURI = getTriggerTypeURI();
-		if (fkURI == null) {
-			return null;
-		}
-		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (triggerType == null || !fkURI.equals(triggerType.getURI())) {
-			triggerType = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
-		}
-		return triggerType;
-	}
-
-	/**
-	 * Retourne l'URI: TriggerType.
-	 * @return URI de l'association
-	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
-			name = "A_PRO_TRT",
-			fkFieldName = "TRT_CD",
-			primaryDtDefinitionName = "DT_TRIGGER_TYPE",
-			primaryIsNavigable = true,
-			primaryRole = "TriggerType",
-			primaryLabel = "TriggerType",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS",
-			foreignIsNavigable = false,
-			foreignRole = "Process",
-			foreignLabel = "Process",
-			foreignMultiplicity = "0..*")
-	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.TriggerType> getTriggerTypeURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRO_TRT", io.vertigo.orchestra.domain.referential.TriggerType.class);
-	}
 	/**
 	 * Association : ProcessType.
 	 * @return io.vertigo.orchestra.domain.referential.OProcessType
@@ -346,7 +308,7 @@ public final class OProcess implements Entity {
 	 * Retourne l'URI: ProcessType.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
+	@io.vertigo.dynamo.domain.stereotype.Association(
 			name = "A_PRO_PRT",
 			fkFieldName = "PRT_CD",
 			primaryDtDefinitionName = "DT_O_PROCESS_TYPE",
@@ -362,6 +324,44 @@ public final class OProcess implements Entity {
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OProcessType> getProcessTypeURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRO_PRT", io.vertigo.orchestra.domain.referential.OProcessType.class);
 	}
+	/**
+	 * Association : TriggerType.
+	 * @return io.vertigo.orchestra.domain.referential.TriggerType
+	 */
+	public io.vertigo.orchestra.domain.referential.TriggerType getTriggerType() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.TriggerType> fkURI = getTriggerTypeURI();
+		if (fkURI == null) {
+			return null;
+		}
+		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
+		if (triggerType == null || !fkURI.equals(triggerType.getURI())) {
+			triggerType = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
+		}
+		return triggerType;
+	}
+
+	/**
+	 * Retourne l'URI: TriggerType.
+	 * @return URI de l'association
+	 */
+	@io.vertigo.dynamo.domain.stereotype.Association(
+			name = "A_PRO_TRT",
+			fkFieldName = "TRT_CD",
+			primaryDtDefinitionName = "DT_TRIGGER_TYPE",
+			primaryIsNavigable = true,
+			primaryRole = "TriggerType",
+			primaryLabel = "TriggerType",
+			primaryMultiplicity = "0..1",
+			foreignDtDefinitionName = "DT_O_PROCESS",
+			foreignIsNavigable = false,
+			foreignRole = "Process",
+			foreignLabel = "Process",
+			foreignMultiplicity = "0..*")
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.TriggerType> getTriggerTypeURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRO_TRT", io.vertigo.orchestra.domain.referential.TriggerType.class);
+	}
+
+	// Association : PlanificationProcessus non navigable
 
 	/** {@inheritDoc} */
 	@Override

@@ -26,9 +26,9 @@ public final class OActivityExecution implements Entity {
 	private Long nodId;
 	private String estCd;
 	private io.vertigo.orchestra.domain.definition.OActivity activity;
-	private io.vertigo.orchestra.domain.execution.OProcessExecution processusExecution;
-	private io.vertigo.orchestra.domain.execution.ONode node;
 	private io.vertigo.orchestra.domain.referential.OExecutionState executionState;
+	private io.vertigo.orchestra.domain.execution.ONode node;
+	private io.vertigo.orchestra.domain.execution.OProcessExecution processusExecution;
 
 	/** {@inheritDoc} */
 	@Override
@@ -246,7 +246,7 @@ public final class OActivityExecution implements Entity {
 	 * Retourne l'URI: Activity.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
+	@io.vertigo.dynamo.domain.stereotype.Association(
 			name = "A_ACE_ACT",
 			fkFieldName = "ACT_ID",
 			primaryDtDefinitionName = "DT_O_ACTIVITY",
@@ -261,82 +261,6 @@ public final class OActivityExecution implements Entity {
 			foreignMultiplicity = "0..*")
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OActivity> getActivityURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_ACT", io.vertigo.orchestra.domain.definition.OActivity.class);
-	}
-	/**
-	 * Association : Processus.
-	 * @return io.vertigo.orchestra.domain.execution.OProcessExecution
-	 */
-	public io.vertigo.orchestra.domain.execution.OProcessExecution getProcessusExecution() {
-		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OProcessExecution> fkURI = getProcessusExecutionURI();
-		if (fkURI == null) {
-			return null;
-		}
-		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (processusExecution == null || !fkURI.equals(processusExecution.getURI())) {
-			processusExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
-		}
-		return processusExecution;
-	}
-
-	/**
-	 * Retourne l'URI: Processus.
-	 * @return URI de l'association
-	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
-			name = "A_ACE_PRE",
-			fkFieldName = "PRE_ID",
-			primaryDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-			primaryIsNavigable = true,
-			primaryRole = "ProcessusExecution",
-			primaryLabel = "Processus",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-			foreignIsNavigable = false,
-			foreignRole = "ExecutionActivity",
-			foreignLabel = "ExecutionActivity",
-			foreignMultiplicity = "0..*")
-	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OProcessExecution> getProcessusExecutionURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_PRE", io.vertigo.orchestra.domain.execution.OProcessExecution.class);
-	}
-
-	// Association : ActivityWorkspace non navigable
-
-	// Association : ActivityLog non navigable
-	/**
-	 * Association : Node.
-	 * @return io.vertigo.orchestra.domain.execution.ONode
-	 */
-	public io.vertigo.orchestra.domain.execution.ONode getNode() {
-		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> fkURI = getNodeURI();
-		if (fkURI == null) {
-			return null;
-		}
-		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (node == null || !fkURI.equals(node.getURI())) {
-			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
-		}
-		return node;
-	}
-
-	/**
-	 * Retourne l'URI: Node.
-	 * @return URI de l'association
-	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
-			name = "A_ACE_NOD",
-			fkFieldName = "NOD_ID",
-			primaryDtDefinitionName = "DT_O_NODE",
-			primaryIsNavigable = true,
-			primaryRole = "Node",
-			primaryLabel = "Node",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
-			foreignIsNavigable = false,
-			foreignRole = "ExecutionActivity",
-			foreignLabel = "ExecutionActivity",
-			foreignMultiplicity = "0..*")
-	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> getNodeURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_NOD", io.vertigo.orchestra.domain.execution.ONode.class);
 	}
 	/**
 	 * Association : ExecutionState.
@@ -358,7 +282,7 @@ public final class OActivityExecution implements Entity {
 	 * Retourne l'URI: ExecutionState.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
+	@io.vertigo.dynamo.domain.stereotype.Association(
 			name = "A_ACE_EST",
 			fkFieldName = "EST_CD",
 			primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
@@ -374,6 +298,82 @@ public final class OActivityExecution implements Entity {
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> getExecutionStateURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_EST", io.vertigo.orchestra.domain.referential.OExecutionState.class);
 	}
+	/**
+	 * Association : Node.
+	 * @return io.vertigo.orchestra.domain.execution.ONode
+	 */
+	public io.vertigo.orchestra.domain.execution.ONode getNode() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> fkURI = getNodeURI();
+		if (fkURI == null) {
+			return null;
+		}
+		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
+		if (node == null || !fkURI.equals(node.getURI())) {
+			node = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
+		}
+		return node;
+	}
+
+	/**
+	 * Retourne l'URI: Node.
+	 * @return URI de l'association
+	 */
+	@io.vertigo.dynamo.domain.stereotype.Association(
+			name = "A_ACE_NOD",
+			fkFieldName = "NOD_ID",
+			primaryDtDefinitionName = "DT_O_NODE",
+			primaryIsNavigable = true,
+			primaryRole = "Node",
+			primaryLabel = "Node",
+			primaryMultiplicity = "0..1",
+			foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+			foreignIsNavigable = false,
+			foreignRole = "ExecutionActivity",
+			foreignLabel = "ExecutionActivity",
+			foreignMultiplicity = "0..*")
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.ONode> getNodeURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_NOD", io.vertigo.orchestra.domain.execution.ONode.class);
+	}
+	/**
+	 * Association : Processus.
+	 * @return io.vertigo.orchestra.domain.execution.OProcessExecution
+	 */
+	public io.vertigo.orchestra.domain.execution.OProcessExecution getProcessusExecution() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OProcessExecution> fkURI = getProcessusExecutionURI();
+		if (fkURI == null) {
+			return null;
+		}
+		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
+		if (processusExecution == null || !fkURI.equals(processusExecution.getURI())) {
+			processusExecution = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
+		}
+		return processusExecution;
+	}
+
+	/**
+	 * Retourne l'URI: Processus.
+	 * @return URI de l'association
+	 */
+	@io.vertigo.dynamo.domain.stereotype.Association(
+			name = "A_ACE_PRE",
+			fkFieldName = "PRE_ID",
+			primaryDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+			primaryIsNavigable = true,
+			primaryRole = "ProcessusExecution",
+			primaryLabel = "Processus",
+			primaryMultiplicity = "0..1",
+			foreignDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
+			foreignIsNavigable = false,
+			foreignRole = "ExecutionActivity",
+			foreignLabel = "ExecutionActivity",
+			foreignMultiplicity = "0..*")
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OProcessExecution> getProcessusExecutionURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_PRE", io.vertigo.orchestra.domain.execution.OProcessExecution.class);
+	}
+
+	// Association : ActivityLog non navigable
+
+	// Association : ActivityWorkspace non navigable
 
 	/** {@inheritDoc} */
 	@Override

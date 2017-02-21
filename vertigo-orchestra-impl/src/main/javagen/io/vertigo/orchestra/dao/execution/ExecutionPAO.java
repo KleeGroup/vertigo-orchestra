@@ -39,6 +39,17 @@ public final class ExecutionPAO implements StoreServices {
 	}
 
 	/**
+	 * Execute la tache TK_HANDLE_PROCESSES_OF_DEAD_NODES.
+	 * @param maxDate java.util.Date 
+	*/
+	public void handleProcessesOfDeadNodes(final java.util.Date maxDate) {
+		final Task task = createTaskBuilder("TK_HANDLE_PROCESSES_OF_DEAD_NODES")
+				.addValue("MAX_DATE", maxDate)
+				.build();
+		getTaskManager().execute(task);
+	}
+
+	/**
 	 * Execute la tache TK_RESERVE_ACTIVITIES_TO_LAUNCH.
 	 * @param nodId Long 
 	 * @param maxNumber Integer 
@@ -64,17 +75,6 @@ public final class ExecutionPAO implements StoreServices {
 				.addValue("CHECKED", checked)
 				.addValue("CHECKING_DATE", checkingDate)
 				.addValue("CHECKING_COMMENT", checkingComment)
-				.build();
-		getTaskManager().execute(task);
-	}
-
-	/**
-	 * Execute la tache TK_HANDLE_PROCESSES_OF_DEAD_NODES.
-	 * @param maxDate java.util.Date 
-	*/
-	public void handleProcessesOfDeadNodes(final java.util.Date maxDate) {
-		final Task task = createTaskBuilder("TK_HANDLE_PROCESSES_OF_DEAD_NODES")
-				.addValue("MAX_DATE", maxDate)
 				.build();
 		getTaskManager().execute(task);
 	}

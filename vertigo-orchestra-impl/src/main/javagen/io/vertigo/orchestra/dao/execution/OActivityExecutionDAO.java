@@ -53,6 +53,20 @@ public final class OActivityExecutionDAO extends DAO<OActivityExecution, java.la
 	}
 
 	/**
+	 * Execute la tache TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID.
+	 * @param preId Long 
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OActivityExecution> dtcOActivityExecution
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OActivityExecution> getActivityExecutionsByPreId(final Long preId) {
+		final Task task = createTaskBuilder("TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID")
+				.addValue("PRE_ID", preId)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
 	 * Execute la tache TK_GET_ACTIVITY_EXECUTION_BY_TOKEN.
 	 * @param aceId Long 
 	 * @param token String 
@@ -62,20 +76,6 @@ public final class OActivityExecutionDAO extends DAO<OActivityExecution, java.la
 		final Task task = createTaskBuilder("TK_GET_ACTIVITY_EXECUTION_BY_TOKEN")
 				.addValue("ACE_ID", aceId)
 				.addValue("TOKEN", token)
-				.build();
-		return getTaskManager()
-				.execute(task)
-				.getResult();
-	}
-
-	/**
-	 * Execute la tache TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID.
-	 * @param preId Long 
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OActivityExecution> dtcOActivityExecution
-	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OActivityExecution> getActivityExecutionsByPreId(final Long preId) {
-		final Task task = createTaskBuilder("TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID")
-				.addValue("PRE_ID", preId)
 				.build();
 		return getTaskManager()
 				.execute(task)

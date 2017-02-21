@@ -63,9 +63,9 @@ public final class OExecutionState implements Entity {
 	}
 
 
-	// Association : ExecutionProcessus non navigable
-
 	// Association : ExecutionActivity non navigable
+
+	// Association : ExecutionProcessus non navigable
 
 	/** {@inheritDoc} */
 	@Override

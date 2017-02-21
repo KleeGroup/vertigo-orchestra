@@ -25,8 +25,8 @@ public final class OProcessExecution implements Entity {
 	private Long proId;
 	private String estCd;
 	private Long usrId;
-	private io.vertigo.orchestra.domain.definition.OProcess process;
 	private io.vertigo.orchestra.domain.referential.OExecutionState executionState;
+	private io.vertigo.orchestra.domain.definition.OProcess process;
 	private io.vertigo.orchestra.domain.referential.OUser user;
 
 	/** {@inheritDoc} */
@@ -225,42 +225,6 @@ public final class OProcessExecution implements Entity {
 		this.usrId = usrId;
 	}
 
-	/**
-	 * Association : Processus.
-	 * @return io.vertigo.orchestra.domain.definition.OProcess
-	 */
-	public io.vertigo.orchestra.domain.definition.OProcess getProcess() {
-		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> fkURI = getProcessURI();
-		if (fkURI == null) {
-			return null;
-		}
-		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
-		if (process == null || !fkURI.equals(process.getURI())) {
-			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
-		}
-		return process;
-	}
-
-	/**
-	 * Retourne l'URI: Processus.
-	 * @return URI de l'association
-	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
-			name = "A_PRE_PRO",
-			fkFieldName = "PRO_ID",
-			primaryDtDefinitionName = "DT_O_PROCESS",
-			primaryIsNavigable = true,
-			primaryRole = "Process",
-			primaryLabel = "Processus",
-			primaryMultiplicity = "0..1",
-			foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
-			foreignIsNavigable = false,
-			foreignRole = "ExecutionProcessus",
-			foreignLabel = "ExecutionProcessus",
-			foreignMultiplicity = "0..*")
-	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessURI() {
-		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
-	}
 
 	// Association : ExecutionActivity non navigable
 	/**
@@ -283,7 +247,7 @@ public final class OProcessExecution implements Entity {
 	 * Retourne l'URI: ExecutionState.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
+	@io.vertigo.dynamo.domain.stereotype.Association(
 			name = "A_PRE_EST",
 			fkFieldName = "EST_CD",
 			primaryDtDefinitionName = "DT_O_EXECUTION_STATE",
@@ -298,6 +262,42 @@ public final class OProcessExecution implements Entity {
 			foreignMultiplicity = "0..*")
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.OExecutionState> getExecutionStateURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_EST", io.vertigo.orchestra.domain.referential.OExecutionState.class);
+	}
+	/**
+	 * Association : Processus.
+	 * @return io.vertigo.orchestra.domain.definition.OProcess
+	 */
+	public io.vertigo.orchestra.domain.definition.OProcess getProcess() {
+		final io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> fkURI = getProcessURI();
+		if (fkURI == null) {
+			return null;
+		}
+		//On est toujours dans un mode lazy. On s'assure cependant que l'objet associé n'a pas changé
+		if (process == null || !fkURI.equals(process.getURI())) {
+			process = io.vertigo.app.Home.getApp().getComponentSpace().resolve(io.vertigo.dynamo.store.StoreManager.class).getDataStore().readOne(fkURI);
+		}
+		return process;
+	}
+
+	/**
+	 * Retourne l'URI: Processus.
+	 * @return URI de l'association
+	 */
+	@io.vertigo.dynamo.domain.stereotype.Association(
+			name = "A_PRE_PRO",
+			fkFieldName = "PRO_ID",
+			primaryDtDefinitionName = "DT_O_PROCESS",
+			primaryIsNavigable = true,
+			primaryRole = "Process",
+			primaryLabel = "Processus",
+			primaryMultiplicity = "0..1",
+			foreignDtDefinitionName = "DT_O_PROCESS_EXECUTION",
+			foreignIsNavigable = false,
+			foreignRole = "ExecutionProcessus",
+			foreignLabel = "ExecutionProcessus",
+			foreignMultiplicity = "0..*")
+	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.definition.OProcess> getProcessURI() {
+		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRE_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
 	/**
 	 * Association : User.
@@ -319,7 +319,7 @@ public final class OProcessExecution implements Entity {
 	 * Retourne l'URI: User.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
+	@io.vertigo.dynamo.domain.stereotype.Association(
 			name = "A_PRE_USR",
 			fkFieldName = "USR_ID",
 			primaryDtDefinitionName = "DT_O_USER",

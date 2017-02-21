@@ -40,20 +40,6 @@ public final class OActivityLogDAO extends DAO<OActivityLog, java.lang.Long> imp
 	}
 
 	/**
-	 * Execute la tache TK_GET_LOG_BY_PRE_ID.
-	 * @param preId Long 
-	 * @return Option de io.vertigo.orchestra.domain.execution.OActivityLog dtActivityLog
-	*/
-	public Optional<io.vertigo.orchestra.domain.execution.OActivityLog> getLogByPreId(final Long preId) {
-		final Task task = createTaskBuilder("TK_GET_LOG_BY_PRE_ID")
-				.addValue("PRE_ID", preId)
-				.build();
-		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityLog)getTaskManager()
-				.execute(task)
-				.getResult());
-	}
-
-	/**
 	 * Execute la tache TK_GET_ACTIVITY_LOG_BY_ACE_ID.
 	 * @param aceId Long 
 	 * @return Option de io.vertigo.orchestra.domain.execution.OActivityLog dtcOActivityLog
@@ -61,6 +47,20 @@ public final class OActivityLogDAO extends DAO<OActivityLog, java.lang.Long> imp
 	public Optional<io.vertigo.orchestra.domain.execution.OActivityLog> getActivityLogByAceId(final Long aceId) {
 		final Task task = createTaskBuilder("TK_GET_ACTIVITY_LOG_BY_ACE_ID")
 				.addValue("ACE_ID", aceId)
+				.build();
+		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityLog)getTaskManager()
+				.execute(task)
+				.getResult());
+	}
+
+	/**
+	 * Execute la tache TK_GET_LOG_BY_PRE_ID.
+	 * @param preId Long 
+	 * @return Option de io.vertigo.orchestra.domain.execution.OActivityLog dtActivityLog
+	*/
+	public Optional<io.vertigo.orchestra.domain.execution.OActivityLog> getLogByPreId(final Long preId) {
+		final Task task = createTaskBuilder("TK_GET_LOG_BY_PRE_ID")
+				.addValue("PRE_ID", preId)
 				.build();
 		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityLog)getTaskManager()
 				.execute(task)

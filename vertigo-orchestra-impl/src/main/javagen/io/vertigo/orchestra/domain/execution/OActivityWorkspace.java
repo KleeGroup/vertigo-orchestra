@@ -123,7 +123,7 @@ public final class OActivityWorkspace implements Entity {
 	 * Retourne l'URI: ActivityExecution.
 	 * @return URI de l'association
 	 */
-	@io.vertigo.dynamo.domain.stereotype.Association (
+	@io.vertigo.dynamo.domain.stereotype.Association(
 			name = "A_TKW_TKE",
 			fkFieldName = "ACE_ID",
 			primaryDtDefinitionName = "DT_O_ACTIVITY_EXECUTION",
