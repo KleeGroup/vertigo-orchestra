@@ -48,12 +48,13 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		/** Objet de données TriggerType. */
 		TriggerType(io.vertigo.orchestra.domain.referential.TriggerType.class),
 		;
-	
+
 		private final Class<?> clazz;
+	
 		private Definitions(final Class<?> clazz) {
 			this.clazz = clazz;
 		}
-	
+
 		/** 
 		 * Classe associée.
 		 * @return Class d'implémentation de l'objet 
@@ -386,7 +387,6 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		/** Propriété 'Libellé'. */
 		LABEL,
 	}
-
 
 	/** {@inheritDoc} */
 	@Override
