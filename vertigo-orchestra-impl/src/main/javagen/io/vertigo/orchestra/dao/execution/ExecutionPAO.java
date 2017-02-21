@@ -79,8 +79,8 @@ public final class ExecutionPAO implements StoreServices {
 		getTaskManager().execute(task);
 	}
 
-    
-    private TaskManager getTaskManager(){
-    	return taskManager;
-    } 
+
+	private TaskManager getTaskManager(){
+		return taskManager;
+	} 
 }
