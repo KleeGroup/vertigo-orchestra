@@ -62,9 +62,7 @@ public final class OExecutionState implements Entity {
 		this.label = label;
 	}
 
-
 	// Association : ExecutionActivity non navigable
-
 	// Association : ExecutionProcessus non navigable
 
 	/** {@inheritDoc} */

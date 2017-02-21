@@ -370,9 +370,7 @@ public final class OActivityExecution implements Entity {
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.execution.OProcessExecution> getProcessusExecutionURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACE_PRE", io.vertigo.orchestra.domain.execution.OProcessExecution.class);
 	}
-
 	// Association : ActivityLog non navigable
-
 	// Association : ActivityWorkspace non navigable
 
 	/** {@inheritDoc} */

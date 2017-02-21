@@ -163,7 +163,6 @@ public final class OActivity implements Entity {
 		this.proId = proId;
 	}
 
-
 	// Association : ExecutionActivity non navigable
 	/**
 	 * Association : Processus.

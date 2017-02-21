@@ -82,9 +82,7 @@ public final class ONode implements Entity {
 		this.heartbeat = heartbeat;
 	}
 
-
 	// Association : ExecutionActivity non navigable
-
 	// Association : PlanificationProcessus non navigable
 
 	/** {@inheritDoc} */

@@ -62,7 +62,6 @@ public final class TriggerType implements Entity {
 		this.label = label;
 	}
 
-
 	// Association : Process non navigable
 
 	/** {@inheritDoc} */

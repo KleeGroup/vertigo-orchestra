@@ -162,7 +162,6 @@ public final class OUser implements Entity {
 		this.active = active;
 	}
 
-
 	// Association : ExecutionProcessus non navigable
 
 	/** {@inheritDoc} */

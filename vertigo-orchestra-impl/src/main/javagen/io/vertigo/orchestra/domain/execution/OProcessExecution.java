@@ -225,7 +225,6 @@ public final class OProcessExecution implements Entity {
 		this.usrId = usrId;
 	}
 
-
 	// Association : ExecutionActivity non navigable
 	/**
 	 * Association : ExecutionState.

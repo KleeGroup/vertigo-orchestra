@@ -62,7 +62,6 @@ public final class OSchedulerState implements Entity {
 		this.label = label;
 	}
 
-
 	// Association : ProcessPlanification non navigable
 
 	/** {@inheritDoc} */
