@@ -3,12 +3,6 @@
 	<boot locales="fr_FR">
 		<plugin class="io.vertigo.core.plugins.resource.classpath.ClassPathResourceResolverPlugin" />
 		<plugin class="io.vertigo.core.plugins.resource.url.URLResourceResolverPlugin" />
-		<plugin class="io.vertigo.dynamo.plugins.environment.loaders.java.AnnotationLoaderPlugin" />
-		<plugin class="io.vertigo.dynamo.plugins.environment.loaders.kpr.KprLoaderPlugin" />
-		<plugin class="io.vertigo.persona.plugins.security.loaders.SecurityResourceLoaderPlugin" />
-		<plugin class="io.vertigo.dynamo.plugins.environment.registries.domain.DomainDynamicRegistryPlugin" />
-		<plugin class="io.vertigo.dynamo.plugins.environment.registries.task.TaskDynamicRegistryPlugin" />
-		<plugin class="io.vertigo.dynamo.plugins.environment.registries.file.FileDynamicRegistryPlugin" />
 		<plugin class="io.vertigo.core.plugins.param.xml.XmlParamPlugin">
 			<param name="url" value="/META-INF/application-config.xml" />
 		</plugin>
@@ -39,8 +33,8 @@
 				<param name="classname" value="${boot.db.classname}" />
 				<param name="source" value="${boot.db.source}" />
 			</plugin>
-			<plugin class="io.vertigo.dynamo.plugins.store.datastore.postgresql.PostgreSqlDataStorePlugin">
-				<param name="name" value="orchestra"/>
+			<plugin class="io.vertigo.dynamo.plugins.store.datastore.sql.SqlDataStorePlugin">
+				<param name="dataSpace" value="orchestra"/>
 				<param name="connectionName" value="orchestra"/>
 				<param name="sequencePrefix" value="SEQ_" />
 			</plugin>
@@ -77,8 +71,10 @@
 	</module>
 	<module name="orchestra">
 		<definitions>
-			<resource type ="kpr" path="io/vertigo/orchestra/execution.kpr"/>
-		    <resource type="classes" path="io.vertigo.orchestra.domain.DtDefinitions" />  
+			<provider className="io.vertigo.dynamo.plugins.environment.DynamoDefinitionProvider" >
+				<resource type ="kpr" path="io/vertigo/orchestra/execution.kpr"/>
+			    <resource type="classes" path="io.vertigo.orchestra.domain.DtDefinitions" />  
+		    </provider>
 		</definitions>   
 		<component api="NodeManager" class="io.vertigo.orchestra.impl.node.NodeManagerImpl"/>
 		<component api="ProcessDefinitionManager" class="io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl">
