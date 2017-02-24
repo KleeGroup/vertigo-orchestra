@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import io.vertigo.app.Home;
-import io.vertigo.core.spaces.definiton.DefinitionSpace;
+import io.vertigo.core.definition.DefinitionSpace;
+import io.vertigo.core.definition.DefinitionSpaceWritable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ProcessDefinition;
 import io.vertigo.orchestra.definition.ProcessType;
@@ -24,7 +25,7 @@ public class MemoryProcessDefinitionStorePlugin implements ProcessDefinitionStor
 
 	@Override
 	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
-		getDefinitionSpace().registerDefinition(processDefinition);
+		((DefinitionSpaceWritable) getDefinitionSpace()).registerDefinition(processDefinition);
 
 	}
 

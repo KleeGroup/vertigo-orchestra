@@ -3,8 +3,8 @@ package io.vertigo.orchestra.definition;
 import java.util.List;
 import java.util.Map;
 
-import io.vertigo.core.spaces.definiton.Definition;
-import io.vertigo.core.spaces.definiton.DefinitionPrefix;
+import io.vertigo.core.definition.Definition;
+import io.vertigo.core.definition.DefinitionPrefix;
 import io.vertigo.lang.Assertion;
 
 /**
