@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 import io.vertigo.app.Home;
 import io.vertigo.commons.daemon.DaemonManager;
-import io.vertigo.core.component.di.injector.Injector;
+import io.vertigo.core.component.di.injector.DIInjector;
 import io.vertigo.dynamo.domain.model.DtList;
 import io.vertigo.dynamo.transaction.VTransactionManager;
 import io.vertigo.dynamo.transaction.VTransactionWritable;
@@ -184,7 +184,7 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 
 		// We execute the postTreatment of the pending activity when it's released
 		// ---
-		final ActivityEngine activityEngine = Injector.newInstance(
+		final ActivityEngine activityEngine = DIInjector.newInstance(
 				ClassUtil.classForName(activityExecution.getEngine(), ActivityEngine.class), Home.getApp().getComponentSpace());
 
 		try {
@@ -292,7 +292,7 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 		try {
 			changeExecutionState(activityExecution, ExecutionState.RUNNING);
 			// ---
-			final ActivityEngine activityEngine = Injector.newInstance(
+			final ActivityEngine activityEngine = DIInjector.newInstance(
 					ClassUtil.classForName(activityExecution.getEngine(), ActivityEngine.class), Home.getApp().getComponentSpace());
 
 			try {

@@ -10,7 +10,7 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 
 import io.vertigo.app.Home;
-import io.vertigo.core.component.di.injector.Injector;
+import io.vertigo.core.component.di.injector.DIInjector;
 import io.vertigo.lang.Activeable;
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.definition.ActivityDefinition;
@@ -84,7 +84,7 @@ public class MemoryProcessExecutorPlugin implements ProcessExecutorPlugin, Activ
 		ActivityExecutionWorkspace resultWorkspace = workspaceIn;
 		try {
 			// ---
-			final ActivityEngine activityEngine = Injector.newInstance(activityDefinition.getEngineClass(), Home.getApp().getComponentSpace());
+			final ActivityEngine activityEngine = DIInjector.newInstance(activityDefinition.getEngineClass(), Home.getApp().getComponentSpace());
 
 			try {
 
