@@ -140,6 +140,7 @@ public final class OActivityWorkspace implements Entity {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_TKW_TKE", io.vertigo.orchestra.domain.execution.OActivityExecution.class);
 	}
 
+
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {

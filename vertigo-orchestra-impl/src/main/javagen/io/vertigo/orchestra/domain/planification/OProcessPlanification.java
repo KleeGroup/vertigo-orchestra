@@ -256,6 +256,7 @@ public final class OProcessPlanification implements Entity {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRP_PST", io.vertigo.orchestra.domain.referential.OSchedulerState.class);
 	}
 
+
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {

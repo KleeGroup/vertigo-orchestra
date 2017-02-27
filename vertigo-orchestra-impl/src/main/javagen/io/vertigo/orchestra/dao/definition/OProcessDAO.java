@@ -28,6 +28,7 @@ public final class OProcessDAO extends DAO<OProcess, java.lang.Long> implements 
 		super(OProcess.class, storeManager, taskManager);
 	}
 
+
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task

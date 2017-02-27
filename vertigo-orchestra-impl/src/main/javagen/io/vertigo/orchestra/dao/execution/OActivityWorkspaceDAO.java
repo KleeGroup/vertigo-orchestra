@@ -28,6 +28,7 @@ public final class OActivityWorkspaceDAO extends DAO<OActivityWorkspace, java.la
 		super(OActivityWorkspace.class, storeManager, taskManager);
 	}
 
+
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task

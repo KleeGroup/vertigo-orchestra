@@ -359,6 +359,7 @@ public final class OProcess implements Entity {
 	public io.vertigo.dynamo.domain.model.URI<io.vertigo.orchestra.domain.referential.TriggerType> getTriggerTypeURI() {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_PRO_TRT", io.vertigo.orchestra.domain.referential.TriggerType.class);
 	}
+
 	// Association : PlanificationProcessus non navigable
 
 	/** {@inheritDoc} */

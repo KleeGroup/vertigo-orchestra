@@ -28,6 +28,7 @@ public final class OProcessPlanificationDAO extends DAO<OProcessPlanification, j
 		super(OProcessPlanification.class, storeManager, taskManager);
 	}
 
+
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task

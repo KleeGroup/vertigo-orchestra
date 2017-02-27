@@ -201,6 +201,7 @@ public final class OActivity implements Entity {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACT_PRO", io.vertigo.orchestra.domain.definition.OProcess.class);
 	}
 
+
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {

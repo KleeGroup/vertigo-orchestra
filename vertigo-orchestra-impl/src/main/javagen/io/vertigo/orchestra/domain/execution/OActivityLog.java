@@ -140,6 +140,7 @@ public final class OActivityLog implements Entity {
 		return io.vertigo.dynamo.domain.util.DtObjectUtil.createURI(this, "A_ACL_ACE", io.vertigo.orchestra.domain.execution.OActivityExecution.class);
 	}
 
+
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {

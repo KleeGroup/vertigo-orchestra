@@ -28,6 +28,7 @@ public final class OActivityDAO extends DAO<OActivity, java.lang.Long> implement
 		super(OActivity.class, storeManager, taskManager);
 	}
 
+
 	/**
 	 * Creates a taskBuilder.
 	 * @param name  the name of the task

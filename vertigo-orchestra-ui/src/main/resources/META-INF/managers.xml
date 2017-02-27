@@ -71,7 +71,7 @@
 	</module>
 	<module name="orchestra">
 		<definitions>
-			<provider className="io.vertigo.dynamo.plugins.environment.DynamoDefinitionProvider" >
+			<provider class="io.vertigo.dynamo.plugins.environment.DynamoDefinitionProvider" >
 				<resource type ="kpr" path="io/vertigo/orchestra/execution.kpr"/>
 			    <resource type="classes" path="io.vertigo.orchestra.domain.DtDefinitions" />  
 		    </provider>

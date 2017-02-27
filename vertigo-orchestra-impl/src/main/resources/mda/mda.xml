@@ -3,10 +3,6 @@
 	<boot locales="fr_FR">
 			<plugin class="io.vertigo.core.plugins.resource.classpath.ClassPathResourceResolverPlugin" />
 			<plugin class="io.vertigo.core.plugins.resource.url.URLResourceResolverPlugin" />
-			<plugin class="io.vertigo.dynamo.plugins.environment.loaders.kpr.KprLoaderPlugin" >
-				<param name="encoding" value="UTF-8" />
-			</plugin>
-			<plugin class="io.vertigo.dynamo.plugins.environment.registries.DynamoDynamicRegistryPlugin" />
 	</boot>
 	<module name="vertigo-studio">
 	    <component api="MdaManager" class="io.vertigo.studio.impl.mda.MdaManagerImpl">
@@ -43,7 +39,10 @@
 
 	<module name="API">
 		<definitions>
-			<resource type ="kpr" path="io/vertigo/orchestra/generation.kpr"/>
+			<provider class="io.vertigo.dynamo.plugins.environment.DynamoDefinitionProvider" >
+				<param name="encoding" value="UTF-8" />
+				<resource type ="kpr" path="io/vertigo/orchestra/generation.kpr"/>
+			</provider>
 		</definitions>          
 	</module>  
   
