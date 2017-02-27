@@ -51,7 +51,7 @@ public class DataBaseInitializer implements Component, Activeable {
 			throw WrappedException.wrapIfNeeded(e, "Can't open connection");
 		}
 		execCallableStatement(connection, sqlDataBaseManager, "DROP ALL OBJECTS; ");
-		execSqlScript(connection, "file:./src/main/javagen/sqlgen/crebas.sql");
+		execSqlScript(connection, "file:./src/main/javagen/sqlgen/crebas_orchestra.sql");
 		execSqlScript(connection, "file:./src/main/database/scripts/init/init_v0.sql");
 		try {
 			connection.commit();
