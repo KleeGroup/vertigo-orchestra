@@ -67,12 +67,14 @@ public final class ProcessManagerImpl implements ProcessManager {
 
 	@Override
 	public ProcessLogger getLogger() {
-		return optionalProcessLog.orElseThrow(() -> new IllegalStateException("A ProcessLogPlugin must be defined for logging"));
+		return optionalProcessLog
+				.orElseThrow(() -> new IllegalStateException("A ProcessLogPlugin must be defined for logging"));
 	}
 
 	@Override
 	public ProcessReport getReport() {
-		return optionalProcessReport.orElseThrow(() -> new IllegalStateException("A ProcessReportPlugin must be defined for retrieving executions and summaries"));
+		return optionalProcessReport
+				.orElseThrow(() -> new IllegalStateException("A ProcessReportPlugin must be defined for retrieving executions and summaries"));
 	}
 
 }

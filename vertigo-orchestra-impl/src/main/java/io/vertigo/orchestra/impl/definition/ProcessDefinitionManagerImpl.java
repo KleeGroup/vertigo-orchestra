@@ -1,11 +1,10 @@
 package io.vertigo.orchestra.impl.definition;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -29,6 +28,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	 */
 	@Inject
 	public ProcessDefinitionManagerImpl(final List<ProcessDefinitionStorePlugin> processDefinitionStorePlugins) {
+		Assertion.checkNotNull(processDefinitionStorePlugins);
 		Assertion.checkState(!processDefinitionStorePlugins.isEmpty(), "At least one ProcessDefinitionStorePlugin is required");
 		// ---
 		for (final ProcessDefinitionStorePlugin storePlugin : processDefinitionStorePlugins) {
@@ -54,19 +54,17 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	/** {@inheritDoc} */
 	@Override
 	public List<ProcessDefinition> getAllProcessDefinitions() {
-		final List<ProcessDefinition> processDefinitions = new ArrayList<>();
-		for (final ProcessDefinitionStorePlugin storePlugin : processDefinitionStorePluginsByProcessType.values()) {
-			processDefinitions.addAll(storePlugin.getAllProcessDefinitions());
-		}
-		return Collections.unmodifiableList(processDefinitions);
-
+		return processDefinitionStorePluginsByProcessType.values()
+				.stream()
+				.flatMap(processDefinitionStorePlugin -> processDefinitionStorePlugin.getAllProcessDefinitions().stream())
+				.collect(Collectors.toList());
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
-		// ---
+		//---
 		final ProcessDefinitionStorePlugin storePlugin = processDefinitionStorePluginsByProcessType.get(processDefinition.getProcessType());
 		Assertion.checkNotNull(storePlugin, "No plugin found for managing processType {0}", processDefinition.getProcessType());
 		// ---
@@ -75,11 +73,16 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 
 	/** {@inheritDoc} */
 	@Override
-	public void updateProcessDefinitionProperties(final String processName, final Optional<String> cronExpression, final boolean multiExecution, final int rescuePeriod, final boolean active) {
+	public void updateProcessDefinitionProperties(
+			final String processName,
+			final Optional<String> cronExpression,
+			final boolean multiExecution,
+			final int rescuePeriod,
+			final boolean active) {
 		Assertion.checkArgNotEmpty(processName);
 		Assertion.checkNotNull(cronExpression);
 		Assertion.checkNotNull(rescuePeriod);
-		// ---
+		//---
 		final ProcessDefinition processDefinition = getProcessDefinition(processName);
 		getPluginByType(processDefinition.getProcessType()).updateProcessDefinitionProperties(processDefinition, cronExpression, multiExecution, rescuePeriod, active);
 	}
@@ -89,7 +92,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	public void updateProcessDefinitionInitialParams(final String processName, final Map<String, String> initialParams) {
 		Assertion.checkArgNotEmpty(processName);
 		Assertion.checkNotNull(initialParams);
-		// ---
+		//---
 		final ProcessDefinition processDefinition = getProcessDefinition(processName);
 		getPluginByType(processDefinition.getProcessType()).updateProcessDefinitionInitialParams(processDefinition, initialParams);
 	}
@@ -103,6 +106,7 @@ public class ProcessDefinitionManagerImpl implements ProcessDefinitionManager {
 	@Override
 	public List<ProcessDefinition> getAllProcessDefinitionsByType(final ProcessType processType) {
 		Assertion.checkNotNull(processType);
+		//---
 		return getPluginByType(processType).getAllProcessDefinitions();
 	}
 

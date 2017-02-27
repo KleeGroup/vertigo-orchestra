@@ -11,7 +11,9 @@ import org.junit.runners.Suite.SuiteClasses;
  * @version $Id$
  */
 @RunWith(Suite.class)
-@SuiteClasses(value = { PlanificationServicesTest.class })
+@SuiteClasses(value = {
+		PlanificationServicesTest.class
+})
 public class AllTestPlanification {
 	// Les annotations sont suffisantes.
 }
