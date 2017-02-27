@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 
 import io.vertigo.app.AutoCloseableApp;
 import io.vertigo.app.Home;
-import io.vertigo.core.component.di.injector.Injector;
+import io.vertigo.core.component.di.injector.DIInjector;
 import io.vertigo.dynamo.task.TaskManager;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.metamodel.TaskDefinitionBuilder;
@@ -49,7 +49,7 @@ public abstract class AbstractOrchestraTestCaseJU4 {
 
 	public final void setUpInjection() throws Exception {
 		if (app != null) {
-			Injector.injectMembers(this, Home.getApp().getComponentSpace());
+			DIInjector.injectMembers(this, Home.getApp().getComponentSpace());
 		}
 	}
 
