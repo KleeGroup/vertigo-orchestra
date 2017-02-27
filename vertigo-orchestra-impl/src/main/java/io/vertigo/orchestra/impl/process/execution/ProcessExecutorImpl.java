@@ -28,6 +28,7 @@ public final class ProcessExecutorImpl implements ProcessExecutor {
 	@Override
 	public void execute(final ProcessDefinition processDefinition, final Optional<String> initialParams) {
 		Assertion.checkNotNull(processDefinition);
+		Assertion.checkNotNull(initialParams);
 		// ---
 		getPluginByType(processDefinition.getProcessType()).execute(processDefinition, initialParams);
 	}

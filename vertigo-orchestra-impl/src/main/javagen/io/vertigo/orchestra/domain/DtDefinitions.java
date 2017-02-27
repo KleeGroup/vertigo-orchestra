@@ -67,7 +67,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OActivity.
 	 */
-	public enum OActivityFields implements DtFieldName {
+	public enum OActivityFields implements DtFieldName<io.vertigo.orchestra.domain.definition.OActivity> {
 		/** Propriété 'Id Activité'. */
 		ACT_ID,
 		/** Propriété 'Nom de l'activité'. */
@@ -87,7 +87,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OActivityExecution.
 	 */
-	public enum OActivityExecutionFields implements DtFieldName {
+	public enum OActivityExecutionFields implements DtFieldName<io.vertigo.orchestra.domain.execution.OActivityExecution> {
 		/** Propriété 'Id de l'execution d'un processus'. */
 		ACE_ID,
 		/** Propriété 'Date de création'. */
@@ -113,7 +113,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OActivityExecutionUi.
 	 */
-	public enum OActivityExecutionUiFields implements DtFieldName {
+	public enum OActivityExecutionUiFields implements DtFieldName<io.vertigo.orchestra.monitoring.domain.uiexecutions.OActivityExecutionUi> {
 		/** Propriété 'Id de l'activité'. */
 		ACE_ID,
 		/** Propriété 'Libellé'. */
@@ -139,7 +139,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OActivityLog.
 	 */
-	public enum OActivityLogFields implements DtFieldName {
+	public enum OActivityLogFields implements DtFieldName<io.vertigo.orchestra.domain.execution.OActivityLog> {
 		/** Propriété 'Id du log'. */
 		ACL_ID,
 		/** Propriété 'Contenu du log'. */
@@ -153,7 +153,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OActivityWorkspace.
 	 */
-	public enum OActivityWorkspaceFields implements DtFieldName {
+	public enum OActivityWorkspaceFields implements DtFieldName<io.vertigo.orchestra.domain.execution.OActivityWorkspace> {
 		/** Propriété 'Id de l'execution d'un processus'. */
 		ACW_ID,
 		/** Propriété 'Workspace in/out'. */
@@ -167,7 +167,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OExecutionState.
 	 */
-	public enum OExecutionStateFields implements DtFieldName {
+	public enum OExecutionStateFields implements DtFieldName<io.vertigo.orchestra.domain.referential.OExecutionState> {
 		/** Propriété 'Code'. */
 		EST_CD,
 		/** Propriété 'Libellé'. */
@@ -177,7 +177,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OExecutionSummary.
 	 */
-	public enum OExecutionSummaryFields implements DtFieldName {
+	public enum OExecutionSummaryFields implements DtFieldName<io.vertigo.orchestra.monitoring.domain.summary.OExecutionSummary> {
 		/** Propriété 'Id du processus'. */
 		PRO_ID,
 		/** Propriété 'Nom du processus'. */
@@ -205,7 +205,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de ONode.
 	 */
-	public enum ONodeFields implements DtFieldName {
+	public enum ONodeFields implements DtFieldName<io.vertigo.orchestra.domain.execution.ONode> {
 		/** Propriété 'Id du noeud'. */
 		NOD_ID,
 		/** Propriété 'Nom du noeud'. */
@@ -217,7 +217,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OProcess.
 	 */
-	public enum OProcessFields implements DtFieldName {
+	public enum OProcessFields implements DtFieldName<io.vertigo.orchestra.domain.definition.OProcess> {
 		/** Propriété 'Id de la definition du processus'. */
 		PRO_ID,
 		/** Propriété 'Nom du processus'. */
@@ -249,7 +249,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OProcessExecution.
 	 */
-	public enum OProcessExecutionFields implements DtFieldName {
+	public enum OProcessExecutionFields implements DtFieldName<io.vertigo.orchestra.domain.execution.OProcessExecution> {
 		/** Propriété 'Id de l'execution d'un processus'. */
 		PRE_ID,
 		/** Propriété 'Date de début'. */
@@ -275,7 +275,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OProcessExecutionUi.
 	 */
-	public enum OProcessExecutionUiFields implements DtFieldName {
+	public enum OProcessExecutionUiFields implements DtFieldName<io.vertigo.orchestra.monitoring.domain.uiexecutions.OProcessExecutionUi> {
 		/** Propriété 'Id de l'activité'. */
 		PRE_ID,
 		/** Propriété 'Nom du processus'. */
@@ -299,7 +299,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OProcessPlanification.
 	 */
-	public enum OProcessPlanificationFields implements DtFieldName {
+	public enum OProcessPlanificationFields implements DtFieldName<io.vertigo.orchestra.domain.planification.OProcessPlanification> {
 		/** Propriété 'Id Planification'. */
 		PRP_ID,
 		/** Propriété 'Date d'execution prévue'. */
@@ -317,7 +317,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OProcessType.
 	 */
-	public enum OProcessTypeFields implements DtFieldName {
+	public enum OProcessTypeFields implements DtFieldName<io.vertigo.orchestra.domain.referential.OProcessType> {
 		/** Propriété 'Code'. */
 		PRT_CD,
 		/** Propriété 'Libellé'. */
@@ -327,7 +327,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OProcessUi.
 	 */
-	public enum OProcessUiFields implements DtFieldName {
+	public enum OProcessUiFields implements DtFieldName<io.vertigo.orchestra.monitoring.domain.uidefinitions.OProcessUi> {
 		/** Propriété 'Id du processus'. */
 		PRO_ID,
 		/** Propriété 'Nom du processus'. */
@@ -351,7 +351,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OSchedulerState.
 	 */
-	public enum OSchedulerStateFields implements DtFieldName {
+	public enum OSchedulerStateFields implements DtFieldName<io.vertigo.orchestra.domain.referential.OSchedulerState> {
 		/** Propriété 'Code'. */
 		SST_CD,
 		/** Propriété 'Libellé'. */
@@ -361,7 +361,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de OUser.
 	 */
-	public enum OUserFields implements DtFieldName {
+	public enum OUserFields implements DtFieldName<io.vertigo.orchestra.domain.referential.OUser> {
 		/** Propriété 'Id'. */
 		USR_ID,
 		/** Propriété 'Nom'. */
@@ -381,7 +381,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 	/**
 	 * Enumération des champs de TriggerType.
 	 */
-	public enum TriggerTypeFields implements DtFieldName {
+	public enum TriggerTypeFields implements DtFieldName<io.vertigo.orchestra.domain.referential.TriggerType> {
 		/** Propriété 'Code'. */
 		TRT_CD,
 		/** Propriété 'Libellé'. */
