@@ -16,7 +16,7 @@ public class DumbActivityEngine extends AbstractActivityEngine {
 	public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
 		workspace.setSuccess();
 		try {
-			Thread.sleep(1000 * 10);
+			Thread.sleep(1000 * 10L);
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}
