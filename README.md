@@ -40,7 +40,7 @@ We have seen that an activity hold the code. The code is held in the ActivityEng
 => You are encouraged to extends this abstract class to build your activity Engine.
 
 So your first ActivityEngine that we will name MyFirstActivityEngine looks like this 
-```
+```java
 package io.vertigo.orchestra.execution.engine;
 
 import io.vertigo.orchestra.impl.process.execution.AbstractActivityEngine;
@@ -60,7 +60,7 @@ public class MyFirstActivityEngine extends AbstractActivityEngine {
 To handle the outcome of the process you must use the workspace state
 For example set the workspace to sucess.
 
-```
+```java
 /** {@inheritDoc} */
 @Override
 public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
@@ -80,7 +80,7 @@ To build a ProcessDefinition you must use the **ProcessDefinitionBuilder**
 
 Here's our First ProcessDefinition
 
-```
+```java
 final ProcessDefinition myFirstProcessDefinition = new ProcessDefinitionBuilder("MY_FIRST_ONE", "My first process")
 				.addActivity("ACTIVITY", "First activy", MyFirstActivityEngine.class)
 				.build();
@@ -92,7 +92,7 @@ An important option is the availability to schedule automaticaly your process wi
 
 Once you've created you definition you must create it. For that purpose you must use the **ProcessDefinitionManager** (Inject it in your component)
 
-```
+```java
 processDefinitionManager.createOrUpdateDefinitionIfNeeded(myFirstProcessDefinition);
 ```
 
@@ -104,7 +104,7 @@ through the **ProcessManager**
 Important note : The execution is always triggered by the scheduler. If you want to execute something now use the scheduleNow method of the *ProcessScheduler*
 
 For example :
-```
+```java
 processManager.getScheduler().scheduleAt(myFirstProcessDefinition, DateUtil.newDate(), Collections.emptyMap());
 processManager.getReport().getSummaryByDateAndName(myFirstProcessDefinition, 
 		DateUtil.parse("01/01/2017", "dd/MM/yyyy"), DateUtil.parse("31/12/2017", "dd/MM/yyyy"));
