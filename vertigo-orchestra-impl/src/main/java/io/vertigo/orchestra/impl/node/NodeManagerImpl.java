@@ -25,7 +25,7 @@ public class NodeManagerImpl implements NodeManager {
 
 	@Override
 	public Long registerNode(final String nodeName) {
-		Assertion.checkNotNull(nodeName);
+		Assertion.checkArgNotEmpty(nodeName);
 		// ---
 		final Optional<ONode> existingNode = nodeDAO.getNodeByName(nodeName);
 		final ONode node = existingNode.orElse(new ONode());

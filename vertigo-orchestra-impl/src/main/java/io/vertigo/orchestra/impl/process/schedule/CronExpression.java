@@ -236,7 +236,7 @@ public final class CronExpression {
 					return month;
 				}
 			}
-			throw new RuntimeException("No month with index : " + index);
+			throw new RuntimeException("No month found with index : " + index);
 		}
 
 		public static MONTHS getMonthByNumber(final int number) {

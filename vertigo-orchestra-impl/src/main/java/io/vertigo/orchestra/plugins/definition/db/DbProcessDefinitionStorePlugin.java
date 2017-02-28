@@ -2,7 +2,6 @@ package io.vertigo.orchestra.plugins.definition.db;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +121,7 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 					activitiesByProcess.add(activity);
 				}
 			}
-			Collections.sort(activitiesByProcess, new OActivityComparator());
+			activitiesByProcess.sort(new OActivityComparator());
 			processDefinitions.add(decodeProcessDefinition(process, activitiesByProcess));
 		}
 		return processDefinitions;
