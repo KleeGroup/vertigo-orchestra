@@ -24,7 +24,7 @@ public class MemoryProcessDefinitionStorePlugin implements ProcessDefinitionStor
 	}
 
 	@Override
-	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
+	public void createOrUpdateDefinition(final ProcessDefinition processDefinition) {
 		((DefinitionSpaceWritable) getDefinitionSpace()).registerDefinition(processDefinition);
 
 	}

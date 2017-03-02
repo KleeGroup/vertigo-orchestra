@@ -62,13 +62,13 @@ public class OrchestraDefinitionManagerImpl implements OrchestraDefinitionManage
 
 	/** {@inheritDoc} */
 	@Override
-	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
+	public void createOrUpdateDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		//---
 		final ProcessDefinitionStorePlugin storePlugin = processDefinitionStorePluginsByProcessType.get(processDefinition.getProcessType());
 		Assertion.checkNotNull(storePlugin, "No plugin found for managing processType {0}", processDefinition.getProcessType());
 		// ---
-		storePlugin.createOrUpdateDefinitionIfNeeded(processDefinition);
+		storePlugin.createOrUpdateDefinition(processDefinition);
 	}
 
 	/** {@inheritDoc} */

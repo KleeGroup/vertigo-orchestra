@@ -40,7 +40,7 @@ public class DbDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.services.execution.engine.DumbErrorActivityEngine.class)
 				.build();
 
-		orchestraDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
+		orchestraDefinitionManager.createOrUpdateDefinition(processDefinition);
 		//After :1
 		Assert.assertEquals(1, orchestraDefinitionManager.getAllProcessDefinitionsByType(ProcessType.SUPERVISED).size());
 
@@ -58,7 +58,7 @@ public class DbDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.services.execution.engine.DumbErrorActivityEngine.class)
 				.build();
 
-		orchestraDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
+		orchestraDefinitionManager.createOrUpdateDefinition(processDefinition);
 		// no initialParams
 		Assert.assertTrue(orchestraDefinitionManager.getProcessDefinition("TEST_BASIC").getTriggeringStrategy().getInitialParams().isEmpty());
 
@@ -74,7 +74,7 @@ public class DbDefinitionsTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.services.execution.engine.DumbErrorActivityEngine.class)
 				.build();
 
-		orchestraDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
+		orchestraDefinitionManager.createOrUpdateDefinition(processDefinition);
 		// no initialParams
 		Assert.assertTrue(!orchestraDefinitionManager.getProcessDefinition("TEST_UPDATE_CRON").getTriggeringStrategy().getCronExpression().isPresent());
 

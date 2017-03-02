@@ -16,9 +16,9 @@ import io.vertigo.orchestra.definitions.ProcessType;
 public interface ProcessDefinitionStorePlugin extends Plugin {
 
 	/**
-	 * @see io.vertigo.orchestra.definitions.OrchestraDefinitionManager#createOrUpdateDefinitionIfNeeded(ProcessDefinition)
+	 * @see io.vertigo.orchestra.definitions.OrchestraDefinitionManager#createOrUpdateDefinition(ProcessDefinition)
 	 */
-	void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition);
+	void createOrUpdateDefinition(final ProcessDefinition processDefinition);
 
 	/**
 	 * Retourne si une definition existe

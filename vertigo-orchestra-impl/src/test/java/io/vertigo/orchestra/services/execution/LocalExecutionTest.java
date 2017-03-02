@@ -37,7 +37,7 @@ public class LocalExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.services.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		orchestraDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
+		orchestraDefinitionManager.createOrUpdateDefinition(processDefinition);
 
 		// We plan right now
 		orchestraServices.getScheduler()
@@ -59,7 +59,7 @@ public class LocalExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.addActivity("DUMB ACTIVITY", "DUMB ACTIVITY", io.vertigo.orchestra.services.execution.engine.DumbActivityEngine.class)
 				.build();
 
-		orchestraDefinitionManager.createOrUpdateDefinitionIfNeeded(processDefinition);
+		orchestraDefinitionManager.createOrUpdateDefinition(processDefinition);
 
 		// We plan right now
 		orchestraServices.getScheduler()

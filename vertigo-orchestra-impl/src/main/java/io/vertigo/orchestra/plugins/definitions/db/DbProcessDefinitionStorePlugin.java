@@ -177,7 +177,7 @@ public class DbProcessDefinitionStorePlugin implements ProcessDefinitionStorePlu
 
 	/** {@inheritDoc} */
 	@Override
-	public void createOrUpdateDefinitionIfNeeded(final ProcessDefinition processDefinition) {
+	public void createOrUpdateDefinition(final ProcessDefinition processDefinition) {
 		Assertion.checkNotNull(processDefinition);
 		// ---
 		final String processName = processDefinition.getName();

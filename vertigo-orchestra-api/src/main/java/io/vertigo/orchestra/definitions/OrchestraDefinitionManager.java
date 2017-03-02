@@ -43,7 +43,7 @@ public interface OrchestraDefinitionManager extends Manager {
 	 * Creer ou mettre à jour un processus orchestra.
 	 * @param processDefinition la définition à créer ou mettre à jour.
 	 */
-	void createOrUpdateDefinitionIfNeeded(ProcessDefinition processDefinition);
+	void createOrUpdateDefinition(ProcessDefinition processDefinition);
 
 	/**
 	 * Met à jour les propriétés d'une définition sans la rendre obsolète.
