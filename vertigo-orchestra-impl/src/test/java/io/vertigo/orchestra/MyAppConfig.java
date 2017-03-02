@@ -13,8 +13,8 @@ import io.vertigo.dynamo.impl.database.vendor.h2.H2DataBase;
 import io.vertigo.dynamo.plugins.database.connection.c3p0.C3p0ConnectionProviderPlugin;
 import io.vertigo.dynamo.plugins.store.datastore.sql.SqlDataStorePlugin;
 import io.vertigo.orchestra.boot.DataBaseInitializer;
-import io.vertigo.orchestra.monitoring.MonitoringServices;
-import io.vertigo.orchestra.monitoring.MonitoringServicesImpl;
+import io.vertigo.orchestra.util.monitoring.MonitoringServices;
+import io.vertigo.orchestra.util.monitoring.MonitoringServicesImpl;
 
 public final class MyAppConfig {
 	private static AppConfigBuilder createAppConfigBuilder() {

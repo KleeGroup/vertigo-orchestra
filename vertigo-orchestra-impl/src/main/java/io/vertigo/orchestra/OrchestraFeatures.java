@@ -15,24 +15,28 @@ import io.vertigo.orchestra.dao.execution.ONodeDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
-import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.definitions.OrchestraDefinitionManager;
 import io.vertigo.orchestra.domain.DtDefinitions;
-import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
+import io.vertigo.orchestra.impl.definitions.OrchestraDefinitionManagerImpl;
+import io.vertigo.orchestra.impl.node.NodeManager;
 import io.vertigo.orchestra.impl.node.NodeManagerImpl;
-import io.vertigo.orchestra.impl.process.ProcessManagerImpl;
+import io.vertigo.orchestra.impl.services.OrchestraServicesImpl;
 import io.vertigo.orchestra.monitoring.dao.summary.SummaryPAO;
 import io.vertigo.orchestra.monitoring.dao.uidefinitions.UidefinitionsPAO;
 import io.vertigo.orchestra.monitoring.dao.uiexecutions.UiexecutionsPAO;
-import io.vertigo.orchestra.node.NodeManager;
-import io.vertigo.orchestra.plugins.definition.db.DbProcessDefinitionStorePlugin;
-import io.vertigo.orchestra.plugins.definition.memory.MemoryProcessDefinitionStorePlugin;
-import io.vertigo.orchestra.plugins.process.execution.db.DbProcessExecutorPlugin;
-import io.vertigo.orchestra.plugins.process.execution.memory.MemoryProcessExecutorPlugin;
-import io.vertigo.orchestra.plugins.process.log.db.DbProcessLoggerPlugin;
-import io.vertigo.orchestra.plugins.process.report.db.DbProcessReportPlugin;
-import io.vertigo.orchestra.plugins.process.schedule.db.DbProcessSchedulerPlugin;
-import io.vertigo.orchestra.plugins.process.schedule.memory.MemoryProcessSchedulerPlugin;
-import io.vertigo.orchestra.process.ProcessManager;
+import io.vertigo.orchestra.plugins.definitions.db.DbProcessDefinitionStorePlugin;
+import io.vertigo.orchestra.plugins.definitions.memory.MemoryProcessDefinitionStorePlugin;
+import io.vertigo.orchestra.plugins.services.execution.db.DbProcessExecutorPlugin;
+import io.vertigo.orchestra.plugins.services.execution.memory.MemoryProcessExecutorPlugin;
+import io.vertigo.orchestra.plugins.services.log.db.DbProcessLoggerPlugin;
+import io.vertigo.orchestra.plugins.services.report.db.DbProcessReportPlugin;
+import io.vertigo.orchestra.plugins.services.schedule.db.DbProcessSchedulerPlugin;
+import io.vertigo.orchestra.plugins.services.schedule.memory.MemoryProcessSchedulerPlugin;
+import io.vertigo.orchestra.services.OrchestraServices;
+import io.vertigo.orchestra.webservices.WsDefinition;
+import io.vertigo.orchestra.webservices.WsExecution;
+import io.vertigo.orchestra.webservices.WsExecutionControl;
+import io.vertigo.orchestra.webservices.WsInfos;
 
 /**
  * Defines extension orchestra.
@@ -108,13 +112,27 @@ public final class OrchestraFeatures extends Features {
 		return this;
 	}
 
+	/**
+	 * Activate Orchestra's REST WebServices.
+	 * @return these features
+	 */
+	public OrchestraFeatures withWebApi() {
+		getModuleConfigBuilder()
+				.addComponent(WsDefinition.class)
+				.addComponent(WsExecution.class)
+				.addComponent(WsExecutionControl.class)
+				.addComponent(WsInfos.class);
+
+		return this;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	protected void buildFeatures() {
 		getModuleConfigBuilder()
 				.addComponent(NodeManager.class, NodeManagerImpl.class)
-				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
-				.addComponent(ProcessManager.class, ProcessManagerImpl.class);
+				.addComponent(OrchestraDefinitionManager.class, OrchestraDefinitionManagerImpl.class)
+				.addComponent(OrchestraServices.class, OrchestraServicesImpl.class);
 
 	}
 }
