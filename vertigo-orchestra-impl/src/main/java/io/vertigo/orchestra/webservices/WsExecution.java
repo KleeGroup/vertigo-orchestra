@@ -10,8 +10,8 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import io.vertigo.dynamo.file.model.VFile;
-import io.vertigo.orchestra.definitions.ProcessDefinition;
 import io.vertigo.orchestra.definitions.OrchestraDefinitionManager;
+import io.vertigo.orchestra.definitions.ProcessDefinition;
 import io.vertigo.orchestra.services.OrchestraServices;
 import io.vertigo.orchestra.services.report.ActivityExecution;
 import io.vertigo.orchestra.services.report.ExecutionSummary;
@@ -95,7 +95,7 @@ public class WsExecution implements WebServices {
 	 * @return l'activité
 	 */
 	@GET("/{preId}/activities/{aceId}")
-	public ActivityExecution getActivityExecutionById(@PathParam("aceId") final Long aceId) {
+	public ActivityExecution getActivityExecutionById(@PathParam("aceId") final Long aceId, @PathParam("preId") final Long preId) {
 		return orchestraServices.getReport()
 				.getActivityExecution(aceId);
 	}
@@ -106,7 +106,7 @@ public class WsExecution implements WebServices {
 	 * @return le fichier de log
 	 */
 	@GET("/{preId}/activities/{aceId}/attachment")
-	public VFile getLogFileByAceId(@PathParam("aceId") final Long aceId) {
+	public VFile getLogFileByAceId(@PathParam("aceId") final Long aceId, @PathParam("preId") final Long preId) {
 		return orchestraServices.getLogger()
 				.getActivityAttachment(aceId).get();
 	}
@@ -117,7 +117,7 @@ public class WsExecution implements WebServices {
 	 * @return le fichier de log
 	 */
 	@GET("/{preId}/activities/{aceId}/logFile")
-	public VFile getTechnicalLogFileByAceId(@PathParam("aceId") final Long aceId) {
+	public VFile getTechnicalLogFileByAceId(@PathParam("aceId") final Long aceId, @PathParam("preId") final Long preId) {
 		return orchestraServices.getLogger()
 				.getActivityLogFile(aceId).get();
 	}
