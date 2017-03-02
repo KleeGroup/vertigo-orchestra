@@ -17,19 +17,17 @@ It also provides nice built-in features :
 - All activities of a process' execution share a common workspace 
 
 #How to use?
-Orchestra comes as 3 jars : 
+Orchestra comes as 2 jars : 
 - **vertigo-orchestra-api** : Provides the api for managing processes
-- **vertigo-orchestra-impl** : Provides implementations
+- **vertigo-orchestra-impl** : 
+	- Provides implementations
       Two are provided :
        - DB with monitoring and log support (Only PostgreSQL is actually) supported 
        - Memory
-- **vertigo-orchestra-webapi** : Provides Webservices for :
-      - Managing processes
-      - Monitoring executions
-      - Scheduling processes
+      - Offers a REST API for  Managing processes, Monitoring executions, Scheduling processes
 
-So you can use orchestra as a dependency of your project or build a stand alone app with only orchestra (see vertigo-orchestra-ui)
-For configuring your app you can use the OrchestraFeatures in Java or write your config with XML (If you need help check the config of the *vertigo-orchestra-ui* project.
+So you can use orchestra as a dependency of your project or build a stand alone app with only orchestra (see vertigo-orchestra-demo)
+For configuring your app you can use the OrchestraFeatures in Java or write your config with XML (If you need help check the config of the *vertigo-orchestra-demo* project.
 
 #What does it looks like in the code?
 
@@ -90,23 +88,23 @@ You can see that our process has one activy that uses the engine *MyFirstActivit
 With this builder you can configure your process (You can rely on Javadoc for the available options)
 An important option is the availability to schedule automaticaly your process with a cron expression.
 
-Once you've created you definition you must create it. For that purpose you must use the **ProcessDefinitionManager** (Inject it in your component)
+Once you've created you definition you must create it. For that purpose you must use the **OrchestraDefinitionManager** (Inject it in your component)
 
 ```java
-processDefinitionManager.createOrUpdateDefinitionIfNeeded(myFirstProcessDefinition);
+orchestraDefinitionManager.createOrUpdateDefinition(myFirstProcessDefinition);
 ```
 
 Since the process' definition is registered you can :
 - Monitor executions
 - Schedule new executions
-through the **ProcessManager** 
+through the **OrchestraServices** 
 
-Important note : The execution is always triggered by the scheduler. If you want to execute something now use the scheduleNow method of the *ProcessScheduler*
+Important note : The execution is always triggered by the scheduler. If you want to execute something now use the scheduleAt method of the *ProcessScheduler*
 
 For example :
 ```java
-processManager.getScheduler().scheduleAt(myFirstProcessDefinition, DateUtil.newDate(), Collections.emptyMap());
-processManager.getReport().getSummaryByDateAndName(myFirstProcessDefinition, 
+orchestraServices.getScheduler().scheduleAt(myFirstProcessDefinition, DateUtil.newDate(), Collections.emptyMap());
+orchestraServices.getReport().getSummaryByDateAndName(myFirstProcessDefinition, 
 		DateUtil.parse("01/01/2017", "dd/MM/yyyy"), DateUtil.parse("31/12/2017", "dd/MM/yyyy"));
 ```
 
