@@ -48,7 +48,7 @@ public class DataBaseInitializer implements Component, Activeable {
 		try {
 			connection = sqlDataBaseManager.getConnectionProvider(ORCHESTRA_CONNECTION_NAME).obtainConnection();
 		} catch (final SQLException e) {
-			throw WrappedException.wrapIfNeeded(e, "Can't open connection");
+			throw WrappedException.wrap(e, "Can't open connection");
 		}
 		execCallableStatement(connection, sqlDataBaseManager, "DROP ALL OBJECTS; ");
 		execSqlScript(connection, "file:./src/main/javagen/sqlgen/crebas_orchestra.sql");
@@ -57,7 +57,7 @@ public class DataBaseInitializer implements Component, Activeable {
 			connection.commit();
 			connection.release();
 		} catch (final SQLException e) {
-			throw WrappedException.wrapIfNeeded(e, "Can't release connection");
+			throw WrappedException.wrap(e, "Can't release connection");
 		}
 	}
 
@@ -78,7 +78,7 @@ public class DataBaseInitializer implements Component, Activeable {
 				}
 			}
 		} catch (final IOException e) {
-			throw WrappedException.wrapIfNeeded(e, "Can't exec script {0}", scriptPath);
+			throw WrappedException.wrap(e, "Can't exec script {0}", scriptPath);
 		}
 	}
 
@@ -87,7 +87,7 @@ public class DataBaseInitializer implements Component, Activeable {
 			callableStatement.init();
 			callableStatement.executeUpdate();
 		} catch (final SQLException e) {
-			throw WrappedException.wrapIfNeeded(e, "Can't exec command {0}", sql);
+			throw WrappedException.wrap(e, "Can't exec command {0}", sql);
 		}
 	}
 

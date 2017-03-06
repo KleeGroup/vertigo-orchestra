@@ -25,8 +25,8 @@ import io.vertigo.lang.WrappedException;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
-import io.vertigo.orchestra.definitions.ProcessDefinition;
 import io.vertigo.orchestra.definitions.OrchestraDefinitionManager;
+import io.vertigo.orchestra.definitions.ProcessDefinition;
 import io.vertigo.orchestra.definitions.ProcessType;
 import io.vertigo.orchestra.domain.definition.OProcess;
 import io.vertigo.orchestra.domain.planification.OProcessPlanification;
@@ -260,7 +260,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 				return Optional.of(nextPotentialPlainification);
 			}
 		} catch (final ParseException e) {
-			throw new WrappedException("Process' cron expression is not valid, process cannot be planned", e);
+			throw WrappedException.wrap(e, "Process' cron expression is not valid, process cannot be planned");
 		}
 
 		return Optional.<Date> empty();

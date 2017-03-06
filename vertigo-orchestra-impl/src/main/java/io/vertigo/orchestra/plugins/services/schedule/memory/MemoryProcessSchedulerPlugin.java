@@ -93,7 +93,7 @@ public class MemoryProcessSchedulerPlugin implements ProcessSchedulerPlugin, Act
 			return Optional.of(cronExpression.getNextValidTimeAfter(fromDate))
 					.orElseThrow(() -> new IllegalStateException("Cannot find a next execution date for process :" + processDefinition));
 		} catch (final ParseException e) {
-			throw new WrappedException("Process' cron expression is not valid, process cannot be planned", e);
+			throw WrappedException.wrap(e, "Process' cron expression is not valid, process cannot be planned");
 		}
 	}
 
