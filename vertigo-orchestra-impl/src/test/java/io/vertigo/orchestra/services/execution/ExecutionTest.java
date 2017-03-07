@@ -280,14 +280,15 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		final Long proId = processDefinition.getId();
 
+		//we schedule in 2 seconds
 		orchestraServices.getScheduler()
-				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
+				.scheduleAt(processDefinition, new Date(System.currentTimeMillis() + 1000 * 2), Collections.emptyMap());
 
-		// After 3 second the process is running
-		Thread.sleep(1000 * 3);
+		// After 4 second the process is running
+		Thread.sleep(1000 * 4);
 		checkExecutions(proId, 0, 1, 0, 0);
 		// After 5 seconds the process is in error because there is an exception after 3 seconds
-		Thread.sleep(1000 * 4);
+		Thread.sleep(1000 * 5);
 		checkExecutions(proId, 0, 0, 0, 1);
 	}
 

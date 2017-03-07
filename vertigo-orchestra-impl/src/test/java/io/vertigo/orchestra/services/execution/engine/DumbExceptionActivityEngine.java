@@ -16,7 +16,7 @@ public class DumbExceptionActivityEngine extends AbstractActivityEngine {
 	public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
 		workspace.setValue("currentObject", "An object");
 		try {
-			Thread.sleep(4 * 1000);
+			Thread.sleep(3 * 1000);
 		} catch (final InterruptedException e) {
 			// we do nothing
 		}
