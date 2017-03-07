@@ -20,14 +20,15 @@ It also provides nice built-in features :
 Orchestra comes as 2 jars : 
 - **vertigo-orchestra-api** : Provides the api for managing processes
 - **vertigo-orchestra-impl** : 
-	- Provides implementations
-      Two are provided :
-       - DB with monitoring and log support (Only PostgreSQL is actually) supported 
-       - Memory
-      - Offers a REST API for  Managing processes, Monitoring executions, Scheduling processes
+	- Provides implementations, two are provided :
+	       - DB with monitoring and log support (Only PostgreSQL is actually) supported 
+	       - Memory
+	- Offers a REST API for  Managing processes, Monitoring executions, Scheduling processes
 
 So you can use orchestra as a dependency of your project or build a stand alone app with only orchestra (see vertigo-orchestra-demo)
 For configuring your app you can use the OrchestraFeatures in Java or write your config with XML (If you need help check the config of the *vertigo-orchestra-demo* project.
+
+To use Orchestra with supervised processes you need a postgresql database. To create the necessary tables use [this](vertigo-orchestra-impl/src/main/database/scripts/install/orchestra_create_init.sql) SQL file.
 
 #What does it looks like in the code?
 
@@ -62,7 +63,7 @@ For example set the workspace to sucess.
 /** {@inheritDoc} */
 @Override
 public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
-  workspace.setSuccess();
+ 	workspace.setSuccess();
 	return workspace;
 }
 ```
@@ -83,12 +84,12 @@ final ProcessDefinition myFirstProcessDefinition = new ProcessDefinitionBuilder(
 				.addActivity("ACTIVITY", "First activy", MyFirstActivityEngine.class)
 				.build();
 ```
-You can see that our process has one activy that uses the engine *MyFirstActivityEngine*
+You can see that our process has one activity that uses the engine *MyFirstActivityEngine*
 
 With this builder you can configure your process (You can rely on Javadoc for the available options)
 An important option is the availability to schedule automaticaly your process with a cron expression.
 
-Once you've created you definition you must create it. For that purpose you must use the **OrchestraDefinitionManager** (Inject it in your component)
+Once you've created you definition you must register it. For that purpose you must use the **OrchestraDefinitionManager** (Inject it in your component)
 
 ```java
 orchestraDefinitionManager.createOrUpdateDefinition(myFirstProcessDefinition);
@@ -103,8 +104,8 @@ Important note : The execution is always triggered by the scheduler. If you want
 
 For example :
 ```java
-orchestraServices.getScheduler().scheduleAt(myFirstProcessDefinition, DateUtil.newDate(), Collections.emptyMap());
-orchestraServices.getReport().getSummaryByDateAndName(myFirstProcessDefinition, 
+orchestraServices.getScheduler().scheduleAt(myFirstProcessDefinition, DateUtil.newDateTime(), Collections.emptyMap());
+orchestraServices.getReport().getSummaryByDate(myFirstProcessDefinition, 
 		DateUtil.parse("01/01/2017", "dd/MM/yyyy"), DateUtil.parse("31/12/2017", "dd/MM/yyyy"));
 ```
 
