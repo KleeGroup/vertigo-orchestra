@@ -59,7 +59,7 @@ public class ReportingTest extends AbstractOrchestraTestCaseJU4 {
 
 		final ProcessDefinition processDefinition = executeProcess();
 		// -1h +1h
-		final ExecutionSummary executionSummary = processExecutionManager.getReport().getSummaryByDateAndName(processDefinition, new Date(DateUtil.newDateTime().getTime() - 60 * 60 * 1000),
+		final ExecutionSummary executionSummary = processExecutionManager.getReport().getSummaryByDate(processDefinition, new Date(DateUtil.newDateTime().getTime() - 60 * 60 * 1000),
 				new Date(DateUtil.newDateTime().getTime() + 60 * 60 * 1000));
 		Assert.assertTrue(1 == executionSummary.getSuccessfulCount());
 	}

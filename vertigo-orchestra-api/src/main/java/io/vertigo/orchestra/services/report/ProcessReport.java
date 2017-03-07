@@ -34,7 +34,7 @@ public interface ProcessReport {
 	 * @param maxDate la date de fin
 	 * @return le résumé
 	 */
-	ExecutionSummary getSummaryByDateAndName(ProcessDefinition processDefinition, Date minDate, Date maxDate);
+	ExecutionSummary getSummaryByDate(ProcessDefinition processDefinition, Date minDate, Date maxDate);
 
 	/**
 	 * Retourne une execution de processus.

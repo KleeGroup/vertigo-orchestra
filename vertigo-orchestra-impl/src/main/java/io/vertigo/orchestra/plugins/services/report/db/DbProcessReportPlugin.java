@@ -52,7 +52,7 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 	}
 
 	@Override
-	public ExecutionSummary getSummaryByDateAndName(final ProcessDefinition processDefinition, final Date minDate, final Date maxDate) {
+	public ExecutionSummary getSummaryByDate(final ProcessDefinition processDefinition, final Date minDate, final Date maxDate) {
 		checkProcessDefinition(processDefinition);
 		//---
 		return decodeSummary(summaryPAO.getExecutionSummaryByDateAndName(minDate, maxDate, processDefinition.getName()));

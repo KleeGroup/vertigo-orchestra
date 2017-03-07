@@ -132,7 +132,7 @@ public class WsExecution implements WebServices {
 		final ProcessDefinition processDefinition = orchestraDefinitionManager.getProcessDefinition(processName);
 		final Calendar firstDayOfWeek = getFirstDayOfWeek();
 		return orchestraServices.getReport()
-				.getSummaryByDateAndName(processDefinition, firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek));
+				.getSummaryByDate(processDefinition, firstDayOfWeek.getTime(), getFirstDayOfNextWeekDate(firstDayOfWeek));
 	}
 
 	/**
