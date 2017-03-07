@@ -11,13 +11,23 @@ import io.vertigo.core.plugins.resource.url.URLResourceResolverPlugin;
 import io.vertigo.dynamo.impl.DynamoFeatures;
 import io.vertigo.dynamo.impl.database.vendor.h2.H2DataBase;
 import io.vertigo.dynamo.plugins.database.connection.c3p0.C3p0ConnectionProviderPlugin;
+import io.vertigo.dynamo.plugins.kvstore.delayedmemory.DelayedMemoryKVStorePlugin;
 import io.vertigo.dynamo.plugins.store.datastore.sql.SqlDataStorePlugin;
 import io.vertigo.orchestra.boot.DataBaseInitializer;
 import io.vertigo.orchestra.util.monitoring.MonitoringServices;
 import io.vertigo.orchestra.util.monitoring.MonitoringServicesImpl;
+import io.vertigo.orchestra.webservices.WsDefinition;
+import io.vertigo.orchestra.webservices.WsExecution;
+import io.vertigo.orchestra.webservices.WsExecutionControl;
+import io.vertigo.orchestra.webservices.data.user.TestUserSession;
+import io.vertigo.orchestra.webservices.data.user.WsTestLogin;
+import io.vertigo.persona.impl.security.PersonaFeatures;
+import io.vertigo.vega.VegaFeatures;
 
 public final class MyAppConfig {
-	private static AppConfigBuilder createAppConfigBuilder() {
+	public static final int WS_PORT = 8088;
+
+	public static AppConfigBuilder createAppConfigBuilder() {
 		return new AppConfigBuilder().beginBoot()
 				.withLocales("fr_FR")
 				.addPlugin(ClassPathResourceResolverPlugin.class)
@@ -29,6 +39,10 @@ public final class MyAppConfig {
 						.withScript()
 						.build())
 				.addModule(new DynamoFeatures()
+						.withKVStore()
+						.addKVStorePlugin(DelayedMemoryKVStorePlugin.class,
+								Param.create("collections", "tokens"),
+								Param.create("timeToLiveSeconds", "120"))
 						.withStore()
 						.addDataStorePlugin(SqlDataStorePlugin.class,
 								Param.create("dataSpace", "orchestra"),
@@ -54,9 +68,41 @@ public final class MyAppConfig {
 						.build());
 	}
 
+	public static void addVegaEmbeded(final AppConfigBuilder appConfigBuilder) {
+		appConfigBuilder
+				.addModule(new PersonaFeatures()
+						.withUserSession(TestUserSession.class)
+						.build())
+				.addModule(new VegaFeatures()
+						.withTokens("tokens")
+						.withSecurity()
+						.withMisc()
+						.withEmbeddedServer(WS_PORT)
+						.build());
+	}
+
+	public static void addWebServices(final AppConfigBuilder appConfigBuilder) {
+		appConfigBuilder
+				.addModule(new ModuleConfigBuilder("orchestra-ws")
+						.withNoAPI()
+						.addComponent(WsDefinition.class)
+						.addComponent(WsExecution.class)
+						.addComponent(WsExecutionControl.class)
+						.addComponent(WsTestLogin.class)
+						.build());
+	}
+
 	public static AppConfig config() {
 		// @formatter:off
 		return createAppConfigBuilder().build();
+	}
+
+	public static AppConfig configWithVega() {
+		// @formatter:off
+		final AppConfigBuilder builder = createAppConfigBuilder();
+		addVegaEmbeded(builder);
+		addWebServices(builder);
+		return builder.build();
 	}
 
 
