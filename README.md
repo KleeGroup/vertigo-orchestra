@@ -95,11 +95,10 @@ Once you've created you definition you must register it. For that purpose you mu
 orchestraDefinitionManager.createOrUpdateDefinition(myFirstProcessDefinition);
 ```
 
-Since the process' definition is registered you can :
+Since the process' definition is registered you can through the **OrchestraServices** :
 - Monitor executions
 - Schedule new executions
-through the **OrchestraServices** 
-
+ 
 Important note : The execution is always triggered by the scheduler. If you want to execute something now use the scheduleAt method of the *ProcessScheduler*
 
 For example :
