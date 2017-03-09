@@ -107,7 +107,7 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 				execution.getChecked(),
 				execution.getCheckingDate(),
 				execution.getCheckingComment(),
-				execution.getHasLogFile());
+				execution.getHasAttachment());
 	}
 
 	private static List<ProcessExecution> decodeExecutionList(final List<OProcessExecutionUi> executions) {
@@ -128,7 +128,7 @@ public class DbProcessReportPlugin implements ProcessReportPlugin {
 				execution.getStatus(),
 				execution.getWorkspaceIn(),
 				execution.getWorkspaceOut(),
-				execution.getHasLogFile(),
+				execution.getHasAttachment(),
 				execution.getHasTechnicalLog());
 	}
 

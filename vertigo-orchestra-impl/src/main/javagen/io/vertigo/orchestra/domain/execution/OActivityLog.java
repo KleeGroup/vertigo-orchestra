@@ -17,7 +17,7 @@ public final class OActivityLog implements Entity {
 
 	private Long aclId;
 	private String log;
-	private String logFile;
+	private String attachment;
 	private Long aceId;
 	private io.vertigo.orchestra.domain.execution.OActivityExecution activityExecution;
 
@@ -67,21 +67,21 @@ public final class OActivityLog implements Entity {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Fichier de log'.
-	 * @return String logFile
+	 * Récupère la valeur de la propriété 'Fichier joint'.
+	 * @return String attachment
 	 */
-	@Field(domain = "DO_O_TEXT", label = "Fichier de log")
-	public String getLogFile() {
-		return logFile;
+	@Field(domain = "DO_O_TEXT", label = "Fichier joint")
+	public String getAttachment() {
+		return attachment;
 	}
 
 	/**
 	 * Champ : DATA.
-	 * Définit la valeur de la propriété 'Fichier de log'.
-	 * @param logFile String
+	 * Définit la valeur de la propriété 'Fichier joint'.
+	 * @param attachment String
 	 */
-	public void setLogFile(final String logFile) {
-		this.logFile = logFile;
+	public void setAttachment(final String attachment) {
+		this.attachment = attachment;
 	}
 
 	/**

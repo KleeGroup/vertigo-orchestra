@@ -108,7 +108,7 @@ module.exports = {
             domain: "DO_O_JSON_TEXT",
             required: false
         },
-        hasLogFile: {
+        hasAttachment: {
             domain: "DO_O_BOOLEEN",
             required: false
         },
@@ -126,7 +126,7 @@ module.exports = {
             domain: "DO_O_TEXT",
             required: false
         },
-        logFile: {
+        attachment: {
             domain: "DO_O_TEXT",
             required: false
         },
@@ -352,7 +352,7 @@ module.exports = {
             domain: "DO_O_TEXT",
             required: false
         },
-        hasLogFile: {
+        hasAttachment: {
             domain: "DO_O_BOOLEEN",
             required: false
         }

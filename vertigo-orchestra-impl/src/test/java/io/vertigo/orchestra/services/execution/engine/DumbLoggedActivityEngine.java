@@ -16,6 +16,7 @@ public class DumbLoggedActivityEngine extends AbstractActivityEngine {
 	public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace workspace) {
 		getLogger().info("Info 1");
 		getLogger().info("Info 2");
+		workspace.setAttachment("/testPath");
 		workspace.setSuccess();
 		try {
 			Thread.sleep(1000 * 5);

@@ -21,7 +21,7 @@ public final class OProcessExecutionUi implements DtObject {
 	private Boolean checked;
 	private java.util.Date checkingDate;
 	private String checkingComment;
-	private Boolean hasLogFile;
+	private Boolean hasAttachment;
 
 	/**
 	 * Champ : DATA.
@@ -178,20 +178,20 @@ public final class OProcessExecutionUi implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Récupère la valeur de la propriété 'Fichier de log'.
-	 * @return Boolean hasLogFile
+	 * @return Boolean hasAttachment
 	 */
 	@Field(domain = "DO_O_BOOLEEN", label = "Fichier de log")
-	public Boolean getHasLogFile() {
-		return hasLogFile;
+	public Boolean getHasAttachment() {
+		return hasAttachment;
 	}
 
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Fichier de log'.
-	 * @param hasLogFile Boolean
+	 * @param hasAttachment Boolean
 	 */
-	public void setHasLogFile(final Boolean hasLogFile) {
-		this.hasLogFile = hasLogFile;
+	public void setHasAttachment(final Boolean hasAttachment) {
+		this.hasAttachment = hasAttachment;
 	}
 
 	//Aucune Association déclarée

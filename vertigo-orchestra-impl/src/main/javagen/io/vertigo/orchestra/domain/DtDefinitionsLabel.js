@@ -34,13 +34,13 @@ module.exports = {
         status: "Statut",
         workspaceIn: "Paramètres entrants",
         workspaceOut: "Paramètres sortants",
-        hasLogFile: "Fichier de log",
+        hasAttachment: "Fichier de log",
         hasTechnicalLog: "Log technique"
     },
     oActivityLog: {
         aclId: "Id du log",
         log: "Contenu du log",
-        logFile: "Fichier de log",
+        attachment: "Fichier joint",
         aceId: "ActivityExecution"
     },
     oActivityWorkspace: {
@@ -107,7 +107,7 @@ module.exports = {
         checked: "Pris en charge",
         checkingDate: "Date de prise en charge",
         checkingComment: "Commentaire",
-        hasLogFile: "Fichier de log"
+        hasAttachment: "Fichier de log"
     },
     oProcessPlanification: {
         prpId: "Id Planification",

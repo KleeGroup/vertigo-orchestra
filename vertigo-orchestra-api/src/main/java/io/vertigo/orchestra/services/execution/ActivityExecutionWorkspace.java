@@ -19,7 +19,7 @@ public final class ActivityExecutionWorkspace {
 	public static final String PRE_ID_KEY = "processExecutionId";
 	public static final String PROCESS_NAME_KEY = "processName";
 	public static final String TOKEN_KEY = "token";
-	public static final String LOG_FILE_KEY = "logFile";
+	public static final String ATTACHMENT_KEY = "attachment";
 	public static final String PARSING_ERROR_KEY = "parsingError";
 
 	private final Map<String, String> params;
@@ -160,22 +160,22 @@ public final class ActivityExecutionWorkspace {
 	/**
 	 * Assigne le chemin relatif du fichier de log (par rapport au root orchestra).
 	 */
-	public void setLogFile(final String logFile) {
-		params.put(LOG_FILE_KEY, logFile);
+	public void setAttachment(final String logFile) {
+		params.put(ATTACHMENT_KEY, logFile);
 	}
 
 	/**
 	 * Retourne le chemin relatif du fichier de log.
 	 */
-	public String getLogFile() {
-		return getValue(LOG_FILE_KEY);
+	public String getAttachment() {
+		return getValue(ATTACHMENT_KEY);
 	}
 
 	/**
 	 * Remet à zéro la variable spécifiant le fichier de log.
 	 */
-	public void resetLogFile() {
-		params.remove(LOG_FILE_KEY);
+	public void resetAttachment() {
+		params.remove(ATTACHMENT_KEY);
 	}
 
 	// --- Execution State in workspace

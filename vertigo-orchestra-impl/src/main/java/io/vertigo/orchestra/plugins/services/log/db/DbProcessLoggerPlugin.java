@@ -80,7 +80,7 @@ public class DbProcessLoggerPlugin implements ProcessLoggerPlugin {
 		Assertion.checkNotNull(activityLog);
 		// ---
 		if (activityLog.isPresent()) {
-			final File file = new File(paramManager.getParam(ROOT_DIRECTORY).getValueAsString() + activityLog.get().getLogFile());
+			final File file = new File(paramManager.getParam(ROOT_DIRECTORY).getValueAsString() + activityLog.get().getAttachment());
 			if (file.exists()) {
 				return Optional.of(fileManager.createFile(file));
 			}

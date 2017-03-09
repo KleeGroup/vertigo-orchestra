@@ -131,7 +131,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		/** Propriété 'Paramètres sortants'. */
 		WORKSPACE_OUT,
 		/** Propriété 'Fichier de log'. */
-		HAS_LOG_FILE,
+		HAS_ATTACHMENT,
 		/** Propriété 'Log technique'. */
 		HAS_TECHNICAL_LOG,
 	}
@@ -144,8 +144,8 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		ACL_ID,
 		/** Propriété 'Contenu du log'. */
 		LOG,
-		/** Propriété 'Fichier de log'. */
-		LOG_FILE,
+		/** Propriété 'Fichier joint'. */
+		ATTACHMENT,
 		/** Propriété 'ActivityExecution'. */
 		ACE_ID,
 	}
@@ -293,7 +293,7 @@ public final class DtDefinitions implements Iterable<Class<?>> {
 		/** Propriété 'Commentaire'. */
 		CHECKING_COMMENT,
 		/** Propriété 'Fichier de log'. */
-		HAS_LOG_FILE,
+		HAS_ATTACHMENT,
 	}
 
 	/**

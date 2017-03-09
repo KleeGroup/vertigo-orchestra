@@ -220,7 +220,7 @@ public class DbProcessSchedulerPlugin implements ProcessSchedulerPlugin, Activea
 
 	private DtList<OProcessPlanification> getPlanificationsToTrigger() {
 		final GregorianCalendar lowerLimit = new GregorianCalendar(Locale.FRANCE);
-		lowerLimit.add(Calendar.SECOND, -planningPeriodSeconds * 5 / 4); //Just to be sure that nothing will be lost
+		lowerLimit.add(Calendar.MILLISECOND, -planningPeriodSeconds * 1000 * 5 / 4); //Just to be sure that nothing will be lost
 
 		final GregorianCalendar upperLimit = new GregorianCalendar(Locale.FRANCE);
 

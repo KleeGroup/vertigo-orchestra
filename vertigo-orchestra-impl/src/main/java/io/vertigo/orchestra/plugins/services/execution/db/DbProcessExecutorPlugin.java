@@ -453,7 +453,7 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 				final ActivityExecutionWorkspace previousWorkspace = getWorkspaceForActivityExecution(activityExecution.getAceId(), false);
 				// We remove the status and update the activityExecutionId and token
 				previousWorkspace.resetStatus();
-				previousWorkspace.resetLogFile();
+				previousWorkspace.resetAttachment();
 				previousWorkspace.setActivityExecutionId(nextActivityExecution.getAceId());
 				previousWorkspace.setToken(nextActivityExecution.getToken());
 				// ---
@@ -591,8 +591,8 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 				.append("ResultWorkspace : ").append(mapCodec.encode(resultWorkspace.asMap())).append("\n")//
 				.toString();
 		activityLog.setLog(log);
-		if (resultWorkspace.getLogFile() != null) {
-			activityLog.setLogFile(resultWorkspace.getLogFile());
+		if (resultWorkspace.getAttachment() != null) {
+			activityLog.setAttachment(resultWorkspace.getAttachment());
 		}
 		activityLogDAO.save(activityLog);
 	}

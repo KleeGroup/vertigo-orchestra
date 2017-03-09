@@ -139,7 +139,7 @@ create table O_ACTIVITY_LOG
 (
     ACL_ID      	 NUMERIC     	not null,
     LOG         	 TEXT        	,
-    LOG_FILE    	 TEXT        	,
+    ATTACHMENT  	 TEXT        	,
     ACE_ID      	 NUMERIC     	,
     constraint PK_O_ACTIVITY_LOG primary key (ACL_ID)
 );
@@ -150,8 +150,8 @@ comment on column O_ACTIVITY_LOG.ACL_ID is
 comment on column O_ACTIVITY_LOG.LOG is
 'Contenu du log';
 
-comment on column O_ACTIVITY_LOG.LOG_FILE is
-'Fichier de log';
+comment on column O_ACTIVITY_LOG.ATTACHMENT is
+'Fichier joint';
 
 comment on column O_ACTIVITY_LOG.ACE_ID is
 'ActivityExecution';

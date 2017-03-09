@@ -67,7 +67,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// The task takes 10 secondes to run we wait 12 secondes to check the final states
-		Thread.sleep(1000 * 12);
+		Thread.sleep(1000 * 13);
 
 		final DtList<OProcessPlanification> processPlanifications = monitoringServices.getPlanificationsByProId(proId);
 		// --- We check that planification is ok
@@ -95,7 +95,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		// We check the save is ok
 		Assert.assertNotNull(proId);
 
-		Thread.sleep(1000 * 1);
+		Thread.sleep(1000 * 2);
 		// --- We get the first planification
 		final DtList<OProcessPlanification> processPlanifications = monitoringServices.getPlanificationsByProId(proId);
 		Assert.assertTrue(processPlanifications.size() >= 1);
@@ -282,7 +282,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 
 		//we schedule in 2 seconds
 		orchestraServices.getScheduler()
-				.scheduleAt(processDefinition, new Date(System.currentTimeMillis() + 1000 * 2), Collections.emptyMap());
+				.scheduleAt(processDefinition, new Date(), Collections.emptyMap());
 
 		// After 4 second the process is running
 		Thread.sleep(1000 * 4);
@@ -344,6 +344,7 @@ public class ExecutionTest extends AbstractOrchestraTestCaseJU4 {
 		final Optional<OActivityLog> activityLog = monitoringServices
 				.getActivityLogByAceId(monitoringServices.getActivityExecutionsByPreId(monitoringServices.getExecutionsByProId(proId).get(0).getPreId()).get(0).getAceId());
 		Assert.assertTrue(activityLog.isPresent());
+		Assert.assertEquals("/testPath", activityLog.get().getAttachment());
 
 	}
 
