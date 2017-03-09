@@ -139,7 +139,7 @@ create table O_ACTIVITY_LOG
 (
     ACL_ID      	 NUMERIC     	not null,
     LOG         	 TEXT        	,
-    LOG_FILE    	 TEXT        	,
+    ATTACHMENT  	 TEXT        	,
     ACE_ID      	 NUMERIC     	,
     constraint PK_O_ACTIVITY_LOG primary key (ACL_ID)
 );
@@ -150,8 +150,8 @@ comment on column O_ACTIVITY_LOG.ACL_ID is
 comment on column O_ACTIVITY_LOG.LOG is
 'Contenu du log';
 
-comment on column O_ACTIVITY_LOG.LOG_FILE is
-'Fichier de log';
+comment on column O_ACTIVITY_LOG.ATTACHMENT is
+'Fichier joint';
 
 comment on column O_ACTIVITY_LOG.ACE_ID is
 'ActivityExecution';
@@ -531,6 +531,8 @@ alter table O_ACTIVITY_WORKSPACE
 	references O_ACTIVITY_EXECUTION (ACE_ID);
 
 create index TKW_TKE_O_ACTIVITY_EXECUTION_FK on O_ACTIVITY_WORKSPACE (ACE_ID asc);
+
+
 
 
 insert into o_execution_state(est_cd, label) values ('WAITING', 'Waiting');
