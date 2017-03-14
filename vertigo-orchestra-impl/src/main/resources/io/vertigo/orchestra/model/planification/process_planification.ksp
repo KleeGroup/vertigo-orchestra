@@ -1,7 +1,7 @@
 package io.vertigo.orchestra.domain.planification
 
 create DtDefinition DT_O_PROCESS_PLANIFICATION {
-	persistent: "true",
+	storeName : "orchestra"
 	key PRP_ID	{domain : DO_O_IDENTIFIANT, label :"Id Planification", notNull:"true",},
 	field EXPECTED_TIME   	{domain : DO_O_TIMESTAMP, label :"Date d'execution prévue", notNull:"false",},
 	field INITIAL_PARAMS	{domain : DO_O_JSON_TEXT, label :"Paramètres initiaux sous forme de JSON ", notNull:"false",},
@@ -50,10 +50,10 @@ create Association A_PRP_NOD {
 
 
 create Association A_PRP_PST {
-  fkFieldName : "PST_CD"
+  fkFieldName : "SST_CD"
     
  	dtDefinitionA : DT_O_PROCESS_PLANIFICATION
-	dtDefinitionB : DT_O_PLANIFICATION_STATE
+	dtDefinitionB : DT_O_SCHEDULER_STATE
 			
 	navigabilityA : "false"
 	navigabilityB : "true"

@@ -1,12 +1,12 @@
 package io.vertigo.orchestra.dao.execution;
 
 import javax.inject.Inject;
+import java.util.Optional;
 import io.vertigo.app.Home;
-import io.vertigo.lang.Option;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.dynamo.impl.store.util.DAOBroker;
+import io.vertigo.dynamo.impl.store.util.DAO;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.store.StoreServices;
 import io.vertigo.dynamo.task.TaskManager;
@@ -16,8 +16,8 @@ import io.vertigo.orchestra.domain.execution.ONode;
  * DAO : Accès à un object (DTO, DTC). 
  * ONodeDAO
  */
-public final class ONodeDAO extends DAOBroker<ONode, java.lang.Long> implements StoreServices {
-	 
+public final class ONodeDAO extends DAO<ONode, java.lang.Long> implements StoreServices {
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -27,7 +27,7 @@ public final class ONodeDAO extends DAOBroker<ONode, java.lang.Long> implements 
 	public ONodeDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(ONode.class, storeManager, taskManager);
 	}
-	
+
 
 	/**
 	 * Creates a taskBuilder.
@@ -44,14 +44,13 @@ public final class ONodeDAO extends DAOBroker<ONode, java.lang.Long> implements 
 	 * @param nodeName String 
 	 * @return Option de io.vertigo.orchestra.domain.execution.ONode dtoONode
 	*/
-	public Option<io.vertigo.orchestra.domain.execution.ONode> getNodeByName(final String nodeName) {
+	public Optional<io.vertigo.orchestra.domain.execution.ONode> getNodeByName(final String nodeName) {
 		final Task task = createTaskBuilder("TK_GET_NODE_BY_NAME")
 				.addValue("NODE_NAME", nodeName)
 				.build();
-		return Option.option((io.vertigo.orchestra.domain.execution.ONode)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.ONode) getTaskManager()
 				.execute(task)
 				.getResult());
 	}
-
 
 }

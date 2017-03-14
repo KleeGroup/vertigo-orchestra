@@ -5,7 +5,7 @@ import io.vertigo.app.Home;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.dynamo.impl.store.util.DAOBroker;
+import io.vertigo.dynamo.impl.store.util.DAO;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.store.StoreServices;
 import io.vertigo.dynamo.task.TaskManager;
@@ -15,8 +15,8 @@ import io.vertigo.orchestra.domain.execution.OActivityExecution;
  * DAO : Accès à un object (DTO, DTC). 
  * OActivityExecutionDAO
  */
-public final class OActivityExecutionDAO extends DAOBroker<OActivityExecution, java.lang.Long> implements StoreServices {
-	 
+public final class OActivityExecutionDAO extends DAO<OActivityExecution, java.lang.Long> implements StoreServices {
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -26,7 +26,7 @@ public final class OActivityExecutionDAO extends DAOBroker<OActivityExecution, j
 	public OActivityExecutionDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OActivityExecution.class, storeManager, taskManager);
 	}
-	
+
 
 	/**
 	 * Creates a taskBuilder.
@@ -53,6 +53,20 @@ public final class OActivityExecutionDAO extends DAOBroker<OActivityExecution, j
 	}
 
 	/**
+	 * Execute la tache TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID.
+	 * @param preId Long 
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OActivityExecution> dtcOActivityExecution
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OActivityExecution> getActivityExecutionsByPreId(final Long preId) {
+		final Task task = createTaskBuilder("TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID")
+				.addValue("PRE_ID", preId)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
+
+	/**
 	 * Execute la tache TK_GET_ACTIVITY_EXECUTION_BY_TOKEN.
 	 * @param aceId Long 
 	 * @param token String 
@@ -67,20 +81,5 @@ public final class OActivityExecutionDAO extends DAOBroker<OActivityExecution, j
 				.execute(task)
 				.getResult();
 	}
-
-	/**
-	 * Execute la tache TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID.
-	 * @param preId Long 
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OActivityExecution> dtcOActivityExecution
-	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.execution.OActivityExecution> getActivityExecutionsByPreId(final Long preId) {
-		final Task task = createTaskBuilder("TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID")
-				.addValue("PRE_ID", preId)
-				.build();
-		return getTaskManager()
-				.execute(task)
-				.getResult();
-	}
-
 
 }

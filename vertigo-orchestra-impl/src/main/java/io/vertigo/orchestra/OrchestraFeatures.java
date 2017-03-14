@@ -1,6 +1,9 @@
 package io.vertigo.orchestra;
 
+import io.vertigo.app.config.DefinitionProviderConfigBuilder;
 import io.vertigo.app.config.Features;
+import io.vertigo.core.param.Param;
+import io.vertigo.dynamo.plugins.environment.DynamoDefinitionProvider;
 import io.vertigo.orchestra.dao.definition.DefinitionPAO;
 import io.vertigo.orchestra.dao.definition.OActivityDAO;
 import io.vertigo.orchestra.dao.definition.OProcessDAO;
@@ -12,52 +15,64 @@ import io.vertigo.orchestra.dao.execution.ONodeDAO;
 import io.vertigo.orchestra.dao.execution.OProcessExecutionDAO;
 import io.vertigo.orchestra.dao.planification.OProcessPlanificationDAO;
 import io.vertigo.orchestra.dao.planification.PlanificationPAO;
-import io.vertigo.orchestra.definition.ProcessDefinitionManager;
+import io.vertigo.orchestra.definitions.OrchestraDefinitionManager;
 import io.vertigo.orchestra.domain.DtDefinitions;
-import io.vertigo.orchestra.execution.NodeManager;
-import io.vertigo.orchestra.execution.ProcessExecutionManager;
-import io.vertigo.orchestra.impl.OrchestraManagerImpl;
-import io.vertigo.orchestra.impl.definition.ProcessDefinitionManagerImpl;
-import io.vertigo.orchestra.impl.execution.NodeManagerImpl;
-import io.vertigo.orchestra.impl.execution.ProcessExecutionManagerImpl;
-import io.vertigo.orchestra.impl.execution.SequentialExecutorPlugin;
-import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerManagerImpl;
-import io.vertigo.orchestra.impl.scheduler.ProcessSchedulerPlugin;
-import io.vertigo.orchestra.scheduler.ProcessSchedulerManager;
+import io.vertigo.orchestra.impl.definitions.OrchestraDefinitionManagerImpl;
+import io.vertigo.orchestra.impl.node.NodeManager;
+import io.vertigo.orchestra.impl.node.NodeManagerImpl;
+import io.vertigo.orchestra.impl.services.OrchestraServicesImpl;
+import io.vertigo.orchestra.monitoring.dao.summary.SummaryPAO;
+import io.vertigo.orchestra.monitoring.dao.uidefinitions.UidefinitionsPAO;
+import io.vertigo.orchestra.monitoring.dao.uiexecutions.UiexecutionsPAO;
+import io.vertigo.orchestra.plugins.definitions.db.DbProcessDefinitionStorePlugin;
+import io.vertigo.orchestra.plugins.definitions.memory.MemoryProcessDefinitionStorePlugin;
+import io.vertigo.orchestra.plugins.services.execution.db.DbProcessExecutorPlugin;
+import io.vertigo.orchestra.plugins.services.execution.memory.MemoryProcessExecutorPlugin;
+import io.vertigo.orchestra.plugins.services.log.db.DbProcessLoggerPlugin;
+import io.vertigo.orchestra.plugins.services.report.db.DbProcessReportPlugin;
+import io.vertigo.orchestra.plugins.services.schedule.db.DbProcessSchedulerPlugin;
+import io.vertigo.orchestra.plugins.services.schedule.memory.MemoryProcessSchedulerPlugin;
+import io.vertigo.orchestra.services.OrchestraServices;
+import io.vertigo.orchestra.webservices.WsDefinition;
+import io.vertigo.orchestra.webservices.WsExecution;
+import io.vertigo.orchestra.webservices.WsExecutionControl;
+import io.vertigo.orchestra.webservices.WsInfos;
 
 /**
- * Defines extension comment.
+ * Defines extension orchestra.
  * @author pchretien
  */
 public final class OrchestraFeatures extends Features {
 
+	/**
+	 * Constructeur de la feature.
+	 */
 	public OrchestraFeatures() {
 		super("orchestra");
 	}
 
-	@Override
-	protected void setUp() {
-		final String period = "1";
-		final String nodeName = "NODE_TEST_1";
-
-		// @formatter:off
+	/**
+	 * Activate Orchestra with Database.
+	 * @param nodeName the node of the app
+	 * @param daemonPeriodSeconds the period for scheduling and execution
+	 * @param workersCount the number of workers
+	 * @param forecastDurationSeconds the time to forecast planifications
+	 * @return these features
+	 */
+	public OrchestraFeatures withDataBase(final String nodeName, final int daemonPeriodSeconds, final int workersCount, final int forecastDurationSeconds) {
 		getModuleConfigBuilder()
 				.withNoAPI()
-				.addComponent(NodeManager.class, NodeManagerImpl.class)
-				.addComponent(ProcessDefinitionManager.class, ProcessDefinitionManagerImpl.class)
-				.addComponent(ProcessSchedulerManager.class, ProcessSchedulerManagerImpl.class)
-				.beginPlugin(ProcessSchedulerPlugin.class)
-					.addParam("nodeName", nodeName)
-					.addParam("planningPeriodSeconds", period)
-					.addParam("forecastDurationSeconds", "60")
-				.endPlugin()
-				.addComponent(ProcessExecutionManager.class, ProcessExecutionManagerImpl.class)
-				.beginPlugin(SequentialExecutorPlugin.class)
-					.addParam("nodeName", nodeName)
-					.addParam("workersCount", "3")
-					.addParam("executionPeriodSeconds", period)
-				.endPlugin()
-				.addComponent(OrchestraManager.class, OrchestraManagerImpl.class)
+				.addPlugin(DbProcessDefinitionStorePlugin.class)
+				.addPlugin(DbProcessSchedulerPlugin.class,
+						Param.create("nodeName", nodeName),
+						Param.create("planningPeriodSeconds", String.valueOf(daemonPeriodSeconds)),
+						Param.create("forecastDurationSeconds", String.valueOf(forecastDurationSeconds)))
+				.addPlugin(DbProcessExecutorPlugin.class,
+						Param.create("nodeName", nodeName),
+						Param.create("workersCount", String.valueOf(workersCount)),
+						Param.create("executionPeriodSeconds", String.valueOf(daemonPeriodSeconds)))
+				.addPlugin(DbProcessReportPlugin.class)
+				.addPlugin(DbProcessLoggerPlugin.class)
 				//----DAO
 				.addComponent(OProcessDAO.class)
 				.addComponent(OActivityDAO.class)
@@ -71,12 +86,53 @@ public final class OrchestraFeatures extends Features {
 				.addComponent(DefinitionPAO.class)
 				.addComponent(ExecutionPAO.class)
 				.addComponent(PlanificationPAO.class)
+				.addComponent(UidefinitionsPAO.class)
+				.addComponent(UiexecutionsPAO.class)
+				.addComponent(SummaryPAO.class)
 				//----Definitions
-				.addDefinitionResource("kpr", "io/vertigo/orchestra/execution.kpr")
-				.addDefinitionResource("classes", DtDefinitions.class.getName());
-				//---WS
-//				/.addComponent(WSMonitoring.class);
-		// @formatter:on
+				.addDefinitionProvider(new DefinitionProviderConfigBuilder(DynamoDefinitionProvider.class)
+						.addDefinitionResource("kpr", "io/vertigo/orchestra/execution.kpr")
+						.addDefinitionResource("classes", DtDefinitions.class.getName())
+						.build());
+		return this;
+	}
+
+	/**
+	 * Activate Orchestra with Memory.
+	 * @param workersCount the number of workers
+	 * @return these features
+	 */
+	public OrchestraFeatures withMemory(final int workersCount) {
+		getModuleConfigBuilder()
+				.addPlugin(MemoryProcessDefinitionStorePlugin.class)
+				.addPlugin(MemoryProcessSchedulerPlugin.class)
+				.addPlugin(MemoryProcessExecutorPlugin.class,
+						Param.create("workersCount", String.valueOf(workersCount)));
+
+		return this;
+	}
+
+	/**
+	 * Activate Orchestra's REST WebServices.
+	 * @return these features
+	 */
+	public OrchestraFeatures withWebApi() {
+		getModuleConfigBuilder()
+				.addComponent(WsDefinition.class)
+				.addComponent(WsExecution.class)
+				.addComponent(WsExecutionControl.class)
+				.addComponent(WsInfos.class);
+
+		return this;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected void buildFeatures() {
+		getModuleConfigBuilder()
+				.addComponent(NodeManager.class, NodeManagerImpl.class)
+				.addComponent(OrchestraDefinitionManager.class, OrchestraDefinitionManagerImpl.class)
+				.addComponent(OrchestraServices.class, OrchestraServicesImpl.class);
 
 	}
 }

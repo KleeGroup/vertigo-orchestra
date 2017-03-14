@@ -20,29 +20,26 @@ limitations under the License. -->
 	<parent>
 		<groupId>io.vertigo</groupId>
 		<artifactId>vertigo-parent</artifactId>
-		<version>0.9.1</version>
+		<version>0.9.4-SNAPSHOT</version>
 	</parent> 
 	
 	<artifactId>vertigo-orchestra</artifactId>
-	<version>0.1-SNAPSHOT</version>
 	<name>vertigo-orchestra</name>
 	<packaging>pom</packaging>
-
+	
 	<properties>
-		<vertigo.version>0.9.1</vertigo.version>
+		<sonar.javascript.file.suffixes>.js,.jsx</sonar.javascript.file.suffixes>
 	</properties>
 	
 	<modules>
 		<module>vertigo-orchestra-api</module>
 		<module>vertigo-orchestra-impl</module>
-		<module>vertigo-orchestra-webapi</module>
-		<module>vertigo-orchestra-ui</module>
 	</modules>
 
 	<scm>
 		<connection>scm:git:https://github.com/KleeGroup/vertigo-orchestra.git</connection>
 		<developerConnection>scm:git:https://github.com/KleeGroup/vertigo-orchestra.git</developerConnection>
 		<url>scm:git:https://github.com/KleeGroup/vertigo-orchestra.git</url>
-		<tag>vertigo-orchestra-0.1.0</tag>
+		<tag>vertigo-orchestra-0.9.4-SNAPSHOT</tag>
 	</scm>
 </project>

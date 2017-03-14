@@ -17,3 +17,8 @@ model/planification/process_planification.ksp
 model/referential/states.ksp
 model/referential/types.ksp
 model/referential/users.ksp
+
+
+/monitoring/model/summary/executionSummary.ksp
+/monitoring/model/executions/uiExecutions.ksp
+/monitoring/model/definitions/uiDefinitions.ksp

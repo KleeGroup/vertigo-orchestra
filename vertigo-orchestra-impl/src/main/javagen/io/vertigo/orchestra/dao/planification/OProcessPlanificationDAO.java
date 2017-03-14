@@ -1,12 +1,12 @@
 package io.vertigo.orchestra.dao.planification;
 
 import javax.inject.Inject;
+import java.util.Optional;
 import io.vertigo.app.Home;
-import io.vertigo.lang.Option;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.dynamo.impl.store.util.DAOBroker;
+import io.vertigo.dynamo.impl.store.util.DAO;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.store.StoreServices;
 import io.vertigo.dynamo.task.TaskManager;
@@ -16,8 +16,8 @@ import io.vertigo.orchestra.domain.planification.OProcessPlanification;
  * DAO : Accès à un object (DTO, DTC). 
  * OProcessPlanificationDAO
  */
-public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanification, java.lang.Long> implements StoreServices {
-	 
+public final class OProcessPlanificationDAO extends DAO<OProcessPlanification, java.lang.Long> implements StoreServices {
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -27,7 +27,7 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 	public OProcessPlanificationDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OProcessPlanification.class, storeManager, taskManager);
 	}
-	
+
 
 	/**
 	 * Creates a taskBuilder.
@@ -37,34 +37,6 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 	private static TaskBuilder createTaskBuilder(final String name) {
 		final TaskDefinition taskDefinition = Home.getApp().getDefinitionSpace().resolve(name, TaskDefinition.class);
 		return new TaskBuilder(taskDefinition);
-	}
-
-	/**
-	 * Execute la tache TK_GET_PROCESS_TO_EXECUTE.
-	 * @param nodId Long 
-	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> dtcOProcessPlanification
-	*/
-	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> getProcessToExecute(final Long nodId) {
-		final Task task = createTaskBuilder("TK_GET_PROCESS_TO_EXECUTE")
-				.addValue("NOD_ID", nodId)
-				.build();
-		return getTaskManager()
-				.execute(task)
-				.getResult();
-	}
-
-	/**
-	 * Execute la tache TK_GET_LAST_PLANIFICATION_BY_PRO_ID.
-	 * @param proId Long 
-	 * @return Option de io.vertigo.orchestra.domain.planification.OProcessPlanification dtOProcessPlanification
-	*/
-	public Option<io.vertigo.orchestra.domain.planification.OProcessPlanification> getLastPlanificationByProId(final Long proId) {
-		final Task task = createTaskBuilder("TK_GET_LAST_PLANIFICATION_BY_PRO_ID")
-				.addValue("PRO_ID", proId)
-				.build();
-		return Option.option((io.vertigo.orchestra.domain.planification.OProcessPlanification)getTaskManager()
-				.execute(task)
-				.getResult());
 	}
 
 	/**
@@ -82,6 +54,20 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 	}
 
 	/**
+	 * Execute la tache TK_GET_LAST_PLANIFICATION_BY_PRO_ID.
+	 * @param proId Long 
+	 * @return Option de io.vertigo.orchestra.domain.planification.OProcessPlanification dtOProcessPlanification
+	*/
+	public Optional<io.vertigo.orchestra.domain.planification.OProcessPlanification> getLastPlanificationByProId(final Long proId) {
+		final Task task = createTaskBuilder("TK_GET_LAST_PLANIFICATION_BY_PRO_ID")
+				.addValue("PRO_ID", proId)
+				.build();
+		return Optional.ofNullable((io.vertigo.orchestra.domain.planification.OProcessPlanification) getTaskManager()
+				.execute(task)
+				.getResult());
+	}
+
+	/**
 	 * Execute la tache TK_GET_PLANIFICATIONS_BY_PRO_ID.
 	 * @param proId Long 
 	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> dtcOProcessPlanification
@@ -95,5 +81,18 @@ public final class OProcessPlanificationDAO extends DAOBroker<OProcessPlanificat
 				.getResult();
 	}
 
+	/**
+	 * Execute la tache TK_GET_PROCESS_TO_EXECUTE.
+	 * @param nodId Long 
+	 * @return io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> dtcOProcessPlanification
+	*/
+	public io.vertigo.dynamo.domain.model.DtList<io.vertigo.orchestra.domain.planification.OProcessPlanification> getProcessToExecute(final Long nodId) {
+		final Task task = createTaskBuilder("TK_GET_PROCESS_TO_EXECUTE")
+				.addValue("NOD_ID", nodId)
+				.build();
+		return getTaskManager()
+				.execute(task)
+				.getResult();
+	}
 
 }

@@ -1,15 +1,16 @@
 package io.vertigo.orchestra.domain.referential;
 
-import io.vertigo.dynamo.domain.stereotype.DtDefinition;
+import io.vertigo.dynamo.domain.model.Entity;
+import io.vertigo.dynamo.domain.model.URI;
 import io.vertigo.dynamo.domain.stereotype.Field;
-import io.vertigo.dynamo.domain.model.DtObject;
 import io.vertigo.dynamo.domain.util.DtObjectUtil;
+
 /**
  * Attention cette classe est générée automatiquement !
  * Objet de données OExecutionState
  */
-@DtDefinition
-public final class OExecutionState implements DtObject {
+@io.vertigo.dynamo.domain.stereotype.DataSpace("orchestra")
+public final class OExecutionState implements Entity {
 
 	/** SerialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -17,9 +18,15 @@ public final class OExecutionState implements DtObject {
 	private String estCd;
 	private String label;
 
+	/** {@inheritDoc} */
+	@Override
+	public URI<OExecutionState> getURI() {
+		return DtObjectUtil.createURI(this);
+	}
+
 	/**
 	 * Champ : ID.
-	 * Récupère la valeur de la propriété 'Code'. 
+	 * Récupère la valeur de la propriété 'Code'.
 	 * @return String estCd <b>Obligatoire</b>
 	 */
 	@Field(domain = "DO_O_CODE_IDENTIFIANT", type = "ID", required = true, label = "Code")
@@ -38,8 +45,8 @@ public final class OExecutionState implements DtObject {
 
 	/**
 	 * Champ : DATA.
-	 * Récupère la valeur de la propriété 'Libellé'. 
-	 * @return String label 
+	 * Récupère la valeur de la propriété 'Libellé'.
+	 * @return String label
 	 */
 	@Field(domain = "DO_O_LIBELLE", label = "Libellé")
 	public String getLabel() {
@@ -49,16 +56,14 @@ public final class OExecutionState implements DtObject {
 	/**
 	 * Champ : DATA.
 	 * Définit la valeur de la propriété 'Libellé'.
-	 * @param label String 
+	 * @param label String
 	 */
 	public void setLabel(final String label) {
 		this.label = label;
 	}
 
-
-	// Association : ExecutionProcessus non navigable
-
 	// Association : ExecutionActivity non navigable
+	// Association : ExecutionProcessus non navigable
 
 	/** {@inheritDoc} */
 	@Override

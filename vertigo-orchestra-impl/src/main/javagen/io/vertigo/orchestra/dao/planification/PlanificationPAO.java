@@ -39,16 +39,12 @@ public final class PlanificationPAO implements StoreServices {
 	}
 
 	/**
-	 * Execute la tache TK_RESERVE_PROCESS_TO_EXECUTE.
-	 * @param lowerLimit java.util.Date 
-	 * @param upperLimit java.util.Date 
-	 * @param nodId Long 
+	 * Execute la tache TK_CLEAN_FUTURE_PLANIFICATIONS.
+	 * @param processName String 
 	*/
-	public void reserveProcessToExecute(final java.util.Date lowerLimit, final java.util.Date upperLimit, final Long nodId) {
-		final Task task = createTaskBuilder("TK_RESERVE_PROCESS_TO_EXECUTE")
-				.addValue("LOWER_LIMIT", lowerLimit)
-				.addValue("UPPER_LIMIT", upperLimit)
-				.addValue("NOD_ID", nodId)
+	public void cleanFuturePlanifications(final String processName) {
+		final Task task = createTaskBuilder("TK_CLEAN_FUTURE_PLANIFICATIONS")
+				.addValue("PROCESS_NAME", processName)
 				.build();
 		getTaskManager().execute(task);
 	}
@@ -65,18 +61,21 @@ public final class PlanificationPAO implements StoreServices {
 	}
 
 	/**
-	 * Execute la tache TK_CLEAN_FUTURE_PLANIFICATIONS.
-	 * @param processName String 
+	 * Execute la tache TK_RESERVE_PROCESS_TO_EXECUTE.
+	 * @param lowerLimit java.util.Date 
+	 * @param upperLimit java.util.Date 
+	 * @param nodId Long 
 	*/
-	public void cleanFuturePlanifications(final String processName) {
-		final Task task = createTaskBuilder("TK_CLEAN_FUTURE_PLANIFICATIONS")
-				.addValue("PROCESS_NAME", processName)
+	public void reserveProcessToExecute(final java.util.Date lowerLimit, final java.util.Date upperLimit, final Long nodId) {
+		final Task task = createTaskBuilder("TK_RESERVE_PROCESS_TO_EXECUTE")
+				.addValue("LOWER_LIMIT", lowerLimit)
+				.addValue("UPPER_LIMIT", upperLimit)
+				.addValue("NOD_ID", nodId)
 				.build();
 		getTaskManager().execute(task);
 	}
 
-    
-    private TaskManager getTaskManager(){
-    	return taskManager;
-    } 
+	private TaskManager getTaskManager() {
+		return taskManager;
+	}
 }

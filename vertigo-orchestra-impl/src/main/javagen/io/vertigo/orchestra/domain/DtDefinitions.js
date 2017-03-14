@@ -75,6 +75,48 @@ module.exports = {
             required: false
         }
     },
+    oActivityExecutionUi: {
+        aceId: {
+            domain: "DO_O_IDENTIFIANT",
+            required: true
+        },
+        label: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        beginTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: true
+        },
+        endTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: true
+        },
+        executionTime: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
+        status: {
+            domain: "DO_O_CODE_IDENTIFIANT",
+            required: false
+        },
+        workspaceIn: {
+            domain: "DO_O_JSON_TEXT",
+            required: false
+        },
+        workspaceOut: {
+            domain: "DO_O_JSON_TEXT",
+            required: false
+        },
+        hasAttachment: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        },
+        hasTechnicalLog: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        }
+    },
     oActivityLog: {
         aclId: {
             domain: "DO_O_IDENTIFIANT",
@@ -84,7 +126,7 @@ module.exports = {
             domain: "DO_O_TEXT",
             required: false
         },
-        logFile: {
+        attachment: {
             domain: "DO_O_TEXT",
             required: false
         },
@@ -121,6 +163,52 @@ module.exports = {
             required: false
         }
     },
+    oExecutionSummary: {
+        proId: {
+            domain: "DO_O_IDENTIFIANT",
+            required: true
+        },
+        processName: {
+            domain: "DO_O_LIBELLE",
+            required: true
+        },
+        processLabel: {
+            domain: "DO_O_LIBELLE",
+            required: true
+        },
+        lastExecutionTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: false
+        },
+        nextExecutionTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: false
+        },
+        errorsCount: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
+        misfiredCount: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
+        successfulCount: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
+        runningCount: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
+        averageExecutionTime: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
+        health: {
+            domain: "DO_O_CODE_IDENTIFIANT",
+            required: true
+        }
+    },
     oNode: {
         nodId: {
             domain: "DO_O_IDENTIFIANT",
@@ -132,16 +220,6 @@ module.exports = {
         },
         heartbeat: {
             domain: "DO_O_TIMESTAMP",
-            required: false
-        }
-    },
-    oPlanificationState: {
-        pstCd: {
-            domain: "DO_O_CODE_IDENTIFIANT",
-            required: true
-        },
-        label: {
-            domain: "DO_O_LIBELLE",
             required: false
         }
     },
@@ -241,6 +319,44 @@ module.exports = {
             required: false
         }
     },
+    oProcessExecutionUi: {
+        preId: {
+            domain: "DO_O_IDENTIFIANT",
+            required: true
+        },
+        beginTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: true
+        },
+        endTime: {
+            domain: "DO_O_TIMESTAMP",
+            required: true
+        },
+        executionTime: {
+            domain: "DO_O_NOMBRE",
+            required: false
+        },
+        status: {
+            domain: "DO_O_CODE_IDENTIFIANT",
+            required: false
+        },
+        checked: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        },
+        checkingDate: {
+            domain: "DO_O_TIMESTAMP",
+            required: false
+        },
+        checkingComment: {
+            domain: "DO_O_TEXT",
+            required: false
+        },
+        hasAttachment: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        }
+    },
     oProcessPlanification: {
         prpId: {
             domain: "DO_O_IDENTIFIANT",
@@ -262,13 +378,61 @@ module.exports = {
             domain: "DO_O_IDENTIFIANT",
             required: false
         },
-        pstCd: {
+        sstCd: {
             domain: "DO_O_CODE_IDENTIFIANT",
             required: false
         }
     },
     oProcessType: {
         prtCd: {
+            domain: "DO_O_CODE_IDENTIFIANT",
+            required: true
+        },
+        label: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        }
+    },
+    oProcessUi: {
+        proId: {
+            domain: "DO_O_IDENTIFIANT",
+            required: true
+        },
+        name: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        label: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        cronExpression: {
+            domain: "DO_O_LIBELLE",
+            required: false
+        },
+        initialParams: {
+            domain: "DO_O_JSON_TEXT",
+            required: false
+        },
+        multiexecution: {
+            domain: "DO_O_BOOLEEN",
+            required: false
+        },
+        active: {
+            domain: "DO_O_BOOLEEN",
+            required: true
+        },
+        rescuePeriod: {
+            domain: "DO_O_NOMBRE",
+            required: true
+        },
+        metadatas: {
+            domain: "DO_O_METADATAS",
+            required: false
+        }
+    },
+    oSchedulerState: {
+        sstCd: {
             domain: "DO_O_CODE_IDENTIFIANT",
             required: true
         },

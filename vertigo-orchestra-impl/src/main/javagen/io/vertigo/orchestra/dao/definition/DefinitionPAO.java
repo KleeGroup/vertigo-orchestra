@@ -39,6 +39,17 @@ public final class DefinitionPAO implements StoreServices {
 	}
 
 	/**
+	 * Execute la tache TK_DISABLE_OLD_PROCESS_DEFINITIONS.
+	 * @param name String 
+	*/
+	public void disableOldProcessDefinitions(final String name) {
+		final Task task = createTaskBuilder("TK_DISABLE_OLD_PROCESS_DEFINITIONS")
+				.addValue("NAME", name)
+				.build();
+		getTaskManager().execute(task);
+	}
+
+	/**
 	 * Execute la tache TK_GET_PROCESSES_BY_NAME.
 	 * @param name String 
 	 * @return Integer nombre
@@ -52,19 +63,7 @@ public final class DefinitionPAO implements StoreServices {
 				.getResult();
 	}
 
-	/**
-	 * Execute la tache TK_DISABLE_OLD_PROCESS_DEFINITIONS.
-	 * @param name String 
-	*/
-	public void disableOldProcessDefinitions(final String name) {
-		final Task task = createTaskBuilder("TK_DISABLE_OLD_PROCESS_DEFINITIONS")
-				.addValue("NAME", name)
-				.build();
-		getTaskManager().execute(task);
+	private TaskManager getTaskManager() {
+		return taskManager;
 	}
-
-    
-    private TaskManager getTaskManager(){
-    	return taskManager;
-    } 
 }

@@ -1,12 +1,12 @@
 package io.vertigo.orchestra.dao.execution;
 
 import javax.inject.Inject;
+import java.util.Optional;
 import io.vertigo.app.Home;
-import io.vertigo.lang.Option;
 import io.vertigo.dynamo.task.metamodel.TaskDefinition;
 import io.vertigo.dynamo.task.model.Task;
 import io.vertigo.dynamo.task.model.TaskBuilder;
-import io.vertigo.dynamo.impl.store.util.DAOBroker;
+import io.vertigo.dynamo.impl.store.util.DAO;
 import io.vertigo.dynamo.store.StoreManager;
 import io.vertigo.dynamo.store.StoreServices;
 import io.vertigo.dynamo.task.TaskManager;
@@ -16,8 +16,8 @@ import io.vertigo.orchestra.domain.execution.OActivityWorkspace;
  * DAO : Accès à un object (DTO, DTC). 
  * OActivityWorkspaceDAO
  */
-public final class OActivityWorkspaceDAO extends DAOBroker<OActivityWorkspace, java.lang.Long> implements StoreServices {
-	 
+public final class OActivityWorkspaceDAO extends DAO<OActivityWorkspace, java.lang.Long> implements StoreServices {
+
 	/**
 	 * Contructeur.
 	 * @param storeManager Manager de persistance
@@ -27,7 +27,7 @@ public final class OActivityWorkspaceDAO extends DAOBroker<OActivityWorkspace, j
 	public OActivityWorkspaceDAO(final StoreManager storeManager, final TaskManager taskManager) {
 		super(OActivityWorkspace.class, storeManager, taskManager);
 	}
-	
+
 
 	/**
 	 * Creates a taskBuilder.
@@ -45,15 +45,14 @@ public final class OActivityWorkspaceDAO extends DAOBroker<OActivityWorkspace, j
 	 * @param in Boolean 
 	 * @return Option de io.vertigo.orchestra.domain.execution.OActivityWorkspace dtOActivityWorkspace
 	*/
-	public Option<io.vertigo.orchestra.domain.execution.OActivityWorkspace> getActivityWorkspace(final Long aceId, final Boolean in) {
+	public Optional<io.vertigo.orchestra.domain.execution.OActivityWorkspace> getActivityWorkspace(final Long aceId, final Boolean in) {
 		final Task task = createTaskBuilder("TK_GET_ACTIVITY_WORKSPACE")
 				.addValue("ACE_ID", aceId)
 				.addValue("IN", in)
 				.build();
-		return Option.option((io.vertigo.orchestra.domain.execution.OActivityWorkspace)getTaskManager()
+		return Optional.ofNullable((io.vertigo.orchestra.domain.execution.OActivityWorkspace) getTaskManager()
 				.execute(task)
 				.getResult());
 	}
-
 
 }

@@ -1,10 +1,10 @@
 package io.vertigo.orchestra.domain.execution
 
 create DtDefinition DT_O_ACTIVITY_WORKSPACE {
-	persistent: "true",
-	key ACW_ID			{domain : DO_O_IDENTIFIANT, label :"Id de l'execution d'un processus", notNull:"true",},
-	field IS_IN  		{domain : DO_O_BOOLEEN, label :"Workspace in/out", notNull:"true",},
-	field WORKSPACE 	{domain : DO_O_JSON_TEXT, label :"Contenu du workspace", notNull:"false",},
+	storeName : "orchestra"
+	key ACW_ID			{domain : DO_O_IDENTIFIANT, label :"Id de l'execution d'un processus", notNull:"true",}
+	field IS_IN  		{domain : DO_O_BOOLEEN, label :"Workspace in/out", notNull:"true",}
+	field WORKSPACE 	{domain : DO_O_JSON_TEXT, label :"Contenu du workspace", notNull:"false",}
   
 },
 

@@ -6,17 +6,8 @@ package io.vertigo.orchestra.dao.monitoring
 /*****************************************************************************************************/
 
 
-create Task TK_GET_PROCESSES {
-    className : "io.vertigo.dynamox.task.TaskEngineSelect"
-        request : "
-        	select pro.*
-        	from o_process pro
-        	
-			"
-	attribute DTC_O_PROCESS	 	{domain : DO_DT_O_PROCESS_DTC		notNull:"true" 	inOut :"out"}
-}
-
 create Task TK_GET_PLANIFICATIONS_BY_PRO_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select prp.*
@@ -30,6 +21,7 @@ create Task TK_GET_PLANIFICATIONS_BY_PRO_ID {
 
 
 create Task TK_GET_EXECUTIONS_BY_PRO_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select pre.*
@@ -45,6 +37,7 @@ create Task TK_GET_EXECUTIONS_BY_PRO_ID {
 
 
 create Task TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select ace.*
@@ -58,6 +51,7 @@ create Task TK_GET_ACTIVITY_EXECUTIONS_BY_PRE_ID {
 
 
 create Task TK_GET_ACTIVITY_LOG_BY_ACE_ID {
+	storeName : "orchestra"
     className : "io.vertigo.dynamox.task.TaskEngineSelect"
         request : "
         	select acl.*
