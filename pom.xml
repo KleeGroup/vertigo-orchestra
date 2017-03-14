@@ -20,10 +20,11 @@ limitations under the License. -->
 	<parent>
 		<groupId>io.vertigo</groupId>
 		<artifactId>vertigo-parent</artifactId>
-		<version>0.9.4-SNAPSHOT</version>
+		<version>0.9.4</version>
 	</parent> 
 	
 	<artifactId>vertigo-orchestra</artifactId>
+	<version>0.9.5-SNAPSHOT</version>
 	<name>vertigo-orchestra</name>
 	<packaging>pom</packaging>
 	
