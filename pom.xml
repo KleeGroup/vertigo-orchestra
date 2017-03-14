@@ -24,7 +24,7 @@ limitations under the License. -->
 	</parent> 
 	
 	<artifactId>vertigo-orchestra</artifactId>
-	<version>0.9.4</version>
+	<version>0.9.5-SNAPSHOT</version>
 	<name>vertigo-orchestra</name>
 	<packaging>pom</packaging>
 	
@@ -41,6 +41,6 @@ limitations under the License. -->
 		<connection>scm:git:https://github.com/KleeGroup/vertigo-orchestra.git</connection>
 		<developerConnection>scm:git:https://github.com/KleeGroup/vertigo-orchestra.git</developerConnection>
 		<url>scm:git:https://github.com/KleeGroup/vertigo-orchestra.git</url>
-		<tag>vertigo-0.9.4</tag>
+		<tag>vertigo-orchestra-0.9.4-SNAPSHOT</tag>
 	</scm>
 </project>
