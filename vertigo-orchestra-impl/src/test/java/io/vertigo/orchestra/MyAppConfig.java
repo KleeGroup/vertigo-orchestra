@@ -59,19 +59,19 @@ public final class MyAppConfig {
 				.addModule(new DynamoFeatures()
 						.withKVStore()
 						.addKVStorePlugin(DelayedMemoryKVStorePlugin.class,
-								Param.create("collections", "tokens"),
-								Param.create("timeToLiveSeconds", "120"))
+								Param.of("collections", "tokens"),
+								Param.of("timeToLiveSeconds", "120"))
 						.withStore()
 						.addDataStorePlugin(SqlDataStorePlugin.class,
-								Param.create("dataSpace", "orchestra"),
-								Param.create("connectionName", "orchestra"),
-								Param.create("sequencePrefix", "SEQ_"))
+								Param.of("dataSpace", "orchestra"),
+								Param.of("connectionName", "orchestra"),
+								Param.of("sequencePrefix", "SEQ_"))
 						.withSqlDataBase()
 						.addSqlConnectionProviderPlugin(C3p0ConnectionProviderPlugin.class,
-								Param.create("name", "orchestra"),
-								Param.create("dataBaseClass", H2DataBase.class.getName()),
-								Param.create("jdbcDriver", org.h2.Driver.class.getName()),
-								Param.create("jdbcUrl", "jdbc:h2:mem:database"))
+								Param.of("name", "orchestra"),
+								Param.of("dataBaseClass", H2DataBase.class.getName()),
+								Param.of("jdbcDriver", org.h2.Driver.class.getName()),
+								Param.of("jdbcUrl", "jdbc:h2:mem:database"))
 						.build())
 				// we build h2 mem
 				.addModule(new ModuleConfigBuilder("databaseInitializer").withNoAPI().addComponent(DataBaseInitializer.class).build())

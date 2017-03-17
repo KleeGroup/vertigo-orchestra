@@ -82,13 +82,13 @@ public final class OrchestraFeatures extends Features {
 				.withNoAPI()
 				.addPlugin(DbProcessDefinitionStorePlugin.class)
 				.addPlugin(DbProcessSchedulerPlugin.class,
-						Param.create("nodeName", nodeName),
-						Param.create("planningPeriodSeconds", String.valueOf(daemonPeriodSeconds)),
-						Param.create("forecastDurationSeconds", String.valueOf(forecastDurationSeconds)))
+						Param.of("nodeName", nodeName),
+						Param.of("planningPeriodSeconds", String.valueOf(daemonPeriodSeconds)),
+						Param.of("forecastDurationSeconds", String.valueOf(forecastDurationSeconds)))
 				.addPlugin(DbProcessExecutorPlugin.class,
-						Param.create("nodeName", nodeName),
-						Param.create("workersCount", String.valueOf(workersCount)),
-						Param.create("executionPeriodSeconds", String.valueOf(daemonPeriodSeconds)))
+						Param.of("nodeName", nodeName),
+						Param.of("workersCount", String.valueOf(workersCount)),
+						Param.of("executionPeriodSeconds", String.valueOf(daemonPeriodSeconds)))
 				.addPlugin(DbProcessReportPlugin.class)
 				.addPlugin(DbProcessLoggerPlugin.class)
 				//----DAO
@@ -125,7 +125,7 @@ public final class OrchestraFeatures extends Features {
 				.addPlugin(MemoryProcessDefinitionStorePlugin.class)
 				.addPlugin(MemoryProcessSchedulerPlugin.class)
 				.addPlugin(MemoryProcessExecutorPlugin.class,
-						Param.create("workersCount", String.valueOf(workersCount)));
+						Param.of("workersCount", String.valueOf(workersCount)));
 
 		return this;
 	}
