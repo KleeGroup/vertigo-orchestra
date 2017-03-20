@@ -50,7 +50,6 @@ public final class MyAppConfig {
 				.withLocales("fr_FR")
 				.addPlugin(ClassPathResourceResolverPlugin.class)
 				.addPlugin(URLResourceResolverPlugin.class)
-				.silently()
 				.endBoot()
 				.addModule(new CommonsFeatures()
 						.withCache(MemoryCachePlugin.class)

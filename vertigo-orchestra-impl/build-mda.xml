@@ -55,7 +55,7 @@
 		<echo message="Génération des classes Java" />
 		<!-- il faut fork="true" si exécution avec "same JRE" dans eclipse -->
 		<java dir="." fork="true" maxmemory="128m" classname="io.vertigo.studio.tools.NameSpace2Java" failonerror="true" classpath=".;${class.path};${compile_classpath}">
-			<arg value="/mda/build-mda.properties" />
+			<arg value="/io/vertigo/orchestra/mda/build-mda.properties" />
 		</java>
 	</target>
 
