@@ -7,16 +7,16 @@ It also provides nice built-in features :
 - Logging (File + Db) (A user can easily access to logs even in an HMI)
 - Asynchronous delegation of a treatment to another server
 
-#What's a process in Orchestra ?
+# What's a process in Orchestra ?
 - A process is a sequential list of activities
 - A process can be scheduled
 
-#So what's an activity ?
+# So what's an activity ?
 - An activty is the execution's unit. It holds the code needed to run
 - An activity can determine it's outcome
 - All activities of a process' execution share a common workspace 
 
-#How to use?
+# How to use?
 Orchestra comes as 2 jars : 
 - **vertigo-orchestra-api** : Provides the api for managing processes
 - **vertigo-orchestra-impl** : 
@@ -30,7 +30,7 @@ For configuring your app you can use the OrchestraFeatures in Java or write your
 
 To use Orchestra with supervised processes you need a postgresql database. To create the necessary tables use [this](vertigo-orchestra-impl/src/main/database/scripts/install/orchestra_create_init.sql) SQL file.
 
-#What does it looks like in the code?
+# What does it looks like in the code?
 
 ## Write an ActivityEngine
 We have seen that an activity hold the code. The code is held in the ActivityEngine of an activity.
@@ -67,13 +67,13 @@ public ActivityExecutionWorkspace execute(final ActivityExecutionWorkspace works
 	return workspace;
 }
 ```
-If an activityExecution in a success then the next activty of the process is launched and has as an input the output workspace of the previous activity. With this mechanism you can share data through activities.
+If an activityExecution ends in a success then the next activty of the process is launched and has as an input the output workspace of the previous activity. With this mechanism you can share data through activities.
 
 When writing an activity engine keep in mind to make it reusable since a process is a arrangement of activities ;-)
 
-Now we have our activy engine we will use it in our first Process
+Now we have our activy engine and we will use it in our first Process
 
-##Define a new process
+## Define a new process
 To create a new Process we need to create a new **ProcessDefinition**.
 To build a ProcessDefinition you must use the **ProcessDefinitionBuilder**
 
