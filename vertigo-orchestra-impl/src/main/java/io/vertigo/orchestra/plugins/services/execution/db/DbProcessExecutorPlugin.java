@@ -355,15 +355,14 @@ public final class DbProcessExecutorPlugin implements ProcessExecutorPlugin, Act
 	}
 
 	private void putResult(final OActivityExecution activityExecution, final ActivityExecutionWorkspace workspaceOut, final Throwable error) {
-		Assertion.checkNotNull(workspaceOut);
-		Assertion.checkNotNull(workspaceOut.getValue("status"), "Le status est obligatoire dans le résultat");
-		// ---
-		// 2. We manage the execution workflow
 		if (error != null) {
 			// We log the error and we continue the timer
 			LOGGER.info("Error in activity " + activityExecution.getActId() + " execution", error);
 			endActivityExecution(activityExecution, ExecutionState.ERROR);
 		} else {
+			Assertion.checkNotNull(workspaceOut);
+			Assertion.checkNotNull(workspaceOut.getValue("status"), "Le status est obligatoire dans le résultat");
+			//---
 			if (workspaceOut.isSuccess()) {
 				endActivityExecution(activityExecution, ExecutionState.DONE);
 			} else if (workspaceOut.isFinished()) {
