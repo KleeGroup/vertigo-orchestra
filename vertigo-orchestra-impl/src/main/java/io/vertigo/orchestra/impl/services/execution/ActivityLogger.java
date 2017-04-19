@@ -18,15 +18,10 @@
  */
 package io.vertigo.orchestra.impl.services.execution;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 
 import io.vertigo.lang.Assertion;
 import io.vertigo.orchestra.services.OrchestraServices;
@@ -53,28 +48,7 @@ public final class ActivityLogger {
 		Assertion.checkArgNotEmpty(engineName);
 		// ---
 		// Creates or get the logger
-		if (LogManager.exists(engineName) != null) {
-			// If it exist we keep it
-			loggerActivity = Logger.getLogger(engineName);
-		} else {
-			Logger tempLogger = null;
-			try {
-				// If it doesn't exist we create it with the right appender
-				tempLogger = Logger.getLogger(engineName);
-				// Create the layout
-				final PatternLayout layout = new PatternLayout();
-				layout.setConversionPattern("%d{yyyyMMdd} %d{HH:mm:ss} [%t] %-5p %-11c{1} - %m %x %n");
-				// Create an appender
-				final Appender appender = new FileAppender(layout, engineName + LOG_FILE_EXTENSION);
-				tempLogger.addAppender(appender);
-			} catch (final IOException e) {
-				LOGGER.warn("Error creating the file appender for activity engine :" + engineName, e);
-				tempLogger = LOGGER;
-			} finally {
-				loggerActivity = tempLogger;
-			}
-
-		}
+		loggerActivity = Logger.getLogger(engineName);
 	}
 
 	/**
